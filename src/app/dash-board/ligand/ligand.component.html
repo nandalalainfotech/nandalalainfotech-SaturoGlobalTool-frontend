@@ -1,0 +1,211 @@
+<fieldset class="scheduler-border" style="height:30px;">
+    <legend class="scheduler-border" >Link</legend>
+    <div class="formData">
+        <form [formGroup]="LigandForm" (ngSubmit)="onLigandClick($event, LigandForm)">
+            <div class="row">
+                <div class="col-xs-4 col-sm-4">
+                    <div class="form-group">
+                        <label path="tanNumber" for="tanNumber" cssClass="required">TAN Number</label>
+                        <input class="form-control" name="tanNumber" formControlName="tanNumber"
+                             [ngClass]="{ 'is-invalid': submitted && f.tanNumber.errors }">
+                        <div *ngIf="submitted && f.tanNumber.errors" class="invalid-feedback">
+                            <div *ngIf="f.tanNumber.errors.required">Tan number is Required</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</fieldset>
+
+<fieldset class="scheduler-border">
+    <legend class="scheduler-border">Ligand</legend>
+    <div class="formData">
+        <form [formGroup]="LigandForm" (ngSubmit)="onLigandClick($event, LigandForm)">
+            <div class="row">
+                <div class="col-xs-4 col-sm-4">
+                    <div class="form-group">
+                        <label path="ligandVersionSlno" for="ligandVersionSlno"
+                            cssClass="required">Ligand-Version</label>
+                        <select class="form-control" name="ligandVersionSlno" formControlName="ligandVersionSlno"
+                         >
+                            <option value="" hidden> - Select Ligand Version - </option>
+                            <option> - Select Ligand Version - </option>
+                            <option *ngFor="let ligandVersion of ligandVersions" [value]="ligandVersion.id">
+                                {{ligandVersion.ligandVersion}}
+                            </option>
+                        </select>
+
+                    </div>
+                </div>
+
+                <div class="col-xs-4 col-sm-4">
+                    <div class="form-group">
+                        <label path="ligandTypeSlno" for="ligandTypeSlno" cssClass="required">Ligand-Type</label>
+                        <select class="form-control" name="ligandTypeSlno" formControlName="ligandTypeSlno">
+                            <option value="" hidden> - Select Ligand Types - </option>
+                            <option> - Select Ligand Types - </option>
+                            <option *ngFor="let ligandtype of ligandtypes" [value]="ligandtype.id">
+                                {{ligandtype.ligandtype}}
+                            </option>
+                        </select>
+
+                    </div>
+                </div>
+
+              
+            </div>
+            <div class="row">
+                <div class="col-xs-4 col-sm-4">
+                    <div class="form-group">
+                        <label path="identifier1" for="series" cssClass="required">Identifier 1</label>
+                        <input class="form-control" name="identifier1" formControlName="identifier1">
+                    </div>
+                </div>
+
+                <div class="col-xs-4 col-sm-4">
+                    <div class="form-group">
+                        <label path="identifier2" for="series" cssClass="required">Identifier 2</label>
+                        <input class="form-control" name="identifier2" formControlName="identifier2">
+                    </div>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                    <div class="form-group">
+                        <label path="identifier3" for="series" cssClass="required">Identifier 3</label>
+                        <input class="form-control" name="identifier3" formControlName="identifier3">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4 col-sm-4">
+                    <div class="form-group">
+                        <label path="collectionId" for="series" cssClass="required">Collection-id</label>
+                        <input class="form-control" name="collectionId" formControlName="collectionId"
+                            >
+                    </div>
+                </div>
+
+                <div class="col-xs-4 col-sm-4">
+                    <div class="form-group">
+                        <label path="locator" for="series" cssClass="required">Ligand Locator</label>
+                        <input class="form-control" name="locator" formControlName="locator">
+                    </div>
+                </div>
+
+                <div class="col-xs-4 col-sm-4">
+                    <div class="form-group">
+                        <label path="ligandDetail" for="series" cssClass="required">Ligand-detail</label>
+                        <input class="form-control" name="ligandDetail" formControlName="ligandDetail">
+                    </div>
+                </div>
+            </div>
+
+            <fieldset class="scheduler-border">
+                <legend class="scheduler-border">Disease</legend>
+                <div class="row">
+                    <div class="col-xs-4 col-sm-4">
+                        <div class="form-group">
+                            <label path="diseaseName1" for="series" cssClass="required">Original-disease-name 1</label>
+                            <input class="form-control" name="diseaseName1" formControlName="diseaseName1">
+                        </div>
+                    </div>
+
+                    <div class="col-xs-4 col-sm-4">
+                        <div class="form-group">
+                            <label path="diseaseName2" for="series" cssClass="required">Original-disease-name 2</label>
+                            <input class="form-control" name="diseaseName2" formControlName="diseaseName2">
+                        </div>
+                    </div>
+
+                    <div class="col-xs-4 col-sm-4">
+                        <div class="form-group">
+                            <label path="diseaseName3" for="series" cssClass="required">Original-disease-name 3</label>
+                            <input class="form-control" name="diseaseName3" formControlName="diseaseName3">
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- <fieldset class="scheduler-border">
+                <legend class="scheduler-border">Target</legend> -->
+                <div class="row">
+              
+                </div>
+
+                <div class="row">
+ 
+                    <div class="col-xs-4 col-sm-4">
+                        <div class="form-group">
+                            <!-- <label type="hidden" path="targetVersion" for="targetVersion" cssClass="required">Target-version</label> -->
+                            <input type="hidden" class="form-control" name="targetVersion" formControlName="targetVersion">
+                        </div>
+                    </div>
+
+                    <div class="col-xs-4 col-sm-4">
+                        <div class="form-group">
+                            <!-- <label path="collectionId1" for="collectionId1" cssClass="required">Collection-id</label> -->
+                            <input type="hidden" lass="form-control" name="collectionId1" formControlName="collectionId1">
+                        </div>
+                    </div>
+
+                    <div class="col-xs-4 col-sm-4">
+                        <div class="form-group">
+                            <!-- <label path="original" for="original" cssClass="required">Original-target-name</label> -->
+                            <input type="hidden" class="form-control" name="original" formControlName="original">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-xs-4 col-sm-4">
+                        <div class="form-group">
+                            <!-- <label path="acronym" for="series" cssClass="required">Acronym</label> -->
+                            <input type="hidden" class="form-control" name="acronym" formControlName="acronym">
+                        </div>
+                    </div>
+
+                    <div class="col-xs-4 col-sm-4">
+                        <div class="form-group">
+                            <!-- <label path="organism" for="series" cssClass="required">Organism-source</label> -->
+                            <input type="hidden" class="form-control" name="organism" formControlName="organism">
+                        </div>
+                    </div>
+                    <div class="col-xs-4 col-sm-4">
+                        <div class="form-group">
+                            <!-- <label path="variant" for="variant" cssClass="required">Variant</label> -->
+                            <input type="hidden" class="form-control" name="variant" formControlName="variant">
+                        </div>
+                    </div>
+                </div>
+            <!-- </fieldset> -->
+
+            <div class="row">
+
+                <div class="form-group">
+                    <div class="col-sm-7"></div>
+                    <div class="col-sm-1"><button type="button" class="btn btn-primary"
+                            (click)="onRepeat()">Repeat</button>
+                    </div>
+                    <div class="col-sm-1"><button type="button" class="btn btn-primary" (click)="onEdit()">Edit</button>
+                    </div>
+                    <div class="col-sm-1"><button type="submit" class="btn btn-primary">Submit</button></div>
+                    <div class="col-sm-1"> <button type="button" class="btn btn-primary"
+                            (click)="onReset()">Clear</button>
+                    </div>
+                    <div class="col-sm-1"></div>
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+</fieldset>
+
+<div class="scrollbar">
+    <fieldset class="scheduler-border">
+        <legend class="scheduler-border">Ligand</legend>
+        <ag-grid-angular #agGrid class="ag-theme-balham" [gridOptions]="gridOptions" style="width: 100%; height: 350px;"
+            [frameworkComponents]="frameworkComponents">
+        </ag-grid-angular>
+    </fieldset>
+</div>

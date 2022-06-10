@@ -1,0 +1,83 @@
+<div class="manu-breadcrumb">
+    <app-breadcrumb></app-breadcrumb>
+</div>
+<fieldset class="scheduler-border">
+    <legend class="scheduler-border">Application Setting</legend>
+    <div class="formData">
+        <div class="col-xs-6 col-sm-6">
+            <div class="form-group">
+                <input class="form-control" path="id" type="hidden" />
+                <label path="firstname" for="firstname" cssClass="required">Client Name</label>
+                <input formControlName="firstname" class="form-control" path="firstname" />
+            </div>
+        </div>
+        <div class="col-xs-6 col-sm-6">
+            <div class="form-group">
+                <input class="form-control" path="id" type="hidden" />
+                <label path="firstname" for="firstname" cssClass="required">Client Description</label>
+                <input formControlName="firstname" class="form-control" path="firstname" />
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-1 col-sm-1">
+        <div class="drop">
+            <div class="d-flex flex-column justify-content-center">
+                <div class="d-inline-flex bg-white p-3 mx-auto">
+                    <div class="d-inline-flex bg-white p-3 mx-auto">
+                        <div class="satFat-logoBody">
+                            <!-- <ngx-file-drop dropZoneClassName="satFat-dropZoneBody imgBorderYes" [showBrowseBtn]="true"
+                            contentClassName="satFat-contentBody" (onFileDrop)="dropped($event)"
+                            (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)"
+                            accept="image/jpeg, image/png">
+
+                            <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                                <img *ngIf="imageUrl" [src]="imageUrl">
+                                <div *ngIf="!imageUrl" class="imgNone d-flex flex-column text-center w-100">
+                                    <div class="cloudIcon"><i class="fas fa-cloud-upload-alt"></i></div>
+                                    <span>Upload logo</span>
+                                    <button type="button" (click)="openFileSelector()"><i
+                                            class="fas fa-plus"></i></button>
+                                </div>
+                                <div *ngIf="imageUrl" class="imgYes">
+                                    <button class="yukleBtn" type="button" (click)="openFileSelector()"><i
+                                            class="fas fa-download"></i></button>
+                                    <button class="silBtn ml-2" (click)="fileRemove()"><i
+                                            class="fas fa-trash-alt"></i></button>
+                                </div>
+                            </ng-template>
+                    </ngx-file-drop> -->
+                            <ngx-file-drop class="ngx-fileDropBody" (onFileDrop)="dropped($event)"
+                                (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)"
+                                dropZoneClassName="satFat-dropZoneBody imgBorderYes"
+                                contentClassName="satFat-contentBody">
+                                <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                                    <img *ngIf="imageUrl" [src]="imageUrl">
+                                    <div *ngIf="!imageUrl" class="imgNone d-flex flex-column text-center w-100">
+                                        <div class="cloudIcon"><i class="fas fa-cloud-upload-alt"></i></div>
+                                        <span>Upload logo</span>
+                                        <button type="button" (click)="openFileSelector()"><i
+                                                class="fas fa-plus"></i></button>
+                                    </div>
+                                    <div *ngIf="imageUrl" class="imgYes">
+                                        <button class="yukleBtn" type="button" (click)="openFileSelector()"><i
+                                                class="fas fa-download"></i></button>
+                                        <button class="silBtn ml-2" (click)="fileRemove()"><i
+                                                class="fas fa-trash-alt"></i></button>
+                                    </div>
+                                </ng-template>
+                            </ngx-file-drop>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-10 " style="margin-left: 112px;margin-top: 94px;">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary submit">Submit</button>
+                <!-- <button type="button" class="btn btn-warning reset" (click)="onReset()">Clear</button> -->
+            </div>
+        </div>
+    </div>
+</fieldset>

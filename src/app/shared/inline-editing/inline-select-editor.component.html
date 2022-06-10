@@ -1,0 +1,10 @@
+<div class="multi-select-container" style="width: 200px;">
+    <span>{{isEmptyCheck(value)}}</span>
+    <div class="btn-group" dropdown> 
+        <span *ngIf="readOnly">{{getLabel(value)}}</span>
+        <a href="javascript:void(0)" *ngIf="!readOnly && !edit" (click)="onClick()" dropdownToggle>{{getLabel(value)}}</a>
+        <ul id="multiSelectPopover" *dropdownMenu class="dropdown-menu">
+            <li class="dropdown-item" *ngFor="let label of labels" style="list-style-type: none; display: block; width: 100%">{{label}}</li>
+        </ul>
+    </div>
+</div>

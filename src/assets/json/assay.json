@@ -1,0 +1,24 @@
+[{
+    "ligandVersion": "1",
+    "Ordinal": "1",
+    "Collectionid": "47498009Q-1",
+    "AssayType": "Functional",
+    "Toxicity": "Cytotoxicity",
+    "Adverse": "IV",
+    "Route": "IV",
+    "Ligand": "5",
+    "Liganddose": "Dose1",
+    "Liganddoses": "Dose1",
+    "Units": "50mg/kg",
+    "Unit": "50mg/kg",
+    "Administration": "Biweekly for 12 months",
+    "Procedure": "MTT assay",
+    "Target": "bioactivity-target/SaturoGlobal/47498009Q/1/1>bioactivity-target/4b1c97c9-c936-44cd-90b1-d6d2ac8a8cfd",
+    "Conditiontype": "Combination chemotherapy",
+    "Conditionmaterial": "CDODA-Me",
+    "Conditionmaterialid": "RQ",
+    "value": "0.5",
+    "united": "50µM"
+}
+]
+

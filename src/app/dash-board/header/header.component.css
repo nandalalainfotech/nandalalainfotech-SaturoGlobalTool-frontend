@@ -1,0 +1,36 @@
+.h2 {
+  font-size: 22px;
+  margin: 10px 0;
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.1;
+  color: inherit;
+}
+
+/* .setting .dropdown .btn .btn-default .dropdown-toggle>li>a {
+    color: white !important; 
+    /* color: orange !important; */
+
+/* } */
+
+.is-active {
+  color: orange !important;
+  font-weight: bold !important;
+}
+
+/* .Logout li>a>span .is-active {
+  color: orange !important;
+  font-weight: bold !important;
+} */
+
+.logo img{
+  /* width: 20px; */
+  width: 24px;
+  height: 24px;
+  background: none !important;
+  margin-left: 7px;
+  margin-bottom: 4px;
+
+  opacity: 1 !important;
+  /* filter: brightness(10%); */
+}

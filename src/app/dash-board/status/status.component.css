@@ -1,0 +1,23 @@
+table,
+th,
+td {
+  border: 1px solid white;
+  border-collapse: collapse;
+  text-align: center !important;
+  /* width: 50% !important;
+  height: 50% !important;  */
+}
+
+/* table, th, td {
+  border: 1px solid white;
+  border-collapse: collapse;
+} */
+th, td {
+  background-color: #96D4D4;
+  height: 55px !important;
+}
+
+/* tr:nth-child(even) {
+  background-color: #D6EEEE;
+} */
+

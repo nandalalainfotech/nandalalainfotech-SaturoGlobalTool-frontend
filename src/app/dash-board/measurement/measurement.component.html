@@ -1,0 +1,254 @@
+<fieldset class="scheduler-border">
+    <legend class="scheduler-border">Measurement</legend>
+    <div class="formData">
+        <form [formGroup]="MeasurementForm" (ngSubmit)="onMeasurementClick($event, MeasurementForm)" autocomplete="off" novalidate #formRef="ngForm">
+            <div class="row">
+                <div class="col-xs-3 col-sm-3">
+                    <div class="form-group">
+                        <label path="assaySlno" for="assaySlno" cssClass="required">Ligand-Version</label>
+                        <select class="form-control" name="assaySlno" formControlName="assaySlno">
+                            <option value="" hidden> - Select Ligand-Version - </option>
+                            <!-- <option> - Select Ligand-Version - </option> -->
+                            <option *ngFor="let assayObject of assays" [value]="assayObject.assayId">
+                                {{assayObject.ligandSlno2?.ligandVersionSlno2?.ligandVersion}}
+                            </option>
+                        </select>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-3 col-sm-3">
+                    <div class="form-group">
+                        <label path="dataLocator" for="series" cssClass="required">Data-locator</label>
+                        <input class="form-control" name="dataLocator" formControlName="dataLocator">
+                    </div>
+                </div>
+
+                <div class="col-xs-3 col-sm-3">
+                    <div class="form-group">
+                        <label path="categorySlno" for="categorySlno" cssClass="required">Category</label>
+                        <!-- <input class="form-control" path="twhrs" name="twhrs" formControlName="twhrs" /> -->
+                        <select class="form-control" name="categorySlno" formControlName="categorySlno">
+                            <option value="" hidden> - Select Category - </option>
+                            <!-- <option> - Select Category - </option> -->
+                            <option *ngFor="let category of categorys" [value]="category.id">
+                                {{category.category}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-xs-3 col-sm-3">
+                    <div class="form-group">
+                        <label path="functionSlno" for="functionSlno" cssClass="required">Category(functions)</label>
+                        <!-- <input class="form-control" path="twhrs" name="twhrs" formControlName="twhrs" /> -->
+                        <select class="form-control" name="functionSlno" formControlName="functionSlno">
+                            <option value="" hidden> - Select Category Function - </option>
+                            <!-- <option> - Select Category Function - </option> -->
+                            <option *ngFor="let function of categoryfunctions" [value]="function.id">
+                                {{function.function}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-xs-3 col-sm-3">
+                    <div class="form-group">
+                        <label path="parameter" for="parameter" cssClass="required">Parameter</label>
+                        <input class="form-control" name="parameter" formControlName="parameter">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-3 col-sm-3">
+                    <div class="form-group">
+                        <label path="parameterDetail" for="parameterDetail" cssClass="required">Parameter-detail</label>
+                        <input class="form-control" name="parameterDetail" formControlName="parameterDetail">
+                    </div>
+                </div>
+
+                <div class="col-xs-3 col-sm-3">
+                    <div class="form-group">
+                        <label path="originalPrefixSlno" for="originalPrefixSlno" cssClass="required">Original-prefix</label>
+                        <!-- <input class="form-control" path="twhrs" name="twhrs" formControlName="twhrs" /> -->
+                        <select class="form-control" name="originalPrefixSlno" formControlName="originalPrefixSlno">
+                            <option value="" hidden> - Select Original Prefix - </option>
+                            <!-- <option> - Select Original Prefix - </option> -->
+                            <option *ngFor="let originalPrefix of Originals" [value]="originalPrefix.id">
+                                {{originalPrefix.originalPrefix}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-xs-3 col-sm-3">
+                    <div class="form-group">
+                        <label path="singleValue" for="singleValue" cssClass="required">Original-value(Single-value)</label>
+                        <input class="form-control" name="singleValue" formControlName="singleValue">
+                    </div>
+                </div>
+
+                <div class="col-xs-3 col-sm-3">
+                    <div class="form-group">
+                        <label path="unit" for="unit" cssClass="required">Unit(SingleValue)</label>
+                        <select class="form-control" name="unit" formControlName="unit">
+                            <option value="" hidden> - Select unit(SingleValue) - </option>
+                            <option *ngFor="let unitsinglevalueObject of unitsinglevalues" [value]="unitsinglevalueObject.id">
+                                {{unitsinglevalueObject.unit}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-3 col-sm-3">
+                    <div class="form-group">
+                        <label path="highEndValue" for="highEndValue" cssClass="required">Original-value(High-end-value)</label>
+                        <input class="form-control" name="highEndValue" formControlName="highEndValue">
+                    </div>
+                </div>
+
+                <div class="col-xs-3 col-sm-3">
+                    <div class="form-group">
+                        <label path="lowEndValue" for="lowEndValue" cssClass="required">Original-value(Low-end-value)</label>
+                        <input class="form-control" name="lowEndValue" formControlName="lowEndValue">
+                    </div>
+                </div>
+
+                <div class="col-xs-3 col-sm-3">
+                    <div class="form-group">
+                        <label path="units" for="units" cssClass="required">Unit</label>
+                        <select class="form-control" name="units" formControlName="units">
+                            <option value="" hidden> - Select Unit - </option>
+                            <option *ngFor="let unitlowendvalueObject of unitlowendvalues" [value]="unitlowendvalueObject.id">
+                                {{unitlowendvalueObject.united}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6 col-sm-6">
+                    <div class="form-group">
+                        <label path="nonNumeric" for="nonNumeric" cssClass="required">Original-value(Non-numeric-value)</label>
+                        <textarea class="form-control" name="nonNumeric" formControlName="nonNumeric"></textarea>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-sm-6">
+                    <div class="form-group">
+                        <label path="remark" for="remark" cssClass="required">Remarks</label>
+                        <textarea class="form-control" name="remark" formControlName="remark"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <fieldset class="scheduler-border">
+                <legend class="scheduler-border">Biological system</legend>
+                <div class="row">
+                    <div class="col-xs-3 col-sm-3">
+                        <div class="form-group">
+                            <label path="typeSlno" for="typeSlno" cssClass="required">Type</label>
+                            <!-- <input class="form-control" path="twhrs" name="twhrs" formControlName="twhrs" /> -->
+                            <select class="form-control" name="typeSlno" formControlName="typeSlno">
+                                <option value="" hidden> - Select Types - </option>
+                                <!-- <option> - Select Types - </option> -->
+                                <option *ngFor="let type of types" [value]="type.id">
+                                    {{type.type}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-3 col-sm-3">
+                        <div class="form-group">
+                            <label path="cell" for="cell" cssClass="required">Cell</label>
+                            <input class="form-control" name="cell" formControlName="cell">
+                        </div>
+                    </div>
+
+                    <div class="col-xs-3 col-sm-3">
+                        <div class="form-group">
+                            <label path="cellDetail" for="cellDetail" cssClass="required">Cell-detail</label>
+                            <input class="form-control" name="cellDetail" formControlName="cellDetail">
+                        </div>
+                    </div>
+
+                    <div class="col-xs-3 col-sm-3">
+                        <div class="form-group">
+                            <label path="organ" for="organ" cssClass="required">Organ</label>
+                            <input class="form-control" name="organ" formControlName="organ">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-3 col-sm-3">
+                        <div class="form-group">
+                            <label path="organDetail" for="organDetail" cssClass="required">Organ-detail</label>
+                            <input class="form-control" name="organDetail" formControlName="organDetail">
+                        </div>
+                    </div>
+
+                    <div class="col-xs-3 col-sm-3">
+                        <div class="form-group">
+                            <label path="species" for="species" cssClass="required">Species</label>
+                            <input class="form-control" name="organDetail" formControlName="species">
+                        </div>
+                    </div>
+
+                    <div class="col-xs-3 col-sm-3">
+                        <div class="form-group">
+                            <label path="speciesDetail" for="speciesDetail" cssClass="required">Species-detail</label>
+                            <input class="form-control" name="speciesDetail" formControlName="speciesDetail">
+                        </div>
+                    </div>
+
+                    <div class="col-xs-3 col-sm-3">
+                        <div class="form-group">
+                            <label path="gender" for="gender" cssClass="required">Gender</label>
+                            <!-- <input class="form-control" path="twhrs" name="twhrs" formControlName="twhrs" /> -->
+                            <select class="form-control" name="gender" formControlName="gender">
+                                <option value="" hidden> - Select -Gender - </option>
+                                <option> Male </option>
+                                <option> Female </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-3 col-sm-3">
+                        <div class="form-group">
+                            <label path="ageGroup" for="ageGroup" cssClass="required">Age-group</label>
+                            <input class="form-control" name="ageGroup" formControlName="ageGroup">
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-sm-7"></div>
+                    <div class="col-sm-1"><button type="button" class="btn btn-primary" (click)="onRepeat()">Repeat</button></div>
+                    <div class="col-sm-1"><button type="button" class="btn btn-primary" (click)="onEdit()">Edit</button></div>
+                    <div class="col-sm-1"><button type="submit" class="btn btn-primary">Submit</button></div>
+                    <div class="col-sm-1"> <button type="button" class="btn btn-primary" (click)="onReset()">Clear</button></div>
+                    <div class="col-sm-1"></div>
+                </div>
+            </div>
+        </form>
+    </div>
+</fieldset>
+<div class="scrollbar">
+    <!-- <fieldset class="scheduler-border">
+        <legend class="scheduler-border">Measurement</legend>
+        <ag-grid-angular #agGrid class="ag-theme-balham" [gridOptions]="gridOptions" style="width: 100%; height: 350px;" [frameworkComponents]="frameworkComponents">
+        </ag-grid-angular>
+    </fieldset> -->
+</div>

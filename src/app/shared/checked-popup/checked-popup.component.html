@@ -1,0 +1,38 @@
+<div class="checkedPopup">
+    <!-- -------------------------component header------------ -->
+    <div class="modal-header head">
+        <h3 class="modal-title col-sm-11 text-info title" *ngIf="title">
+            {{ title }}
+        </h3>
+        <button type="button" value="close" class="closed col-sm-1" (click)="onCrossClick($event)">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <!-- -------------------------component body------------ -->
+    <div class="modal-body">
+        <ng-content></ng-content>
+    </div>
+
+
+    <!-- -------------------------component footer------------ -->
+    <div class="modal-footer popup-footer">
+        <div>
+            <button *ngIf="showAdd" [disabled]="enableAdd" type="button" class="btn btn-highlight" (click)="onAddClick($event)">
+                <i class="fa fa-plus" aria-hidden="true"></i> {{ addLabel }}
+            </button>
+        </div>
+        <div class="btn-group">
+
+
+            <!-- <button *ngIf="showCancel" type="button" class="btn btn-warning searchs-cancel" (click)="onCloseClick($event)">
+                <i class="fa fa-times"></i> {{ cancelLabel }}
+            </button> -->
+
+            <!-- <button *ngIf="showAccept" type="button" class="btn btn-primary searchs" (click)="onAcceptClick($event)">
+                <i [ngClass]="acceptIcon"></i> {{ acceptLabel }}
+            </button> -->
+        </div>
+    </div>
+
+</div>

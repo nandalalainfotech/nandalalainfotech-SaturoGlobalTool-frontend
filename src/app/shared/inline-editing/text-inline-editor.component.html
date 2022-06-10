@@ -1,0 +1,9 @@
+<div>
+    <span *ngIf="!alwaysOpen && readOnly">{{getLabel(value)}}</span>
+    <a href="javascript:void(0)" *ngIf="!alwaysOpen && !readOnly && !edit" (click)="onClick()"
+        (focus)="onFocusIn($event)">{{getLabel(value)}}</a>
+    <input class="bb-input" #inputEle *ngIf="(edit || alwaysOpen) && !onlyNumber" [value]="value"
+        (change)="onValueChange($event)" (blur)="onFocusOut($event)" style="width: 100%;">
+    <input class="bb-input" #inputEle2 *ngIf="(edit || alwaysOpen) && onlyNumber" [value]="value"
+        (change)="onValueChange($event)" OnlyNumber (blur)="onFocusOut($event)" style="width: 100%;">
+</div>

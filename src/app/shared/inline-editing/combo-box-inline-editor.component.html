@@ -1,0 +1,14 @@
+<div>
+    <span *ngIf="!alwaysOpen && readOnly">{{getLabel(value)}}</span>
+    <a href="javascript:void(0)" *ngIf="!alwaysOpen && (!readOnly && !edit)" (click)="onClick()">{{getLabel(value, 'Select')}}</a>
+    <mat-form-field *ngIf="edit || alwaysOpen" style="width: 100%;">
+        <mat-label>{{defaultLabel}}</mat-label>
+        <div class="bb-select">
+            <mat-select #selectControl (selectionChange)="onValueChange($event)" [value]="initialValue">
+                <mat-option *ngFor="let rec of records" [value]="getValue(rec)">
+                    {{getLabel(rec)}}
+                </mat-option>
+            </mat-select>
+        </div>
+    </mat-form-field>
+</div>

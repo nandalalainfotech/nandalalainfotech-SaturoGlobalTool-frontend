@@ -1,0 +1,53 @@
+<fieldset class="scheduler-border">
+    <legend class="scheduler-border">Ligand-Dose(single-value)</legend>
+    <div class="formData">
+        <form [formGroup]="SinglevalueForm" (ngSubmit)="onSinglevalueClick($event, SinglevalueForm)" >
+            <div class="row">      
+                <div class="col-xs-3 col-sm-3">
+                    <div class="form-group">
+                        <label path="ligandDoseSvalue" for="series" cssClass="required">Ligand-Dose(single-value)</label>
+                        <input class="form-control" name="ligandDoseSvalue" formControlName="ligandDoseSvalue"
+                            [ngClass]="{ 'is-invalid': submitted && f.ligandDoseSvalue.errors }">
+                        <div *ngIf="submitted && f.ligandDoseSvalue.errors" class="invalid-feedback">
+                            <div *ngIf="f.ligandDoseSvalue.errors.required">Ligand-Dose(single-value) is Required</div>
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+
+            
+            <div class="row">
+                <div class="col-sm-12 ">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary submit">Submit</button>
+                        <button type="button" class="btn btn-warning reset" (click)="onReset()">Clear</button>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</fieldset>
+<div class="scrollbar">
+    <fieldset class="scheduler-border">
+
+        <div class="row" style="margin-bottom: 20px;">
+            <div class="col-sm-12">
+                <!-- <div class="form-group">
+                    <button type="button" class="btn btn-primary submit" style="margin-right: 45px;" (click)="onGeneratePdfReport()">
+                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i>Export Pdf
+                    </button>
+                    <button type="button" class="btn btn-warning reset" (click)="onGenerateExcelReport()">
+                        <i class="fa fa-file-excel-o" aria-hidden="true"></i>Export Excel
+                    </button>
+                </div> -->
+            </div>
+        </div>
+
+        <legend class="scheduler-border">Ligand-Dose(single-value)</legend>
+        <!-- <ag-grid-angular #agGrid class="ag-theme-balham" [gridOptions]="gridOptions" style="width: 100%; height: 350px;"
+            [frameworkComponents]="frameworkComponents">
+        </ag-grid-angular> -->
+    </fieldset>
+</div>

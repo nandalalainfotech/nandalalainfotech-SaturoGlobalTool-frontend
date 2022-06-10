@@ -1,0 +1,26 @@
+[
+    {
+        "tanNumber": "47498009Q",
+        "ligandUri": "bioactivity-ligand/SaturoGlobal/47498009Q/1>bioactivity-ligand/bd3cf795-4cda-449b-ad30-06f6006f253e",
+        "ligandVersion": "1",
+        "ligandStatus": "embargoed",
+        "collection": "CAS",
+        "ligandType": "Small molecule",
+        "collectionName": "Vorinostat",
+        "collectionId": "RQ",
+        "ligandDetail": "Antibody-drug conjugate",
+        "locator": "Compound 3a",
+        "sourceType": "Journal",
+        "citation": "47498009Q",
+        "diseaseName": "Neoplasm",
+        "ligandVersion1": "1",
+  "target": "bioactivity-target/SaturoGlobal/47498009Q/1/1>bioactivity-target/4b1c97c9-c936-44cd-90b1-d6d2ac8a8cfd",
+  "targetVersion": "1",
+  "targetStatus": "embargoed",
+  "collectionId1": "RQ",
+  "original": "H1 histamine receptor",
+  "acronym":  "H1R",
+  "organism": "Human",
+  "variant": "Phe435Leu"
+    }
+]

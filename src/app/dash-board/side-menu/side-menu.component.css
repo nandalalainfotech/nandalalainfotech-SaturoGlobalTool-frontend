@@ -1,0 +1,20 @@
+.is-active {
+    color: orange !important;
+    font-weight: bold !important;
+}
+
+::ng-deep
+    .side-menu
+    #dropdown
+    .panel-body
+    .navbar-nav
+    li
+    > span
+    > i
+    li
+    > a
+    > span
+    .is-active {
+    color: orange !important;
+    font-weight: bold !important;
+}

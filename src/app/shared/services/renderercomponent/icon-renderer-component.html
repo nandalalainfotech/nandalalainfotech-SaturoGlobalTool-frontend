@@ -1,0 +1,28 @@
+<a [ngStyle]="{'color':colorthemes_1}" *ngIf="this.label == 'Edit' ? true : false" href="javascript:void(0)"
+    (click)="onClick($event)">
+    <div class="iconalign" (click)="changeType(toggle)">
+        <span>
+            <i [ngClass]="toggle? 'fa fa-pencil-square' : 'fa fa-pencil-square-o'"></i>
+        </span>
+    </div>
+</a>
+<a [ngStyle]="{'color':colorthemes_1}" *ngIf="this.label == 'Delete' ? true : false" href="javascript:void(0)"
+    (click)="onClick($event)">
+    <i class="fa fa-trash"></i>
+</a>
+<a [ngStyle]="{'color':colorthemes_1}" *ngIf="this.label == 'Audit' ? true : false" href="javascript:void(0)"
+    (click)="onClick($event)">
+    <i class="fa fa-history"></i>
+</a>
+
+
+<a [ngStyle]="{'color':colorthemes_1}" *ngIf="this.label == 'File' ? true : false" href="{{downloadUrl}}"
+    target="_blank">
+    <i class="fa fa-download"></i>
+</a>
+
+
+<a class="switch" *ngIf="this.label == 'Action' ? true : false">
+    <input type="checkbox" (click)="onClick($event) ">
+    <span class="slider round"></span>
+</a>

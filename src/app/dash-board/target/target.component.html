@@ -1,0 +1,140 @@
+<fieldset class="scheduler-border">
+    <legend class="scheduler-border">Target</legend>
+    <div class="formData">
+        <form [formGroup]="TargetForm" (ngSubmit)="onTargetClick($event, TargetForm)">
+            <div class="row">
+                <div class="col-xs-3 col-sm-3">
+                    <div class="form-group">
+                        <label path="ligandVersion" for="ligandVersion" cssClass="required">Ligand-Version</label>
+                        <!-- <input class="form-control" path="twhrs" name="twhrs" formControlName="twhrs" /> -->
+                        <select class="form-control" name="ligandVersion" formControlName="ligandVersion"
+                            [ngClass]="{ 'is-invalid': submitted && f.ligandVersion.errors }">
+                            <option value="" hidden> - Select Ligand-Version - </option>
+                            <option> 1 </option>
+                            <option> 2 </option>
+                            <option> 3 </option>
+                            <option> 4 </option>
+                            <option> 5 </option>
+                        </select>
+                        <div *ngIf="submitted && f.ligandVersion.errors" class="invalid-feedback">
+                            <div *ngIf="f.ligandVersion.errors.required">Ligand Version is Required</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-3 col-sm-3">
+                    <div class="form-group">
+                        <label path="Target" for="series" cssClass="required">Target-uri</label>
+                        <input class="form-control" name="Target" formControlName="Target"
+                            [ngClass]="{ 'is-invalid': submitted && f.Target.errors }">
+                        <div *ngIf="submitted && f.Target.errors" class="invalid-feedback">
+                            <div *ngIf="f.Target.errors.required">URI is Required</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-3 col-sm-3">
+                    <div class="form-group">
+                        <label path="TargetVersion" for="series" cssClass="required">Target-version</label>
+                        <input class="form-control" name="TargetVersion" formControlName="TargetVersion"
+                            [ngClass]="{ 'is-invalid': submitted && f.TargetVersion.errors }">
+                        <div *ngIf="submitted && f.TargetVersion.errors" class="invalid-feedback">
+                            <div *ngIf="f.TargetVersion.errors.required">Target Version is Required</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-3 col-sm-3">
+                    <div class="form-group">
+                        <label path="TargetStatus" for="tsName" cssClass="required">Target-status</label>
+                        <input class="form-control" path="tsName" name="TargetStatus" formControlName="TargetStatus"
+                            value="" readonly />
+                        <!-- <div *ngIf="submitted && f.TargetStatus.errors" class="invalid-feedback">
+                            <div *ngIf="f.TargetStatus.errors.required">Status is Required</div>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="col-xs-3 col-sm-3">
+                    <div class="form-group">
+                        <label path="CollectionId" for="series" cssClass="required">Collection-id</label>
+                        <input class="form-control" name="CollectionId" formControlName="CollectionId"
+                            [ngClass]="{ 'is-invalid': submitted && f.CollectionId.errors }">
+                        <div *ngIf="submitted && f.CollectionId.errors" class="invalid-feedback">
+                            <div *ngIf="f.CollectionId.errors.required">ID is Required</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3 col-sm-3">
+                    <div class="form-group">
+                        <label path="Original" for="Original" cssClass="required">Original-target-name</label>
+                        <input class="form-control" name="Original" formControlName="Original"
+                            [ngClass]="{ 'is-invalid': submitted && f.Original.errors }">
+                        <div *ngIf="submitted && f.Original.errors" class="invalid-feedback">
+                            <div *ngIf="f.Original.errors.required">Name is Required</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-3 col-sm-3">
+                    <div class="form-group">
+                        <label path="Acronym" for="series" cssClass="required" >Acronym</label>
+                        <input class="form-control" name="Acronym" formControlName="Acronym" [ngClass]="{ 'is-invalid': submitted && f.Acronym.errors }">
+                        <div *ngIf="submitted && f.Acronym.errors" class="invalid-feedback">
+                            <div *ngIf="f.Acronym.errors.required">Acronym is Required</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-3 col-sm-3">
+                    <div class="form-group">
+                        <label path="Organism" for="series" cssClass="required" >Organism-source</label>
+                        <input class="form-control" name="Organism" formControlName="Organism" [ngClass]="{ 'is-invalid': submitted && f.Organism.errors }">
+                        <div *ngIf="submitted && f.Organism.errors" class="invalid-feedback">
+                            <div *ngIf="f.Organism.errors.required">Source is Required</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-3 col-sm-3">
+                    <div class="form-group">
+                        <label path="Variant" for="series" cssClass="required">Variant</label>
+                        <input class="form-control" name="Variant" formControlName="Variant" [ngClass]="{ 'is-invalid': submitted && f.Variant.errors }">
+                        <div *ngIf="submitted && f.Variant.errors" class="invalid-feedback">
+                            <div *ngIf="f.Variant.errors.required">Variant is Required</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 ">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary submit">Submit</button>
+                        <button type="button" class="btn btn-warning reset"  (click)="onReset()">Clear</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</fieldset>
+<div class="scrollbar">
+    <fieldset class="scheduler-border">
+
+        <div class="row" style="margin-bottom: 20px;">
+            <div class="col-sm-12">
+                <!-- <div class="form-group">
+                    <button type="button" class="btn btn-primary submit" style="margin-right: 45px;" (click)="onGeneratePdfReport()">
+                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i>Export Pdf
+                    </button>
+                    <button type="button" class="btn btn-warning reset" (click)="onGenerateExcelReport()">
+                        <i class="fa fa-file-excel-o" aria-hidden="true"></i>Export Excel
+                    </button>
+                </div> -->
+            </div>
+        </div>
+
+        <legend class="scheduler-border">Target</legend>
+        <ag-grid-angular #agGrid class="ag-theme-balham" [gridOptions]="gridOptions" style="width: 100%; height: 350px;"
+            [frameworkComponents]="frameworkComponents">
+        </ag-grid-angular>
+    </fieldset>
+</div>

@@ -1,0 +1,16 @@
+<div class="rte-container">
+    <div>
+    <!-- [popover]="richTextPopover" [popoverOnHover]="true" [popoverAnimation]="true" -->
+        <span *ngIf="readOnly">{{getLabel(value)}}</span>
+        <a href="javascript:void(0)" style="width: 100px" *ngIf="!readOnly && !edit" (click)="onClick()">{{getLabel(value)}}</a>
+    </div>
+    <!-- <popover-content placement="top" #richTextPopover>
+        <div #richTextPopoverToolTip></div>
+    </popover-content> -->
+
+    <phx-editor *ngIf="edit"  [spellcheck]="true" 
+    (change)="onValueChange($event)"  [(ngModel)] ="value">
+    </phx-editor>
+</div>
+
+

@@ -1,0 +1,12 @@
+[{
+    "ligandVersion": "1",
+    "Target": "bioactivity-target/SaturoGlobal/47498009Q/1/1>bioactivity-target/4b1c97c9-c936-44cd-90b1-d6d2ac8a8cfd",
+    "TargetVersion": "SS-Bt1",
+    "TargetStatus": "embargoed",
+    "CollectionId": "RQ",
+    "Original": "H1 histamine receptor",
+    "Acronym": "H1R",
+    "Organism": "Human",
+    "Variant": "Phe435Leu"
+}
+]

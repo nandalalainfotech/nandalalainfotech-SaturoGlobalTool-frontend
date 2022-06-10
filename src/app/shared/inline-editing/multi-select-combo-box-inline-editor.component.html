@@ -1,0 +1,20 @@
+<div class="multi-select-container" style="width: 200px;">
+    <span>{{isEmptyCheck(value)}}</span>
+    <div> 
+    <!-- [popover]="multiSelectPopover" [popoverOnHover]="true" [popoverAnimation]="true" [popoverDisabled]="isEmpty"> -->
+        <span *ngIf="readOnly">{{getLabel(value)}}</span>
+        <a href="javascript:void(0)" *ngIf="!readOnly && !edit" (click)="onClick()">{{getLabel(value)}}</a>
+    </div>
+    <!-- <popover-content placement="auto top" #multiSelectPopover [animation]="true" [closeOnClickOutside]="true"> 
+        <ul class="popover-nav" style="padding: 0px">
+            <li  *ngFor="let label of labels" style="list-style-type: none; display: block; width: 100%">{{label}}</li>
+        </ul>
+    </popover-content> -->
+
+     
+    <mat-form-field *ngIf="edit">
+        <mat-select #selectControl  [(ngModel)]="value">
+            <mat-option *ngFor="let record of records" [value]="record.id">{{record.itemName}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>

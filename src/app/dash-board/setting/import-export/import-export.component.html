@@ -1,0 +1,54 @@
+<div class="manu-breadcrumb">
+    <app-breadcrumb></app-breadcrumb>
+</div>
+
+<fieldset class="scheduler-border">
+    <legend class="scheduler-border">Export / Import</legend>
+    <form>
+        <div class="formData">
+            <div class="row">
+                <div class="col-xs-6 col-sm-6">
+                    <div class="form-group">
+                        <label for="tablename" path="tablename">Table Name:</label>
+                        <input class="form-control" path="tablename" id="tableselected" type="hidden" />
+                        <select class="form-control" name="tableList" id="tableList">
+                            <option value="" hidden> - Select the item - </option>
+                            <option value="null"> - Select the item - </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-3 col-sm-3">
+                    <div class="form-group" style="margin-top: 25px;font-weight: bold;width: 150px;">
+                        <button type="submit" class="btn btn-primary">Download
+                            Template..!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <form>
+        <div class="formData">
+            <div class="row">
+                <div class="col-xs-6 col-sm-6">
+                    <div class="form-group">
+                        <div class="col-xs-6 col-sm-6">
+                            <div class="form-group">
+                                <label for="tablename" path="tablename">Choose a File</label>
+                                <input class="form-control" />
+                            </div>
+                            <div class="col-xs-6 col-sm-6">
+                                <input type="file" id="BSbtninfo" name="file" style="margin-top:10px">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-4">
+                        <div class="form-group" style="margin-top: 10px;margin-left: 140px;font-weight: bold ;width: 10px;">
+                            <button type="submit" class="btn btn-primary">Upload your File..!</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</fieldset>

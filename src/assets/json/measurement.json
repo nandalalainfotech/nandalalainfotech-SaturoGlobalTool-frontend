@@ -1,0 +1,26 @@
+[{
+    "dataLocator": "Table 1",
+    "category": "PAC",
+    "function": "Inhibitor",
+    "parameter": "IC50",
+    "parameterDetail": "Inhibitory concentration",
+    "singleValue": "=",
+    "unit": "100µM",
+    "originalPrefix": "25.14",
+    "highEndValue": "25.14",
+    "lowEndValue": "1.5",
+    "units": "30µM",
+    "nonNumeric": "Inhibited ATPase activity",
+    "remark": "Crocin treatment significantly prevented the dendritic arborization loss in the Aβ-treated animals",
+    "type": "in vitro",
+    "cell": "PC-3",
+    "cellDetail": "Prostate cancer cell",
+    "organ": "Lung",
+    "organDetail": "Lavage",
+    "species": "Mouse",
+    "speciesDetail": "Nude mouse bearing CTG-0149 H&N patient derived xenograft",
+    "gender": "Male",
+    "ageGroup": "Two-week old"
+}
+]
+

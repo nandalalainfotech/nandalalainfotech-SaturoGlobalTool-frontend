@@ -1,0 +1,36 @@
+<fieldset class="scheduler-border">
+
+    <!-- <button type="button" class="btn btn-warning reset" (click)="onGenerateExcelReport()" style="margin-right: 50px;">
+        Rejected
+    </button>
+
+    <button type="button" class="btn btn-warning reset" (click)="onAccepted()" style="margin-right: 160px;">
+        Accepted
+    </button> -->
+
+    <button type="button" class="btn btn-warning reset" (click)="onGenerateExcelReport()" style="margin-right: 50px;">
+        Export Excel
+    </button>
+
+    <legend class="scheduler-border">Reports</legend>
+
+    <legend class="scheduler-border">Ligand</legend>
+    <ag-grid-angular #agGrid class="ag-theme-balham" [gridOptions]="gridOptions" style="width: 100%; height: 350px;" [pagination]="true" [frameworkComponents]="frameworkComponents">
+    </ag-grid-angular>
+
+    <!-- <br><br> -->
+
+    <!-- <legend class="scheduler-border">Assay</legend>
+    <ag-grid-angular #agGrid class="ag-theme-balham" [gridOptions]="gridOptions1" style="width: 100%; height: 350px;" [pagination]="true" [frameworkComponents]="frameworkComponents">
+    </ag-grid-angular>
+
+    <br><br>
+
+    <legend class="scheduler-border">Measurement</legend>
+    <ag-grid-angular #agGrid class="ag-theme-balham" [gridOptions]="gridOptions2" style="width: 100%; height: 350px;" [pagination]="true" [frameworkComponents]="frameworkComponents">
+    </ag-grid-angular> -->
+
+    <!-- <br><br> -->
+
+
+</fieldset>
