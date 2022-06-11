@@ -35,7 +35,7 @@ export class LigandComponent implements OnInit {
   submitted = false;
 
   ligandId: number | any;
-  tanNumber: number | any;
+  tanNumber: string = "";
   ligandUri: number | any;
   ligandVersionSlno: number | any;
   ligandStatus: string = "";

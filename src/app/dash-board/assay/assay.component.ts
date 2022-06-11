@@ -294,7 +294,8 @@ export class AssayComponent implements OnInit {
   }
   // this.username = this.authManager.getcurrentUser.username;
   loadData() {
-    this.assayManager.allassay().subscribe(response => {
+    this.username = this.authManager.getcurrentUser.username;
+    this.assayManager.allassay(this.username).subscribe(response => {
 
       this.assay = deserialize<Assay001wb[]>(Assay001wb, response);
       if (this.assay.length > 0) {
