@@ -46,12 +46,14 @@ export class AdminComponent implements OnInit {
   updatedDatetime: Date | any;
   filename: string = "";
   selectedFile: any;
+  element: any;
   rowData: any;
   user?: User001mb;
   taskallocations: Taskallocation001wb[] = [];
   curators: User001mb[] = [];
   reviewers: User001mb[] = [];
   users: User001mb[] = [];
+  username:any;
 
 
   @HostBinding('style.--color_l1') colorthemes_1: any;
@@ -113,7 +115,8 @@ export class AdminComponent implements OnInit {
   // }
 
   loadData() {
-    this.taskAllocationManager.alltask().subscribe(response => {
+    this.username = this.authManager.getcurrentUser.username;
+    this.taskAllocationManager.alltask(this.username).subscribe(response => {
       this.taskallocations = deserialize<Taskallocation001wb[]>(Taskallocation001wb, response);
       console.log("this.taskallocations",this.taskallocations);
       
@@ -132,7 +135,7 @@ export class AdminComponent implements OnInit {
 
     this.userManager.allreviewer().subscribe((response) => {
       this.reviewers = deserialize<User001mb[]>(User001mb, response);
-      console.log("this.reviewers",this.reviewers);
+      // console.log("this.reviewers",this.reviewers);
       
     })
 
@@ -207,16 +210,16 @@ export class AdminComponent implements OnInit {
       },
 
       
-      // {
-      //   headerName: 'REVIEWER NAME',
-      //   field: 'reviewerName',
-      //   width: 200,
-      //   flex: 1,
-      //   sortable: true,
-      //   filter: true,
-      //   resizable: true,
-      //   suppressSizeToFit: true,
-      // },
+      {
+        headerName: 'REVIEWER NAME',
+        field: 'reviewerName',
+        width: 200,
+        flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+      },
       // {
       //   headerName: 'REVIEWER BATCH NUMBER',
       //   field: 'rbatchNo',
@@ -227,16 +230,16 @@ export class AdminComponent implements OnInit {
       //   resizable: true,
       //   suppressSizeToFit: true,
       // },
-      // {
-      //   headerName: 'REVIEWER TAN NUMBER',
-      //   field: 'reviewerTanNo',
-      //   width: 200,
-      //   flex: 1,
-      //   sortable: true,
-      //   filter: true,
-      //   resizable: true,
-      //   suppressSizeToFit: true
-      // },
+      {
+        headerName: 'REVIEWER TAN NUMBER',
+        field: 'reviewerTanNo',
+        width: 200,
+        flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true
+      },
       // {
       //   headerName: 'REVIEWER DATE ALLOCATED',
       //   width: 200,
@@ -315,7 +318,7 @@ export class AdminComponent implements OnInit {
         break;
       }
     }
-    console.log("curatorName--------------->", curatorName);
+    // console.log("curatorName--------------->", curatorName);
     this.TaskAllocationForm.patchValue({
       'curatorName': curatorName
     });
@@ -435,9 +438,12 @@ export class AdminComponent implements OnInit {
       taskallocation001wb.insertDatetime = new Date();
       this.taskAllocationManager.tasksave(taskallocation001wb,this.selectedFile).subscribe((response) => {
         this.calloutService.showSuccess("TaskAllocation Details Saved Successfully");
+        console.log("enter save",response);
+        
         this.loadData();
         this.TaskAllocationForm.reset();
         this.submitted = false;
+        
       });
     }
 
@@ -447,6 +453,7 @@ export class AdminComponent implements OnInit {
     this.submitted = false;
     this.TaskAllocationForm.reset();
   }
+ 
 //   reset(element:any) {
 //     this.submitted = false;
 //     element.value = "";
