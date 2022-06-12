@@ -13,9 +13,14 @@ export class TaskAllocationManager extends BaseService {
     alltask(username: any) {
         let data: any = {};
         data['username'] = username;
-        console.log("alltask",username);
         
         return this.getCallService(`${this.taskallocationUrl}` + "/findAll", data);
+    }
+
+    findByTanNo(username: any) {
+        let data: any = {};
+        data['username'] = username;
+        return this.getCallService(`${this.taskallocationUrl}` + "/findByTanNo", data);
     }
 
     tasksave(taskallocation001wb: Taskallocation001wb, selectedFile: any) {

@@ -60,7 +60,6 @@ export class FooterComponent implements OnInit {
         });
         this.authManager.currentUserSubject.subscribe((object: any) => {
             this.user = object;
-            console.log("this.user---------------------->>>",this.user?.rolename);
             
             let rgb = Utils.hexToRgb(object.theme);
 

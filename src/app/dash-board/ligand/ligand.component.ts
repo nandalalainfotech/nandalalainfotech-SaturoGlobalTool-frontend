@@ -14,10 +14,12 @@ import { AuthManager } from 'src/app/shared/services/restcontroller/bizservice/a
 import { LigandManager } from 'src/app/shared/services/restcontroller/bizservice/ligandManager.service';
 import { LigandTypeManager } from 'src/app/shared/services/restcontroller/bizservice/ligandType.service';
 import { LigandVersionManager } from 'src/app/shared/services/restcontroller/bizservice/ligandVersion.service';
+import { TaskAllocationManager } from 'src/app/shared/services/restcontroller/bizservice/taskAllocation.service';
 import { Ligand001wb } from 'src/app/shared/services/restcontroller/entities/Ligand001wb';
 import { Ligandtype001mb } from 'src/app/shared/services/restcontroller/entities/Ligandtype001mb';
 import { Ligandversion001mb } from 'src/app/shared/services/restcontroller/entities/Ligandversion001mb';
 import { Role001mb } from 'src/app/shared/services/restcontroller/entities/Role001mb';
+import { Taskallocation001wb } from 'src/app/shared/services/restcontroller/entities/Taskallocation001wb';
 import { User001mb } from 'src/app/shared/services/restcontroller/entities/User001mb';
 import { CalloutService } from 'src/app/shared/services/services/callout.service';
 import { Utils } from 'src/app/shared/utils/utils';
@@ -69,6 +71,7 @@ export class LigandComponent implements OnInit {
   ligand: Ligand001wb[] = [];
   ligandVersions: Ligandversion001mb[] = [];
   ligandtypes: Ligandtype001mb[] = [];
+  tanNos: Taskallocation001wb[] = [];
 
   hexToRgb: any;
   rgbToHex: any;
@@ -91,6 +94,7 @@ export class LigandComponent implements OnInit {
     private ligandManager: LigandManager,
     private ligandVersionManager: LigandVersionManager,
     private ligandTypeManager: LigandTypeManager,
+    private taskAllocationManager: TaskAllocationManager,
   ) {
 
     this.frameworkComponents = {
@@ -112,6 +116,12 @@ export class LigandComponent implements OnInit {
 
     this.ligandTypeManager.allligandType().subscribe(response => {
       this.ligandtypes = deserialize<Ligandtype001mb[]>(Ligandtype001mb, response);
+
+      this.taskAllocationManager.findByTanNo(this.username).subscribe(response => {
+        this.tanNos = deserialize<Taskallocation001wb[]>(Taskallocation001wb, response);
+        console.log(" this.tanNos", this.tanNos);
+        
+      });
 
     });
 
@@ -169,6 +179,8 @@ export class LigandComponent implements OnInit {
         this.gridOptions?.api?.setRowData([]);
       }
     });
+
+    
   }
 
 

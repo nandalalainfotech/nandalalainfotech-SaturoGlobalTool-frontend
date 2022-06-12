@@ -456,7 +456,6 @@ export class CheckedComponent implements OnInit {
     assay001wb.unitedSlno = this.f.unitedSlno.value ? this.f.unitedSlno.value : null;
     assay001wb.administration = this.f.administration.value ? this.f.administration.value : "";
     assay001wb.procedure = this.f.procedure.value ? this.f.procedure.value : "";
-    console.log("this.ligand001mb----target uri", this.ligand001mb)
     assay001wb.target = "bioactivity-target" + "/" + "SaturoGlobal" + "/" + this.ligand001mb?.tanNumber + "/" + this.ligand001mb?.ligandVersionSlno2?.ligandVersion + "/" + this.f.targetVersion.value +  ">" + "bioactivity-target" + "/" + uuid();
     assay001wb.conditionType = this.f.conditionType.value ? this.f.conditionType.value : "";
     assay001wb.conditionMaterial = this.f.conditionMaterial.value ? this.f.conditionMaterial.value : "";

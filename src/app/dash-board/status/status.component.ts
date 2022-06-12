@@ -69,37 +69,9 @@ export class StatusComponent implements OnInit {
   username = this.authManager.getcurrentUser.username;
 
   loadData() {
-  //   this.ligandManager.allligand(this.username).subscribe(response => {
-  //     this.ligand = deserialize<Ligand001wb[]>(Ligand001wb, response);
-
-  //     let i = this.ligand.length - 1;
-  //     for (i; i < this.ligand.length; i++) {
-  //         this.ligandstatus = this.ligand[i].status;
-  //         console.log("status--->", this.ligandstatus);      
-  //     }    
-  //   });
-
-  //   this.assayManager.allassay(this.username).subscribe(response => {
-  //     this.assay = deserialize<Assay001wb[]>(Assay001wb, response);
-
-  //     let i = this.assay.length - 1;
-  //     for (i; i < this.assay.length; i++) {
-  //         this.assaystatus = this.assay[i].status;
-  //         console.log("statusasssay--->", this.assaystatus);        
-  //     }  
-     
-  //   });
-
-  //   this.measurementManager.allmeasurement(this.username).subscribe(response => {
-  //     this.measurement = deserialize<Measurement001wb[]>(Measurement001wb, response);
-
-  //     let i = this.measurement.length - 1;
-  //     for (i; i < this.measurement.length; i++) {
-  //         this.measurementstatus = this.measurement[i].status;
-  //         console.log("measure--->", this.measurementstatus);        
-  //     }  
-     
-  //   });
+  
   }
+
+  
 
 }
