@@ -90,9 +90,8 @@ export class ReportComponent implements OnInit {
 
     this.username = this.authManager.getcurrentUser.username;
 
-    this.assayManager.allassay(this.username).subscribe(response => {
+    this.assayManager.findByReviewer(this.username).subscribe(response => {
       this.assay = deserialize<Assay001wb[]>(Assay001wb, response);
-      console.log("this.assay", this.assay);
       if (this.assay.length > 0) {
         this.gridOptions?.api?.setRowData(this.assay);
       } else {

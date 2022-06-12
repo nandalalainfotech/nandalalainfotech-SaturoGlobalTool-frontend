@@ -52,6 +52,7 @@ import { AdminComponent } from './admin/admin.component';
 import { BreadcrumbModule } from './breadcrumb/breadcrumb.module';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { StatusComponent } from './status/status.component';
+import { TaskAllocationManager } from '../shared/services/restcontroller/bizservice/taskAllocation.service';
 // import { GoJsChartComponent } from './body/go-js-chart/go-js-chart.component';
 
 
@@ -130,7 +131,8 @@ import { StatusComponent } from './status/status.component';
         CategoryfunctionManager,
         OriginalprefixManager,
         BioTypeManager,
-        LigandReportsManager
+        LigandReportsManager,
+        TaskAllocationManager
 
     ],
     exports: [NgbCollapseModule],

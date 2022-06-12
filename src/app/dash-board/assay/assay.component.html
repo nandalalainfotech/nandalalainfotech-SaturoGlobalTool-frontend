@@ -6,8 +6,7 @@
                 <div class="col-xs-3 col-sm-3">
                     <div class="form-group">
                         <label path="ligandSlno" for="ligandSlno" cssClass="required">Ligand-Version</label>
-                        <select class="form-control" name="ligandSlno" formControlName="ligandSlno"
-                            (blur)="onBlurEvent($event)">
+                        <select class="form-control" name="ligandSlno" formControlName="ligandSlno" (blur)="onBlurEvent($event)">
                             <option value="" hidden> - Select Ligand-Version - </option>
                             <!-- <option> - Select Ligand-Version - </option> -->
                             <option *ngFor="let ligandObject of ligands" [value]="ligandObject.ligandId" >
@@ -17,7 +16,7 @@
 
                     </div>
                 </div>
-                    <div class="col-xs-3 col-sm-3">
+                <div class="col-xs-3 col-sm-3">
                     <div class="form-group">
                         <label path="ligandname" for="series" cssClass="required">Ligand Name</label>
                         <input type="text" class="form-control" name="ligandname" formControlName="ligandname" readonly>
@@ -166,15 +165,13 @@
                         <div class="form-group">
                             <label path="conditionMaterialid" for="series" cssClass="required">Condition
                                 material-id</label>
-                            <input class="form-control" name="conditionMaterialid"
-                                formControlName="conditionMaterialid">
+                            <input class="form-control" name="conditionMaterialid" formControlName="conditionMaterialid">
                         </div>
                     </div>
 
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
-                            <label path="singleCondition" for="series"
-                                cssClass="required">Condition(Single-value)</label>
+                            <label path="singleCondition" for="series" cssClass="required">Condition(Single-value)</label>
                             <input class="form-control" name="singleCondition" formControlName="singleCondition">
                         </div>
                     </div>
@@ -190,8 +187,7 @@
 
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
-                            <label path="highCondition" for="series"
-                                cssClass="required">Condition(High-end-value)</label>
+                            <label path="highCondition" for="series" cssClass="required">Condition(High-end-value)</label>
                             <input class="form-control" name="highCondition" formControlName="highCondition">
                         </div>
                     </div>
@@ -247,29 +243,26 @@
                 <div class="row">
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
-                            <label path="dataLocator1" for="parameterDetail"
-                                cssClass="required">Table (Data-locator)</label>
+                            <label path="dataLocator1" for="parameterDetail" cssClass="required">Table (Data-locator)</label>
                             <input class="form-control" name="dataLocator1" formControlName="dataLocator1">
                         </div>
                     </div>
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
-                            <label path="dataLocator2" for="dataLocator2"
-                                cssClass="required">Figure (Data-locator)</label>
+                            <label path="dataLocator2" for="dataLocator2" cssClass="required">Figure (Data-locator)</label>
                             <input class="form-control" name="dataLocator2" formControlName="dataLocator2">
                         </div>
                     </div>
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
-                            <label path="dataLocator3" for="dataLocator3"
-                                cssClass="required">Page (Data-locator)</label>
+                            <label path="dataLocator3" for="dataLocator3" cssClass="required">Page (Data-locator)</label>
                             <input class="form-control" name="dataLocator3" formControlName="dataLocator3">
                         </div>
                     </div>
                 </div>
 
                 <div class="row">
-                   <!--  <div class="col-xs-3 col-sm-3">
+                    <!--  <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
                             <label path="dataLocator" for="series" cssClass="required">Data-locator</label> 
                             <input type="hidden" class="form-control" name="dataLocator" formControlName="dataLocator">
@@ -292,8 +285,7 @@
 
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
-                            <label path="functionSlno" for="functionSlno"
-                                cssClass="required">Category(functions)</label>
+                            <label path="functionSlno" for="functionSlno" cssClass="required">Category(functions)</label>
                             <!-- <input class="form-control" path="twhrs" name="twhrs" formControlName="twhrs" /> -->
                             <select class="form-control" name="functionSlno" formControlName="functionSlno">
                                 <option value="" hidden> - Select Category Function - </option>
@@ -310,21 +302,19 @@
                             <input class="form-control" name="parameter" formControlName="parameter">
                         </div>
                     </div>
-               
-                <div class="col-xs-3 col-sm-3">
-                    <div class="form-group">
-                        <label path="parameterDetail" for="parameterDetail"
-                            cssClass="required">Parameter-detail</label>
-                        <input class="form-control" name="parameterDetail" formControlName="parameterDetail">
+
+                    <div class="col-xs-3 col-sm-3">
+                        <div class="form-group">
+                            <label path="parameterDetail" for="parameterDetail" cssClass="required">Parameter-detail</label>
+                            <input class="form-control" name="parameterDetail" formControlName="parameterDetail">
+                        </div>
                     </div>
                 </div>
-            </div>
                 <div class="row">
 
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
-                            <label path="originalPrefixSlno" for="originalPrefixSlno"
-                                cssClass="required">Original-prefix</label>
+                            <label path="originalPrefixSlno" for="originalPrefixSlno" cssClass="required">Original-prefix</label>
                             <!-- <input class="form-control" path="twhrs" name="twhrs" formControlName="twhrs" /> -->
                             <select class="form-control" name="originalPrefixSlno" formControlName="originalPrefixSlno">
                                 <option value="" hidden> - Select Original Prefix - </option>
@@ -338,8 +328,7 @@
 
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
-                            <label path="singleValue" for="singleValue"
-                                cssClass="required">Single-value</label>
+                            <label path="singleValue" for="singleValue" cssClass="required">Single-value</label>
                             <input class="form-control" name="singleValue" formControlName="singleValue">
                         </div>
                     </div>
@@ -361,16 +350,14 @@
                 <div class="row">
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
-                            <label path="highEndValue" for="highEndValue"
-                                cssClass="required">High-end-value</label>
+                            <label path="highEndValue" for="highEndValue" cssClass="required">High-end-value</label>
                             <input class="form-control" name="highEndValue" formControlName="highEndValue">
                         </div>
                     </div>
 
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
-                            <label path="lowEndValue" for="lowEndValue"
-                                cssClass="required">Low-end-value</label>
+                            <label path="lowEndValue" for="lowEndValue" cssClass="required">Low-end-value</label>
                             <input class="form-control" name="lowEndValue" formControlName="lowEndValue">
                         </div>
                     </div>
@@ -392,8 +379,7 @@
                 <div class="row">
                     <div class="col-xs-6 col-sm-6">
                         <div class="form-group">
-                            <label path="nonNumeric" for="nonNumeric"
-                                cssClass="required">Original-value(Non-numeric-value)</label>
+                            <label path="nonNumeric" for="nonNumeric" cssClass="required">Original-value(Non-numeric-value)</label>
                             <textarea class="form-control" name="nonNumeric" formControlName="nonNumeric"></textarea>
                         </div>
                     </div>
@@ -462,8 +448,7 @@
 
                         <div class="col-xs-3 col-sm-3">
                             <div class="form-group">
-                                <label path="speciesDetail" for="speciesDetail"
-                                    cssClass="required">Species-detail</label>
+                                <label path="speciesDetail" for="speciesDetail" cssClass="required">Species-detail</label>
                                 <input class="form-control" name="speciesDetail" formControlName="speciesDetail">
                             </div>
                         </div>
@@ -515,8 +500,7 @@
                         </div> -->
                         <div class="col-xs-4 col-sm-5"></div>
                         <div class="col-xs-4 col-sm-5"></div>
-                        <div class="col-sm-1"> <button type="button" class="form-control" class="btn btn-primary"
-                                style="width:100px" (click)="onTargetReset()">Target
+                        <div class="col-sm-1"> <button type="button" class="form-control" class="btn btn-primary" style="width:100px" (click)="onTargetReset()">Target
                                 Clear</button></div>
                         <div class="col-sm-1"></div>
                     </div>
@@ -526,16 +510,14 @@
 
                         <div class="col-xs-4 col-sm-4">
                             <div class="form-group">
-                                <label path="targetVersion" for="targetVersion"
-                                    cssClass="required">Target-version</label>
+                                <label path="targetVersion" for="targetVersion" cssClass="required">Target-version</label>
                                 <input class="form-control" name="targetVersion" formControlName="targetVersion">
                             </div>
                         </div>
 
                         <div class="col-xs-4 col-sm-4">
                             <div class="form-group">
-                                <label path="collectionId1" for="collectionId1"
-                                    cssClass="required">Collection-id</label>
+                                <label path="collectionId1" for="collectionId1" cssClass="required">Collection-id</label>
                                 <input class="form-control" name="collectionId1" formControlName="collectionId1">
                             </div>
                         </div>
@@ -575,31 +557,28 @@
                 <div class="row">
                     <div class="form-group">
                         <div class="col-sm-7"></div>
-                        <div class="col-sm-1"><button type="button" class="btn btn-primary"
-                                (click)="onRepeat()">Repeat</button>
+                        <div class="col-sm-1"><button type="button" class="btn btn-primary" (click)="onRepeat()">Repeat</button>
                         </div>
-                        <div class="col-sm-1"><button type="button" class="btn btn-primary"
-                                (click)="onEdit()">Edit</button>
+                        <div class="col-sm-1"><button type="button" class="btn btn-primary" (click)="onEdit()">Edit</button>
                         </div>
                         <div class="col-sm-1"><button type="submit" class="btn btn-primary">Submit</button>
                         </div>
-                        <div class="col-sm-1"> <button type="button" class="btn btn-primary"
-                                (click)="onReset()">Clear</button>
+                        <div class="col-sm-1"> <button type="button" class="btn btn-primary" (click)="onReset()">Clear</button>
                         </div>
                         <div class="col-sm-1"></div>
                     </div>
                 </div>
-              
+
             </fieldset>
         </form>
     </div>
 </fieldset>
 
-<div class="scrollbar">
+
+<!-- <div class="scrollbar">
     <fieldset class="scheduler-border">
         <legend class="scheduler-border">Assay</legend>
-        <ag-grid-angular #agGrid class="ag-theme-balham" [gridOptions]="gridOptions" style="width: 100%; height: 350px;"
-            [pagination]="true" [frameworkComponents]="frameworkComponents">
+        <ag-grid-angular #agGrid class="ag-theme-balham" [gridOptions]="gridOptions" style="width: 100%; height: 350px;" [pagination]="true" [frameworkComponents]="frameworkComponents">
         </ag-grid-angular>
     </fieldset>
-</div>
+</div> -->

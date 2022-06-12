@@ -12,9 +12,17 @@ export class AssayManager extends BaseService {
         data['username'] = username;
         return this.getCallService(`${this.assayUrl}` + "/findAll",data);
     }
-
+    findByReviewer(username:any) {
+        let data: any = {};
+        data['username'] = username;
+        return this.getCallService(`${this.assayUrl}` + "/findByReviewer",data);
+    }
+    // findByCuratorTan(username:any) {
+    //     let data: any = {};
+    //     data['username'] = username;
+    //     return this.getCallService(`${this.assayUrl}` + "/findByCuratorTan",data);
+    // }
     assaysave(assay001wb: Assay001wb) {
-        console.log("assay001wb----service", assay001wb);
         return this.postCallService(`${this.assayUrl}` + "/save", {}, assay001wb);
     }
 

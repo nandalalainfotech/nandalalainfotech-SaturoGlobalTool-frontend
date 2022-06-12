@@ -110,6 +110,7 @@ export class AssayComponent implements OnInit {
   updatedDatetime: Date | any;
 
   assay: Assay001wb[] = [];
+  curatotTask: Assay001wb[] = [];
   ligands: Ligand001wb[] = [];
   assayTypes: Assaytype001mb[] = [];
   toxiCities: Toxicity001mb[] = [];
@@ -161,6 +162,8 @@ export class AssayComponent implements OnInit {
     }
 
   }
+
+  
 
   ngOnInit(): void {
 
@@ -304,7 +307,21 @@ export class AssayComponent implements OnInit {
         this.gridOptions?.api?.setRowData([]);
       }
     });
+
+    // this.assayManager.findByCuratorTan(this.username).subscribe(response => {
+
+    //   this.curatotTask = deserialize<Assay001wb[]>(Assay001wb, response);
+    //   console.log("this.curatotTask",this.curatotTask);
+      
+    //   if (this.curatotTask.length > 0) {
+    //     this.gridOptions?.api?.setRowData(this.curatotTask);
+    //   } else {
+    //     this.gridOptions?.api?.setRowData([]);
+    //   }
+    // });
+
   }
+   
 
 
 
@@ -994,7 +1011,6 @@ export class AssayComponent implements OnInit {
     assay001wb.unitedSlno = this.f.unitedSlno.value ? this.f.unitedSlno.value : null;
     assay001wb.administration = this.f.administration.value ? this.f.administration.value : "";
     assay001wb.procedure = this.f.procedure.value ? this.f.procedure.value : "";
-    console.log("this.ligand001mb----target uri", this.ligand001mb)
     assay001wb.target = "bioactivity-target" + "/" + "SaturoGlobal" + "/" + this.ligand001mb?.tanNumber + "/" + this.ligand001mb?.ligandVersionSlno2?.ligandVersion + "/" + this.f.targetVersion.value + ">" + "bioactivity-target" + "/" + uuid();
     assay001wb.conditionType = this.f.conditionType.value ? this.f.conditionType.value : "";
     assay001wb.conditionMaterial = this.f.conditionMaterial.value ? this.f.conditionMaterial.value : "";
@@ -1039,7 +1055,6 @@ export class AssayComponent implements OnInit {
     assay001wb.acronym = this.f.acronym.value ? this.f.acronym.value : "";
     assay001wb.organism = this.f.organism.value ? this.f.organism.value : "";
     assay001wb.variant = this.f.variant.value ? this.f.variant.value : "";
-    console.log("assay001wb", assay001wb);
     if (this.assayId) {
       assay001wb.assayId = this.assayId;
       assay001wb.insertUser = this.insertUser;
@@ -1057,7 +1072,6 @@ export class AssayComponent implements OnInit {
     else {
       assay001wb.insertUser = this.authManager.getcurrentUser.username;
       assay001wb.insertDatetime = new Date();
-      console.log("assay001wb", assay001wb);
       this.assayManager.assaysave(assay001wb).subscribe((response) => {
         this.calloutService.showSuccess("Assay Details Saved Successfully");
         this.loadData();
@@ -1076,8 +1090,6 @@ export class AssayComponent implements OnInit {
   onBlurEvent(event: any) {
     this.ligandManager.findOne(event.target.value).subscribe(response => {
       this.ligand001mb = deserialize<Ligand001wb>(Ligand001wb, response);
-      console.log("this.ligand001mb----target uri", this.ligand001mb)
-      console.log("this.ligand001mb?.identifier1", this.ligand001mb?.identifier1);
   
       if(this.ligand001mb.identifier1 != "")
       {
@@ -1164,7 +1176,6 @@ export class AssayComponent implements OnInit {
   }
 
   onTargetReset() {
-    console.log("target clear")
     // this.submitted = false;
     // this.AssayForm.f.original.clear();
     // this.AssayForm.f.targetVersion.reset();
