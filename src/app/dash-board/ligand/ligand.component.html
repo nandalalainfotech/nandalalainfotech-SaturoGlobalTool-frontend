@@ -9,9 +9,8 @@
                         <!-- <input class="form-control" name="tanNumber" formControlName="tanNumber"
                              [ngClass]="{ 'is-invalid': submitted && f.tanNumber.errors }"> -->
                         <select class="form-control" name="tanNumber" formControlName="tanNumber">
-                           <option value="" hidden> - Select TAN NO - </option>
-                           <option> - Select TAN NO - </option>
-                           <option *ngFor="let tanNo of tanNos" [value]="tanNo.curatorId">
+                           <option value="" hidden> - Select Tan tanNumber - </option>
+                           <option *ngFor="let tanNo of tanNos" [value]="tanNo.curatorTanNo">
                                {{tanNo.curatorTanNo}}
                            </option>
                        

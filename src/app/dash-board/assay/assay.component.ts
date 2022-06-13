@@ -72,6 +72,9 @@ export class AssayComponent implements OnInit {
   lowCondition: string = "";
   highLowUnit: string = "";
 
+  dataLocator1: string = "";
+  dataLocator2: string = "";
+  dataLocator3: string = "";
   dataLocator: string = "";
   categorySlno: number | any;
   functionSlno: number | any;
@@ -361,16 +364,16 @@ export class AssayComponent implements OnInit {
         suppressSizeToFit: true,
         valueGetter: this.setVersion.bind(this)
       },
-      {
-        headerName: 'Ordinal',
-        field: 'ordinal',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true
-      },
+      // {
+      //   headerName: 'Ordinal',
+      //   field: 'ordinal',
+      //   width: 200,
+      //   // flex: 1,
+      //   sortable: true,
+      //   filter: true,
+      //   resizable: true,
+      //   suppressSizeToFit: true
+      // },
 
       {
         headerName: 'Assay-type',
@@ -982,21 +985,6 @@ export class AssayComponent implements OnInit {
     }
 
     let assay001wb = new Assay001wb();
-    if(this.f.dataLocator1.value !== "") {
-      console.log("table not empty", this.f.dataLocator1.value)
-      assay001wb.dataLocator = this.f.dataLocator1.value ? "Table "+this.f.dataLocator1.value : "";
-    }
-   
-    if(this.f.dataLocator2.value !== "") {
-      console.log("figure not empty", this.f.dataLocator2.value)
-      assay001wb.dataLocator = this.f.dataLocator2.value ? "Figure "+this.f.dataLocator2.value : "";
-    }
-
-    if(this.f.dataLocator3.value !== "") {
-      console.log("page not empty", this.f.dataLocator3.value)
-      assay001wb.dataLocator = this.f.dataLocator3.value ?"Page "+this.f.dataLocator3.value+" (text)" : "";
-    }
- 
 
     // assay001wb.ordinal = this.f.ordinal.value ? this.f.ordinal.value : "";
     assay001wb.collectionId = "47498009Q-1";
@@ -1023,7 +1011,10 @@ export class AssayComponent implements OnInit {
     assay001wb.status = "SUBMITTED TO QC";
     assay001wb.targetStatus = "embargoed";
 
-    // assay001wb.dataLocator = this.f.dataLocator.value ? this.f.dataLocator.value : "";
+    assay001wb.dataLocator = null;
+    assay001wb.dataLocator1 = this.f.dataLocator1.value ? "Table "+this.f.dataLocator1.value : null;
+    assay001wb.dataLocator2 = this.f.dataLocator2.value ? "Figure "+this.f.dataLocator2.value : null;
+    assay001wb.dataLocator3 = this.f.dataLocator3.value ? "Page "+this.f.dataLocator3.value+" (text)" : null;
     assay001wb.categorySlno = this.f.categorySlno.value ? this.f.categorySlno.value : null;
     assay001wb.functionSlno = this.f.functionSlno.value ? this.f.functionSlno.value : null;
     assay001wb.parameter = this.f.parameter.value ? this.f.parameter.value : "";
@@ -1104,6 +1095,13 @@ export class AssayComponent implements OnInit {
     });
   }
 
+  setEnable(){
+    this.AssayForm.get('ligandSvalue').enable();
+    this.AssayForm.get('unitSlno').enable();
+    this.AssayForm.get('ligandHvalue').enable();
+    this.AssayForm.get('ligandLvalue').enable();
+    this.AssayForm.get('unitedSlno').enable();
+  }
   onSingleValueClick(){
     this.AssayForm.get('ligandHvalue').disable();
     this.AssayForm.get('ligandLvalue').disable();
@@ -1140,7 +1138,10 @@ export class AssayComponent implements OnInit {
         'lowCondition': this.assay[i].lowCondition,
         'highLowUnit': this.assay[i].highLowUnit,
 
-        'dataLocator': this.assay[i].dataLocator,
+        // 'dataLocator': this.assay[i].dataLocator,
+        'dataLocator1': this.assay[i].dataLocator1,
+        'dataLocator2': this.assay[i].dataLocator2,
+        'dataLocator3': this.assay[i].dataLocator3,
         'categorySlno': this.assay[i].categorySlno,
         'functionSlno': this.assay[i].functionSlno,
         'parameter': this.assay[i].parameter,
@@ -1221,7 +1222,9 @@ export class AssayComponent implements OnInit {
         'lowCondition': this.assay[i].lowCondition,
         'highLowUnit': this.assay[i].highLowUnit,
 
-        'dataLocator': this.assay[i].dataLocator,
+        'dataLocator1': this.assay[i].dataLocator1,
+        'dataLocator2': this.assay[i].dataLocator2,
+        'dataLocator3': this.assay[i].dataLocator3,
         'categorySlno': this.assay[i].categorySlno,
         'functionSlno': this.assay[i].functionSlno,
         'parameter': this.assay[i].parameter,
