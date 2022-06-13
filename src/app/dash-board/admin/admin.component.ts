@@ -53,7 +53,7 @@ export class AdminComponent implements OnInit {
   curators: User001mb[] = [];
   reviewers: User001mb[] = [];
   users: User001mb[] = [];
-  username:any;
+  username: any;
 
 
   @HostBinding('style.--color_l1') colorthemes_1: any;
@@ -118,8 +118,8 @@ export class AdminComponent implements OnInit {
     this.username = this.authManager.getcurrentUser.username;
     this.taskAllocationManager.alltask(this.username).subscribe(response => {
       this.taskallocations = deserialize<Taskallocation001wb[]>(Taskallocation001wb, response);
-      console.log("this.taskallocations",this.taskallocations);
-      
+      console.log("this.taskallocations", this.taskallocations);
+
       if (this.taskallocations.length > 0) {
         this.gridOptions?.api?.setRowData(this.taskallocations);
       } else {
@@ -136,7 +136,7 @@ export class AdminComponent implements OnInit {
     this.userManager.allreviewer().subscribe((response) => {
       this.reviewers = deserialize<User001mb[]>(User001mb, response);
       // console.log("this.reviewers",this.reviewers);
-      
+
     })
 
   }
@@ -163,7 +163,7 @@ export class AdminComponent implements OnInit {
         resizable: true,
         suppressSizeToFit: true
       },
-   
+
       {
         headerName: 'CURATOR NAME',
         field: 'curatorName',
@@ -209,7 +209,7 @@ export class AdminComponent implements OnInit {
         }
       },
 
-      
+
       {
         headerName: 'REVIEWER NAME',
         field: 'reviewerName',
@@ -252,7 +252,7 @@ export class AdminComponent implements OnInit {
       //     return params.data.reviewerAllocateDate ? this.datepipe.transform(params.data.reviewerAllocateDate, 'dd-MM-yyyy') : '';
       //   }
       // },
-     
+
       // {
       //   headerName: 'FILE NAME',
       //   field: 'filename',
@@ -312,8 +312,8 @@ export class AdminComponent implements OnInit {
 
 
     let curatorName: string = '';
-    for(let i=0;i<this.curators.length;i++) {
-      if(event && event.target.value == this.curators[i].personId) {
+    for (let i = 0; i < this.curators.length; i++) {
+      if (event && event.target.value == this.curators[i].personId) {
         // curatorName = this.curators[i].username;
         break;
       }
@@ -326,9 +326,9 @@ export class AdminComponent implements OnInit {
 
   onReviewerChange(event: any) {
     // let reviewerName: any = "";
-    for(let i=0;i<this.reviewers.length;i++) {
-      if(event && event.target.value == this.reviewers[i].personId) {
-       this.reviewerSlno = this.reviewers[i].personId;
+    for (let i = 0; i < this.reviewers.length; i++) {
+      if (event && event.target.value == this.reviewers[i].personId) {
+        this.reviewerSlno = this.reviewers[i].personId;
         break;
       }
     }
@@ -396,9 +396,9 @@ export class AdminComponent implements OnInit {
   onFileSelected(event: any) {
     let fileList: FileList = event.target.files;
     if (fileList.length > 0) {
-        this.selectedFile = fileList[0];
+      this.selectedFile = fileList[0];
     }
-}
+  }
 
   onTaskAllocationClick(event: any, TaskAllocationForm: any) {
     this.markFormGroupTouched(this.TaskAllocationForm);
@@ -418,7 +418,7 @@ export class AdminComponent implements OnInit {
     // taskallocation001wb.reviewerAllocateDate = this.f.reviewerAllocateDate.value ? this.f.reviewerAllocateDate.value : "";
     // taskallocation001wb.reviewerCompleteDate = this.f.reviewerCompleteDate.value ? this.f.reviewerCompleteDate.value : "";
     // taskallocation001wb.filename = this.f.filename.value ? this.f.filename.value : "";
-  //  console.log("taskallocation001wb.filename", taskallocation001wb.filename);
+    //  console.log("taskallocation001wb.filename", taskallocation001wb.filename);
     if (this.curatorId) {
       taskallocation001wb.curatorId = this.curatorId;
       taskallocation001wb.insertUser = this.insertUser;
@@ -436,14 +436,14 @@ export class AdminComponent implements OnInit {
     else {
       taskallocation001wb.insertUser = this.authManager.getcurrentUser.username;
       taskallocation001wb.insertDatetime = new Date();
-      this.taskAllocationManager.tasksave(taskallocation001wb,this.selectedFile).subscribe((response) => {
+      this.taskAllocationManager.tasksave(taskallocation001wb, this.selectedFile).subscribe((response) => {
         this.calloutService.showSuccess("TaskAllocation Details Saved Successfully");
-        console.log("enter save",response);
-        
+        console.log("enter save", response);
+
         this.loadData();
         this.TaskAllocationForm.reset();
         this.submitted = false;
-        
+
       });
     }
 
@@ -453,11 +453,11 @@ export class AdminComponent implements OnInit {
     this.submitted = false;
     this.TaskAllocationForm.reset();
   }
- 
-//   reset(element:any) {
-//     this.submitted = false;
-//     element.value = "";
-//     this.TaskAllocationForm.reset();
-// }
+
+  //   reset(element:any) {
+  //     this.submitted = false;
+  //     element.value = "";
+  //     this.TaskAllocationForm.reset();
+  // }
 
 }

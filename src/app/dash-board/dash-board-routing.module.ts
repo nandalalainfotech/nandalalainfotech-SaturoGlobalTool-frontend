@@ -45,6 +45,10 @@ const routes: Routes = [
         path: 'app-status',
         loadChildren: () => import("./status/status.module").then(m => m.StatusModule)
       },
+      {
+        path: 'app-my-work',
+        loadChildren: () => import("./my-work/my-work.module").then(m => m.MyWorkModule)
+      },
      
     ]
   }
