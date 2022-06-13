@@ -106,6 +106,10 @@
                         </select>
                     </div>
                 </div>
+                <div class="col-xs-3 col-sm-3">
+                    <br>
+                    <button type="button" (click)="setEnable()" class="btn btn-primary"> Enable</button>
+                </div>
             </div>
             <div class="row">
                 <div class="col-xs-3 col-sm-3">
@@ -262,7 +266,7 @@
                 </div>
 
                 <div class="row">
-                    <!--  <div class="col-xs-3 col-sm-3">
+                     <!-- <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
                             <label path="dataLocator" for="series" cssClass="required">Data-locator</label> 
                             <input type="hidden" class="form-control" name="dataLocator" formControlName="dataLocator">
@@ -500,8 +504,8 @@
                         </div> -->
                         <div class="col-xs-4 col-sm-5"></div>
                         <div class="col-xs-4 col-sm-5"></div>
-                        <div class="col-sm-1"> <button type="button" class="form-control" class="btn btn-primary" style="width:100px" (click)="onTargetReset()">Target
-                                Clear</button></div>
+                        <div class="col-sm-1"> <button type="button" class="form-control" class="btn btn-primary" style="width:100px" (click)="onTargetReset()">Clear Target
+                              </button></div>
                         <div class="col-sm-1"></div>
                     </div>
                     <br>
@@ -575,10 +579,10 @@
 </fieldset>
 
 
-<!-- <div class="scrollbar">
+<div class="scrollbar">
     <fieldset class="scheduler-border">
         <legend class="scheduler-border">Assay</legend>
         <ag-grid-angular #agGrid class="ag-theme-balham" [gridOptions]="gridOptions" style="width: 100%; height: 350px;" [pagination]="true" [frameworkComponents]="frameworkComponents">
         </ag-grid-angular>
     </fieldset>
-</div> -->
+</div>

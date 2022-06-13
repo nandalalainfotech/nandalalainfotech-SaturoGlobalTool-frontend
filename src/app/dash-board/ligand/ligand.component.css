@@ -20,6 +20,6 @@ label {
 }
 .scheduler-border{
     font-size: 13px;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
