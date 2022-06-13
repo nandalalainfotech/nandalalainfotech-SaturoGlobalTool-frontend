@@ -7,7 +7,7 @@ import { IconRendererComponent } from '../renderercomponent/icon-renderer-compon
 
 
 @NgModule({
-  declarations: [ IconRendererComponent,ButtonRendererComponent,LinkRendererComponent ],
+  declarations: [ ButtonRendererComponent,LinkRendererComponent ],
   imports: [
     CommonModule,
   ]
