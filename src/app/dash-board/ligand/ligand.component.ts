@@ -36,15 +36,16 @@ export class LigandComponent implements OnInit {
   frameworkComponents: any;
   submitted = false;
 
+
   ligandId: number | any;
   tanNumber: string = "";
   ligandUri: number | any;
   ligandVersionSlno: number | any;
   ligandStatus: string = "";
   ligandTypeSlno: string = "";
-  Identifier1: string = "";
-  Identifier2: string = "";
-  Identifier3: string = "";
+  identifier1: string = "";
+  identifier2: string = "";
+  identifier3: string = "";
   collection: string = "";
   collectionId: number | any;
   ligandDetail: string = "";
@@ -82,6 +83,9 @@ export class LigandComponent implements OnInit {
   public gridOptions: GridOptions | any;
   rowData: Observable<any[]> | any;
 
+  public sub: any;
+  public inprocess: any;
+
   @HostBinding('style.--color_l1') colorthemes_1: any;
   @HostBinding('style.--color_l2') colorthemes_2: any;
   @HostBinding('style.--color_l3') colorthemes_3: any;
@@ -95,6 +99,7 @@ export class LigandComponent implements OnInit {
     private ligandVersionManager: LigandVersionManager,
     private ligandTypeManager: LigandTypeManager,
     private taskAllocationManager: TaskAllocationManager,
+    private route: ActivatedRoute
   ) {
 
     this.frameworkComponents = {
@@ -102,12 +107,55 @@ export class LigandComponent implements OnInit {
     }
   }
 
-//   get isAdmin() {
-//     return  this.user001mb?.roleid === Role.Admin;
-// }
-
   ngOnInit(): void {
 
+
+
+    // this.sub = this.route.queryParams.subscribe((params: { [x: string]: any; }) => {
+    //   let tanNumbers = params["curatorTanNo"];
+    //   this.tanNumber = tanNumbers;
+    // });
+
+    this.inprocess = this.route.queryParams.subscribe((params: { [x: string]: any; }) => {
+      let TanNumber = params["tanNumber"];
+      this.tanNumber = TanNumber;
+
+      let LigandVersion = params["ligandVersion"];
+      this.ligandVersionSlno = LigandVersion;
+
+      let LigandType = params["ligandType"];
+      this.ligandTypeSlno = LigandType;
+
+      let Identifier1 = params["identifier1"];
+      this.identifier1 = Identifier1;
+
+      let Identifier2 = params["identifier2"];
+      this.identifier2 = Identifier2;
+
+      let Identifier3 = params["identifier3"];
+      this.identifier3 = Identifier3;
+
+      let CollectionId = params["collectionId"];
+      this.collectionId = CollectionId;
+
+      let Locator = params["locator"];
+      this.locator = Locator;
+
+      let LigandDetail = params["ligandDetail"];
+      this.ligandDetail = LigandDetail;
+
+      let DiseaseName1 = params["diseaseName1"];
+      this.diseaseName1 = DiseaseName1;
+
+      let DiseaseName2 = params["diseaseName2"];
+      this.diseaseName2 = DiseaseName2;
+
+      let DiseaseName3 = params["diseaseName3"];
+      this.diseaseName3 = DiseaseName3;
+
+
+    });
+    //  console.log("sub",this.sub.tanNumber);
 
     this.ligandVersionManager.allligandVersion().subscribe(response => {
       this.ligandVersions = deserialize<Ligandversion001mb[]>(Ligandversion001mb, response);
@@ -120,7 +168,7 @@ export class LigandComponent implements OnInit {
       this.taskAllocationManager.findByTanNo(this.username).subscribe(response => {
         this.tanNos = deserialize<Taskallocation001wb[]>(Taskallocation001wb, response);
         console.log(" this.tanNos", this.tanNos);
-        
+
       });
 
     });
@@ -128,20 +176,20 @@ export class LigandComponent implements OnInit {
     this.createDataGrid001();
 
     this.LigandForm = this.formBuilder.group({
-      tanNumber: ['', Validators.required],
+      tanNumber: [this.tanNumber, Validators.required],
       // ligandUri: [''],
-      ligandVersionSlno: [''],
+      ligandVersionSlno: [this.ligandVersionSlno],
       // ligandVersions: [''],
-      ligandTypeSlno: [''],
-      identifier1: [''],
-      identifier2: [''],
-      identifier3: [''],
-      collectionId: [''],
-      ligandDetail: [''],
-      locator: [''],
-      diseaseName1: [''],
-      diseaseName2: [''],
-      diseaseName3: [''],
+      ligandTypeSlno: [ this.ligandTypeSlno],
+      identifier1: [this.identifier1],
+      identifier2: [this.identifier2],
+      identifier3: [this.identifier3],
+      collectionId: [this.collectionId],
+      ligandDetail: [this.ligandDetail],
+      locator: [this.locator],
+      diseaseName1: [this.diseaseName1],
+      diseaseName2: [this.diseaseName2],
+      diseaseName3: [this.diseaseName3],
       // target: [''],
       targetVersion: [''],
       collectionId1: [''],
@@ -180,7 +228,7 @@ export class LigandComponent implements OnInit {
       }
     });
 
-    
+
   }
 
 
@@ -594,7 +642,7 @@ export class LigandComponent implements OnInit {
     ligand001wb.acronym = "";
     ligand001wb.organism = "";
     ligand001wb.variant = "";
-    ligand001wb.status =  "";
+    ligand001wb.status = "Submitted to QC";
 
     if (this.ligandId) {
       ligand001wb.ligandId = this.ligandId;
@@ -613,7 +661,7 @@ export class LigandComponent implements OnInit {
     else {
       ligand001wb.insertUser = this.authManager.getcurrentUser.username;
       ligand001wb.insertDatetime = new Date();
-      
+
       this.ligandManager.ligandsave(ligand001wb).subscribe((response) => {
 
         this.calloutService.showSuccess("Ligand Details Saved Successfully");
@@ -624,46 +672,76 @@ export class LigandComponent implements OnInit {
     }
   }
 
-  // onTanNumberClick(){
-  //   this.LigandForm.get('tanNumber').valueChanges.subscribe((value: any) => {
-  //     for (let tan of this.ligand) {
-  //       if (tan.ligandId == value) {
-  //         this.LigandForm.patchValue({
-  //           'citation': tan.citation,
+  toggleInprocess(event: any, LigandForm: any) {
+    // console.log("hi");
+    this.markFormGroupTouched(this.LigandForm);
 
-  //         });
-  //         break;
-  //       }
-  //     }
-  //   });
-  // }
+    this.submitted = true;
+    if (this.LigandForm.invalid) {
+      return;
+    }
+    let ligand001wb = new Ligand001wb();
 
+    ligand001wb.tanNumber = this.f.tanNumber.value ? this.f.tanNumber.value : "";
+    ligand001wb.ligandUri = "bioactivity-ligand" + "/" + "SaturoGlobal" + "/" + this.f.tanNumber.value + "/" + this.f.ligandVersionSlno.value + ">" + "bioactivity-ligand" + "/" + uuid();
+    ligand001wb.ligandVersionSlno = this.f.ligandVersionSlno.value ? this.f.ligandVersionSlno.value : null;
+    ligand001wb.ligandStatus = "embargoed";
+    ligand001wb.collection = "cas";
+    ligand001wb.ligandTypeSlno = this.f.ligandTypeSlno.value ? this.f.ligandTypeSlno.value : null;
+    ligand001wb.ligandDetail = this.f.ligandDetail.value ? this.f.ligandDetail.value : "";
+    ligand001wb.identifier1 = this.f.identifier1.value ? this.f.identifier1.value : "";
+    ligand001wb.identifier2 = this.f.identifier2.value ? this.f.identifier2.value : "";
+    ligand001wb.identifier3 = this.f.identifier3.value ? this.f.identifier3.value : "";
+    ligand001wb.collectionId = this.f.locator.value ? this.f.collectionId.value : "";
+    ligand001wb.locator = this.f.locator.value ? this.f.locator.value : "";
+    ligand001wb.sourceType = "journal";
+    ligand001wb.citation = this.f.tanNumber.value ? this.f.tanNumber.value : "";
+    ligand001wb.relatedDocument = this.f.tanNumber.value ? this.f.tanNumber.value : "";
+    ligand001wb.registryNumber = this.f.collectionId.value ? this.f.collectionId.value : "";
+    ligand001wb.diseaseName1 = this.f.diseaseName1.value ? this.f.diseaseName1.value : "";
+    ligand001wb.diseaseName2 = this.f.diseaseName2.value ? this.f.diseaseName2.value : "";
+    ligand001wb.diseaseName3 = this.f.diseaseName3.value ? this.f.diseaseName3.value : "";
+    // ligand001wb.target = "bioactivity-target" + "/" + "SaturoGlobal" + "/" + this.f.tanNumber.value + "/" + this.f.ligandVersionSlno.value + ">" + "bioactivity-target" + "/" + uuid();
+    ligand001wb.target = "";
+    ligand001wb.targetStatus = "";
+    ligand001wb.targetVersion = "";
+    ligand001wb.collectionId1 = "";
+    ligand001wb.original = "";
+    ligand001wb.acronym = "";
+    ligand001wb.organism = "";
+    ligand001wb.variant = "";
+    ligand001wb.status = "In Process";
 
-  // onBlurEvent(event: any) {
-  //   let tannumber = this.f.tanNumber.value ? this.f.tanNumber.value : "";
-  //   let collectionId = this.f.collectionId.value ? this.f.collectionId.value : "";
+    // if (this.ligandId) {
+    //   ligand001wb.ligandId = this.ligandId;
+    //   ligand001wb.insertUser = this.insertUser;
+    //   ligand001wb.insertDatetime = this.insertDatetime;
+    //   ligand001wb.updatedUser = this.authManager.getcurrentUser.username;
+    //   ligand001wb.updatedDatetime = new Date();
+    //   this.ligandManager.ligandupdate(ligand001wb).subscribe((response) => {
+    //     this.calloutService.showSuccess("Ligand Details Updated Successfully");
+    //     this.loadData();
+    //     this.LigandForm.reset();
+    //     this.ligandId = null;
+    //     this.submitted = false;
+    //   });
+    // }
+    // else {
+      ligand001wb.insertUser = this.authManager.getcurrentUser.username;
+      ligand001wb.insertDatetime = new Date();
 
-  //   this.LigandForm.patchValue({
-  //     'citation': tannumber,
-  //     'relatedDocument': tannumber,
-  //     'registryNumber': collectionId,
+      this.ligandManager.ligandsave(ligand001wb).subscribe((response) => {
 
-  //   })
-  // }
+        this.calloutService.showWarning("Ligand details are in process ");
+        this.loadData();
+        this.LigandForm.reset();
+        this.submitted = false;
+      });
+    // }
 
-  // onLigandVersionClick() {
-  //   this.LigandForm.get('ligandVersionSlno').valueChanges.subscribe((value: any) => {
-  //     for (let ligandVer of this.ligandVersions) {
-  //       if (ligandVer.id == value) {
-  //         this.LigandForm.patchValue({
-  //           // 'ligandVersions': ligandVer.ligandVersion,
+  }
 
-  //         });
-  //         break;
-  //       }
-  //     }
-  //   });
-  // }
+  
 
   onReset() {
     this.submitted = false;
@@ -701,7 +779,7 @@ export class LigandComponent implements OnInit {
     for (i; i < this.ligand.length; i++) {
       this.insertDatetime = new Date();
       this.ligandId = this.ligand[i].ligandId;
-     this.LigandForm.patchValue({
+      this.LigandForm.patchValue({
         // 'ligandId': this.ligand[i].ligandId,
         'tanNumber': this.ligand[i].tanNumber,
         'ligandVersionSlno': this.ligand[i].ligandVersionSlno,

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { NavigationExtras, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GridOptions } from 'ag-grid-community';
 import { deserialize } from 'serializer.ts/Serializer';
@@ -8,7 +9,9 @@ import { AuditComponent } from 'src/app/shared/audit/audit.component';
 import { IconRendererComponent } from 'src/app/shared/services/renderercomponent/icon-renderer-component';
 import { AssayManager } from 'src/app/shared/services/restcontroller/bizservice/Assay.service';
 import { AuthManager } from 'src/app/shared/services/restcontroller/bizservice/auth-manager.service';
+import { LigandManager } from 'src/app/shared/services/restcontroller/bizservice/ligandManager.service';
 import { Assay001wb } from 'src/app/shared/services/restcontroller/entities/Assay001wb ';
+import { Ligand001wb } from 'src/app/shared/services/restcontroller/entities/Ligand001wb';
 import { CalloutService } from 'src/app/shared/services/services/callout.service';
 
 @Component({
@@ -24,7 +27,10 @@ export class InprocessComponent implements OnInit {
   frameworkComponents: any;
   username: any;
 
-  assay: Assay001wb[] = [];
+  ligand: Ligand001wb[] = [];
+  assays: Assay001wb[] = [];
+  inProcessAssays: Assay001wb[] = [];
+  submittedToQCAssays: Assay001wb[] = [];
 
   constructor(
     private authManager: AuthManager,
@@ -33,7 +39,9 @@ export class InprocessComponent implements OnInit {
     private http: HttpClient,
     private modalService: NgbModal,
     private assayManager: AssayManager,
-  ) { 
+    private ligandManager: LigandManager,
+    private router: Router
+  ) {
     this.frameworkComponents = {
       iconRenderer: IconRendererComponent
     }
@@ -43,17 +51,27 @@ export class InprocessComponent implements OnInit {
     this.createDataGrid001();
 
     this.username = this.authManager.getcurrentUser.username;
-    this.assayManager.allassay(this.username).subscribe(response => {
 
-      this.assay = deserialize<Assay001wb[]>(Assay001wb, response);
-      if (this.assay.length > 0) {
-        this.gridOptions?.api?.setRowData(this.assay);
+    this.assayManager.findInprocesStatus(this.username).subscribe(response => {
+      this.assays = deserialize<Assay001wb[]>(Assay001wb, response);
+      console.log(" this.assays", this.assays);
+
+      for (let assay of this.assays) {
+        if (assay.status == "In Process" || assay.ligandSlno2?.status == "In Process") {
+          this.inProcessAssays.push(assay);
+        }
+      }
+      console.log(" this.assay", this.assays);
+      if (this.inProcessAssays.length > 0) {
+        this.gridOptions?.api?.setRowData(this.inProcessAssays);
       } else {
         this.gridOptions?.api?.setRowData([]);
       }
     });
 
   }
+
+
 
   // get f() { return this.AssayForm.controls; }
 
@@ -82,6 +100,18 @@ export class InprocessComponent implements OnInit {
         suppressSizeToFit: true,
       },
       {
+        headerName: 'STATUS',
+        cellRenderer: 'iconRenderer',
+        width: 100,
+        // flex: 1,
+        suppressSizeToFit: true,
+        cellStyle: { textAlign: 'center' },
+        cellRendererParams: {
+          onClick: this.onInprocessMoveToLigand.bind(this),
+          label: 'Start',
+        },
+      },
+      {
         headerName: 'Ligand-Version',
         width: 200,
         // flex: 1,
@@ -91,16 +121,16 @@ export class InprocessComponent implements OnInit {
         suppressSizeToFit: true,
         valueGetter: this.setVersion.bind(this)
       },
-      {
-        headerName: 'Ordinal',
-        field: 'ordinal',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true
-      },
+      // {
+      //   headerName: 'Ordinal',
+      //   field: 'ordinal',
+      //   width: 200,
+      //   // flex: 1,
+      //   sortable: true,
+      //   filter: true,
+      //   resizable: true,
+      //   suppressSizeToFit: true
+      // },
 
       {
         headerName: 'Assay-type',
@@ -453,7 +483,7 @@ export class InprocessComponent implements OnInit {
         resizable: true,
         suppressSizeToFit: true,
         valueGetter: this.setTypes.bind(this)
-        
+
       },
       {
         headerName: 'Cell',
@@ -540,42 +570,6 @@ export class InprocessComponent implements OnInit {
         suppressSizeToFit: true,
       },
 
-      // {
-      //   headerName: 'Edit',
-      //   cellRenderer: 'iconRenderer',
-      //   width: 80,
-      //   // flex: 1,
-      //   suppressSizeToFit: true,
-      //   cellStyle: { textAlign: 'center' },
-      //   cellRendererParams: {
-      //     onClick: this.onEditButtonClick.bind(this),
-      //     label: 'Edit'
-      //   },
-      // },
-      // {
-      //   headerName: 'Delete',
-      //   cellRenderer: 'iconRenderer',
-      //   width: 85,
-      //   // flex: 1,
-      //   suppressSizeToFit: true,
-      //   cellStyle: { textAlign: 'center' },
-      //   cellRendererParams: {
-      //     onClick: this.onDeleteButtonClick.bind(this),
-      //     label: 'Delete'
-      //   },
-      // },
-      {
-        headerName: 'Audit',
-        cellRenderer: 'iconRenderer',
-        width: 80,
-        // flex: 1,
-        suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
-        cellRendererParams: {
-          onClick: this.onAuditButtonClick.bind(this),
-          label: 'Audit'
-        },
-      },
     ]
   }
 
@@ -603,14 +597,14 @@ export class InprocessComponent implements OnInit {
     return params.data.unitedSlno2 ? params.data.unitedSlno2.united : null;
   }
 
-  setCategory(params: any){
+  setCategory(params: any) {
     return params.data.categorySlno2 ? params.data.categorySlno2.category : null;
   }
 
-  setCategoryFunction(params: any){
+  setCategoryFunction(params: any) {
     return params.data.functionSlno2 ? params.data.functionSlno2.function : null;
   }
- 
+
   setOriginalPrefix(params: any) {
     return params.data.originalPrefixSlno2 ? params.data.originalPrefixSlno2.originalPrefix : null;
   }
@@ -619,11 +613,35 @@ export class InprocessComponent implements OnInit {
   setTypes(params: any) {
     return params.data.typeSlno2 ? params.data.typeSlno2.type : null;
   }
+  onInprocessMoveToLigand(params: any) {
+    console.log("params", params);
 
-  onAuditButtonClick(params: any) {
-    const modalRef = this.modalService.open(AuditComponent);
-    modalRef.componentInstance.title = "Assay";
-    modalRef.componentInstance.details = params.data;
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        "tanNumber": params.data.ligandSlno2.ligandVersionSlno2.ligandVersion,
+        "ligandVersion": params.data.assayTypeSlno2.assayType,
+        "ligandType": params.data.toxiCitySlno2.toxiCity,
+        "identifier1": params.data.routeSlno2.route,
+        "identifier2": params.data.identifier2,
+        "identifier3": params.data.identifier3,
+        "collectionId": params.data.collectionId,
+        "locator": params.data.locator,
+        "ligandDetail": params.data.ligandDetail,
+        "diseaseName1": params.data.diseaseName1,
+        "diseaseName2": params.data.diseaseName2,
+        "diseaseName3": params.data.diseaseName3,
+      }
+    };
+
+    this.router.navigate(["/app-dash-board/app-stepper"], navigationExtras);
   }
+
+
+
+  // onAuditButtonClick(params: any) {
+  //   const modalRef = this.modalService.open(AuditComponent);
+  //   modalRef.componentInstance.title = "Assay";
+  //   modalRef.componentInstance.details = params.data;
+  // }
 
 }
