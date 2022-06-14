@@ -12,6 +12,12 @@ export class AssayManager extends BaseService {
         data['username'] = username;
         return this.getCallService(`${this.assayUrl}` + "/findAll",data);
     }
+
+    findInprocesStatus(username:any) {
+        let data: any = {};
+        data['username'] = username;
+        return this.getCallService(`${this.assayUrl}` + "/findInprocesStatus",data);
+    }
     findByReviewer(username:any) {
         let data: any = {};
         data['username'] = username;

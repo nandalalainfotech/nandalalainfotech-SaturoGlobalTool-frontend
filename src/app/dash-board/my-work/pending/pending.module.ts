@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { PendingRoutingModule } from './pending-routing.module';
 
@@ -9,6 +9,7 @@ import { PendingRoutingModule } from './pending-routing.module';
   imports: [
     CommonModule,
     PendingRoutingModule
-  ]
+  ],
+  providers:[DatePipe]
 })
 export class PendingModule { }

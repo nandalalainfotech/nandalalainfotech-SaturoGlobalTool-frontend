@@ -15,11 +15,18 @@ export class LigandManager extends BaseService {
         return this.getCallService(`${this.ligandUrl}` + "/findAll",data);
     }
 
-    // findByCuratorTan(username:any) {
-    //     let data: any = {};
-    //     data['username'] = username;
-    //     return this.getCallService(`${this.ligandUrl}` + "/findByCuratorTan",data);
-    // }
+    findInprocesStatus(username:any) {
+        let data: any = {};
+        data['username'] = username;
+        return this.getCallService(`${this.ligandUrl}` + "/findInprocesStatus",data);
+    }
+
+    
+    findSubmotToQcStatus(username:any) {
+        let data: any = {};
+        data['username'] = username;
+        return this.getCallService(`${this.ligandUrl}` + "/findSubmotToQcStatus",data);
+    }
 
     ligandsave(ligand001wb: Ligand001wb) {
         return this.postCallService(`${this.ligandUrl}` + "/save", {}, ligand001wb);

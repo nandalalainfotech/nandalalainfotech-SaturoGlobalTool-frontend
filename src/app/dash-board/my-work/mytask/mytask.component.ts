@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { NavigationExtras, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GridOptions } from 'ag-grid-community';
 import { deserialize } from 'serializer.ts/Serializer';
@@ -26,6 +27,7 @@ export class MytaskComponent implements OnInit {
   public gridOptions: GridOptions | any;
   onFirstDataRendered: any;
   frameworkComponents: any;
+  curatorTanNo:any;
 
   user?: User001mb;
   taskallocations: Taskallocation001wb[] = [];
@@ -45,6 +47,7 @@ export class MytaskComponent implements OnInit {
     private taskAllocationManager: TaskAllocationManager,
     private userManager: UserManager,
     private datepipe: DatePipe,
+    private router: Router
   ) {
     this.frameworkComponents = {
       iconRenderer: IconRendererComponent,
@@ -102,6 +105,19 @@ export class MytaskComponent implements OnInit {
         suppressSizeToFit: true,
         // valueGetter: this.setMachineCode.bind(this)
       },
+    
+    {
+        headerName: 'STATUS',
+        cellRenderer: 'iconRenderer',
+        width: 100,
+        flex: 1,
+        suppressSizeToFit: true,
+        cellStyle: { textAlign: 'center' },
+        cellRendererParams: {
+        onClick: this.onMoveToLigand.bind(this),
+        label: 'Start',
+      },
+    },
       {
         headerName: 'CURATOR NAME',
         field: 'curatorName',
@@ -121,7 +137,11 @@ export class MytaskComponent implements OnInit {
         sortable: true,
         filter: true,
         resizable: true,
-        suppressSizeToFit: true
+        suppressSizeToFit: true,
+        // cellRendererParams: {
+        //   onClick: this.onMoveToLigand.bind(this),
+        //   field: 'curatorTanNo',
+        // },
       },
       {
         headerName: 'CURATOR BATCH NUMBER',
@@ -134,7 +154,7 @@ export class MytaskComponent implements OnInit {
         suppressSizeToFit: true
       },
       {
-        headerName: 'Date',
+        headerName: 'DATE',
         // field: 'date',
         width: 200,
         flex: 1,
@@ -145,19 +165,7 @@ export class MytaskComponent implements OnInit {
         valueGetter: (params: any) => {
           return params.data.curatorAllocateDate ? this.datepipe.transform(params.data.curatorAllocateDate, 'dd-MM-yyyy') : '';
         }
-      },
-      // {
-      //     headerName: 'Edit',
-      //     cellRenderer: 'iconRenderer',
-      //     width: 100,
-      //     flex: 1,
-      //     suppressSizeToFit: true,
-      //     cellStyle: { textAlign: 'center' },
-      //     cellRendererParams: {
-      //         onClick: this.onEditButtonClick.bind(this),
-      //         label: 'Edit'
-      //     },
-      // },
+     
       // {
       //     headerName: 'Delete',
       //     cellRenderer: 'iconRenderer',
@@ -182,7 +190,17 @@ export class MytaskComponent implements OnInit {
       //         label: 'Audit'
       //     },
       // },
+    },
     ];
+  }
+  onMoveToLigand(params: any) {
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        "tanNumber": params.data.curatorTanNo
+      }
+    };
+    
+    this.router.navigate(["/app-dash-board/app-stepper"],navigationExtras);
   }
 
 }
