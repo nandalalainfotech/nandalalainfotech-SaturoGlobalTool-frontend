@@ -617,6 +617,56 @@
                     </div>
                 </div>
                 <br>
+                <div class="row">
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="col-sm-5">
+                                <label path="dataLocator1" for="series" cssClass="required">Data-locator-1 :</label>
+                            </div>
+                            <div class="col-sm-7" *ngIf="isEditable">
+                                <input class="dataLocator1" name="dataLocator1" formControlName="dataLocator1">
+                            </div>
+                            <div class="col-sm-7" *ngIf="!isEditable">
+                                <span>{{data.dataLocator1}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="col-sm-5">
+                                <label path="dataLocator2" for="series" cssClass="required">Data-locator-2 :</label>
+                            </div>
+                            <div class="col-sm-7" *ngIf="isEditable">
+                                <input class="dataLocator2" name="dataLocator2" formControlName="dataLocator2">
+                            </div>
+                            <div class="col-sm-7" *ngIf="!isEditable">
+                                <span>{{data.dataLocator2}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="col-sm-5">
+                                <label path="dataLocator3" for="series" cssClass="required">Data-locator-3 :</label>
+                            </div>
+                            <div class="col-sm-7" *ngIf="isEditable">
+                                <input class="dataLocator3" name="dataLocator3" formControlName="dataLocator3">
+                            </div>
+                            <div class="col-sm-7" *ngIf="!isEditable">
+                                <span>{{data.dataLocator3}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <br>
 
                 <div class="row">
                     <div class="col-sm-6">
@@ -643,8 +693,7 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <div class="col-sm-5">
-                                <label path="functionSlno" for="series" cssClass="required">Category(functions)
-                                    :</label>
+                                <label path="functionSlno" for="series" cssClass="required">Category(functions):</label>
                             </div>
                             <div class="col-sm-7" *ngIf="isEditable">
                                 <!-- <input class="functionSlno" name="functionSlno" formControlName="functionSlno"> -->
@@ -1112,7 +1161,9 @@
                 <br>
                 <br>
                 <div class="row">
-                    <div class="col-sm-8"></div>
+                    <div class="col-sm-7"></div>
+                    <!-- <div class="col-sm-1"><button type="button" (click)="onRejectClick($event, CheckedForm)" class="btn btn-primary">Reject</button></div> -->
+                    <div class="col-sm-1"></div>
                     <div class="col-sm-1"><button type="button" (click)="onEditReviewerClick($event)" class="btn btn-primary">Edit</button></div>
                     <div class="col-sm-1"><button type="submit" class="btn btn-primary" style="margin-left:20px">Submit</button></div>
                     <div class="col-sm-2"></div>

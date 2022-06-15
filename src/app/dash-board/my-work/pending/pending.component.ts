@@ -53,7 +53,7 @@ export class PendingComponent implements OnInit {
     this.username = this.authManager.getcurrentUser.username;
     this.taskAllocationManager.findByTanNo(this.username).subscribe(response => {
       this.taskallocations = deserialize<Taskallocation001wb[]>(Taskallocation001wb, response);
-      console.log("this.taskallocations in mytask", this.taskallocations);
+      // console.log("this.taskallocations in mytask", this.taskallocations);
 
       if (this.taskallocations.length > 0) {
         this.gridOptions?.api?.setRowData(this.taskallocations);

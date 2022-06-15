@@ -155,7 +155,6 @@ export class LigandComponent implements OnInit {
 
 
     });
-    //  console.log("sub",this.sub.tanNumber);
 
     this.ligandVersionManager.allligandVersion().subscribe(response => {
       this.ligandVersions = deserialize<Ligandversion001mb[]>(Ligandversion001mb, response);
@@ -167,7 +166,6 @@ export class LigandComponent implements OnInit {
 
       this.taskAllocationManager.findByTanNo(this.username).subscribe(response => {
         this.tanNos = deserialize<Taskallocation001wb[]>(Taskallocation001wb, response);
-        console.log(" this.tanNos", this.tanNos);
 
       });
 
@@ -607,9 +605,7 @@ export class LigandComponent implements OnInit {
   onBlurEvent(event: any) {
     
     this.ligandVersionManager.findOne(event.target.value).subscribe(response => {
-      console.log("response", response);
       this.ligandVersion001 =  response;
-      console.log("this.ligandVersion001", this.ligandVersion001?.ligandVersion);
     });
   }
 
@@ -682,7 +678,6 @@ export class LigandComponent implements OnInit {
   }
 
   toggleInprocess(event: any, LigandForm: any) {
-    // console.log("hi");
     this.markFormGroupTouched(this.LigandForm);
 
     this.submitted = true;

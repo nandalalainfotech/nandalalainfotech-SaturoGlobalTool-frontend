@@ -10,7 +10,7 @@ const routes: Routes = [
     children: [
       
       {
-        path: 'app-mytask',
+        path: '',
         loadChildren: () => import("./mytask/mytask.module").then(m => m.MytaskModule)
       },
       {
@@ -24,6 +24,11 @@ const routes: Routes = [
       {
         path: 'app-submitted-to-qc',
         loadChildren: () => import("./submitted-to-qc/submitted-to-qc.module").then(m => m.SubmittedToQcModule)
+      },
+
+      {
+        path: 'app-rejected-by-reviewer',
+        loadChildren: () => import("./rejected-by-reviewer/rejected-by-reviewer.module").then(m => m.RejectedByReviewerModule)
       },
       
     ]
