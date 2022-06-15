@@ -17,6 +17,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { BreadcrumbModule } from '../breadcrumb/breadcrumb.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MyWorkComponent } from './my-work.component';
+import { RejectedByReviewerComponent } from './rejected-by-reviewer/rejected-by-reviewer.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { MyWorkComponent } from './my-work.component';
     InprocessComponent,
     PendingComponent,
     SubmittedToQcComponent,
-    MyWorkComponent
+    MyWorkComponent,
+    RejectedByReviewerComponent
   ],
 
   imports: [

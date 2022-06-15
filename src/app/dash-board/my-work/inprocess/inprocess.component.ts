@@ -54,14 +54,15 @@ export class InprocessComponent implements OnInit {
 
     this.assayManager.findInprocesStatus(this.username).subscribe(response => {
       this.assays = deserialize<Assay001wb[]>(Assay001wb, response);
-      console.log(" this.assays", this.assays);
+      // console.log(" All this.assays", this.assays);
 
       for (let assay of this.assays) {
         if (assay.status == "In Process" || assay.ligandSlno2?.status == "In Process") {
           this.inProcessAssays.push(assay);
+          // console.log(" this.inProcessAssays", this.inProcessAssays);
         }
       }
-      console.log(" this.assay", this.assays);
+      
       if (this.inProcessAssays.length > 0) {
         this.gridOptions?.api?.setRowData(this.inProcessAssays);
       } else {
@@ -110,6 +111,16 @@ export class InprocessComponent implements OnInit {
           onClick: this.onInprocessMoveToLigand.bind(this),
           label: 'Start',
         },
+      },
+      {
+        headerName: 'TAN NUMBER',
+        width: 200,
+        // flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+        valueGetter: this.setTanNumber.bind(this)
       },
       {
         headerName: 'Ligand-Version',
@@ -569,8 +580,77 @@ export class InprocessComponent implements OnInit {
         resizable: true,
         suppressSizeToFit: true,
       },
+      {
+        headerName: 'TARGET VERSION',
+        field: 'targetVersion',
+        width: 200,
+        // flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+      },
+
+      {
+        headerName: 'COLLETION ID',
+        field: 'collectionId1',
+        width: 200,
+        // flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+      },
+
+      {
+        headerName: 'ORIGINAL-TARGET-NAME',
+        field: 'original',
+        width: 200,
+        // flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+      },
+
+      {
+        headerName: 'ACRONYM',
+        field: 'acronym',
+        width: 200,
+        // flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+      },
+
+      {
+        headerName: 'ORGANISM-SOURCE',
+        field: 'organism',
+        width: 200,
+        // flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+      },
+
+      {
+        headerName: 'VARIANT',
+        field: 'variant',
+        width: 200,
+        // flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+      },
 
     ]
+  }
+
+  setTanNumber(params: any): string {
+    return params.data.ligandSlno2 ? params.data.ligandSlno2.tanNumber : null;
   }
 
   setVersion(params: any): string {
@@ -614,22 +694,66 @@ export class InprocessComponent implements OnInit {
     return params.data.typeSlno2 ? params.data.typeSlno2.type : null;
   }
   onInprocessMoveToLigand(params: any) {
-    console.log("params", params);
-
+    // console.log("params", params.data.assayId,);
+    let assayId = params.data.assayId;
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        "tanNumber": params.data.ligandSlno2.ligandVersionSlno2.ligandVersion,
-        "ligandVersion": params.data.assayTypeSlno2.assayType,
-        "ligandType": params.data.toxiCitySlno2.toxiCity,
-        "identifier1": params.data.routeSlno2.route,
-        "identifier2": params.data.identifier2,
-        "identifier3": params.data.identifier3,
-        "collectionId": params.data.collectionId,
-        "locator": params.data.locator,
-        "ligandDetail": params.data.ligandDetail,
-        "diseaseName1": params.data.diseaseName1,
-        "diseaseName2": params.data.diseaseName2,
-        "diseaseName3": params.data.diseaseName3,
+        "assayId": params.data.assayId,
+        "ligandVersion": params.data.ligandSlno,
+        "assayType": params.data.assayTypeSlno,
+        "toxiCity": params.data.toxiCitySlno,
+        "route": params.data.routeSlno,
+        "administration": params.data.administration,
+        "procedure": params.data.procedure,
+        "ligandSvalue": params.data.ligandSvalue,
+        "unit": params.data.unitSlno,
+        "ligandHvalue": params.data.ligandHvalue,
+        "ligandLvalue": params.data.ligandLvalue,
+        "unitedSlno": params.data.unitedSlno,
+
+        "conditionType": params.data.conditionType,
+        "conditionMaterial": params.data.conditionMaterial,
+        "conditionMaterialid": params.data.conditionMaterialid,
+        "singleCondition": params.data.singleCondition,
+        "units": params.data.units,
+        "highCondition": params.data.highCondition,
+        "lowCondition": params.data.lowCondition,
+        "highLowUnit": params.data.highLowUnit,
+        "dataLocator1": params.data.dataLocator1,
+        "dataLocator2": params.data.dataLocator2,
+        "dataLocator3": params.data.dataLocator3,
+        "category": params.data.categorySlno,
+        "function": params.data.functionSlno,
+
+        "parameter": params.data.parameter,
+        "parameterDetail": params.data.parameterDetail,
+        "originalPrefixSlno": params.data.originalPrefixSlno,
+        "singleValue": params.data.singleValue,
+        "measurementunits": params.data.units,
+        "highEndValue": params.data.highEndValue,
+        "lowEndValue": params.data.lowEndValue,
+        "measurementunitedSlno": params.data.unitSlno,
+        "nonNumeric": params.data.nonNumeric,
+        "remark": params.data.remark,
+        //  pending  to bio
+
+        "type": params.data.typeSlno,
+        "cell": params.data.cell,
+        "cellDetail": params.data.cellDetail,
+        "organ": params.data.organ,
+        "organDetail": params.data.organDetail,
+        "species": params.data.species,
+        "speciesDetail": params.data.speciesDetail,
+        "gender": params.data.gender,
+        "ageGroup": params.data.ageGroup,
+        "targetVersion": params.data.targetVersion,
+        "collectionId1": params.data.collectionId1,
+        "original": params.data.original,
+        "acronym": params.data.acronym,
+        "organism": params.data.organism,
+        "variant": params.data.variant,
+
+
       }
     };
 

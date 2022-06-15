@@ -1,35 +1,30 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, HostBinding, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, HostBinding, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GridOptions } from 'ag-grid-community';
-import { saveAs } from 'file-saver';
-import { param } from 'jquery';
 import { deserialize } from 'serializer.ts/Serializer';
-import { CheckedComponent } from 'src/app/shared/checked/checked.component';
 import { IconRendererComponent } from 'src/app/shared/services/renderercomponent/icon-renderer-component';
 import { AssayManager } from 'src/app/shared/services/restcontroller/bizservice/Assay.service';
 import { AuthManager } from 'src/app/shared/services/restcontroller/bizservice/auth-manager.service';
 import { LigandManager } from 'src/app/shared/services/restcontroller/bizservice/ligandManager.service';
 import { LigandTypeManager } from 'src/app/shared/services/restcontroller/bizservice/ligandType.service';
 import { LigandVersionManager } from 'src/app/shared/services/restcontroller/bizservice/ligandVersion.service';
-import { MeasurementManager } from 'src/app/shared/services/restcontroller/bizservice/Measurement.service';
 import { LigandReportsManager } from 'src/app/shared/services/restcontroller/bizservice/report.service';
 import { Assay001wb } from 'src/app/shared/services/restcontroller/entities/Assay001wb ';
 import { Ligand001wb } from 'src/app/shared/services/restcontroller/entities/Ligand001wb';
-import { Measurement001wb } from 'src/app/shared/services/restcontroller/entities/Measurement001wb';
 import { CalloutService } from 'src/app/shared/services/services/callout.service';
 import { Utils } from 'src/app/shared/utils/utils';
-@Component({
-  selector: 'app-report',
-  templateUrl: './report.component.html',
-  styleUrls: ['./report.component.css']
-})
-export class ReportComponent implements OnInit {
-  headerText: string = ";"
-  @Input() acc: string = '';
 
+@Component({
+  selector: 'app-rejected-by-reviewer',
+  templateUrl: './rejected-by-reviewer.component.html',
+  styleUrls: ['./rejected-by-reviewer.component.css']
+})
+export class RejectedByReviewerComponent implements OnInit {
+
+ 
   public LigandForm: FormGroup | any;
   public CheckedForm: FormGroup | any;
   frameworkComponents: any;
@@ -45,10 +40,11 @@ export class ReportComponent implements OnInit {
   // searchPopup: string = '';
 
   ligand: Ligand001wb[] = [];
-  // Ligandversions=Ligandversion001mb[] = [];
-  // Ligandtypes=Ligandtype001mb[] = [];
+  assays: Assay001wb[] = [];
+  inProcessAssays: Assay001wb[] = [];
+  rejectedByReviewers: Assay001wb[] = [];
   assay: Assay001wb[] = [];
-  measurement: Measurement001wb[] = [];
+
   username: any
   hexToRgb: any;
   rgbToHex: any;
@@ -68,7 +64,6 @@ export class ReportComponent implements OnInit {
     private ligandManager: LigandManager,
     private assayManager: AssayManager,
     private ligandReportsManager: LigandReportsManager,
-    private measurementManager: MeasurementManager,
     private ligandVersionManager: LigandVersionManager,
     private ligandTypeManager: LigandTypeManager,
     private http: HttpClient,
@@ -90,10 +85,19 @@ export class ReportComponent implements OnInit {
 
     this.username = this.authManager.getcurrentUser.username;
 
-    this.assayManager.findByReviewer(this.username).subscribe(response => {
-      this.assay = deserialize<Assay001wb[]>(Assay001wb, response);
-      if (this.assay.length > 0) {
-        this.gridOptions?.api?.setRowData(this.assay);
+    this.assayManager.findInprocesStatus(this.username).subscribe(response => {
+      this.assays = deserialize<Assay001wb[]>(Assay001wb, response);
+      // console.log(" this.findInprocesStatus---1--", this.assays);
+      
+      for (let assay of this.assays) {
+        if(assay.status == "Rejected" || assay.ligandSlno2?.status == "Rejected") {
+          this.rejectedByReviewers.push(assay);
+          // console.log(" this.rejectedByReviewers--2--->", this.rejectedByReviewers);
+        } 
+      }
+      // console.log(" this.rejectedByReviewers-0--->3", this.rejectedByReviewers);
+      if (this.rejectedByReviewers.length > 0) {
+        this.gridOptions?.api?.setRowData(this.rejectedByReviewers);
       } else {
         this.gridOptions?.api?.setRowData([]);
       }
@@ -141,20 +145,7 @@ export class ReportComponent implements OnInit {
         suppressSizeToFit: true,
         // valueGetter: this.setLigandId.bind(this)
       },
-      {
-        headerName: 'Edit',
-        cellRenderer: 'iconRenderer',
-        width: 80,
-        //flex: 1,
-        suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
-        cellRendererParams: {
-          onClick: this.onEditButtonClick.bind(this),
-          label: 'Edit'
-        },
-      },
-
-
+      
       {
         headerName: 'TAN Number',
         field: 'tanNumber',
@@ -168,6 +159,17 @@ export class ReportComponent implements OnInit {
         checkboxSelection: true,
         suppressSizeToFit: true,
         valueGetter: this.settanNumber.bind(this)
+      },
+      {
+        headerName: 'Status',
+        field: 'status',
+        width: 200,
+        //flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+        // valueGetter: this.setLigandVersion.bind(this)
       },
       {
         headerName: 'Ligand-Version',
@@ -901,49 +903,12 @@ suppressSizeToFit: true,
     return params.data.ligandSlno2 ? params.data.ligandSlno2.tanNumber : null;
   }
 
-  // setLigandId(params: any) {
-  //   return params.data.assaySlno2 ? params.data.assaySlno2.ligandSlno2.ligandId : null;
-  // }
+  
   
 
-  onEditButtonClick(params: any) {
-    const modalRef = this.modalService.open(CheckedComponent, { size: 'lg' });
-    modalRef.componentInstance.data = params.data;
-    modalRef.result.then((data) => {
-      if (data == "Yes") {
-        this.calloutService.showSuccess("Ligand Data Accepted Successfully");
-      }
-
-    }
-
-    )
-
-  }
+ 
 
   setStatusName(params: any): string {
     return params.data.acc = "ok";
   }
-
-  
-
-
-  //  ------EXCEL FILE --------//
-
-  onGenerateExcelReport() {
-    this.ligandReportsManager.machineReportsExcel().subscribe((response) => {
-      // if (this.ligand) {
-      //   saveAs(response);
-      // } else {
-      //   saveAs(response, "download");
-      // }
-      const blob = new Blob([response], {
-        type: 'application/zip'
-      });
-      const url = window.URL.createObjectURL(blob);
-      window.open(url);
-    })
-  }
-
 }
-
-

@@ -93,7 +93,6 @@ export class LoginComponent implements OnInit {
 			} else {
 				
 				this.router.navigate(['/app-dash-board']);
-				this.calloutService.showSuccess("Welcome to " +this.user001mb.rolename + " ( " + this.user001mb.username +" ) ");
 			}
 		},
 			err => {

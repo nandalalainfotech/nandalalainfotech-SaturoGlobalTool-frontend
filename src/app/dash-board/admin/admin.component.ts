@@ -118,7 +118,7 @@ export class AdminComponent implements OnInit {
     this.username = this.authManager.getcurrentUser.username;
     this.taskAllocationManager.alltask(this.username).subscribe(response => {
       this.taskallocations = deserialize<Taskallocation001wb[]>(Taskallocation001wb, response);
-      console.log("this.taskallocations", this.taskallocations);
+      // console.log("this.taskallocations", this.taskallocations);
 
       if (this.taskallocations.length > 0) {
         this.gridOptions?.api?.setRowData(this.taskallocations);
@@ -438,7 +438,7 @@ export class AdminComponent implements OnInit {
       taskallocation001wb.insertDatetime = new Date();
       this.taskAllocationManager.tasksave(taskallocation001wb, this.selectedFile).subscribe((response) => {
         this.calloutService.showSuccess("TaskAllocation Details Saved Successfully");
-        console.log("enter save", response);
+        // console.log("enter save", response);
 
         this.loadData();
         this.TaskAllocationForm.reset();

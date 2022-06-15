@@ -63,14 +63,13 @@ export class SubmittedToQcComponent implements OnInit {
 //     });
 this.assayManager.findInprocesStatus(this.username).subscribe(response => {
   this.assays = deserialize<Assay001wb[]>(Assay001wb, response);
-  console.log(" this.findInprocesStatus", this.assays);
+  // console.log(" this.findInprocesStatus", this.assays);
   
   for (let assay of this.assays) {
-    if(assay.status == "Submitted to QC" || assay.ligandSlno2?.status == "Submitted to QC") {
+    if(assay.status == "Submitted to QC" ) {
       this.submittedToQCAssays.push(assay);
     } 
   }
-  console.log(" this.findInprocesStatus-0--->", this.submittedToQCAssays);
   if (this.submittedToQCAssays.length > 0) {
     this.gridOptions?.api?.setRowData(this.submittedToQCAssays);
   } else {
@@ -91,6 +90,7 @@ this.assayManager.findInprocesStatus(this.username).subscribe(response => {
       rowSelection: 'single',
       // onFirstDataRendered: this.onFirstDataRendered.bind(this),
     };
+
     this.gridOptions.editType = 'fullRow';
     this.gridOptions.enableRangeSelection = true;
     this.gridOptions.animateRows = true;
@@ -109,17 +109,27 @@ this.assayManager.findInprocesStatus(this.username).subscribe(response => {
         checkboxSelection: true,
         suppressSizeToFit: true,
       },
+      // {
+      //   headerName: 'STATUS',
+      //   cellRenderer: 'iconRenderer',
+      //   width: 100,
+      //   // flex: 1,
+      //   suppressSizeToFit: true,
+      //   cellStyle: { textAlign: 'center' },
+      //   cellRendererParams: {
+      //     onClick: this.onSubmittedMoveToLigand.bind(this),
+      //     label: 'Start',
+      //   },
+      // },
       {
-        headerName: 'STATUS',
-        cellRenderer: 'iconRenderer',
-        width: 100,
+        headerName: 'TAN NUMBER',
+        width: 200,
         // flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
-        cellRendererParams: {
-          onClick: this.onSubmittedMoveToLigand.bind(this),
-          label: 'Start',
-        },
+        valueGetter: this.setTanNumber.bind(this)
       },
       {
         headerName: 'Ligand-Version',
@@ -580,10 +590,79 @@ this.assayManager.findInprocesStatus(this.username).subscribe(response => {
         suppressSizeToFit: true,
       },
 
+      {
+        headerName: 'TARGET VERSION',
+        field: 'targetVersion',
+        width: 200,
+        // flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+      },
+
+      {
+        headerName: 'COLLETION ID',
+        field: 'collectionId1',
+        width: 200,
+        // flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+      },
+
+      {
+        headerName: 'ORIGINAL-TARGET-NAME',
+        field: 'original',
+        width: 200,
+        // flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+      },
+
+      {
+        headerName: 'ACRONYM',
+        field: 'acronym',
+        width: 200,
+        // flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+      },
+
+      {
+        headerName: 'ORGANISM-SOURCE',
+        field: 'organism',
+        width: 200,
+        // flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+      },
+
+      {
+        headerName: 'VARIANT',
+        field: 'variant',
+        width: 200,
+        // flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+      },
+
       
       
       
     ]
+  }
+  setTanNumber(params: any): string {
+    return params.data.ligandSlno2 ? params.data.ligandSlno2.tanNumber : null;
   }
 
   setVersion(params: any): string {
