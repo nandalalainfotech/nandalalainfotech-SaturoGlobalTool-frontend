@@ -2,14 +2,14 @@
     <cdk-step *ngIf="user?.rolename== 'User'">
         <ng-template cdkStepLabel>
             <div class="step-bullet">1</div>
-            <div class="step-title">Ligand</div>
+            <div class="step-title" [ngStyle]="{ color: colorthemes_2 }">Ligand</div>
         </ng-template>
         <app-ligand></app-ligand>
     </cdk-step>
     <cdk-step *ngIf="user?.rolename== 'User'">
         <ng-template cdkStepLabel>
             <div class="step-bullet">2</div>
-            <div class="step-title">Assay </div>
+            <div class="step-title" [ngStyle]="{ color: colorthemes_2 }">Assay, Measurement, BiologicalSystem & Target</div>
         </ng-template>
         <app-assay></app-assay>
     </cdk-step>
@@ -30,7 +30,7 @@
     <cdk-step *ngIf="user?.rolename== 'Reviewer'">
         <ng-template cdkStepLabel>
             <!-- <div class="step-bullet">4</div> -->
-            <div class="step-title">Reviewer </div>
+            <div class="step-title" [ngStyle]="{ color: colorthemes_2 }" style="text-align:center !important;">Reviewer Screen</div>
         </ng-template>
         <app-report></app-report>
     </cdk-step>

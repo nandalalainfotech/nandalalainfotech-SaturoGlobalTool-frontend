@@ -7,7 +7,7 @@ export class Ligand001wb {
     ligandId?: number;
     tanNumber?: string;
     ligandUri?: string;
-    ligandVersionSlno?: number;
+    ligandVersionSlno?: number | any;
     ligandStatus?: string;
     collection?: string;
     ligandTypeSlno?: number;

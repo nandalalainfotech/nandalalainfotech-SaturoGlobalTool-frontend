@@ -17,7 +17,19 @@
     box-sizing: border-box;
     outline-style: none !important;
 }
-
+label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+.form-control {
+    border: 1px solid #000;
+    font-size: 14px;
+}
 html,
 body {
     width: 100%;

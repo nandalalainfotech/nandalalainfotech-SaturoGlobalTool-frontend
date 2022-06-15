@@ -179,27 +179,38 @@
                             <input class="form-control" name="conditionMaterialid" formControlName="conditionMaterialid">
                         </div>
                     </div>
-
-                    <div class="col-xs-3 col-sm-3">
-                        <div class="form-group">
-                            <label path="singleCondition" for="series" cssClass="required">Condition(Single-value)</label>
-                            <input class="form-control" name="singleCondition" formControlName="singleCondition">
-                        </div>
-                    </div>
                 </div>
-
                 <div class="row">
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
-                            <label path="singleUnit" for="series" cssClass="required">Unit(Single-value)</label>
-                            <input class="form-control" name="singleUnit" formControlName="singleUnit">
+                            <label path="singleCondition" for="series" cssClass="required">Condition(Single-value)</label>
+                            <input class="form-control" name="singleCondition" formControlName="singleCondition" (click)="onsingleConditionClick()">
+                           
                         </div>
                     </div>
-
+                    <div class="col-xs-3 col-sm-3">
+                        <div class="form-group">
+                            <label path="singleUnit" for="series" cssClass="required">Unit(Single-value)</label>
+                            <!-- <input class="form-control" name="singleUnit" formControlName="singleUnit"> -->
+                         <select class="form-control" name="singleUnit" formControlName="singleUnit">
+                                <option value="" hidden> - Select Unit-Types - </option>
+                                
+                                <option *ngFor="let unitsinglevalue of unitsinglevalues" [value]="unitsinglevalue.id">
+                                    {{unitsinglevalue.unit}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-3 col-sm-3">
+                        <br>
+                        <button type="button" (click)="setConditionEnable()" class="btn btn-primary"> Enable</button>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
                             <label path="highCondition" for="series" cssClass="required">Condition(High-end-value)</label>
-                            <input class="form-control" name="highCondition" formControlName="highCondition">
+                            <input class="form-control" name="highCondition" formControlName="highCondition" (click)="highConditionClick()">
                         </div>
                     </div>
 
@@ -213,7 +224,14 @@
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
                             <label path="highLowUnit" for="series" cssClass="required">Unit</label>
-                            <input class="form-control" name="highLowUnit" formControlName="highLowUnit">
+                            <!-- <input class="form-control" name="highLowUnit" formControlName="highLowUnit"> -->
+                            <select class="form-control" name="highLowUnit" formControlName="highLowUnit">
+                                <option value="" hidden> - Select Units-Types - </option>
+                                <!-- <option> - Select Units-Types- </option> -->
+                                <option *ngFor="let unitlowendvalue of unitlowendvalues" [value]="unitlowendvalue.id">
+                                    {{unitlowendvalue.united}}
+                                </option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -312,7 +330,7 @@
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
                             <label path="singleValue" for="singleValue" cssClass="required">Single-value</label>
-                            <input class="form-control" name="singleValue" formControlName="singleValue">
+                            <input class="form-control" name="singleValue" formControlName="singleValue" (click)="singleValClick()">
                         </div>
                     </div>
 
@@ -328,13 +346,18 @@
                             </select>
                         </div>
                     </div>
+                    <div class="col-xs-3 col-sm-3">
+                        <br>
+                        <button type="button" (click)="setMeasurementEnable()" class="btn btn-primary"> Enable</button>
+                    </div>
                 </div>
+              
 
                 <div class="row">
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
                             <label path="highEndValue" for="highEndValue" cssClass="required">High-end-value</label>
-                            <input class="form-control" name="highEndValue" formControlName="highEndValue">
+                            <input class="form-control" name="highEndValue" formControlName="highEndValue" (click)="highEndValueClick()">
                         </div>
                     </div>
 
