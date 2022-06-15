@@ -116,7 +116,7 @@ export class UnitSvalueComponent implements OnInit {
         width: 80,
         flex: 1,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
+        cellStyle: { textAlign: 'left' },
         cellRendererParams: {
           onClick: this.onEditButtonClick.bind(this),
           label: 'Edit'
@@ -128,7 +128,7 @@ export class UnitSvalueComponent implements OnInit {
         width: 85,
         flex: 1,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
+        cellStyle: { textAlign: 'left' },
         cellRendererParams: {
           onClick: this.onDeleteButtonClick.bind(this),
           label: 'Delete'
@@ -140,7 +140,7 @@ export class UnitSvalueComponent implements OnInit {
         width: 80,
         flex: 1,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
+        cellStyle: { textAlign: 'left' },
         cellRendererParams: {
           onClick: this.onAuditButtonClick.bind(this),
           label: 'Audit'
@@ -173,7 +173,7 @@ export class UnitSvalueComponent implements OnInit {
           const selectedRows = params.api.getSelectedRows();
           params.api.applyTransaction({ remove: selectedRows });
           this.gridOptions.api.deselectAll();
-          this.calloutService.showSuccess("UnitSingleValue Removed Successfully");
+          this.calloutService.showSuccess("Unit (SingleValue) Details Removed Successfully");
         });
       }
     })
@@ -213,7 +213,7 @@ export class UnitSvalueComponent implements OnInit {
       unitsinglevalue001mb.updatedUser = this.authManager.getcurrentUser.username;
       unitsinglevalue001mb.updatedDatetime = new Date();
       this.unitSingleValueManager.unitSingleValueupdate(unitsinglevalue001mb).subscribe((response) => {
-        this.calloutService.showSuccess("UnitSingleValue Details Updated Successfully");
+        this.calloutService.showSuccess("Unit (SingleValue) Details Updated Successfully");
         this.UnitSingleForm.reset();
         this.id = null;
         this.loadData();
@@ -224,7 +224,7 @@ export class UnitSvalueComponent implements OnInit {
       unitsinglevalue001mb.insertUser = this.authManager.getcurrentUser.username;
       unitsinglevalue001mb.insertDatetime = new Date();
       this.unitSingleValueManager.unitSingleValuesave(unitsinglevalue001mb).subscribe((response) => {
-        this.calloutService.showSuccess("UnitSingleValue Details Saved Successfully");
+        this.calloutService.showSuccess("Unit (SingleValue) Details Saved Successfully");
         this.UnitSingleForm.reset();
         this.loadData();
         this.submitted = false;

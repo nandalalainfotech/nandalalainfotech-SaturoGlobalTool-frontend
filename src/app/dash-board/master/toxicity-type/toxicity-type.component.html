@@ -1,11 +1,10 @@
 <fieldset class="scheduler-border">
-    <legend class="scheduler-border">Toxicity Type</legend>
     <div class="formData">
         <form [formGroup]="ToxixtytypeForm" (ngSubmit)="onToxixtytypeClick($event, ToxixtytypeForm)" >
             <div class="row">      
                 <div class="col-xs-3 col-sm-3">
                     <div class="form-group">
-                        <label path="toxiCity" for="series" cssClass="required">Toxicity Types</label>
+                        <label path="toxiCity" for="series" cssClass="required" style="margin-top: 20px;">Toxicity Types</label>
                         <input class="form-control" name="toxiCity" formControlName="toxiCity"
                             [ngClass]="{ 'is-invalid': submitted && f.toxiCity.errors }">
                         <div *ngIf="submitted && f.toxiCity.errors" class="invalid-feedback">

@@ -117,7 +117,7 @@ export class BioSystemTypesComponent implements OnInit {
         width: 80,
         flex: 1,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
+        cellStyle: { textAlign: 'left' },
         cellRendererParams: {
           onClick: this.onEditButtonClick.bind(this),
           label: 'Edit'
@@ -129,7 +129,7 @@ export class BioSystemTypesComponent implements OnInit {
         width: 85,
         flex: 1,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
+        cellStyle: { textAlign: 'left' },
         cellRendererParams: {
           onClick: this.onDeleteButtonClick.bind(this),
           label: 'Delete'
@@ -141,7 +141,7 @@ export class BioSystemTypesComponent implements OnInit {
         width: 80,
         flex: 1,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
+        cellStyle: { textAlign: 'left' },
         cellRendererParams: {
           onClick: this.onAuditButtonClick.bind(this),
           label: 'Audit'
@@ -174,7 +174,7 @@ export class BioSystemTypesComponent implements OnInit {
           const selectedRows = params.api.getSelectedRows();
           params.api.applyTransaction({ remove: selectedRows });
           this.gridOptions.api.deselectAll();
-          this.calloutService.showSuccess("Types Removed Successfully");
+          this.calloutService.showSuccess("Biological-System (types) Details Removed Successfully");
         });
       }
     })
@@ -215,7 +215,7 @@ export class BioSystemTypesComponent implements OnInit {
       type001mb.updatedUser = this.authManager.getcurrentUser.username;
       type001mb.updatedDatetime = new Date();
       this.bioTypeManager.bioTypeupdate(type001mb).subscribe((response) => {
-        this.calloutService.showSuccess("Type Details Updated Successfully");
+        this.calloutService.showSuccess("Biological-System (types) Details Updated Successfully");
         this.BioSystemTypesForm.reset();
         this.id = null;
         this.loadData();
@@ -226,7 +226,7 @@ export class BioSystemTypesComponent implements OnInit {
       type001mb.insertUser = this.authManager.getcurrentUser.username;
       type001mb.insertDatetime = new Date();
       this.bioTypeManager.bioTypesave(type001mb).subscribe((response) => {
-        this.calloutService.showSuccess("Type Details Saved Successfully");
+        this.calloutService.showSuccess("Biological-System (types) Details Saved Successfully");
         this.BioSystemTypesForm.reset();
         this.loadData();
         this.submitted = false;

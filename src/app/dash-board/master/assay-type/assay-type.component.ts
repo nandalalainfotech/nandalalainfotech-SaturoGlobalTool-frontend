@@ -120,7 +120,7 @@ export class AssayTypeComponent implements OnInit {
         width: 80,
         flex: 1,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
+        cellStyle: { textAlign: 'left' },
         cellRendererParams: {
           onClick: this.onEditButtonClick.bind(this),
           label: 'Edit'
@@ -132,7 +132,7 @@ export class AssayTypeComponent implements OnInit {
         width: 85,
         flex: 1,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
+        cellStyle: { textAlign: 'left' },
         cellRendererParams: {
           onClick: this.onDeleteButtonClick.bind(this),
           label: 'Delete'
@@ -144,7 +144,7 @@ export class AssayTypeComponent implements OnInit {
         width: 80,
         flex: 1,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
+        cellStyle: { textAlign: 'left' },
         cellRendererParams: {
           onClick: this.onAuditButtonClick.bind(this),
           label: 'Audit'
@@ -177,7 +177,7 @@ export class AssayTypeComponent implements OnInit {
           const selectedRows = params.api.getSelectedRows();
           params.api.applyTransaction({ remove: selectedRows });
           this.gridOptions.api.deselectAll();
-          this.calloutService.showSuccess("assayType Removed Successfully");
+          this.calloutService.showSuccess("Assay Type Removed Successfully");
         });
       }
     })
@@ -218,7 +218,7 @@ export class AssayTypeComponent implements OnInit {
       assaytype001mb.updatedUser = this.authManager.getcurrentUser.username;
       assaytype001mb.updatedDatetime = new Date();
       this.assayTypeManager.assayTypeupdate(assaytype001mb).subscribe((response) => {
-        this.calloutService.showSuccess("assayType Details Updated Successfully");
+        this.calloutService.showSuccess("Assay Type Details Updated Successfully");
         this.AssaytypeForm.reset();
         this.id = null;
         this.loadData();
@@ -229,7 +229,7 @@ export class AssayTypeComponent implements OnInit {
       assaytype001mb.insertUser = this.authManager.getcurrentUser.username;
       assaytype001mb.insertDatetime = new Date();
       this.assayTypeManager.assayTypesave(assaytype001mb).subscribe((response) => {
-        this.calloutService.showSuccess("assayType Details Saved Successfully");
+        this.calloutService.showSuccess("Assay Type Details Saved Successfully");
         this.AssaytypeForm.reset();
         this.loadData();
         this.submitted = false;

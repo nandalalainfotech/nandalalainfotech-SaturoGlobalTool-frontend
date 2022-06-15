@@ -1,11 +1,10 @@
 <fieldset class="scheduler-border">
-    <legend class="scheduler-border">Biological-System(Types)</legend>
     <div class="formData">
         <form [formGroup]="BioSystemTypesForm" (ngSubmit)="onbioSystemClick($event, BioSystemTypesForm)" >
             <div class="row">      
                 <div class="col-xs-3 col-sm-3">
                     <div class="form-group">
-                        <label path="type" for="type" cssClass="required">Biological-System(Types)</label>
+                        <label path="type" for="type" cssClass="required" style="margin-top: 20px;">Biological-System(Types)</label>
                         <input class="form-control" name="type" formControlName="type"
                             [ngClass]="{ 'is-invalid': submitted && f.type.errors }">
                         <div *ngIf="submitted && f.type.errors" class="invalid-feedback">

@@ -124,7 +124,7 @@ export class ToxicityTypeComponent implements OnInit {
         width: 80,
         flex: 1,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
+        cellStyle: { textAlign: 'left' },
         cellRendererParams: {
           onClick: this.onEditButtonClick.bind(this),
           label: 'Edit'
@@ -136,7 +136,7 @@ export class ToxicityTypeComponent implements OnInit {
         width: 85,
         flex: 1,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
+        cellStyle: { textAlign: 'left' },
         cellRendererParams: {
           onClick: this.onDeleteButtonClick.bind(this),
           label: 'Delete'
@@ -148,7 +148,7 @@ export class ToxicityTypeComponent implements OnInit {
         width: 80,
         flex: 1,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
+        cellStyle: { textAlign: 'left' },
         cellRendererParams: {
           onClick: this.onAuditButtonClick.bind(this),
           label: 'Audit'
@@ -181,7 +181,7 @@ export class ToxicityTypeComponent implements OnInit {
           const selectedRows = params.api.getSelectedRows();
           params.api.applyTransaction({ remove: selectedRows });
           this.gridOptions.api.deselectAll();
-          this.calloutService.showSuccess("toxiCityType Removed Successfully");
+          this.calloutService.showSuccess("Toxicity Type Removed Successfully");
         });
       }
     })
@@ -221,7 +221,7 @@ export class ToxicityTypeComponent implements OnInit {
       toxicity001mb.updatedUser = this.authManager.getcurrentUser.username;
       toxicity001mb.updatedDatetime = new Date();
       this.toxicityManager.toxicityTypeupdate(toxicity001mb).subscribe((response) => {
-        this.calloutService.showSuccess("toxiCity Details Updated Successfully");
+        this.calloutService.showSuccess("Toxicity Details Updated Successfully");
         this.ToxixtytypeForm.reset();
         this.id = null;
         this.loadData();
@@ -232,7 +232,7 @@ export class ToxicityTypeComponent implements OnInit {
       toxicity001mb.insertUser = this.authManager.getcurrentUser.username;
       toxicity001mb.insertDatetime = new Date();
       this.toxicityManager.toxicityTypesave(toxicity001mb).subscribe((response) => {
-        this.calloutService.showSuccess("toxiCity Details Saved Successfully");
+        this.calloutService.showSuccess("Toxicity Details Saved Successfully");
         this.ToxixtytypeForm.reset();
         this.loadData();
         this.submitted = false;

@@ -287,7 +287,7 @@ export class RegistrationComponent implements OnInit {
             }
             const selectedRows = params.api.getSelectedRows();
             params.api.applyTransaction({ remove: selectedRows });
-            this.calloutService.showSuccess("Order Removed Successfully");
+            this.calloutService.showSuccess("User Details Removed Successfully");
         });
     }
 
@@ -335,7 +335,7 @@ export class RegistrationComponent implements OnInit {
             user001mb.updatedUser = this.authManager.getcurrentUser.username;
             user001mb.updatedDatetime = new Date();
             this.userManager.updateuser(user001mb).subscribe(response => {
-                this.calloutService.showSuccess("Order Updated Successfully");
+                this.calloutService.showSuccess("User Details Updated Successfully");
                 this.loaddata();
                 this.registerForm.reset();
                 this.submitted = false;
@@ -346,7 +346,7 @@ export class RegistrationComponent implements OnInit {
             user001mb.insertUser = this.authManager.getcurrentUser.username;
             user001mb.insertDatetime = new Date();
             this.userManager.saveuser(user001mb).subscribe((response) => {
-                this.calloutService.showSuccess("Order Saved Successfully");
+                this.calloutService.showSuccess("User Details Registered Successfully");
                 this.loaddata();
                 this.registerForm.reset();
                 this.submitted = false;

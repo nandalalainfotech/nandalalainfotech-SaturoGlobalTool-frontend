@@ -116,7 +116,7 @@ export class OriginalPrefixComponent implements OnInit {
         width: 80,
         flex: 1,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
+        cellStyle: { textAlign: 'left' },
         cellRendererParams: {
           onClick: this.onEditButtonClick.bind(this),
           label: 'Edit'
@@ -128,7 +128,7 @@ export class OriginalPrefixComponent implements OnInit {
         width: 85,
         flex: 1,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
+        cellStyle: { textAlign: 'left' },
         cellRendererParams: {
           onClick: this.onDeleteButtonClick.bind(this),
           label: 'Delete'
@@ -140,7 +140,7 @@ export class OriginalPrefixComponent implements OnInit {
         width: 80,
         flex: 1,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
+        cellStyle: { textAlign: 'left' },
         cellRendererParams: {
           onClick: this.onAuditButtonClick.bind(this),
           label: 'Audit'
@@ -173,7 +173,7 @@ export class OriginalPrefixComponent implements OnInit {
           const selectedRows = params.api.getSelectedRows();
           params.api.applyTransaction({ remove: selectedRows });
           this.gridOptions.api.deselectAll();
-          this.calloutService.showSuccess("OriginalPrefix Removed Successfully");
+          this.calloutService.showSuccess("Original Prefix Details Removed Successfully");
         });
       }
     })
@@ -212,7 +212,7 @@ export class OriginalPrefixComponent implements OnInit {
       originalprefix001mb.updatedUser = this.authManager.getcurrentUser.username;
       originalprefix001mb.updatedDatetime = new Date();
       this.originalprefixManager.originalPrefixupdate(originalprefix001mb).subscribe((response) => {
-        this.calloutService.showSuccess("OriginalPrefix Details Updated Successfully");
+        this.calloutService.showSuccess("Original Prefix Details Updated Successfully");
         this.OriginalPrefixForm.reset();
         this.id = null;
         this.loadData();
@@ -223,7 +223,7 @@ export class OriginalPrefixComponent implements OnInit {
       originalprefix001mb.insertUser = this.authManager.getcurrentUser.username;
       originalprefix001mb.insertDatetime = new Date();
       this.originalprefixManager.originalPrefixsave(originalprefix001mb).subscribe((response) => {
-        this.calloutService.showSuccess("OriginalPrefix Details Saved Successfully");
+        this.calloutService.showSuccess("Original Prefix Details Saved Successfully");
         this.OriginalPrefixForm.reset();
         this.loadData();
         this.submitted = false;

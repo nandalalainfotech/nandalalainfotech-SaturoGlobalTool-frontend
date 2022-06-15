@@ -1,11 +1,11 @@
 <fieldset class="scheduler-border">
-    <legend class="scheduler-border">Route of Administration</legend>
+
     <div class="formData">
         <form [formGroup]="ROAtypeForm" (ngSubmit)="onROAtypeFormClick($event, ROAtypeForm)" >
             <div class="row">      
                 <div class="col-xs-3 col-sm-3">
                     <div class="form-group">
-                        <label path="route" for="route" cssClass="required">Route of Administration</label>
+                        <label path="route" for="route" cssClass="required" style="margin-top: 20px;">Route of Administration</label>
                         <input class="form-control" name="route" formControlName="route"
                             [ngClass]="{ 'is-invalid': submitted && f.route.errors }">
                         <div *ngIf="submitted && f.route.errors" class="invalid-feedback">

@@ -1,11 +1,11 @@
 <fieldset class="scheduler-border">
-    <legend class="scheduler-border">Ligand Version</legend>
+    
     <div class="formData">
         <form [formGroup]="LigandversionForm" (ngSubmit)="onLigandversionClick($event, LigandversionForm)" >
             <div class="row">      
                 <div class="col-xs-3 col-sm-3">
                     <div class="form-group">
-                        <label path="ligandVersion" for="ligandVersion" cssClass="required">Ligand Version</label>
+                        <label path="ligandVersion" for="ligandVersion" cssClass="required" style="margin-top: 20px;">Ligand Version</label>
                         <input class="form-control" name="ligandVersion" formControlName="ligandVersion"
                             [ngClass]="{ 'is-invalid': submitted && f.ligandVersion.errors }">
                         <div *ngIf="submitted && f.ligandVersion.errors" class="invalid-feedback">

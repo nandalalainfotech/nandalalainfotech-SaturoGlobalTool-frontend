@@ -1,11 +1,10 @@
 <fieldset class="scheduler-border">
-    <legend class="scheduler-border">Unit(single-value)</legend>
     <div class="formData">
         <form [formGroup]="UnitSingleForm" (ngSubmit)="onUnitSinglevalueClick($event, UnitSingleForm)">
             <div class="row">
                 <div class="col-xs-3 col-sm-3">
                     <div class="form-group">
-                        <label path="unit" for="unit" cssClass="required">Unit(single-value)</label>
+                        <label path="unit" for="unit" cssClass="required" style="margin-top: 20px;">Unit(single-value)</label>
                         <input class="form-control" name="unit" formControlName="unit" [ngClass]="{ 'is-invalid': submitted && f.unit.errors }">
                         <div *ngIf="submitted && f.unit.errors" class="invalid-feedback">
                             <div *ngIf="f.unit.errors.required">Unit(single-value) is Required</div>
