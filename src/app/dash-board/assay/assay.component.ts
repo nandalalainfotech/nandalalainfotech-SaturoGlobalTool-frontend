@@ -920,7 +920,39 @@ export class AssayComponent implements OnInit {
       'lowCondition': params.data.lowCondition,
       'highLowUnit': params.data.highLowUnit,
 
+  // 'dataLocator': this.assay[i].dataLocator,
+  'dataLocator1': params.data.dataLocator1,
+  'dataLocator2': params.data.dataLocator2,
+  'dataLocator3': params.data.dataLocator3,
+  'categorySlno': params.data.categorySlno,
+  'functionSlno': params.data.functionSlno,
+  'parameter': params.data.parameter,
+  'parameterDetail': params.data.parameterDetail,
+  'originalPrefixSlno': params.data.originalPrefixSlno,
+  'unit': params.data.unit,
+  'singleValue': params.data.singleValue,
+  'highEndValue': params.data.highEndValue,
+  'lowEndValue': params.data.lowEndValue,
+  'units': params.data.units,
+  'nonNumeric': params.data.nonNumeric,
+  'remark': params.data.remark,
+  'typeSlno': params.data.typeSlno,
+  'cell': params.data.cell,
+  'cellDetail': params.data.cellDetail,
+  'organ': params.data.organ,
+  'organDetail': params.data.organDetail,
+  'species': params.data.species,
+  'speciesDetail': params.data.speciesDetail,
+  'gender': params.data.gender,
+  'ageGroup': params.data.ageGroup,
 
+
+  'targetVersion': params.data.targetVersion,
+  'collectionId1': params.data.collectionId1,
+  'original': params.data.original,
+  'acronym': params.data.acronym,
+  'organism': params.data.organism,
+  'variant': params.data.variant,
     });
   }
 
@@ -1012,9 +1044,6 @@ export class AssayComponent implements OnInit {
     assay001wb.targetStatus = "embargoed";
 
     assay001wb.dataLocator = null;
-    assay001wb.dataLocator1 = this.f.dataLocator1.value ? "Table "+this.f.dataLocator1.value : null;
-    assay001wb.dataLocator2 = this.f.dataLocator2.value ? "Figure "+this.f.dataLocator2.value : null;
-    assay001wb.dataLocator3 = this.f.dataLocator3.value ? "Page "+this.f.dataLocator3.value+" (text)" : null;
     assay001wb.categorySlno = this.f.categorySlno.value ? this.f.categorySlno.value : null;
     assay001wb.functionSlno = this.f.functionSlno.value ? this.f.functionSlno.value : null;
     assay001wb.parameter = this.f.parameter.value ? this.f.parameter.value : "";
@@ -1048,6 +1077,9 @@ export class AssayComponent implements OnInit {
     assay001wb.variant = this.f.variant.value ? this.f.variant.value : "";
     if (this.assayId) {
       assay001wb.assayId = this.assayId;
+      assay001wb.dataLocator1 = this.f.dataLocator1.value ?this.f.dataLocator1.value : null;
+      assay001wb.dataLocator2 = this.f.dataLocator2.value ? this.f.dataLocator2.value : null;
+      assay001wb.dataLocator3 = this.f.dataLocator3.value ? this.f.dataLocator3.value : null;
       assay001wb.insertUser = this.insertUser;
       assay001wb.insertDatetime = this.insertDatetime;
       assay001wb.updatedUser = this.authManager.getcurrentUser.username;
@@ -1061,6 +1093,9 @@ export class AssayComponent implements OnInit {
       });
     }
     else {
+      assay001wb.dataLocator1 = this.f.dataLocator1.value ? "Table "+this.f.dataLocator1.value : null;
+      assay001wb.dataLocator2 = this.f.dataLocator2.value ? "Figure "+this.f.dataLocator2.value : null;
+      assay001wb.dataLocator3 = this.f.dataLocator3.value ? "Page "+this.f.dataLocator3.value+" (text)" : null;
       assay001wb.insertUser = this.authManager.getcurrentUser.username;
       assay001wb.insertDatetime = new Date();
       this.assayManager.assaysave(assay001wb).subscribe((response) => {
@@ -1212,7 +1247,14 @@ export class AssayComponent implements OnInit {
     this.AssayForm.get('ligandHvalue').enable();
     this.AssayForm.get('ligandLvalue').enable();
     this.AssayForm.get('unitedSlno').enable();
+
+    // this.AssayForm.get('ligandSvalue').Setvalue="";
+    // this.AssayForm.get('unitSlno').Setvalue="";
+    // this.AssayForm.get('ligandHvalue').Setvalue="";
+    // this.AssayForm.get('ligandLvalue').Setvalue="";
+    // this.AssayForm.get('unitedSlno').Setvalue="";
   }
+
   onSingleValueClick(){
     this.AssayForm.get('ligandHvalue').disable();
     this.AssayForm.get('ligandLvalue').disable();
@@ -1222,6 +1264,45 @@ export class AssayComponent implements OnInit {
   highValueClick(){
     this.AssayForm.get('ligandSvalue').disable();
     this.AssayForm.get('unitSlno').disable();
+  }
+
+  setConditionEnable(){
+    this.AssayForm.get('singleCondition').enable();
+    this.AssayForm.get('singleUnit').enable();
+    this.AssayForm.get('highCondition').enable();
+    this.AssayForm.get('lowCondition').enable();
+    this.AssayForm.get('highLowUnit').enable();
+  }
+
+  onsingleConditionClick(){
+    this.AssayForm.get('highCondition').disable();
+    this.AssayForm.get('lowCondition').disable();
+    this.AssayForm.get('highLowUnit').disable();
+  }
+
+  highConditionClick(){
+    this.AssayForm.get('singleCondition').disable();
+    this.AssayForm.get('singleUnit').disable();
+  }
+
+
+  setMeasurementEnable(){
+    this.AssayForm.get('singleValue').enable();
+    this.AssayForm.get('unit').enable();
+    this.AssayForm.get('highEndValue').enable();
+    this.AssayForm.get('lowEndValue').enable();
+    this.AssayForm.get('units').enable();
+  }
+
+  singleValClick(){
+    this.AssayForm.get('highEndValue').disable();
+    this.AssayForm.get('lowEndValue').disable();
+    this.AssayForm.get('units').disable();
+  }
+
+  highEndValueClick(){
+    this.AssayForm.get('singleValue').disable();
+    this.AssayForm.get('unit').disable();
   }
 
   onRepeat() {

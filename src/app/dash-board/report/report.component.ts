@@ -931,11 +931,17 @@ suppressSizeToFit: true,
 
   onGenerateExcelReport() {
     this.ligandReportsManager.machineReportsExcel().subscribe((response) => {
-      if (this.ligand) {
-        saveAs(response);
-      } else {
-        saveAs(response, "download");
-      }
+      console.log("response", response);
+      // if (this.ligand) {
+      //   saveAs(response);
+      // } else {
+      //   saveAs(response, "download");
+      // }
+      const blob = new Blob([response], {
+        type: 'application/zip'
+      });
+      const url = window.URL.createObjectURL(blob);
+      window.open(url);
     })
   }
 

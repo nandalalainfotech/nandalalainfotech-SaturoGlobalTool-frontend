@@ -73,7 +73,7 @@ export class LigandComponent implements OnInit {
   ligandVersions: Ligandversion001mb[] = [];
   ligandtypes: Ligandtype001mb[] = [];
   tanNos: Taskallocation001wb[] = [];
-
+  ligandVersion001?: Ligandversion001mb;
   hexToRgb: any;
   rgbToHex: any;
 
@@ -604,6 +604,15 @@ export class LigandComponent implements OnInit {
 
   }
 
+  onBlurEvent(event: any) {
+    
+    this.ligandVersionManager.findOne(event.target.value).subscribe(response => {
+      console.log("response", response);
+      this.ligandVersion001 =  response;
+      console.log("this.ligandVersion001", this.ligandVersion001?.ligandVersion);
+    });
+  }
+
   onLigandClick(event: any, LigandForm: any) {
 
     this.markFormGroupTouched(this.LigandForm);
@@ -616,7 +625,7 @@ export class LigandComponent implements OnInit {
 
     ligand001wb.tanNumber = this.f.tanNumber.value ? this.f.tanNumber.value : "";
     ligand001wb.ligandUri = "bioactivity-ligand" + "/" + "SaturoGlobal" + "/" + this.f.tanNumber.value + "/" + this.f.ligandVersionSlno.value + ">" + "bioactivity-ligand" + "/" + uuid();
-    ligand001wb.ligandVersionSlno = this.f.ligandVersionSlno.value ? this.f.ligandVersionSlno.value : null;
+    ligand001wb.ligandVersionSlno = this.f.ligandVersionSlno.value ? this.ligandVersion001?.ligandVersion : null;
     ligand001wb.ligandStatus = "embargoed";
     ligand001wb.collection = "cas";
     ligand001wb.ligandTypeSlno = this.f.ligandTypeSlno.value ? this.f.ligandTypeSlno.value : null;

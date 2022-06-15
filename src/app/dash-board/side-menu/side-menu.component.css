@@ -18,3 +18,8 @@
     color: orange !important;
     font-weight: bold !important;
 }
+li{
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+}
