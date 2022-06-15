@@ -125,7 +125,7 @@ export class LigandVersionComponent implements OnInit {
         width: 80,
         flex: 1,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
+        cellStyle: { textAlign: 'left' },
         cellRendererParams: {
           onClick: this.onEditButtonClick.bind(this),
           label: 'Edit'
@@ -137,7 +137,7 @@ export class LigandVersionComponent implements OnInit {
         width: 85,
         flex: 1,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
+        cellStyle: { textAlign: 'left' },
         cellRendererParams: {
           onClick: this.onDeleteButtonClick.bind(this),
           label: 'Delete'
@@ -149,7 +149,7 @@ export class LigandVersionComponent implements OnInit {
         width: 80,
         flex: 1,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
+        cellStyle: { textAlign: 'left' },
         cellRendererParams: {
           onClick: this.onAuditButtonClick.bind(this),
           label: 'Audit'
