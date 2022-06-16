@@ -73,7 +73,7 @@ export class Assay001wb {
     organism?: string;
     variant?: string;
     
-    insertUser?: string;
+    insertUser?: string |any;
     insertDatetime?: Date;
     updatedUser?: string | null;
     updatedDatetime?: Date | null;

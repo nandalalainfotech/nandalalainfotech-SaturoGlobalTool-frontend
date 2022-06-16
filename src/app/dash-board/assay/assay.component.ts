@@ -1233,6 +1233,9 @@ export class AssayComponent implements OnInit {
     assay001wb.targetStatus = "embargoed";
 
     assay001wb.dataLocator = null;
+    assay001wb.dataLocator1 = this.f.dataLocator1.value ? this.f.dataLocator1.value : null;
+    assay001wb.dataLocator2 = this.f.dataLocator2.value ? this.f.dataLocator2.value : null;
+    assay001wb.dataLocator3 = this.f.dataLocator3.value ? this.f.dataLocator3.value : null;
     assay001wb.categorySlno = this.f.categorySlno.value ? this.f.categorySlno.value : null;
     assay001wb.functionSlno = this.f.functionSlno.value ? this.f.functionSlno.value : null;
     assay001wb.parameter = this.f.parameter.value ? this.f.parameter.value : "";
@@ -1266,9 +1269,6 @@ export class AssayComponent implements OnInit {
     assay001wb.variant = this.f.variant.value ? this.f.variant.value : "";
     if (this.assayId) {
       assay001wb.assayId = this.assayId;
-      assay001wb.dataLocator1 = this.f.dataLocator1.value ? this.f.dataLocator1.value : null;
-      assay001wb.dataLocator2 = this.f.dataLocator2.value ? this.f.dataLocator2.value : null;
-      assay001wb.dataLocator3 = this.f.dataLocator3.value ? this.f.dataLocator3.value : null;
       assay001wb.insertUser = this.insertUser;
       assay001wb.insertDatetime = this.insertDatetime;
       assay001wb.updatedUser = this.authManager.getcurrentUser.username;
@@ -1282,9 +1282,7 @@ export class AssayComponent implements OnInit {
       });
     }
     else {
-      assay001wb.dataLocator1 = this.f.dataLocator1.value ? "Table " + this.f.dataLocator1.value : null;
-      assay001wb.dataLocator2 = this.f.dataLocator2.value ? "Figure " + this.f.dataLocator2.value : null;
-      assay001wb.dataLocator3 = this.f.dataLocator3.value ? "Page " + this.f.dataLocator3.value + " (text)" : null;
+      
       assay001wb.insertUser = this.authManager.getcurrentUser.username;
       assay001wb.insertDatetime = new Date();
       this.assayManager.assaysave(assay001wb).subscribe((response) => {
@@ -1578,7 +1576,7 @@ export class AssayComponent implements OnInit {
 
       this.assayId = this.assay[i].assayId;
       this.insertDatetime = new Date();
-      // this.insertUser = this.assay[i].insertUser;
+      this.insertUser = this.assay[i].insertUser;
 
       this.AssayForm.patchValue({
         'ordinal': this.assay[i].ordinal,
