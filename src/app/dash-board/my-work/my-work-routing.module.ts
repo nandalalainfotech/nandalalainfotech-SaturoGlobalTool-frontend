@@ -10,7 +10,7 @@ const routes: Routes = [
     children: [
       
       {
-        path: '',
+        path: 'app-mytask',
         loadChildren: () => import("./mytask/mytask.module").then(m => m.MytaskModule)
       },
       {

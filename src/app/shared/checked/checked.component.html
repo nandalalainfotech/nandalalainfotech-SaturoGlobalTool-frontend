@@ -7,6 +7,23 @@
         <form [formGroup]="CheckedForm" (ngSubmit)="onReviewerClick($event, CheckedForm)">
             <fieldset class="scheduler-border">
                 <legend class="scheduler-border">Ligand</legend>
+
+                <div class="row">
+                    <div class="col-sm-9">
+
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label cssClass="required">IN PROCESS </label>
+
+                            <button type="button" [ngStyle]="{'background-color': bgcolor}" (click)="onInProcessClick()" class="btn1 router-btn" style="display:block !important;"></button>
+
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
@@ -21,6 +38,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
 
                 <br>
@@ -1162,10 +1180,10 @@
                 <br>
                 <div class="row">
                     <div class="col-sm-7"></div>
-                    <!-- <div class="col-sm-1"><button type="button" (click)="onRejectClick($event, CheckedForm)" class="btn btn-primary">Reject</button></div> -->
-                    <div class="col-sm-1"></div>
-                    <div class="col-sm-1"><button type="button" (click)="onEditReviewerClick($event)" class="btn btn-primary">Edit</button></div>
-                    <div class="col-sm-1"><button type="submit" class="btn btn-primary" style="margin-left:20px">Submit</button></div>
+                    <div class="col-sm-1"><button type="button" (click)="onRejectClick($event, CheckedForm)" class="btn btn-primary">Reject</button></div>
+                    <!-- <div class="col-sm-1"></div> -->
+                    <div class="col-sm-1"><button type="button" (click)="onEditReviewerClick($event)" class="btn btn-primary" style="margin-left:20px">Edit</button></div>
+                    <div class="col-sm-1"><button type="submit" class="btn btn-primary" style="margin-left:40px">Submit</button></div>
                     <div class="col-sm-2"></div>
                 </div>
 

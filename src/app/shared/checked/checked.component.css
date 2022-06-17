@@ -67,3 +67,26 @@ span {
 .btn-primary {
     width: 80px;
 }
+
+.router-btn {
+    height: 35px;
+    width: 35px;
+    border-color: white;
+    border-radius: 50%;
+    font-weight: 700;
+    font-family: 12px raleway, sans-serif;
+    display: block;
+    margin-left: 20px;
+    /* margin-top: 10px; */
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.5s;
+}
+
+.btn1 {
+    background-color: rgb(12, 107, 230);
+}
+
+.btn1:hover {
+    background-color: rgb(135, 158, 185);
+}

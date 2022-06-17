@@ -57,7 +57,7 @@ export class InprocessComponent implements OnInit {
       // console.log(" All this.assays", this.assays);
 
       for (let assay of this.assays) {
-        if (assay.status == "In Process" || assay.ligandSlno2?.status == "In Process") {
+        if (assay.status == "In Process" ) {
           this.inProcessAssays.push(assay);
           // console.log(" this.inProcessAssays", this.inProcessAssays);
         }
@@ -694,11 +694,12 @@ export class InprocessComponent implements OnInit {
     return params.data.typeSlno2 ? params.data.typeSlno2.type : null;
   }
   onInprocessMoveToLigand(params: any) {
-    // console.log("params", params.data.assayId,);
-    let assayId = params.data.assayId;
+    console.log("params", params.data);
+    // let assayId = params.data.assayId;
     let navigationExtras: NavigationExtras = {
       queryParams: {
         "assayId": params.data.assayId,
+        "insertUser": params.data.insertUser,
         "ligandVersion": params.data.ligandSlno,
         "assayType": params.data.assayTypeSlno,
         "toxiCity": params.data.toxiCitySlno,

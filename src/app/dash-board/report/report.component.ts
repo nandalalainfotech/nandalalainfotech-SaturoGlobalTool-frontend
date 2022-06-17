@@ -47,7 +47,8 @@ export class ReportComponent implements OnInit {
   ligand: Ligand001wb[] = [];
   // Ligandversions=Ligandversion001mb[] = [];
   // Ligandtypes=Ligandtype001mb[] = [];
-  assay: Assay001wb[] = [];
+  assays: Assay001wb[] = [];
+  reviewerDatas: Assay001wb[] = [];
   measurement: Measurement001wb[] = [];
   username: any
   hexToRgb: any;
@@ -91,9 +92,17 @@ export class ReportComponent implements OnInit {
     this.username = this.authManager.getcurrentUser.username;
 
     this.assayManager.findByReviewer(this.username).subscribe(response => {
-      this.assay = deserialize<Assay001wb[]>(Assay001wb, response);
-      if (this.assay.length > 0) {
-        this.gridOptions?.api?.setRowData(this.assay);
+      this.assays = deserialize<Assay001wb[]>(Assay001wb, response);
+      console.log(" this.assays in report", this.assays);
+      for (let assay of this.assays) {
+        if (assay.status == "Submitted to QC" ) {
+          this.reviewerDatas.push(assay);
+          console.log(" this.reviewerDatas in report", this.reviewerDatas);
+        }
+      }
+
+      if (this.reviewerDatas.length > 0) {
+        this.gridOptions?.api?.setRowData(this.reviewerDatas);
       } else {
         this.gridOptions?.api?.setRowData([]);
       }

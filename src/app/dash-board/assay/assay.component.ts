@@ -179,6 +179,9 @@ export class AssayComponent implements OnInit {
       let AssayId = params["assayId"];
       this.assayId = AssayId;
 
+      let InsertUser = params["insertUser"];
+      this.insertUser = InsertUser;
+
       let LigandVersion = params["ligandVersion"];
       this.ligandSlno = LigandVersion;
       let AssayType = params["assayType"];
@@ -1084,30 +1087,31 @@ export class AssayComponent implements OnInit {
 
 
   onEditButtonClick(params: any) {
-    this.assayId = params.data.assayId;
-    this.insertUser = params.data.insertUser;
-    this.insertDatetime = params.data.insertDatetime;
-    this.AssayForm.patchValue({
-      'ordinal': params.data.ordinal,
-      'ligandSlno': params.data.ligandSlno,
-      'assayTypeSlno': params.data.assayTypeSlno,
-      'toxiCitySlno': params.data.toxiCitySlno,
-      'routeSlno': params.data.routeSlno,
-      'ligandSvalue': params.data.ligandSvalue,
-      'unitSlno': params.data.unitSlno,
-      'ligandHvalue': params.data.ligandHvalue,
-      'ligandLvalue': params.data.ligandLvalue,
-      'unitedSlno': params.data.unitedSlno,
-      'administration': params.data.administration,
-      'procedure': params.data.procedure,
-      'conditionType': params.data.conditionType,
-      'conditionMaterial': params.data.conditionMaterial,
-      'conditionMaterialid': params.data.conditionMaterialid,
-      'singleCondition': params.data.singleCondition,
-      'singleUnit': params.data.singleUnit,
-      'highCondition': params.data.highCondition,
-      'lowCondition': params.data.lowCondition,
-      'highLowUnit': params.data.highLowUnit,
+    if (params.data.status != "Submitted to QC") {
+      this.assayId = params.data.assayId;
+      this.insertUser = params.data.insertUser;
+      this.insertDatetime = params.data.insertDatetime;
+      this.AssayForm.patchValue({
+        'ordinal': params.data.ordinal,
+        'ligandSlno': params.data.ligandSlno,
+        'assayTypeSlno': params.data.assayTypeSlno,
+        'toxiCitySlno': params.data.toxiCitySlno,
+        'routeSlno': params.data.routeSlno,
+        'ligandSvalue': params.data.ligandSvalue,
+        'unitSlno': params.data.unitSlno,
+        'ligandHvalue': params.data.ligandHvalue,
+        'ligandLvalue': params.data.ligandLvalue,
+        'unitedSlno': params.data.unitedSlno,
+        'administration': params.data.administration,
+        'procedure': params.data.procedure,
+        'conditionType': params.data.conditionType,
+        'conditionMaterial': params.data.conditionMaterial,
+        'conditionMaterialid': params.data.conditionMaterialid,
+        'singleCondition': params.data.singleCondition,
+        'singleUnit': params.data.singleUnit,
+        'highCondition': params.data.highCondition,
+        'lowCondition': params.data.lowCondition,
+        'highLowUnit': params.data.highLowUnit,
 
       // 'dataLocator': this.assay[i].dataLocator,
       'dataLocator1': params.data.dataLocator1,
@@ -1136,13 +1140,14 @@ export class AssayComponent implements OnInit {
       'ageGroup': params.data.ageGroup,
 
 
-      'targetVersion': params.data.targetVersion,
-      'collectionId1': params.data.collectionId1,
-      'original': params.data.original,
-      'acronym': params.data.acronym,
-      'organism': params.data.organism,
-      'variant': params.data.variant,
-    });
+        'targetVersion': params.data.targetVersion,
+        'collectionId1': params.data.collectionId1,
+        'original': params.data.original,
+        'acronym': params.data.acronym,
+        'organism': params.data.organism,
+        'variant': params.data.variant,
+      });
+    }
   }
 
 
@@ -1292,6 +1297,117 @@ export class AssayComponent implements OnInit {
         this.submitted = false;
       });
     }
+
+  }
+
+  onBeforeSubmitData(event: any, AssayForm: any) {
+
+    this.markFormGroupTouched(this.AssayForm);
+    this.submitted = true;
+    if (this.AssayForm.invalid) {
+      return;
+    }
+    let dataLocatorCount: number = 0;
+    if (this.f.dataLocator1.value) {
+      dataLocatorCount++;
+    }
+    if (this.f.dataLocator2.value) {
+      dataLocatorCount++;
+    }
+    if (this.f.dataLocator3.value) {
+      dataLocatorCount++;
+    }
+    if (dataLocatorCount != 1) {
+      this.calloutService.showWarning("Please Enter Any One DataLocater");
+      return;
+    }
+
+    let assay001wb = new Assay001wb();
+
+    // assay001wb.ordinal = this.f.ordinal.value ? this.f.ordinal.value : "";
+    assay001wb.collectionId = "47498009Q-1";
+    assay001wb.ligandSlno = this.f.ligandSlno.value ? this.f.ligandSlno.value : null;
+    assay001wb.assayTypeSlno = this.f.assayTypeSlno.value ? this.f.assayTypeSlno.value : null;
+    assay001wb.toxiCitySlno = this.f.toxiCitySlno.value ? this.f.toxiCitySlno.value : null;
+    assay001wb.routeSlno = this.f.routeSlno.value ? this.f.routeSlno.value : null;
+    assay001wb.ligandSvalue = this.f.ligandSvalue.value ? this.f.ligandSvalue.value : "";
+    assay001wb.unitSlno = this.f.unitSlno.value ? this.f.unitSlno.value : null;
+    assay001wb.ligandHvalue = this.f.ligandHvalue.value ? this.f.ligandHvalue.value : "";
+    assay001wb.ligandLvalue = this.f.ligandLvalue.value ? this.f.ligandLvalue.value : "";
+    assay001wb.unitedSlno = this.f.unitedSlno.value ? this.f.unitedSlno.value : null;
+    assay001wb.administration = this.f.administration.value ? this.f.administration.value : "";
+    assay001wb.procedure = this.f.procedure.value ? this.f.procedure.value : "";
+    assay001wb.target = "bioactivity-target" + "/" + "SaturoGlobal" + "/" + this.ligand001mb?.tanNumber + "/" + this.ligand001mb?.ligandVersionSlno2?.ligandVersion + "/" + this.f.targetVersion.value + ">" + "bioactivity-target" + "/" + uuid();
+    assay001wb.conditionType = this.f.conditionType.value ? this.f.conditionType.value : "";
+    assay001wb.conditionMaterial = this.f.conditionMaterial.value ? this.f.conditionMaterial.value : "";
+    assay001wb.conditionMaterialid = this.f.conditionMaterialid.value ? this.f.conditionMaterialid.value : "";
+    assay001wb.singleCondition = this.f.singleCondition.value ? this.f.singleCondition.value : "";
+    assay001wb.singleUnit = this.f.singleUnit.value ? this.f.singleUnit.value : "";
+    assay001wb.highCondition = this.f.highCondition.value ? this.f.highCondition.value : "";
+    assay001wb.lowCondition = this.f.lowCondition.value ? this.f.lowCondition.value : "";
+    assay001wb.highLowUnit = this.f.highLowUnit.value ? this.f.highLowUnit.value : "";
+    assay001wb.status = "Before submit the data";
+    assay001wb.targetStatus = "embargoed";
+
+    assay001wb.dataLocator = null;
+    assay001wb.dataLocator1 = this.f.dataLocator1.value ? "Table " + this.f.dataLocator1.value : null;
+    assay001wb.dataLocator2 = this.f.dataLocator2.value ? "Figure " + this.f.dataLocator2.value : null;
+    assay001wb.dataLocator3 = this.f.dataLocator3.value ? "Page " + this.f.dataLocator3.value + " (text)" : null;
+    assay001wb.categorySlno = this.f.categorySlno.value ? this.f.categorySlno.value : null;
+    assay001wb.functionSlno = this.f.functionSlno.value ? this.f.functionSlno.value : null;
+    assay001wb.parameter = this.f.parameter.value ? this.f.parameter.value : "";
+    assay001wb.parameterDetail = this.f.parameterDetail.value ? this.f.parameterDetail.value : "";
+    assay001wb.originalPrefixSlno = this.f.originalPrefixSlno.value ? this.f.originalPrefixSlno.value : null;
+    assay001wb.unit = this.f.unit.value ? this.f.unit.value : "";
+    assay001wb.singleValue = this.f.singleValue.value ? this.f.singleValue.value : "";
+    assay001wb.highEndValue = this.f.highEndValue.value ? this.f.highEndValue.value : "";
+    assay001wb.lowEndValue = this.f.lowEndValue.value ? this.f.lowEndValue.value : "";
+    assay001wb.units = this.f.units.value ? this.f.units.value : "";
+    assay001wb.nonNumeric = this.f.nonNumeric.value ? this.f.nonNumeric.value : "";
+    assay001wb.remark = this.f.remark.value ? this.f.remark.value : "";
+    assay001wb.typeSlno = this.f.typeSlno.value ? this.f.typeSlno.value : null;
+    assay001wb.cell = this.f.cell.value ? this.f.cell.value : "";
+    assay001wb.cellDetail = this.f.cellDetail.value ? this.f.cellDetail.value : "";
+    assay001wb.organ = this.f.organ.value ? this.f.organ.value : "";
+    assay001wb.organDetail = this.f.organDetail.value ? this.f.organDetail.value : "";
+    assay001wb.species = this.f.species.value ? this.f.species.value : "";
+    assay001wb.speciesDetail = this.f.speciesDetail.value ? this.f.speciesDetail.value : "";
+    assay001wb.gender = this.f.gender.value ? this.f.gender.value : "";
+    assay001wb.ageGroup = this.f.ageGroup.value ? this.f.ageGroup.value : "";
+
+    // assay001wb.target = "bioactivity-target" + "/" + "SaturoGlobal" + "/" + this.f.tanNumber.value + "/" + this.f.ligandVersionSlno.value + ">" + "bioactivity-target" + "/" + uuid();
+
+    assay001wb.targetStatus = "embargoed";
+    assay001wb.targetVersion = this.f.targetVersion.value ? this.f.targetVersion.value : "";
+    assay001wb.collectionId1 = this.f.collectionId1.value ? this.f.collectionId1.value : "";
+    assay001wb.original = this.f.original.value ? this.f.original.value : "";
+    assay001wb.acronym = this.f.acronym.value ? this.f.acronym.value : "";
+    assay001wb.organism = this.f.organism.value ? this.f.organism.value : "";
+    assay001wb.variant = this.f.variant.value ? this.f.variant.value : "";
+    // if (this.assayId) {
+    //   assay001wb.assayId = this.assayId;
+    //   assay001wb.insertUser = this.insertUser;
+    //   assay001wb.insertDatetime = this.insertDatetime;
+    //   assay001wb.updatedUser = this.authManager.getcurrentUser.username;
+    //   assay001wb.updatedDatetime = new Date();
+    //   this.assayManager.assayupdate(assay001wb).subscribe((response) => {
+    //     this.calloutService.showSuccess("Assay Details Updated Successfully");
+    //     this.loadData();
+    //     this.AssayForm.reset();
+    //     this.assayId = null;
+    //     this.submitted = false;
+    //   });
+    // }
+    // else {
+    assay001wb.insertUser = this.authManager.getcurrentUser.username;
+    assay001wb.insertDatetime = new Date();
+    this.assayManager.assaysave(assay001wb).subscribe((response) => {
+      this.calloutService.showSuccess("Curator data is in progress. Curator can edit data");
+      this.loadData();
+      this.AssayForm.reset();
+      this.submitted = false;
+    });
+    // }
 
   }
 
@@ -1573,10 +1689,13 @@ export class AssayComponent implements OnInit {
   onEdit() {
     let i = this.assay.length - 1;
     for (i; i < this.assay.length; i++) {
-
-      this.assayId = this.assay[i].assayId;
-      this.insertDatetime = new Date();
-      this.insertUser = this.assay[i].insertUser;
+      if (this.assay[i].status == "Submitted to QC") {
+        this.calloutService.showWarning("This data can't be Edited");
+      }
+      if (this.assay[i].status != "Submitted to QC") {
+        this.assayId = this.assay[i].assayId;
+        this.insertDatetime = new Date();
+        // this.insertUser = this.assay[i].insertUser;
 
       this.AssayForm.patchValue({
         'ordinal': this.assay[i].ordinal,
@@ -1634,7 +1753,11 @@ export class AssayComponent implements OnInit {
         'variant': this.assay[i].variant,
 
 
-      });
+        });
+      }
+   
+
     }
+
   }
 }
