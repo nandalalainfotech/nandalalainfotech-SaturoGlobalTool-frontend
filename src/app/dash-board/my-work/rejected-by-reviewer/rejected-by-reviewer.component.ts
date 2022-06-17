@@ -87,15 +87,13 @@ export class RejectedByReviewerComponent implements OnInit {
 
     this.assayManager.findInprocesStatus(this.username).subscribe(response => {
       this.assays = deserialize<Assay001wb[]>(Assay001wb, response);
-      // console.log(" this.findInprocesStatus---1--", this.assays);
+      console.log(" this.findInprocesStatus---1--", this.assays);
       
       for (let assay of this.assays) {
-        if(assay.status == "Rejected" || assay.ligandSlno2?.status == "Rejected") {
+        if(assay.status == "Rejected") {
           this.rejectedByReviewers.push(assay);
-          // console.log(" this.rejectedByReviewers--2--->", this.rejectedByReviewers);
         } 
       }
-      // console.log(" this.rejectedByReviewers-0--->3", this.rejectedByReviewers);
       if (this.rejectedByReviewers.length > 0) {
         this.gridOptions?.api?.setRowData(this.rejectedByReviewers);
       } else {

@@ -185,14 +185,14 @@
                         <div class="form-group">
                             <label path="singleCondition" for="series" cssClass="required">Condition(Single-value)</label>
                             <input class="form-control" name="singleCondition" formControlName="singleCondition" (click)="onsingleConditionClick()">
-                           
+
                         </div>
                     </div>
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
                             <label path="singleUnit" for="series" cssClass="required">Unit(Single-value)</label>
                             <!-- <input class="form-control" name="singleUnit" formControlName="singleUnit"> -->
-                         <select class="form-control" name="singleUnit" formControlName="singleUnit">
+                            <select class="form-control" name="singleUnit" formControlName="singleUnit">
                                 <option value="" hidden> - Select Unit-Types - </option>
                                 
                                 <option *ngFor="let unitsinglevalue of unitsinglevalues" [value]="unitsinglevalue.id">
@@ -351,7 +351,7 @@
                         <button type="button" (click)="setMeasurementEnable()" class="btn btn-primary"> Enable</button>
                     </div>
                 </div>
-              
+
 
                 <div class="row">
                     <div class="col-xs-3 col-sm-3">
@@ -560,22 +560,33 @@
                 </fieldset>
 
 
-                <div class="row">
-                    <div class="form-group">
-                        <div class="col-sm-7"></div>
-                        <div class="col-sm-1"><button type="button" class="btn btn-primary" (click)="onRepeat()">Repeat</button>
-                        </div>
-                        <div class="col-sm-1"><button type="button" class="btn btn-primary" (click)="onEdit()">Edit</button>
-                        </div>
-                        <div class="col-sm-1"><button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                        <div class="col-sm-1"> <button type="button" class="btn btn-primary" (click)="onReset()">Clear</button>
-                        </div>
-                        <div class="col-sm-1"></div>
-                    </div>
-                </div>
+
 
             </fieldset>
+
+            <div class="row">
+
+                <div class="form-group">
+                    <div class="col-sm-6"></div>
+                    <div class="col-sm-1">
+                        <button type="button" class="btn btn-primary" (click)="onRepeat()">Repeat</button>
+                    </div>
+                    <div class="col-sm-1">
+                        <button type="button" class="btn btn-primary" (click)="onEdit()">Edit</button>
+                    </div>
+                    <div class="col-sm-1">
+                        <button type="button" class="btn btn-primary" (click)="onBeforeSubmitData($event,AssayForm)">Save</button>
+                    </div>
+                    <div class="col-sm-1">
+                        <button type="button" class="btn btn-primary" (click)="onReset()">Clear</button>
+                    </div>
+                    <div class="col-sm-1">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                    <div class="col-sm-1"></div>
+                </div>
+
+            </div>
         </form>
     </div>
 </fieldset>

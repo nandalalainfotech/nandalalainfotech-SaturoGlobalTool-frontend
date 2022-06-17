@@ -53,6 +53,7 @@ export class CheckedComponent implements OnInit {
   isEditable: boolean = false;
 
   @Input() data: number | any;
+  bgcolor: any;
 
   ligandId: number | any;
   tanNumber: number | any;
@@ -397,130 +398,130 @@ this.assayId=this.data.assayId;
     this.activeModal.close('No');
   }
 
-  // onRejectClick(event: any, CheckedForm: any) {
-  //   // console.log("data in checked",this.data);
+  onRejectClick(event: any, CheckedForm: any) {
+    // console.log("data in checked",this.data);
 
-  //   let ligand001wb = new Ligand001wb();
+    let ligand001wb = new Ligand001wb();
 
-  //   ligand001wb.tanNumber = this.f.tanNumber.value ? this.f.tanNumber.value : "";
-  //   ligand001wb.ligandUri = "bioactivity-ligand" + "/" + "SaturoGlobal" + "/" + this.f.tanNumber.value + "/" + this.f.ligandVersionSlno.value + ">" + "bioactivity-ligand" + "/" + uuid();
-  //   ligand001wb.ligandVersionSlno = this.f.ligandVersionSlno.value ? this.f.ligandVersionSlno.value : null;
-  //   ligand001wb.ligandStatus = "embargoed";
-  //   ligand001wb.collection = "cas";
-  //   ligand001wb.ligandTypeSlno = this.f.ligandTypeSlno.value ? this.f.ligandTypeSlno.value : null;
-  //   ligand001wb.ligandDetail = this.f.ligandDetail.value ? this.f.ligandDetail.value : "";
-  //   ligand001wb.identifier1 = this.f.identifier1.value ? this.f.identifier1.value : "";
-  //   ligand001wb.identifier2 = this.f.identifier2.value ? this.f.identifier2.value : "";
-  //   ligand001wb.identifier3 = this.f.identifier3.value ? this.f.identifier3.value : "";
-  //   ligand001wb.collectionId = this.f.locator.value ? this.f.collectionId.value : "";
-  //   ligand001wb.locator = this.f.locator.value ? this.f.locator.value : "";
-  //   ligand001wb.sourceType = "journal";
-  //   ligand001wb.citation = this.f.tanNumber.value ? this.f.tanNumber.value : "";
-  //   ligand001wb.relatedDocument = this.f.tanNumber.value ? this.f.tanNumber.value : "";
-  //   ligand001wb.registryNumber = this.f.collectionId.value ? this.f.collectionId.value : "";
-  //   ligand001wb.diseaseName1 = this.f.diseaseName1.value ? this.f.diseaseName1.value : "";
-  //   ligand001wb.diseaseName2 = this.f.diseaseName2.value ? this.f.diseaseName2.value : "";
-  //   ligand001wb.diseaseName3 = this.f.diseaseName3.value ? this.f.diseaseName3.value : "";
-  //   // ligand001wb.target = "bioactivity-target" + "/" + "SaturoGlobal" + "/" + this.f.tanNumber.value + "/" + this.f.ligandVersionSlno.value + ">" + "bioactivity-target" + "/" + uuid();
-  //   ligand001wb.target = "";
-  //   ligand001wb.targetStatus = "";
-  //   ligand001wb.targetVersion = "";
-  //   ligand001wb.collectionId1 = "";
-  //   ligand001wb.original = "";
-  //   ligand001wb.acronym = "";
-  //   ligand001wb.organism = "";
-  //   ligand001wb.variant = "";
-  //   ligand001wb.status = "Rejected";
-
-
-  //   ligand001wb.ligandId = this.ligandId;
-  //   ligand001wb.insertUser = this.insertUser;
-  //   ligand001wb.insertDatetime = this.insertDatetime;
-  //   ligand001wb.updatedUser = this.authManager.getcurrentUser.username;
-  //   ligand001wb.updatedDatetime = new Date();
-  //   this.ligandManager.ligandupdate(ligand001wb).subscribe((response) => {
-  //     // this.calloutService.showSuccess("Ligand Details Updated Successfully");
-  //     // this.loadData();
-  //     this.CheckedForm.reset();
-  //     this.ligandId = null;
-  //     this.submitted = false;
-  //   });
+    ligand001wb.tanNumber = this.f.tanNumber.value ? this.f.tanNumber.value : "";
+    ligand001wb.ligandUri = "bioactivity-ligand" + "/" + "SaturoGlobal" + "/" + this.f.tanNumber.value + "/" + this.f.ligandVersionSlno.value + ">" + "bioactivity-ligand" + "/" + uuid();
+    ligand001wb.ligandVersionSlno = this.f.ligandVersionSlno.value ? this.f.ligandVersionSlno.value : null;
+    ligand001wb.ligandStatus = "embargoed";
+    ligand001wb.collection = "cas";
+    ligand001wb.ligandTypeSlno = this.f.ligandTypeSlno.value ? this.f.ligandTypeSlno.value : null;
+    ligand001wb.ligandDetail = this.f.ligandDetail.value ? this.f.ligandDetail.value : "";
+    ligand001wb.identifier1 = this.f.identifier1.value ? this.f.identifier1.value : "";
+    ligand001wb.identifier2 = this.f.identifier2.value ? this.f.identifier2.value : "";
+    ligand001wb.identifier3 = this.f.identifier3.value ? this.f.identifier3.value : "";
+    ligand001wb.collectionId = this.f.locator.value ? this.f.collectionId.value : "";
+    ligand001wb.locator = this.f.locator.value ? this.f.locator.value : "";
+    ligand001wb.sourceType = "journal";
+    ligand001wb.citation = this.f.tanNumber.value ? this.f.tanNumber.value : "";
+    ligand001wb.relatedDocument = this.f.tanNumber.value ? this.f.tanNumber.value : "";
+    ligand001wb.registryNumber = this.f.collectionId.value ? this.f.collectionId.value : "";
+    ligand001wb.diseaseName1 = this.f.diseaseName1.value ? this.f.diseaseName1.value : "";
+    ligand001wb.diseaseName2 = this.f.diseaseName2.value ? this.f.diseaseName2.value : "";
+    ligand001wb.diseaseName3 = this.f.diseaseName3.value ? this.f.diseaseName3.value : "";
+    // ligand001wb.target = "bioactivity-target" + "/" + "SaturoGlobal" + "/" + this.f.tanNumber.value + "/" + this.f.ligandVersionSlno.value + ">" + "bioactivity-target" + "/" + uuid();
+    ligand001wb.target = "";
+    ligand001wb.targetStatus = "";
+    ligand001wb.targetVersion = "";
+    ligand001wb.collectionId1 = "";
+    ligand001wb.original = "";
+    ligand001wb.acronym = "";
+    ligand001wb.organism = "";
+    ligand001wb.variant = "";
+    ligand001wb.status = "Rejected";
 
 
-  //   let assay001wb = new Assay001wb();
-  //   assay001wb.ordinal = this.f.ordinal.value ? this.f.ordinal.value : "";
-  //   assay001wb.collectionId = "47498009Q-1";
-  //   assay001wb.ligandSlno = this.f.ligandSlno.value ? this.f.ligandSlno.value : null;
-  //   assay001wb.assayTypeSlno = this.f.assayTypeSlno.value ? this.f.assayTypeSlno.value : null;
-  //   assay001wb.toxiCitySlno = this.f.toxiCitySlno.value ? this.f.toxiCitySlno.value : null;
-  //   assay001wb.routeSlno = this.f.routeSlno.value ? this.f.routeSlno.value : null;
-  //   assay001wb.ligandSvalue = this.f.ligandSvalue.value ? this.f.ligandSvalue.value : "";
-  //   assay001wb.unitSlno = this.f.unitSlno.value ? this.f.unitSlno.value : null;
-  //   assay001wb.ligandHvalue = this.f.ligandHvalue.value ? this.f.ligandHvalue.value : "";
-  //   assay001wb.ligandLvalue = this.f.ligandLvalue.value ? this.f.ligandLvalue.value : "";
-  //   assay001wb.unitedSlno = this.f.unitedSlno.value;
-  //   assay001wb.administration = this.f.administration.value ? this.f.administration.value : "";
-  //   assay001wb.procedure = this.f.procedure.value ? this.f.procedure.value : "";
-  //   assay001wb.target = "bioactivity-target" + "/" + "SaturoGlobal" + "/" + this.ligand001mb?.tanNumber + "/" + this.ligand001mb?.ligandVersionSlno2?.ligandVersion + "/" + this.f.targetVersion.value + ">" + "bioactivity-target" + "/" + uuid();
-  //   assay001wb.conditionType = this.f.conditionType.value ? this.f.conditionType.value : "";
-  //   assay001wb.conditionMaterial = this.f.conditionMaterial.value ? this.f.conditionMaterial.value : "";
-  //   assay001wb.conditionMaterialid = this.f.conditionMaterialid.value ? this.f.conditionMaterialid.value : "";
-  //   assay001wb.singleCondition = this.f.singleCondition.value ? this.f.singleCondition.value : "";
-  //   assay001wb.singleUnit = this.f.singleUnit.value ? this.f.singleUnit.value : "";
-  //   assay001wb.highCondition = this.f.highCondition.value ? this.f.highCondition.value : "";
-  //   assay001wb.lowCondition = this.f.lowCondition.value ? this.f.lowCondition.value : "";
-  //   assay001wb.highLowUnit = this.f.highLowUnit.value ? this.f.highLowUnit.value : "";
-  //   assay001wb.status = "Rejected";
-  //   assay001wb.targetStatus = "embargoed";
-
-  //   assay001wb.dataLocator = this.f.dataLocator.value ? this.f.dataLocator.value : "";
-  //   assay001wb.categorySlno = this.f.categorySlno.value ? this.f.categorySlno.value : null;
-  //   assay001wb.functionSlno = this.f.functionSlno.value ? this.f.functionSlno.value : null;
-  //   assay001wb.parameter = this.f.parameter.value ? this.f.parameter.value : "";
-  //   assay001wb.parameterDetail = this.f.parameterDetail.value ? this.f.parameterDetail.value : "";
-  //   assay001wb.originalPrefixSlno = this.f.originalPrefixSlno.value ? this.f.originalPrefixSlno.value : null;
-  //   assay001wb.unit = this.f.unit.value ? this.f.unit.value : "";
-  //   assay001wb.singleValue = this.f.singleValue.value ? this.f.singleValue.value : "";
-  //   assay001wb.highEndValue = this.f.highEndValue.value ? this.f.highEndValue.value : "";
-  //   assay001wb.lowEndValue = this.f.lowEndValue.value ? this.f.lowEndValue.value : "";
-  //   assay001wb.units = this.f.units.value ? this.f.units.value : "";
-  //   assay001wb.nonNumeric = this.f.nonNumeric.value ? this.f.nonNumeric.value : "";
-  //   assay001wb.remark = this.f.remark.value ? this.f.remark.value : "";
-  //   assay001wb.typeSlno = this.f.typeSlno.value ? this.f.typeSlno.value : null;
-  //   assay001wb.cell = this.f.cell.value ? this.f.cell.value : "";
-  //   assay001wb.cellDetail = this.f.cellDetail.value ? this.f.cellDetail.value : "";
-  //   assay001wb.organ = this.f.organ.value ? this.f.organ.value : "";
-  //   assay001wb.organDetail = this.f.organDetail.value ? this.f.organDetail.value : "";
-  //   assay001wb.species = this.f.species.value ? this.f.species.value : "";
-  //   assay001wb.speciesDetail = this.f.speciesDetail.value ? this.f.speciesDetail.value : "";
-  //   assay001wb.gender = this.f.gender.value ? this.f.gender.value : "";
-  //   assay001wb.ageGroup = this.f.ageGroup.value ? this.f.ageGroup.value : "";
-
-  //   // assay001wb.target = "bioactivity-target" + "/" + "SaturoGlobal" + "/" + this.f.tanNumber.value + "/" + this.f.ligandVersionSlno.value + ">" + "bioactivity-target" + "/" + uuid();
-
-  //   assay001wb.targetStatus = "embargoed";
-  //   assay001wb.targetVersion = this.f.targetVersion.value ? this.f.targetVersion.value : "";
-  //   assay001wb.collectionId1 = this.f.collectionId1.value ? this.f.collectionId1.value : "";
-  //   assay001wb.original = this.f.original.value ? this.f.original.value : "";
-  //   assay001wb.acronym = this.f.acronym.value ? this.f.acronym.value : "";
-  //   assay001wb.organism = this.f.organism.value ? this.f.organism.value : "";
-  //   assay001wb.variant = this.f.variant.value ? this.f.variant.value : "";
+    ligand001wb.ligandId = this.ligandId;
+    ligand001wb.insertUser = this.insertUser;
+    ligand001wb.insertDatetime = this.insertDatetime;
+    ligand001wb.updatedUser = this.authManager.getcurrentUser.username;
+    ligand001wb.updatedDatetime = new Date();
+    this.ligandManager.ligandupdate(ligand001wb).subscribe((response) => {
+      // this.calloutService.showSuccess("Ligand Details Updated Successfully");
+      // this.loadData();
+      this.CheckedForm.reset();
+      this.ligandId = null;
+      this.submitted = false;
+    });
 
 
-  //   assay001wb.assayId = this.assayId;
-  //   assay001wb.insertUser = this.insertUser;
-  //   assay001wb.insertDatetime = this.insertDatetime;
-  //   assay001wb.updatedUser = this.authManager.getcurrentUser.username;
-  //   assay001wb.updatedDatetime = new Date();
-  //   this.assayManager.assayupdate(assay001wb).subscribe((response) => {
-  //     this.calloutService.showSuccess("Ligand data is rejected");
-  //     // this.loadData();
-  //     this.CheckedForm.reset();
-  //     this.assayId = null;
-  //     this.submitted = false;
-  //   });
+    let assay001wb = new Assay001wb();
+    assay001wb.ordinal = this.f.ordinal.value ? this.f.ordinal.value : "";
+    assay001wb.collectionId = "47498009Q-1";
+    assay001wb.ligandSlno = this.f.ligandSlno.value ? this.f.ligandSlno.value : null;
+    assay001wb.assayTypeSlno = this.f.assayTypeSlno.value ? this.f.assayTypeSlno.value : null;
+    assay001wb.toxiCitySlno = this.f.toxiCitySlno.value ? this.f.toxiCitySlno.value : null;
+    assay001wb.routeSlno = this.f.routeSlno.value ? this.f.routeSlno.value : null;
+    assay001wb.ligandSvalue = this.f.ligandSvalue.value ? this.f.ligandSvalue.value : "";
+    assay001wb.unitSlno = this.f.unitSlno.value ? this.f.unitSlno.value : null;
+    assay001wb.ligandHvalue = this.f.ligandHvalue.value ? this.f.ligandHvalue.value : "";
+    assay001wb.ligandLvalue = this.f.ligandLvalue.value ? this.f.ligandLvalue.value : "";
+    assay001wb.unitedSlno = this.f.unitedSlno.value;
+    assay001wb.administration = this.f.administration.value ? this.f.administration.value : "";
+    assay001wb.procedure = this.f.procedure.value ? this.f.procedure.value : "";
+    assay001wb.target = "bioactivity-target" + "/" + "SaturoGlobal" + "/" + this.ligand001mb?.tanNumber + "/" + this.ligand001mb?.ligandVersionSlno2?.ligandVersion + "/" + this.f.targetVersion.value + ">" + "bioactivity-target" + "/" + uuid();
+    assay001wb.conditionType = this.f.conditionType.value ? this.f.conditionType.value : "";
+    assay001wb.conditionMaterial = this.f.conditionMaterial.value ? this.f.conditionMaterial.value : "";
+    assay001wb.conditionMaterialid = this.f.conditionMaterialid.value ? this.f.conditionMaterialid.value : "";
+    assay001wb.singleCondition = this.f.singleCondition.value ? this.f.singleCondition.value : "";
+    assay001wb.singleUnit = this.f.singleUnit.value ? this.f.singleUnit.value : "";
+    assay001wb.highCondition = this.f.highCondition.value ? this.f.highCondition.value : "";
+    assay001wb.lowCondition = this.f.lowCondition.value ? this.f.lowCondition.value : "";
+    assay001wb.highLowUnit = this.f.highLowUnit.value ? this.f.highLowUnit.value : "";
+    assay001wb.status = "Rejected";
+    assay001wb.targetStatus = "embargoed";
 
-  // }
+    assay001wb.dataLocator = this.f.dataLocator.value ? this.f.dataLocator.value : "";
+    assay001wb.categorySlno = this.f.categorySlno.value ? this.f.categorySlno.value : null;
+    assay001wb.functionSlno = this.f.functionSlno.value ? this.f.functionSlno.value : null;
+    assay001wb.parameter = this.f.parameter.value ? this.f.parameter.value : "";
+    assay001wb.parameterDetail = this.f.parameterDetail.value ? this.f.parameterDetail.value : "";
+    assay001wb.originalPrefixSlno = this.f.originalPrefixSlno.value ? this.f.originalPrefixSlno.value : null;
+    assay001wb.unit = this.f.unit.value ? this.f.unit.value : "";
+    assay001wb.singleValue = this.f.singleValue.value ? this.f.singleValue.value : "";
+    assay001wb.highEndValue = this.f.highEndValue.value ? this.f.highEndValue.value : "";
+    assay001wb.lowEndValue = this.f.lowEndValue.value ? this.f.lowEndValue.value : "";
+    assay001wb.units = this.f.units.value ? this.f.units.value : "";
+    assay001wb.nonNumeric = this.f.nonNumeric.value ? this.f.nonNumeric.value : "";
+    assay001wb.remark = this.f.remark.value ? this.f.remark.value : "";
+    assay001wb.typeSlno = this.f.typeSlno.value ? this.f.typeSlno.value : null;
+    assay001wb.cell = this.f.cell.value ? this.f.cell.value : "";
+    assay001wb.cellDetail = this.f.cellDetail.value ? this.f.cellDetail.value : "";
+    assay001wb.organ = this.f.organ.value ? this.f.organ.value : "";
+    assay001wb.organDetail = this.f.organDetail.value ? this.f.organDetail.value : "";
+    assay001wb.species = this.f.species.value ? this.f.species.value : "";
+    assay001wb.speciesDetail = this.f.speciesDetail.value ? this.f.speciesDetail.value : "";
+    assay001wb.gender = this.f.gender.value ? this.f.gender.value : "";
+    assay001wb.ageGroup = this.f.ageGroup.value ? this.f.ageGroup.value : "";
+
+    // assay001wb.target = "bioactivity-target" + "/" + "SaturoGlobal" + "/" + this.f.tanNumber.value + "/" + this.f.ligandVersionSlno.value + ">" + "bioactivity-target" + "/" + uuid();
+
+    assay001wb.targetStatus = "embargoed";
+    assay001wb.targetVersion = this.f.targetVersion.value ? this.f.targetVersion.value : "";
+    assay001wb.collectionId1 = this.f.collectionId1.value ? this.f.collectionId1.value : "";
+    assay001wb.original = this.f.original.value ? this.f.original.value : "";
+    assay001wb.acronym = this.f.acronym.value ? this.f.acronym.value : "";
+    assay001wb.organism = this.f.organism.value ? this.f.organism.value : "";
+    assay001wb.variant = this.f.variant.value ? this.f.variant.value : "";
+
+
+    assay001wb.assayId = this.assayId;
+    assay001wb.insertUser = this.insertUser;
+    assay001wb.insertDatetime = this.insertDatetime;
+    assay001wb.updatedUser = this.authManager.getcurrentUser.username;
+    assay001wb.updatedDatetime = new Date();
+    this.assayManager.assayupdate(assay001wb).subscribe((response) => {
+      this.calloutService.showSuccess("Ligand data is rejected");
+      // this.loadData();
+      this.CheckedForm.reset();
+      this.assayId = null;
+      this.submitted = false;
+    });
+
+  }
 
 
   onReviewerClick(event: any, CheckedForm: any) {
@@ -655,6 +656,10 @@ this.assayId=this.data.assayId;
 
   onEditReviewerClick(event: any) {
     this.isEditable = !this.isEditable;
+  }
+
+  onInProcessClick() {
+    this.bgcolor = 'orange';
   }
 
 }

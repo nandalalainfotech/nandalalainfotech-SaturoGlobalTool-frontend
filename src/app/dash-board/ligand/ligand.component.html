@@ -1,4 +1,4 @@
-<fieldset class="scheduler-border" style="height:30px;">
+<fieldset class="scheduler-border">
     <legend class="scheduler-border">Link</legend>
     <div class="formData">
         <form [formGroup]="LigandForm" (ngSubmit)="onLigandClick($event, LigandForm)">
@@ -19,6 +19,7 @@
                         <!-- </select> -->
                     </div>
                 </div>
+
                 <div class="col-xs-6 col-sm-6">
                 </div>
                 <div class="col-xs-2 col-sm-2">
@@ -32,9 +33,14 @@
                     </div>
                 </div>
             </div>
+
         </form>
+
     </div>
+
 </fieldset>
+
+
 
 <fieldset class="scheduler-border">
     <legend class="scheduler-border">Ligand</legend>
@@ -197,13 +203,21 @@
             <div class="row">
 
                 <div class="form-group">
-                    <div class="col-sm-7"></div>
-                    <div class="col-sm-1"><button type="button" class="btn btn-primary" (click)="onRepeat()">Repeat</button>
+                    <div class="col-sm-6"></div>
+                    <div class="col-sm-1">
+                        <button type="button" class="btn btn-primary" (click)="onRepeat()">Repeat</button>
                     </div>
-                    <div class="col-sm-1"><button type="button" class="btn btn-primary" (click)="onEdit()">Edit</button>
+                    <div class="col-sm-1">
+                        <button type="button" class="btn btn-primary" (click)="onEdit()">Edit</button>
                     </div>
-                    <div class="col-sm-1"><button type="submit" class="btn btn-primary">Submit</button></div>
-                    <div class="col-sm-1"> <button type="button" class="btn btn-primary" (click)="onReset()">Clear</button>
+                    <div class="col-sm-1">
+                        <button type="button" class="btn btn-primary" (click)="onBeforeSubmitData($event,LigandForm)">Save</button>
+                    </div>
+                    <div class="col-sm-1">
+                        <button type="button" class="btn btn-primary" (click)="onReset()">Clear</button>
+                    </div>
+                    <div class="col-sm-1">
+                        <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                     <div class="col-sm-1"></div>
                 </div>

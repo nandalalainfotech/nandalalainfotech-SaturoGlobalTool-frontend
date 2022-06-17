@@ -5,6 +5,7 @@ import { FormBuilder } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GridOptions } from 'ag-grid-community';
+import { style } from 'd3';
 import { deserialize } from 'serializer.ts/Serializer';
 import { IconRendererComponent } from 'src/app/shared/services/renderercomponent/icon-renderer-component';
 import { AuthManager } from 'src/app/shared/services/restcontroller/bizservice/auth-manager.service';
@@ -21,13 +22,13 @@ import { Utils } from 'src/app/shared/utils/utils';
   styleUrls: ['./mytask.component.css']
 })
 export class MytaskComponent implements OnInit {
-
+  bgcolor:any
   // TaskAllocationForm: FormGroup | any;
   submitted = false;
   public gridOptions: GridOptions | any;
   onFirstDataRendered: any;
   frameworkComponents: any;
-  curatorTanNo:any;
+  curatorTanNo: any;
 
   user?: User001mb;
   taskallocations: Taskallocation001wb[] = [];
@@ -38,6 +39,7 @@ export class MytaskComponent implements OnInit {
   @HostBinding('style.--color_l2') colorthemes_2: any;
   @HostBinding('style.--color_l3') colorthemes_3: any;
   @HostBinding('style.--color_l4') colorthemes_4: any;
+  getRowStyle: ((params: any) => { background: string; } | undefined) | undefined;
 
   constructor(private http: HttpClient,
     private authManager: AuthManager,
@@ -105,8 +107,8 @@ export class MytaskComponent implements OnInit {
         suppressSizeToFit: true,
         // valueGetter: this.setMachineCode.bind(this)
       },
-    
-    {
+
+      {
         headerName: 'STATUS',
         cellRenderer: 'iconRenderer',
         width: 100,
@@ -114,10 +116,12 @@ export class MytaskComponent implements OnInit {
         suppressSizeToFit: true,
         cellStyle: { textAlign: 'center' },
         cellRendererParams: {
-        onClick: this.onMoveToLigand.bind(this),
-        label: 'Start',
+          onClick: this.onMoveToLigand.bind(this),
+          label: 'Start',
+         
+        },
+        
       },
-    },
       {
         headerName: 'CURATOR NAME',
         field: 'curatorName',
@@ -165,42 +169,46 @@ export class MytaskComponent implements OnInit {
         valueGetter: (params: any) => {
           return params.data.curatorAllocateDate ? this.datepipe.transform(params.data.curatorAllocateDate, 'dd-MM-yyyy') : '';
         }
-     
-      // {
-      //     headerName: 'Delete',
-      //     cellRenderer: 'iconRenderer',
-      //     width: 105,
-      //     flex: 1,
-      //     suppressSizeToFit: true,
-      //     cellStyle: { textAlign: 'center' },
-      //     cellRendererParams: {
-      //         onClick: this.onDeleteButtonClick.bind(this),
-      //         label: 'Delete'
-      //     },
-      // },
-      // {
-      //     headerName: 'Audit',
-      //     cellRenderer: 'iconRenderer',
-      //     width: 80,
-      //     flex: 1,
-      //     suppressSizeToFit: true,
-      //     cellStyle: { textAlign: 'center' },
-      //     cellRendererParams: {
-      //         onClick: this.onAuditButtonClick.bind(this),
-      //         label: 'Audit'
-      //     },
-      // },
-    },
+
+        // {
+        //     headerName: 'Delete',
+        //     cellRenderer: 'iconRenderer',
+        //     width: 105,
+        //     flex: 1,
+        //     suppressSizeToFit: true,
+        //     cellStyle: { textAlign: 'center' },
+        //     cellRendererParams: {
+        //         onClick: this.onDeleteButtonClick.bind(this),
+        //         label: 'Delete'
+        //     },
+        // },
+        // {
+        //     headerName: 'Audit',
+        //     cellRenderer: 'iconRenderer',
+        //     width: 80,
+        //     flex: 1,
+        //     suppressSizeToFit: true,
+        //     cellStyle: { textAlign: 'center' },
+        //     cellRendererParams: {
+        //         onClick: this.onAuditButtonClick.bind(this),
+        //         label: 'Audit'
+        //     },
+        // },
+      },
     ];
   }
   onMoveToLigand(params: any) {
+
+    this.bgcolor = 'red';
+   
+
     let navigationExtras: NavigationExtras = {
       queryParams: {
         "tanNumber": params.data.curatorTanNo
       }
     };
-    
-    this.router.navigate(["/app-dash-board/app-stepper"],navigationExtras);
+
+    this.router.navigate(["/app-dash-board/app-stepper"], navigationExtras);
   }
 
 }

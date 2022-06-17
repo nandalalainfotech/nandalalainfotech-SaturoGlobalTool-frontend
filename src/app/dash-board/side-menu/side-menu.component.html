@@ -22,7 +22,7 @@
                             </li>
 
                             <li id="dropdown" title="Mywork" *ngIf="user?.rolename== 'User'">
-                                <a routerLink="./app-my-work">
+                                <a routerLink="./app-my-work/app-mytask">
                                     <i class="fas fa-atom" [ngClass]="parentMenuString == 'Mywork' ? 'is-active' : 'is-inactive'"></i>
                                     <span [ngClass]="parentMenuString == 'Mywork' ? 'is-active' : ''">My Work Status</span>
                                     <!-- <span class="caret"></span> -->
