@@ -1,0 +1,47 @@
+<fieldset class="scheduler-border">
+    <legend class="scheduler-border">Search</legend>
+    <div class="row">
+        <div class="col-xs-3 col-sm-3">
+            <div class="form-group">
+                <label path="tanNo" for="tanNo" cssClass="required">TAN NUMBER</label>
+                <input class="form-control" name="tanNum" [(ngModel)]="tanNum">
+                <!-- <select class="form-control" name="tanNum" [(ngModel)]="tanNum">
+                <option value="" hidden> - Select Tan Number - </option>
+
+                <option *ngFor="let tanArray of tanarr"  >
+                    {{tanArray}}
+                </option>
+            </select> -->
+            </div>
+        </div>
+        <div class="col-xs-3 col-sm-3">
+            <div class="form-group">
+                <label path="ligandSlno" for="ligandSlno" cssClass="required">Ligand-Version</label>
+                <select class="form-control" name="LigVer" [(ngModel)]="LigVer">
+                    <option value="" hidden> - Select Ligand Version - </option>
+
+                    <option *ngFor="let ligandVer of ligandVersions">
+                        {{ligandVer.ligandVersion}}
+                    </option>
+                </select>
+
+            </div>
+        </div>
+        <div class="col-xs-3 col-sm-3">
+            <div class="form-group">
+                <br>
+                <button type="button" style="margin-top:5px;" (click)="onSearch(tanNum,LigVer)" class="btn btn-primary">
+                    <i class="fa fa-search "></i> Search</button>
+            </div>
+        </div>
+    </div>
+</fieldset>
+
+<div class="scrollbar">
+    <fieldset class="scheduler-border">
+        <legend class="scheduler-border">Assay</legend>
+        <ag-grid-angular #agGrid class="ag-theme-balham" [gridOptions]="gridOptions" style="width: 100%; height: 350px;"
+            [pagination]="false" [frameworkComponents]="frameworkComponents">
+        </ag-grid-angular>
+    </fieldset>
+</div>

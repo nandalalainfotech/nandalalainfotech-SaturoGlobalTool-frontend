@@ -274,7 +274,7 @@ this.assayId=this.data.assayId;
       unit: [this.data.unitSlno2.unit],
       highEndValue: [this.data.highEndValue],
       lowEndValue: [this.data.lowEndValue],
-      units: [this.data.unitedSlno.united],
+      units: [this.data.unitedSlno2?.united],
       nonNumeric: [this.data.nonNumeric],
       remark: [this.data.remark],
       typeSlno: [this.data.typeSlno],

@@ -38,7 +38,14 @@
                                 (colorPickerSelect)="defaultColor()"></i></a>
                     </li>
 
-
+                    <li class="setting" routerLink="./app-search-setting">
+                        <a>
+                            <i class="fa fa-search" aria-hidden="true" title="Search" style="color: white" [ngClass]="
+                                    parentMenuString == 'Search'
+                                        ? 'is-active'
+                                        : ''
+                                " (click)="onMenuParentClick('Search', 'Search')"></i></a>
+                    </li>
 
                     <li class="setting">
                         <div class="dropdown">

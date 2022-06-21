@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { SearchSettingComponent } from '../dashboard/search-setting/search-setting.component';
 import { DashBoardComponent } from './dash-board.component';
 
 const routes: Routes = [
@@ -48,6 +49,11 @@ const routes: Routes = [
       {
         path: 'app-my-work',
         loadChildren: () => import("./my-work/my-work.module").then(m => m.MyWorkModule)
+      },
+      {
+        path: 'app-search-setting',
+        // loadChildren: () => import("./master/master.module").then(m => m.MasterModule)
+        component: SearchSettingComponent,
       },
      
     ]
