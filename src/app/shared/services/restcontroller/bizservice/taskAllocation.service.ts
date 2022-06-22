@@ -23,6 +23,12 @@ export class TaskAllocationManager extends BaseService {
         return this.getCallService(`${this.taskallocationUrl}` + "/findByTanNo", data);
     }
 
+    findByReviewerTanNo(username: any) {
+        let data: any = {};
+        data['username'] = username;
+        return this.getCallService(`${this.taskallocationUrl}` + "/findByReviewerTanNo", data);
+    }
+
     tasksave(taskallocation001wb: Taskallocation001wb, selectedFile: any) {
         let formData: any = new FormData();
         formData.append("filename", selectedFile.name);

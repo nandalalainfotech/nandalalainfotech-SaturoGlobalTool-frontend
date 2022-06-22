@@ -22,11 +22,11 @@ import { RejectedByReviewerComponent } from './rejected-by-reviewer/rejected-by-
 
 @NgModule({
   declarations: [
+    MyWorkComponent,
     MytaskComponent,
     InprocessComponent,
     PendingComponent,
     SubmittedToQcComponent,
-    MyWorkComponent,
     RejectedByReviewerComponent
   ],
 
@@ -37,8 +37,8 @@ import { RejectedByReviewerComponent } from './rejected-by-reviewer/rejected-by-
     ReactiveFormsModule,
     MatDatepickerModule,
     MatFormFieldModule,
-    MatNativeDateModule,
-    MatInputModule,
+    // MatNativeDateModule,
+    // MatInputModule,
     AgGridModule.withComponents([]),
     AgrenderercomponentModule,
     MatTabsModule,

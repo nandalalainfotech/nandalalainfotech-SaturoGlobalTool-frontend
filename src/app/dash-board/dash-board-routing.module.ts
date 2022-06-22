@@ -50,6 +50,12 @@ const routes: Routes = [
         path: 'app-my-work',
         loadChildren: () => import("./my-work/my-work.module").then(m => m.MyWorkModule)
       },
+
+      {
+        path: 'app-reviewer-work-status',
+        loadChildren: () => import("./reviewer-work-status/reviewer-work-status.module").then(m => m.ReviewerWorkStatusModule)
+      },
+
       {
         path: 'app-search-setting',
         // loadChildren: () => import("./master/master.module").then(m => m.MasterModule)

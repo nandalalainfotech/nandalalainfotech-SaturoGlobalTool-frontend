@@ -1,0 +1,6 @@
+<nav mat-tab-nav-bar>
+    <a mat-tab-link routerLink="./app-reviewer-task" routerLinkActive #reviewerInTaskTab="routerLinkActive" [active]="reviewerInTaskTab.isActive">My Task</a>
+    <a mat-tab-link routerLink="./app-reviewer-inprocess-task" routerLinkActive #reviewerInprocessTaskTab="routerLinkActive" [active]="reviewerInprocessTaskTab.isActive">In Process</a>
+    <a mat-tab-link routerLink="./app-reviewer-completed-task" routerLinkActive #reviewerCompletedTaskTab="routerLinkActive" [active]="reviewerCompletedTaskTab.isActive">Completed </a>
+</nav>
+<router-outlet></router-outlet>

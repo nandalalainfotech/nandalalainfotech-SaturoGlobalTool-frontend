@@ -66,8 +66,10 @@ this.assayManager.findInprocesStatus(this.username).subscribe(response => {
   // console.log(" this.findInprocesStatus", this.assays);
   
   for (let assay of this.assays) {
-    if(assay.status == "Submitted to QC" ) {
+    if(assay.status == "Before submit the data" ) {
       this.submittedToQCAssays.push(assay);
+      console.log("this.submittedToQCAssays--->",this.submittedToQCAssays);
+      
     } 
   }
   if (this.submittedToQCAssays.length > 0) {
@@ -100,7 +102,7 @@ this.assayManager.findInprocesStatus(this.username).subscribe(response => {
         headerName: 'Sl-No',
         field: 'assayId',
         width: 200,
-        // flex: 1,
+        flex: 1,
         sortable: true,
         filter: true,
         resizable: true,
@@ -109,551 +111,65 @@ this.assayManager.findInprocesStatus(this.username).subscribe(response => {
         checkboxSelection: true,
         suppressSizeToFit: true,
       },
-      // {
-      //   headerName: 'STATUS',
-      //   cellRenderer: 'iconRenderer',
-      //   width: 100,
-      //   // flex: 1,
-      //   suppressSizeToFit: true,
-      //   cellStyle: { textAlign: 'center' },
-      //   cellRendererParams: {
-      //     onClick: this.onSubmittedMoveToLigand.bind(this),
-      //     label: 'Start',
-      //   },
-      // },
+      {
+        headerName: ' BATCH NUMBER',
+        field: 'cbatchNo',
+        width: 150,
+        flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true
+      },
       {
         headerName: 'TAN NUMBER',
-        width: 200,
-        // flex: 1,
+        width: 150,
+        flex: 1,
         sortable: true,
         filter: true,
         resizable: true,
         suppressSizeToFit: true,
         valueGetter: this.setTanNumber.bind(this)
       },
-      {
-        headerName: 'Ligand-Version',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-        valueGetter: this.setVersion.bind(this)
-      },
-      // {
-      //   headerName: 'Ordinal',
-      //   field: 'ordinal',
-      //   width: 200,
-      //   // flex: 1,
-      //   sortable: true,
-      //   filter: true,
-      //   resizable: true,
-      //   suppressSizeToFit: true
-      // },
 
+     
+      
       {
-        headerName: 'Assay-type',
-        field: 'assayTypeSlno',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
+        headerName: 'View',
+        cellRenderer: 'iconRenderer',
+        width: 80,
+        flex: 1,
         suppressSizeToFit: true,
-        valueGetter: this.setAssayType.bind(this)
-      },
-      {
-        headerName: 'Toxicity-type',
-        field: 'toxiCitySlno',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-        valueGetter: this.setToxicityType.bind(this)
+        cellStyle: { textAlign: 'left' },
+        cellRendererParams: {
+          // onClick: this.onEditButtonClick.bind(this),
+          label: 'Edit'
+        },
       },
 
       {
-        headerName: 'Route-of-administration',
-        field: 'routeSlno',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
+        headerName: 'Edit',
+        cellRenderer: 'iconRenderer',
+        width: 80,
+        flex: 1,
         suppressSizeToFit: true,
-        valueGetter: this.setRouteAdmin.bind(this)
+        cellStyle: { textAlign: 'left' },
+        cellRendererParams: {
+          // onClick: this.onEditButtonClick.bind(this),
+          label: 'Edit'
+        },
       },
       {
-        headerName: 'Ligand-Dose(singleValue)',
-        field: 'ligandSvalue',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true
-      },
-      {
-        headerName: 'Unit(singleValue)',
-        field: 'unitSlno',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
+        headerName: 'SUBMIT',
+        cellRenderer: 'iconRenderer',
+        width: 85,
+        flex: 1,
         suppressSizeToFit: true,
-        valueGetter: this.setUnitSingleValue.bind(this)
-      },
-      {
-        headerName: 'Ligand-Dose(highValue)',
-        field: 'ligandHvalue',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true
-      },
-      {
-        headerName: 'Ligand-Dose(lowValue)',
-        field: 'ligandLvalue',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true
-      },
-
-      {
-        headerName: 'unit',
-        field: 'unitedSlno',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-        valueGetter: this.setUnitLowValue.bind(this)
-      },
-      {
-        headerName: 'Administration',
-        field: 'administration',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-
-        suppressSizeToFit: true
-      },
-      {
-        headerName: 'Procedure',
-        field: 'procedure',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-
-        suppressSizeToFit: true
-      },
-      {
-        headerName: 'Condition type',
-        field: 'conditionType',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-
-        suppressSizeToFit: true
-      },
-      {
-        headerName: 'Condition material',
-        field: 'conditionMaterial',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-
-        suppressSizeToFit: true
-      },
-      {
-        headerName: 'Condition material-id',
-        field: 'conditionMaterialid',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true
-      },
-      {
-        headerName: 'Condition(Single-value)',
-        field: 'singleCondition',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true
-      },
-      {
-        headerName: 'Unit(Single-value)',
-        field: 'singleUnit',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true
-      },
-      {
-        headerName: 'Condition(High-end-value)',
-        field: 'highCondition',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true
-      },
-      {
-        headerName: 'Condition(Low-end-value)',
-        field: 'lowCondition',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true
-      },
-      {
-        headerName: 'Unit',
-        field: 'highLowUnit',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true
-      },
-
-
-
-
-      {
-        headerName: 'Data-locator',
-        field: 'dataLocator',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-
-      },
-      {
-        headerName: 'Category',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-        valueGetter: this.setCategory.bind(this)
-      },
-      {
-        headerName: 'Function',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-        valueGetter: this.setCategoryFunction.bind(this)
-      },
-      {
-        headerName: 'Parameter',
-        field: 'parameter',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-      },
-      {
-        headerName: 'Parameter-detail',
-        field: 'parameterDetail',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-
-      },
-      {
-        headerName: 'Original-prefix',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-        valueGetter: this.setOriginalPrefix.bind(this)
-      },
-      {
-        headerName: 'Original-value(Single-value)',
-        field: 'singleValue',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-      },
-      {
-        headerName: 'Unit',
-        field: 'unit',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-
-      },
-      {
-        headerName: 'Original-value(Single-value)',
-        field: 'singleValue',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-
-      },
-      {
-        headerName: 'Original-value(High-End-value)',
-        field: 'highEndValue',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-
-      },
-      {
-        headerName: 'Original-value(Low-End-value)',
-        field: 'lowEndValue',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-      },
-      {
-        headerName: 'Unit',
-        field: 'units',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-
-      },
-      {
-        headerName: 'Original-value(Non-numeric-value)',
-        field: 'nonNumeric',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-      },
-      {
-        headerName: 'Remarks',
-        field: 'remark',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-
-      },
-      {
-        headerName: 'Type',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-        valueGetter: this.setTypes.bind(this)
-        
-      },
-      {
-        headerName: 'Cell',
-        field: 'cell',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-
-      },
-      {
-        headerName: 'Cell-detail',
-        field: 'cellDetail',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-      },
-      {
-        headerName: 'Organ',
-        field: 'organ',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-
-      },
-      {
-        headerName: 'Organ-detail',
-        field: 'organDetail',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-      },
-      {
-        headerName: 'Species',
-        field: 'species',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-
-      },
-      {
-        headerName: 'Species-detail',
-        field: 'speciesDetail',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-      },
-      {
-        headerName: 'Gender',
-        field: 'gender',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-
-      },
-      {
-        headerName: 'Age-group',
-        field: 'ageGroup',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-      },
-
-      {
-        headerName: 'TARGET VERSION',
-        field: 'targetVersion',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-      },
-
-      {
-        headerName: 'COLLETION ID',
-        field: 'collectionId1',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-      },
-
-      {
-        headerName: 'ORIGINAL-TARGET-NAME',
-        field: 'original',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-      },
-
-      {
-        headerName: 'ACRONYM',
-        field: 'acronym',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-      },
-
-      {
-        headerName: 'ORGANISM-SOURCE',
-        field: 'organism',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-      },
-
-      {
-        headerName: 'VARIANT',
-        field: 'variant',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
+        cellStyle: { textAlign: 'left' },
+        cellRendererParams: {
+          // onClick: this.onDeleteButtonClick.bind(this),
+          label: 'Start'
+        },
       },
 
       

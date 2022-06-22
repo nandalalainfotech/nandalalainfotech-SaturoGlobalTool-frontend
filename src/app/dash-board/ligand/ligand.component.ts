@@ -110,17 +110,15 @@ export class LigandComponent implements OnInit {
   ngOnInit(): void {
 
 
-
-    // this.sub = this.route.queryParams.subscribe((params: { [x: string]: any; }) => {
-    //   let tanNumbers = params["curatorTanNo"];
-    //   this.tanNumber = tanNumbers;
-    // });
-
     this.inprocess = this.route.queryParams.subscribe((params: { [x: string]: any; }) => {
+      
+      let InsertUser = params["insertUsers"];
+      this.insertUser = InsertUser;
+
       let TanNumber = params["tanNumber"];
       this.tanNumber = TanNumber;
 
-      let LigandVersion = params["ligandVersion"];
+      let LigandVersion = params["ligandVersions"];
       this.ligandVersionSlno = LigandVersion;
 
       let LigandType = params["ligandType"];
@@ -178,7 +176,7 @@ export class LigandComponent implements OnInit {
       // ligandUri: [''],
       ligandVersionSlno: [this.ligandVersionSlno],
       // ligandVersions: [''],
-      ligandTypeSlno: [this.ligandTypeSlno],
+      ligandTypeSlno: [ this.ligandTypeSlno],
       identifier1: [this.identifier1],
       identifier2: [this.identifier2],
       identifier3: [this.identifier3],
@@ -219,6 +217,8 @@ export class LigandComponent implements OnInit {
   loadData() {
     this.ligandManager.allligand(this.username).subscribe(response => {
       this.ligand = deserialize<Ligand001wb[]>(Ligand001wb, response);
+      // console.log("this.ligand check---->",this.ligand);
+      
       if (this.ligand.length > 0) {
         this.gridOptions?.api?.setRowData(this.ligand);
       } else {
@@ -538,6 +538,8 @@ export class LigandComponent implements OnInit {
 
 
   onEditButtonClick(params: any) {
+    
+    // if (params.data.status != "Submitted to QC") {
     this.ligandId = params.data.ligandId;
     this.insertUser = params.data.insertUser;
     this.insertDatetime = params.data.insertDatetime;
@@ -562,9 +564,11 @@ export class LigandComponent implements OnInit {
       // 'organism': params.data.organism,
       // 'variant': params.data.variant,
     });
-  }
+  // }
+}
 
   onDeleteButtonClick(params: any) {
+    // if (params.data.status != "Submitted to QC") {
     const modalRef = this.modalService.open(ConformationComponent);
     modalRef.componentInstance.details = "Ligand";
     modalRef.result.then((data) => {
@@ -583,6 +587,7 @@ export class LigandComponent implements OnInit {
         });
       }
     })
+  // }
   }
 
   onAuditButtonClick(params: any) {
@@ -823,62 +828,68 @@ export class LigandComponent implements OnInit {
   onRepeat() {
     let i = this.ligand.length - 1;
     for (i; i < this.ligand.length; i++) {
-      this.LigandForm.patchValue({
-        'tanNumber': this.ligand[i].tanNumber,
-        'ligandVersionSlno': this.ligand[i].ligandVersionSlno,
-        'ligandTypeSlno': this.ligand[i].ligandTypeSlno,
-        'ligandDetail': this.ligand[i].ligandDetail,
-        'identifier1': this.ligand[i].identifier1,
-        'identifier2': this.ligand[i].identifier2,
-        'identifier3': this.ligand[i].identifier3,
-        'collectionId': this.ligand[i].collectionId,
-        'locator': this.ligand[i].locator,
-        'diseaseName1': this.ligand[i].diseaseName1,
-        'diseaseName2': this.ligand[i].diseaseName2,
-        'diseaseName3': this.ligand[i].diseaseName3,
-        'targetVersion': this.ligand[i].targetVersion,
-        'collectionId1': this.ligand[i].collectionId1,
-        'original': this.ligand[i].original,
-        'acronym': this.ligand[i].acronym,
-        'organism': this.ligand[i].organism,
-        'variant': this.ligand[i].variant,
-      });
+    //   if (this.ligand[i].status == "Submitted to QC") {
+    //     this.calloutService.showWarning("This data can't be Edited");
+    //   }
+
+    //   if (this.ligand[i].status != "Submitted to QC") {
+        this.LigandForm.patchValue({
+          'tanNumber': this.ligand[i].tanNumber,
+          'ligandVersionSlno': this.ligand[i].ligandVersionSlno,
+          'ligandTypeSlno': this.ligand[i].ligandTypeSlno,
+          'ligandDetail': this.ligand[i].ligandDetail,
+          'identifier1': this.ligand[i].identifier1,
+          'identifier2': this.ligand[i].identifier2,
+          'identifier3': this.ligand[i].identifier3,
+          'collectionId': this.ligand[i].collectionId,
+          'locator': this.ligand[i].locator,
+          'diseaseName1': this.ligand[i].diseaseName1,
+          'diseaseName2': this.ligand[i].diseaseName2,
+          'diseaseName3': this.ligand[i].diseaseName3,
+          'targetVersion': this.ligand[i].targetVersion,
+          'collectionId1': this.ligand[i].collectionId1,
+          'original': this.ligand[i].original,
+          'acronym': this.ligand[i].acronym,
+          'organism': this.ligand[i].organism,
+          'variant': this.ligand[i].variant,
+        });
+      // }
     }
   }
 
   onEdit() {
     let i = this.ligand.length - 1;
     for (i; i < this.ligand.length; i++) {
-      
-        if (this.ligand[i].status == "Submitted to QC") {
-          this.calloutService.showWarning("This data can't be Edited");
-        }
-        
-        if (this.ligand[i].status != "Submitted to QC") {
-          this.insertDatetime = new Date();
-          this.ligandId = this.ligand[i].ligandId;
-          this.LigandForm.patchValue({
-            // 'ligandId': this.ligand[i].ligandId,
-            'tanNumber': this.ligand[i].tanNumber,
-            'ligandVersionSlno': this.ligand[i].ligandVersionSlno,
-            'ligandTypeSlno': this.ligand[i].ligandTypeSlno,
-            'ligandDetail': this.ligand[i].ligandDetail,
-            'identifier1': this.ligand[i].identifier1,
-            'identifier2': this.ligand[i].identifier2,
-            'identifier3': this.ligand[i].identifier3,
-            'collectionId': this.ligand[i].collectionId,
-            'locator': this.ligand[i].locator,
-            'diseaseName1': this.ligand[i].diseaseName1,
-            'diseaseName2': this.ligand[i].diseaseName2,
-            'diseaseName3': this.ligand[i].diseaseName3,
-            'targetVersion': this.ligand[i].targetVersion,
-            'collectionId1': this.ligand[i].collectionId1,
-            'original': this.ligand[i].original,
-            'acronym': this.ligand[i].acronym,
-            'organism': this.ligand[i].organism,
-            'variant': this.ligand[i].variant,
-          });
-        }
+
+    //   if (this.ligand[i].status == "Submitted to QC") {
+    //     this.calloutService.showWarning("This data can't be Edited");
+    //   }
+
+    //   if (this.ligand[i].status != "Submitted to QC") {
+        this.insertDatetime = new Date();
+        this.ligandId = this.ligand[i].ligandId;
+        this.LigandForm.patchValue({
+          // 'ligandId': this.ligand[i].ligandId,
+          'tanNumber': this.ligand[i].tanNumber,
+          'ligandVersionSlno': this.ligand[i].ligandVersionSlno,
+          'ligandTypeSlno': this.ligand[i].ligandTypeSlno,
+          'ligandDetail': this.ligand[i].ligandDetail,
+          'identifier1': this.ligand[i].identifier1,
+          'identifier2': this.ligand[i].identifier2,
+          'identifier3': this.ligand[i].identifier3,
+          'collectionId': this.ligand[i].collectionId,
+          'locator': this.ligand[i].locator,
+          'diseaseName1': this.ligand[i].diseaseName1,
+          'diseaseName2': this.ligand[i].diseaseName2,
+          'diseaseName3': this.ligand[i].diseaseName3,
+          'targetVersion': this.ligand[i].targetVersion,
+          'collectionId1': this.ligand[i].collectionId1,
+          'original': this.ligand[i].original,
+          'acronym': this.ligand[i].acronym,
+          'organism': this.ligand[i].organism,
+          'variant': this.ligand[i].variant,
+        });
       }
-    }
+    // }
   }
+}

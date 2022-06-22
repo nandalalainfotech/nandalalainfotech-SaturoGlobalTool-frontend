@@ -9,7 +9,24 @@
                             <li id="dropdown" title="TaskAllocation" *ngIf="user?.rolename== 'Admin'">
                                 <a routerLink="./app-admin">
                                     <i class="fa fa-tasks" [ngClass]="parentMenuString == 'Admin' ? 'is-active' : 'is-inactive'"></i>
-                                    <span [ngClass]="parentMenuString == 'Admin' ? 'is-active' : ''">Task Allocation</span>
+                                    <span [ngClass]="parentMenuString == 'Admin' ? 'is-active' : ''">Task
+                                        Allocation</span>
+                                </a>
+                            </li>
+
+                            <li id="dropdown" title="Mywork" *ngIf="user?.rolename== 'User'">
+                                <a routerLink="./app-my-work/app-mytask">
+                                    <i class="fas fa-atom" [ngClass]="parentMenuString == 'Mywork' ? 'is-active' : 'is-inactive'"></i>
+                                    <span [ngClass]="parentMenuString == 'Mywork' ? 'is-active' : ''">My Work Status</span>
+                                    <!-- <span class="caret"></span> -->
+                                </a>
+                            </li>
+
+                            <li id="dropdown" title="Myworkstatus" *ngIf="user?.rolename== 'Reviewer'">
+                                <a routerLink="./app-reviewer-work-status/app-reviewer-task">
+                                    <i class="fas fa-atom" [ngClass]="parentMenuString == 'ReviewerWorkTask' ? 'is-active' : 'is-inactive'"></i>
+                                    <span [ngClass]="parentMenuString == 'ReviewerWorkTask' ? 'is-active' : ''">My Work Status</span>
+
                                 </a>
                             </li>
 
@@ -21,14 +38,8 @@
                                 </a>
                             </li>
 
-                            <li id="dropdown" title="Mywork" *ngIf="user?.rolename== 'User'">
-                                <a routerLink="./app-my-work/app-mytask">
-                                    <i class="fas fa-atom" [ngClass]="parentMenuString == 'Mywork' ? 'is-active' : 'is-inactive'"></i>
-                                    <span [ngClass]="parentMenuString == 'Mywork' ? 'is-active' : ''">My Work Status</span>
-                                    <!-- <span class="caret"></span> -->
-                                </a>
-                            </li>
-                            <!-- *ngIf="user?.rolename== 'User' || user?.rolename== 'Reviewer'" -->
+
+
 
 
                         </ul>
