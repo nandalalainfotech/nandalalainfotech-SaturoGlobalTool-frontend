@@ -52,6 +52,8 @@ import { SideMenuComponent } from './side-menu/side-menu.component';
 import { StatusComponent } from './status/status.component';
 import { StepperComponent } from './stepper/stepper.component';
 import { TargetComponent } from './target/target.component';
+import { ReviewerWorkStatusComponent } from './reviewer-work-status/reviewer-work-status.component';
+import { MyWorkComponent } from './my-work/my-work.component';
 // import { GoJsChartComponent } from './body/go-js-chart/go-js-chart.component';
 
 
@@ -73,6 +75,7 @@ import { TargetComponent } from './target/target.component';
         ReportComponent,
         AdminComponent,
         StatusComponent,
+        // ReviewerWorkStatusComponent,
         // MyWorkComponent,
         // BreadcrumbComponent
         // MasterComponent,

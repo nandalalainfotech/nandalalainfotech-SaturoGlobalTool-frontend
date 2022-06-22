@@ -6,7 +6,7 @@
                 <div class="col-xs-4 col-sm-4">
                     <div class="form-group">
                         <label path="tanNumber" for="tanNumber" cssClass="required">TAN Number</label>
-                        <input class="form-control" name="tanNumber" formControlName="tanNumber" [ngClass]="{ 'is-invalid': submitted && f.tanNumber.errors }">
+                        <input readonly class="form-control" name="tanNumber" formControlName="tanNumber" [ngClass]="{ 'is-invalid': submitted && f.tanNumber.errors }">
                         <!-- <select class="form-control" name="tanNumber" formControlName="tanNumber">
                            <option value="" hidden> - Select Tan tanNumber - </option>
                            <option >

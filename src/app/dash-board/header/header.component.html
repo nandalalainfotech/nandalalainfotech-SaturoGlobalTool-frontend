@@ -47,7 +47,7 @@
                                 " (click)="onMenuParentClick('Search', 'Search')"></i></a>
                     </li>
 
-                    <li class="setting">
+                    <li class="setting" *ngIf="user?.rolename== 'User'">
                         <div class="dropdown">
                             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" style="color: white" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="bttn">
                                 <i class="fa fa-shield" [ngClass]="
@@ -241,7 +241,7 @@
                                     >
                                 </li> -->
 
-                                <li routerLink="./app-setting/app-profile/app-registration">
+                                <li routerLink="./app-setting/app-profile/app-registration" *ngIf="user?.rolename== 'Admin'">
                                     <a [ngStyle]="{ color: colorthemes_1 }" [ngClass]="
                                             childMenuString == 'Profile'
                                                 ? 'is-active'
@@ -254,7 +254,7 @@
                                         ">Profile</a>
                                 </li>
 
-                                <li routerLink="./app-setting/app-settings">
+                                <li routerLink="./app-setting/app-settings" *ngIf="user?.rolename== 'Admin'">
                                     <a [ngStyle]="{ color: colorthemes_1 }" [ngClass]="
                                             childMenuString == 'Settings'
                                                 ? 'is-active'

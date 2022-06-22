@@ -8,6 +8,7 @@ import { LigandManager } from 'src/app/shared/services/restcontroller/bizservice
 import { AssayManager } from 'src/app/shared/services/restcontroller/bizservice/Assay.service';
 import { MeasurementManager } from 'src/app/shared/services/restcontroller/bizservice/Measurement.service';
 import { LigandReportsManager } from 'src/app/shared/services/restcontroller/bizservice/report.service';
+import { TaskAllocationManager } from 'src/app/shared/services/restcontroller/bizservice/taskAllocation.service';
 
 
 @NgModule({
@@ -19,6 +20,6 @@ import { LigandReportsManager } from 'src/app/shared/services/restcontroller/biz
     ReactiveFormsModule,
     AgGridModule.withComponents([]),
   ],
-  providers: [LigandManager,AssayManager,MeasurementManager,LigandReportsManager]
+  providers: [LigandManager,AssayManager,MeasurementManager,LigandReportsManager,TaskAllocationManager]
 })
 export class ReportModule { }

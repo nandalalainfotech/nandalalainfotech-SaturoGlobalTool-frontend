@@ -429,7 +429,7 @@ export class AssayComponent implements OnInit {
     this.username = this.authManager.getcurrentUser.username;
     this.assayManager.allassay(this.username).subscribe(response => {
       this.assay = deserialize<Assay001wb[]>(Assay001wb, response);
-      // console.log("allassay in", this.assay);
+      // console.log("allassay in assay", this.assay);
       if (this.assay.length > 0) {
         this.gridOptions?.api?.setRowData(this.assay);
       } else {
@@ -437,18 +437,7 @@ export class AssayComponent implements OnInit {
       }
     });
 
-    // this.assayManager.findByCuratorTan(this.username).subscribe(response => {
-
-    //   this.curatotTask = deserialize<Assay001wb[]>(Assay001wb, response);
-    //   console.log("this.curatotTask",this.curatotTask);
-
-    //   if (this.curatotTask.length > 0) {
-    //     this.gridOptions?.api?.setRowData(this.curatotTask);
-    //   } else {
-    //     this.gridOptions?.api?.setRowData([]);
-    //   }
-    // });
-
+   
   }
 
 
@@ -692,9 +681,6 @@ export class AssayComponent implements OnInit {
         resizable: true,
         suppressSizeToFit: true
       },
-
-
-
 
       {
         headerName: 'Data-locator',
@@ -1113,31 +1099,31 @@ export class AssayComponent implements OnInit {
         'lowCondition': params.data.lowCondition,
         'highLowUnit': params.data.highLowUnit,
 
-      // 'dataLocator': this.assay[i].dataLocator,
-      'dataLocator1': params.data.dataLocator1,
-      'dataLocator2': params.data.dataLocator2,
-      'dataLocator3': params.data.dataLocator3,
-      'categorySlno': params.data.categorySlno,
-      'functionSlno': params.data.functionSlno,
-      'parameter': params.data.parameter,
-      'parameterDetail': params.data.parameterDetail,
-      'originalPrefixSlno': params.data.originalPrefixSlno,
-      'unit': params.data.unit,
-      'singleValue': params.data.singleValue,
-      'highEndValue': params.data.highEndValue,
-      'lowEndValue': params.data.lowEndValue,
-      'units': params.data.units,
-      'nonNumeric': params.data.nonNumeric,
-      'remark': params.data.remark,
-      'typeSlno': params.data.typeSlno,
-      'cell': params.data.cell,
-      'cellDetail': params.data.cellDetail,
-      'organ': params.data.organ,
-      'organDetail': params.data.organDetail,
-      'species': params.data.species,
-      'speciesDetail': params.data.speciesDetail,
-      'gender': params.data.gender,
-      'ageGroup': params.data.ageGroup,
+        // 'dataLocator': this.assay[i].dataLocator,
+        'dataLocator1': params.data.dataLocator1,
+        'dataLocator2': params.data.dataLocator2,
+        'dataLocator3': params.data.dataLocator3,
+        'categorySlno': params.data.categorySlno,
+        'functionSlno': params.data.functionSlno,
+        'parameter': params.data.parameter,
+        'parameterDetail': params.data.parameterDetail,
+        'originalPrefixSlno': params.data.originalPrefixSlno,
+        'unit': params.data.unit,
+        'singleValue': params.data.singleValue,
+        'highEndValue': params.data.highEndValue,
+        'lowEndValue': params.data.lowEndValue,
+        'units': params.data.units,
+        'nonNumeric': params.data.nonNumeric,
+        'remark': params.data.remark,
+        'typeSlno': params.data.typeSlno,
+        'cell': params.data.cell,
+        'cellDetail': params.data.cellDetail,
+        'organ': params.data.organ,
+        'organDetail': params.data.organDetail,
+        'species': params.data.species,
+        'speciesDetail': params.data.speciesDetail,
+        'gender': params.data.gender,
+        'ageGroup': params.data.ageGroup,
 
 
         'targetVersion': params.data.targetVersion,
@@ -1152,25 +1138,28 @@ export class AssayComponent implements OnInit {
 
 
   onDeleteButtonClick(params: any) {
-    const modalRef = this.modalService.open(ConformationComponent);
-    modalRef.componentInstance.details = "Assay";
-    modalRef.result.then((data) => {
-      if (data == "Yes") {
-        this.assayManager.assaydelete(params.data.assayId).subscribe((response) => {
-          for (let i = 0; i < this.assay.length; i++) {
-            if (this.assay[i].assayId == params.data.assayId) {
-              this.assay?.splice(i, 1);
-              break;
+    // if (params.data.status != "Submitted to QC") {
+      const modalRef = this.modalService.open(ConformationComponent);
+      modalRef.componentInstance.details = "Assay";
+      modalRef.result.then((data) => {
+        if (data == "Yes") {
+          this.assayManager.assaydelete(params.data.assayId).subscribe((response) => {
+            for (let i = 0; i < this.assay.length; i++) {
+              if (this.assay[i].assayId == params.data.assayId) {
+                this.assay?.splice(i, 1);
+                break;
+              }
             }
-          }
-          const selectedRows = params.api.getSelectedRows();
-          params.api.applyTransaction({ remove: selectedRows });
-          this.gridOptions.api.deselectAll();
-          this.calloutService.showSuccess("Assay Removed Successfully");
-        });
-      }
-    })
+            const selectedRows = params.api.getSelectedRows();
+            params.api.applyTransaction({ remove: selectedRows });
+            this.gridOptions.api.deselectAll();
+            this.calloutService.showSuccess("Assay Removed Successfully");
+          });
+        }
+      })
+    // }
   }
+
 
   onAuditButtonClick(params: any) {
     const modalRef = this.modalService.open(AuditComponent);
@@ -1287,7 +1276,7 @@ export class AssayComponent implements OnInit {
       });
     }
     else {
-      
+
       assay001wb.insertUser = this.authManager.getcurrentUser.username;
       assay001wb.insertDatetime = new Date();
       this.assayManager.assaysave(assay001wb).subscribe((response) => {
@@ -1610,64 +1599,70 @@ export class AssayComponent implements OnInit {
   onRepeat() {
     let i = this.assay.length - 1;
     for (i; i < this.assay.length; i++) {
-      this.AssayForm.patchValue({
-        // 'ordinal': this.assay[i].ordinal,
-        'ligandSlno': this.assay[i].ligandSlno,
-        'assayTypeSlno': this.assay[i].assayTypeSlno,
-        'toxiCitySlno': this.assay[i].toxiCitySlno,
-        'routeSlno': this.assay[i].routeSlno,
-        'ligandSvalue': this.assay[i].ligandSvalue,
-        'unitSlno': this.assay[i].unitSlno,
-        'ligandHvalue': this.assay[i].ligandHvalue,
-        'ligandLvalue': this.assay[i].ligandLvalue,
-        'unitedSlno': this.assay[i].unitedSlno,
-        'administration': this.assay[i].administration,
-        'procedure': this.assay[i].procedure,
-        'conditionType': this.assay[i].conditionType,
-        'conditionMaterial': this.assay[i].conditionMaterial,
-        'conditionMaterialid': this.assay[i].conditionMaterialid,
-        'singleCondition': this.assay[i].singleCondition,
-        'singleUnit': this.assay[i].singleUnit,
-        'highCondition': this.assay[i].highCondition,
-        'lowCondition': this.assay[i].lowCondition,
-        'highLowUnit': this.assay[i].highLowUnit,
+    //   if (this.assay[i].status == "Submitted to QC") {
+    //     this.calloutService.showWarning("This data can't be Edited");
+    //   }
 
-        // 'dataLocator': this.assay[i].dataLocator,
-        'dataLocator1': this.assay[i].dataLocator1,
-        'dataLocator2': this.assay[i].dataLocator2,
-        'dataLocator3': this.assay[i].dataLocator3,
-        'categorySlno': this.assay[i].categorySlno,
-        'functionSlno': this.assay[i].functionSlno,
-        'parameter': this.assay[i].parameter,
-        'parameterDetail': this.assay[i].parameterDetail,
-        'originalPrefixSlno': this.assay[i].originalPrefixSlno,
-        'unit': this.assay[i].unit,
-        'singleValue': this.assay[i].singleValue,
-        'highEndValue': this.assay[i].highEndValue,
-        'lowEndValue': this.assay[i].lowEndValue,
-        'units': this.assay[i].units,
-        'nonNumeric': this.assay[i].nonNumeric,
-        'remark': this.assay[i].remark,
-        'typeSlno': this.assay[i].typeSlno,
-        'cell': this.assay[i].cell,
-        'cellDetail': this.assay[i].cellDetail,
-        'organ': this.assay[i].organ,
-        'organDetail': this.assay[i].organDetail,
-        'species': this.assay[i].species,
-        'speciesDetail': this.assay[i].speciesDetail,
-        'gender': this.assay[i].gender,
-        'ageGroup': this.assay[i].ageGroup,
+    //   if (this.assay[i].status != "Submitted to QC") {
+        this.AssayForm.patchValue({
+          // 'ordinal': this.assay[i].ordinal,
+          'ligandSlno': this.assay[i].ligandSlno,
+          'assayTypeSlno': this.assay[i].assayTypeSlno,
+          'toxiCitySlno': this.assay[i].toxiCitySlno,
+          'routeSlno': this.assay[i].routeSlno,
+          'ligandSvalue': this.assay[i].ligandSvalue,
+          'unitSlno': this.assay[i].unitSlno,
+          'ligandHvalue': this.assay[i].ligandHvalue,
+          'ligandLvalue': this.assay[i].ligandLvalue,
+          'unitedSlno': this.assay[i].unitedSlno,
+          'administration': this.assay[i].administration,
+          'procedure': this.assay[i].procedure,
+          'conditionType': this.assay[i].conditionType,
+          'conditionMaterial': this.assay[i].conditionMaterial,
+          'conditionMaterialid': this.assay[i].conditionMaterialid,
+          'singleCondition': this.assay[i].singleCondition,
+          'singleUnit': this.assay[i].singleUnit,
+          'highCondition': this.assay[i].highCondition,
+          'lowCondition': this.assay[i].lowCondition,
+          'highLowUnit': this.assay[i].highLowUnit,
+
+          // 'dataLocator': this.assay[i].dataLocator,
+          'dataLocator1': this.assay[i].dataLocator1,
+          'dataLocator2': this.assay[i].dataLocator2,
+          'dataLocator3': this.assay[i].dataLocator3,
+          'categorySlno': this.assay[i].categorySlno,
+          'functionSlno': this.assay[i].functionSlno,
+          'parameter': this.assay[i].parameter,
+          'parameterDetail': this.assay[i].parameterDetail,
+          'originalPrefixSlno': this.assay[i].originalPrefixSlno,
+          'unit': this.assay[i].unit,
+          'singleValue': this.assay[i].singleValue,
+          'highEndValue': this.assay[i].highEndValue,
+          'lowEndValue': this.assay[i].lowEndValue,
+          'units': this.assay[i].units,
+          'nonNumeric': this.assay[i].nonNumeric,
+          'remark': this.assay[i].remark,
+          'typeSlno': this.assay[i].typeSlno,
+          'cell': this.assay[i].cell,
+          'cellDetail': this.assay[i].cellDetail,
+          'organ': this.assay[i].organ,
+          'organDetail': this.assay[i].organDetail,
+          'species': this.assay[i].species,
+          'speciesDetail': this.assay[i].speciesDetail,
+          'gender': this.assay[i].gender,
+          'ageGroup': this.assay[i].ageGroup,
 
 
-        'targetVersion': this.assay[i].targetVersion,
-        'collectionId1': this.assay[i].collectionId1,
-        'original': this.assay[i].original,
-        'acronym': this.assay[i].acronym,
-        'organism': this.assay[i].organism,
-        'variant': this.assay[i].variant,
+          'targetVersion': this.assay[i].targetVersion,
+          'collectionId1': this.assay[i].collectionId1,
+          'original': this.assay[i].original,
+          'acronym': this.assay[i].acronym,
+          'organism': this.assay[i].organism,
+          'variant': this.assay[i].variant,
 
-      });
-    }
+        });
+      }
+    // }
   }
 
   onTargetReset() {
@@ -1689,75 +1684,75 @@ export class AssayComponent implements OnInit {
   onEdit() {
     let i = this.assay.length - 1;
     for (i; i < this.assay.length; i++) {
-      if (this.assay[i].status == "Submitted to QC") {
-        this.calloutService.showWarning("This data can't be Edited");
-      }
-      if (this.assay[i].status != "Submitted to QC") {
+    //   if (this.assay[i].status == "Submitted to QC") {
+    //     this.calloutService.showWarning("This data can't be Edited");
+    //   }
+    //   if (this.assay[i].status != "Submitted to QC") {
         this.assayId = this.assay[i].assayId;
         this.insertDatetime = new Date();
         // this.insertUser = this.assay[i].insertUser;
 
-      this.AssayForm.patchValue({
-        'ordinal': this.assay[i].ordinal,
-        'ligandSlno': this.assay[i].ligandSlno,
-        'assayTypeSlno': this.assay[i].assayTypeSlno,
-        'toxiCitySlno': this.assay[i].toxiCitySlno,
-        'routeSlno': this.assay[i].routeSlno,
-        'ligandSvalue': this.assay[i].ligandSvalue,
-        'unitSlno': this.assay[i].unitSlno,
-        'ligandHvalue': this.assay[i].ligandHvalue,
-        'ligandLvalue': this.assay[i].ligandLvalue,
-        'unitedSlno': this.assay[i].unitedSlno,
-        'administration': this.assay[i].administration,
-        'procedure': this.assay[i].procedure,
-        'conditionType': this.assay[i].conditionType,
-        'conditionMaterial': this.assay[i].conditionMaterial,
-        'conditionMaterialid': this.assay[i].conditionMaterialid,
-        'singleCondition': this.assay[i].singleCondition,
-        'singleUnit': this.assay[i].singleUnit,
-        'highCondition': this.assay[i].highCondition,
-        'lowCondition': this.assay[i].lowCondition,
-        'highLowUnit': this.assay[i].highLowUnit,
+        this.AssayForm.patchValue({
+          'ordinal': this.assay[i].ordinal,
+          'ligandSlno': this.assay[i].ligandSlno,
+          'assayTypeSlno': this.assay[i].assayTypeSlno,
+          'toxiCitySlno': this.assay[i].toxiCitySlno,
+          'routeSlno': this.assay[i].routeSlno,
+          'ligandSvalue': this.assay[i].ligandSvalue,
+          'unitSlno': this.assay[i].unitSlno,
+          'ligandHvalue': this.assay[i].ligandHvalue,
+          'ligandLvalue': this.assay[i].ligandLvalue,
+          'unitedSlno': this.assay[i].unitedSlno,
+          'administration': this.assay[i].administration,
+          'procedure': this.assay[i].procedure,
+          'conditionType': this.assay[i].conditionType,
+          'conditionMaterial': this.assay[i].conditionMaterial,
+          'conditionMaterialid': this.assay[i].conditionMaterialid,
+          'singleCondition': this.assay[i].singleCondition,
+          'singleUnit': this.assay[i].singleUnit,
+          'highCondition': this.assay[i].highCondition,
+          'lowCondition': this.assay[i].lowCondition,
+          'highLowUnit': this.assay[i].highLowUnit,
 
-        'dataLocator1': this.assay[i].dataLocator1,
-        'dataLocator2': this.assay[i].dataLocator2,
-        'dataLocator3': this.assay[i].dataLocator3,
-        'categorySlno': this.assay[i].categorySlno,
-        'functionSlno': this.assay[i].functionSlno,
-        'parameter': this.assay[i].parameter,
-        'parameterDetail': this.assay[i].parameterDetail,
-        'originalPrefixSlno': this.assay[i].originalPrefixSlno,
-        'unit': this.assay[i].unit,
-        'singleValue': this.assay[i].singleValue,
-        'highEndValue': this.assay[i].highEndValue,
-        'lowEndValue': this.assay[i].lowEndValue,
-        'units': this.assay[i].units,
-        'nonNumeric': this.assay[i].nonNumeric,
-        'remark': this.assay[i].remark,
-        'typeSlno': this.assay[i].typeSlno,
-        'cell': this.assay[i].cell,
-        'cellDetail': this.assay[i].cellDetail,
-        'organ': this.assay[i].organ,
-        'organDetail': this.assay[i].organDetail,
-        'species': this.assay[i].species,
-        'speciesDetail': this.assay[i].speciesDetail,
-        'gender': this.assay[i].gender,
-        'ageGroup': this.assay[i].ageGroup,
+          'dataLocator1': this.assay[i].dataLocator1,
+          'dataLocator2': this.assay[i].dataLocator2,
+          'dataLocator3': this.assay[i].dataLocator3,
+          'categorySlno': this.assay[i].categorySlno,
+          'functionSlno': this.assay[i].functionSlno,
+          'parameter': this.assay[i].parameter,
+          'parameterDetail': this.assay[i].parameterDetail,
+          'originalPrefixSlno': this.assay[i].originalPrefixSlno,
+          'unit': this.assay[i].unit,
+          'singleValue': this.assay[i].singleValue,
+          'highEndValue': this.assay[i].highEndValue,
+          'lowEndValue': this.assay[i].lowEndValue,
+          'units': this.assay[i].units,
+          'nonNumeric': this.assay[i].nonNumeric,
+          'remark': this.assay[i].remark,
+          'typeSlno': this.assay[i].typeSlno,
+          'cell': this.assay[i].cell,
+          'cellDetail': this.assay[i].cellDetail,
+          'organ': this.assay[i].organ,
+          'organDetail': this.assay[i].organDetail,
+          'species': this.assay[i].species,
+          'speciesDetail': this.assay[i].speciesDetail,
+          'gender': this.assay[i].gender,
+          'ageGroup': this.assay[i].ageGroup,
 
 
-        'targetVersion': this.assay[i].targetVersion,
-        'collectionId1': this.assay[i].collectionId1,
-        'original': this.assay[i].original,
-        'acronym': this.assay[i].acronym,
-        'organism': this.assay[i].organism,
-        'variant': this.assay[i].variant,
+          'targetVersion': this.assay[i].targetVersion,
+          'collectionId1': this.assay[i].collectionId1,
+          'original': this.assay[i].original,
+          'acronym': this.assay[i].acronym,
+          'organism': this.assay[i].organism,
+          'variant': this.assay[i].variant,
 
 
         });
       }
-   
+
 
     }
 
-  }
+  // }
 }

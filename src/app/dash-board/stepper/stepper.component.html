@@ -13,23 +13,9 @@
         </ng-template>
         <app-assay></app-assay>
     </cdk-step>
-    <!-- <cdk-step *ngIf="user?.rolename== 'User'">
-        <ng-template cdkStepLabel>
-            <div class="step-bullet">3</div>
-            <div class="step-title">Measurement </div>
-        </ng-template>
-        <app-measurement></app-measurement>
-    </cdk-step> -->
-    <!-- <cdk-step *ngIf="user?.rolename== 'User'">
-        <ng-template cdkStepLabel>
-            <div class="step-bullet">3</div>
-            <div class="step-title">Status </div>
-        </ng-template>
-        <app-status></app-status>
-    </cdk-step> -->
+
     <cdk-step *ngIf="user?.rolename== 'Reviewer'">
         <ng-template cdkStepLabel>
-            <!-- <div class="step-bullet">4</div> -->
             <div class="step-title" [ngStyle]="{ color: colorthemes_2 }" style="text-align:center !important;padding-right: 100px;">Reviewer Screen</div>
         </ng-template>
         <app-report></app-report>

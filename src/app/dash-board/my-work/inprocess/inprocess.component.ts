@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { NavigationExtras, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GridOptions } from 'ag-grid-community';
 import { deserialize } from 'serializer.ts/Serializer';
 import { AuditComponent } from 'src/app/shared/audit/audit.component';
+import { ConformationComponent } from 'src/app/shared/conformation/conformation.component';
 import { IconRendererComponent } from 'src/app/shared/services/renderercomponent/icon-renderer-component';
 import { AssayManager } from 'src/app/shared/services/restcontroller/bizservice/Assay.service';
 import { AuthManager } from 'src/app/shared/services/restcontroller/bizservice/auth-manager.service';
@@ -26,11 +27,12 @@ export class InprocessComponent implements OnInit {
   onFirstDataRendered: any;
   frameworkComponents: any;
   username: any;
-
-  ligand: Ligand001wb[] = [];
+  tanNumber: string = "";
+  ligands: Ligand001wb[] = [];
   assays: Assay001wb[] = [];
+  assay001wbs?: Assay001wb;
   inProcessAssays: Assay001wb[] = [];
-  submittedToQCAssays: Assay001wb[] = [];
+  public inprocess: any;
 
   constructor(
     private authManager: AuthManager,
@@ -40,7 +42,8 @@ export class InprocessComponent implements OnInit {
     private modalService: NgbModal,
     private assayManager: AssayManager,
     private ligandManager: LigandManager,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.frameworkComponents = {
       iconRenderer: IconRendererComponent
@@ -48,21 +51,65 @@ export class InprocessComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.createDataGrid001();
 
     this.username = this.authManager.getcurrentUser.username;
 
-    this.assayManager.findInprocesStatus(this.username).subscribe(response => {
-      this.assays = deserialize<Assay001wb[]>(Assay001wb, response);
-      // console.log(" All this.assays", this.assays);
+    this.ligandManager.allligand(this.username).subscribe(response => {
+      this.ligands = deserialize<Ligand001wb[]>(Ligand001wb, response);
+      console.log("this.ligands in inProcess---->", this.ligands);
 
-      for (let assay of this.assays) {
-        if (assay.status == "In Process" ) {
-          this.inProcessAssays.push(assay);
-          // console.log(" this.inProcessAssays", this.inProcessAssays);
+      for (let ligandObject of this.ligands) {
+        if (ligandObject.status == "In Process") {
+
+          if (ligandObject.assay001wbs && ligandObject.assay001wbs.length > 0) {
+
+            for (let assay of ligandObject.assay001wbs) {
+              if (assay.status == "In Process") {
+
+                this.inProcessAssays.push(assay);
+
+              }
+            }
+          } else {
+            let inProcessAssay = new Assay001wb();
+
+            inProcessAssay.ligandSlno = ligandObject.ligandId;
+            let ligand001wb = new Ligand001wb();
+            ligand001wb.ligandId = ligandObject.ligandId;
+            ligand001wb.tanNumber = ligandObject.tanNumber;
+            ligand001wb.ligandUri = ligandObject.ligandUri;
+            ligand001wb.ligandVersionSlno = ligandObject.ligandVersionSlno;
+            ligand001wb.ligandStatus = ligandObject.ligandStatus;
+            ligand001wb.collection = ligandObject.collection;
+            ligand001wb.ligandTypeSlno = ligandObject.ligandTypeSlno;
+            ligand001wb.ligandDetail = ligandObject.ligandDetail;
+            ligand001wb.identifier1 = ligandObject.identifier1;
+            ligand001wb.identifier2 = ligandObject.identifier2;
+            ligand001wb.identifier3 = ligandObject.identifier3;
+            ligand001wb.collectionId = ligandObject.collectionId;
+            ligand001wb.locator = ligandObject.locator;
+            ligand001wb.sourceType = ligandObject.sourceType;
+            ligand001wb.citation = ligandObject.citation;
+            ligand001wb.relatedDocument = ligandObject.relatedDocument;
+            ligand001wb.registryNumber = ligandObject.registryNumber;
+            ligand001wb.diseaseName1 = ligandObject.diseaseName1;
+            ligand001wb.diseaseName2 = ligandObject.diseaseName2;
+            ligand001wb.diseaseName3 = ligandObject.diseaseName3;
+            ligand001wb.status = ligandObject.status;
+
+            inProcessAssay.ligandSlno2 = ligand001wb;
+
+
+            // inProcessAssay. = ligandObject.tanNumber;
+            // inProcessAssay.status = ligandObject.status;
+            this.inProcessAssays.push(inProcessAssay);
+
+          }
         }
       }
-      
+
       if (this.inProcessAssays.length > 0) {
         this.gridOptions?.api?.setRowData(this.inProcessAssays);
       } else {
@@ -71,6 +118,7 @@ export class InprocessComponent implements OnInit {
     });
 
   }
+
 
 
 
@@ -86,12 +134,14 @@ export class InprocessComponent implements OnInit {
     this.gridOptions.enableRangeSelection = true;
     this.gridOptions.animateRows = true;
 
+    // if(this.inProcessAssays[i].status){
+
     this.gridOptions.columnDefs = [
       {
         headerName: 'Sl-No',
-        field: 'assayId',
-        width: 200,
-        // flex: 1,
+        field: 'ligandSlno',
+        width: 100,
+        flex: 1,
         sortable: true,
         filter: true,
         resizable: true,
@@ -100,11 +150,24 @@ export class InprocessComponent implements OnInit {
         checkboxSelection: true,
         suppressSizeToFit: true,
       },
+
       {
-        headerName: 'STATUS',
+        headerName: 'TAN NUMBER',
+        field: 'tanNumber',
+        width: 200,
+        flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+        valueGetter: this.setTanNumber.bind(this)
+      },
+
+      {
+        headerName: 'START',
         cellRenderer: 'iconRenderer',
         width: 100,
-        // flex: 1,
+        flex: 1,
         suppressSizeToFit: true,
         cellStyle: { textAlign: 'center' },
         cellRendererParams: {
@@ -112,592 +175,78 @@ export class InprocessComponent implements OnInit {
           label: 'Start',
         },
       },
-      {
-        headerName: 'TAN NUMBER',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-        valueGetter: this.setTanNumber.bind(this)
-      },
-      {
-        headerName: 'Ligand-Version',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-        valueGetter: this.setVersion.bind(this)
-      },
-      // {
-      //   headerName: 'Ordinal',
-      //   field: 'ordinal',
-      //   width: 200,
-      //   // flex: 1,
-      //   sortable: true,
-      //   filter: true,
-      //   resizable: true,
-      //   suppressSizeToFit: true
-      // },
-
-      {
-        headerName: 'Assay-type',
-        field: 'assayTypeSlno',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-        valueGetter: this.setAssayType.bind(this)
-      },
-      {
-        headerName: 'Toxicity-type',
-        field: 'toxiCitySlno',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-        valueGetter: this.setToxicityType.bind(this)
-      },
-
-      {
-        headerName: 'Route-of-administration',
-        field: 'routeSlno',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-        valueGetter: this.setRouteAdmin.bind(this)
-      },
-      {
-        headerName: 'Ligand-Dose(singleValue)',
-        field: 'ligandSvalue',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true
-      },
-      {
-        headerName: 'Unit(singleValue)',
-        field: 'unitSlno',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-        valueGetter: this.setUnitSingleValue.bind(this)
-      },
-      {
-        headerName: 'Ligand-Dose(highValue)',
-        field: 'ligandHvalue',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true
-      },
-      {
-        headerName: 'Ligand-Dose(lowValue)',
-        field: 'ligandLvalue',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true
-      },
-
-      {
-        headerName: 'unit',
-        field: 'unitedSlno',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-        valueGetter: this.setUnitLowValue.bind(this)
-      },
-      {
-        headerName: 'Administration',
-        field: 'administration',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-
-        suppressSizeToFit: true
-      },
-      {
-        headerName: 'Procedure',
-        field: 'procedure',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-
-        suppressSizeToFit: true
-      },
-      {
-        headerName: 'Condition type',
-        field: 'conditionType',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-
-        suppressSizeToFit: true
-      },
-      {
-        headerName: 'Condition material',
-        field: 'conditionMaterial',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-
-        suppressSizeToFit: true
-      },
-      {
-        headerName: 'Condition material-id',
-        field: 'conditionMaterialid',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true
-      },
-      {
-        headerName: 'Condition(Single-value)',
-        field: 'singleCondition',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true
-      },
-      {
-        headerName: 'Unit(Single-value)',
-        field: 'singleUnit',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true
-      },
-      {
-        headerName: 'Condition(High-end-value)',
-        field: 'highCondition',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true
-      },
-      {
-        headerName: 'Condition(Low-end-value)',
-        field: 'lowCondition',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true
-      },
-      {
-        headerName: 'Unit',
-        field: 'highLowUnit',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true
-      },
-
 
 
 
       {
-        headerName: 'Data-locator',
-        field: 'dataLocator',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
+        headerName: 'Delete',
+        cellRenderer: 'iconRenderer',
+        width: 85,
+        flex: 1,
         suppressSizeToFit: true,
-
-      },
-      {
-        headerName: 'Category',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-        valueGetter: this.setCategory.bind(this)
-      },
-      {
-        headerName: 'Function',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-        valueGetter: this.setCategoryFunction.bind(this)
-      },
-      {
-        headerName: 'Parameter',
-        field: 'parameter',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-      },
-      {
-        headerName: 'Parameter-detail',
-        field: 'parameterDetail',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-
-      },
-      {
-        headerName: 'Original-prefix',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-        valueGetter: this.setOriginalPrefix.bind(this)
-      },
-      {
-        headerName: 'Original-value(Single-value)',
-        field: 'singleValue',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-      },
-      {
-        headerName: 'Unit',
-        field: 'unit',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-
-      },
-      {
-        headerName: 'Original-value(Single-value)',
-        field: 'singleValue',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-
-      },
-      {
-        headerName: 'Original-value(High-End-value)',
-        field: 'highEndValue',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-
-      },
-      {
-        headerName: 'Original-value(Low-End-value)',
-        field: 'lowEndValue',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-      },
-      {
-        headerName: 'Unit',
-        field: 'units',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-
-      },
-      {
-        headerName: 'Original-value(Non-numeric-value)',
-        field: 'nonNumeric',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-      },
-      {
-        headerName: 'Remarks',
-        field: 'remark',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-
-      },
-      {
-        headerName: 'Type',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-        valueGetter: this.setTypes.bind(this)
-
-      },
-      {
-        headerName: 'Cell',
-        field: 'cell',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-
-      },
-      {
-        headerName: 'Cell-detail',
-        field: 'cellDetail',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-      },
-      {
-        headerName: 'Organ',
-        field: 'organ',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-
-      },
-      {
-        headerName: 'Organ-detail',
-        field: 'organDetail',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-      },
-      {
-        headerName: 'Species',
-        field: 'species',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-
-      },
-      {
-        headerName: 'Species-detail',
-        field: 'speciesDetail',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-      },
-      {
-        headerName: 'Gender',
-        field: 'gender',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-
-      },
-      {
-        headerName: 'Age-group',
-        field: 'ageGroup',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-      },
-      {
-        headerName: 'TARGET VERSION',
-        field: 'targetVersion',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-      },
-
-      {
-        headerName: 'COLLETION ID',
-        field: 'collectionId1',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-      },
-
-      {
-        headerName: 'ORIGINAL-TARGET-NAME',
-        field: 'original',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-      },
-
-      {
-        headerName: 'ACRONYM',
-        field: 'acronym',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-      },
-
-      {
-        headerName: 'ORGANISM-SOURCE',
-        field: 'organism',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-      },
-
-      {
-        headerName: 'VARIANT',
-        field: 'variant',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
+        cellStyle: { textAlign: 'left' },
+        cellRendererParams: {
+          onClick: this.onDeleteButtonClick.bind(this),
+          label: 'Delete'
+        },
       },
 
     ]
+
+
+    // }
   }
 
   setTanNumber(params: any): string {
+
     return params.data.ligandSlno2 ? params.data.ligandSlno2.tanNumber : null;
   }
 
-  setVersion(params: any): string {
-    return params.data.ligandSlno2 ? params.data.ligandSlno2.ligandVersionSlno2?.ligandVersion : null;
-  }
-
-  setAssayType(params: any): string {
-    return params.data.assayTypeSlno2 ? params.data.assayTypeSlno2.assayType : null;
-  }
-
-  setToxicityType(params: any): string {
-    return params.data.toxiCitySlno2 ? params.data.toxiCitySlno2.toxiCity : null;
-  }
-
-  setRouteAdmin(params: any): string {
-    return params.data.routeSlno2 ? params.data.routeSlno2.route : null;
-  }
-
-  setUnitSingleValue(params: any): string {
-    return params.data.unitSlno2 ? params.data.unitSlno2.unit : null;
-  }
-
-  setUnitLowValue(params: any): string {
-    return params.data.unitedSlno2 ? params.data.unitedSlno2.united : null;
-  }
-
-  setCategory(params: any) {
-    return params.data.categorySlno2 ? params.data.categorySlno2.category : null;
-  }
-
-  setCategoryFunction(params: any) {
-    return params.data.functionSlno2 ? params.data.functionSlno2.function : null;
-  }
-
-  setOriginalPrefix(params: any) {
-    return params.data.originalPrefixSlno2 ? params.data.originalPrefixSlno2.originalPrefix : null;
+  onDeleteButtonClick(params: any) {
+    // if (params.data.status != "Submitted to QC") {
+    const modalRef = this.modalService.open(ConformationComponent);
+    modalRef.componentInstance.details = "Ligand";
+    modalRef.result.then((data) => {
+      if (data == "Yes") {
+        this.ligandManager.liganddelete(params.data.ligandId).subscribe((response) => {
+          for (let i = 0; i < this.inProcessAssays.length; i++) {
+            if (this.inProcessAssays[i].ligandSlno == params.data.ligandSlno2.ligandId) {
+              this.inProcessAssays?.splice(i, 1);
+              break;
+            }
+          }
+          const selectedRows = params.api.getSelectedRows();
+          params.api.applyTransaction({ remove: selectedRows });
+          this.gridOptions.api.deselectAll();
+          this.calloutService.showSuccess("Inprocess Data Removed Successfully");
+        });
+      }
+    })
+  // }
   }
 
 
-  setTypes(params: any) {
-    return params.data.typeSlno2 ? params.data.typeSlno2.type : null;
-  }
   onInprocessMoveToLigand(params: any) {
-    console.log("params", params.data);
+    // console.log("params", params.data);
     // let assayId = params.data.assayId;
     let navigationExtras: NavigationExtras = {
       queryParams: {
+        "insertUsers": params.data.insertUser,
+        "tanNumber": params.data.ligandSlno2.tanNumber,
+        "ligandVersions": params.data.ligandSlno2.ligandVersionSlno,
+        "ligandType": params.data.ligandSlno2.ligandTypeSlno,
+        "identifier1": params.data.ligandSlno2.identifier1,
+        "identifier2": params.data.ligandSlno2.identifier2,
+        "identifier3": params.data.ligandSlno2.identifier3,
+        "collectionId": params.data.ligandSlno2.collectionId,
+        "locator": params.data.ligandSlno2.locator,
+        "ligandDetail": params.data.ligandSlno2.ligandDetail,
+        "diseaseName1": params.data.ligandSlno2.diseaseName1,
+        "diseaseName2": params.data.ligandSlno2.diseaseName2,
+        "diseaseName3": params.data.ligandSlno2.diseaseName3,
+
+
+
         "assayId": params.data.assayId,
         "insertUser": params.data.insertUser,
         "ligandVersion": params.data.ligandSlno,
