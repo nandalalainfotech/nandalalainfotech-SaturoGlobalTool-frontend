@@ -8,7 +8,7 @@
                         <label path="ligandSlno" for="ligandSlno" cssClass="required">Ligand-Version</label>
                         <select class="form-control" name="ligandSlno" formControlName="ligandSlno" (blur)="onBlurEvent($event)">
                             <option value="" hidden> - Select Ligand-Version - </option>
-                            <!-- <option> - Select Ligand-Version - </option> -->
+                            <option value="null"> - Select Ligand-Version - </option>
                             <option *ngFor="let ligandObject of ligands" [value]="ligandObject.ligandId" >
                                 {{ligandObject.ligandVersionSlno2?.ligandVersion}}
                             </option>
@@ -43,8 +43,7 @@
                     <div class="form-group">
                         <label path="assayTypeSlno" for="assayTypeSlno" cssClass="required">Assay-type</label>
                         <select class="form-control" name="assayTypeSlno" formControlName="assayTypeSlno">
-                            <option value="" hidden> - Select Assay-Types - </option>
-                            <!-- <option> - Select Assay-Types - </option> -->
+                            <option value=''> - Select Assay Types - </option>
                             <option *ngFor="let assayType of assayTypes" [value]="assayType.id">
                                 {{assayType.assayType}}
                             </option>
@@ -55,8 +54,7 @@
                     <div class="form-group">
                         <label path="toxiCitySlno" for="toxiCitySlno" cssClass="required">Toxicity-type</label>
                         <select class="form-control" name="toxiCitySlno" formControlName="toxiCitySlno">
-                            <option value="" hidden> - Select Toxicity-Types - </option>
-                            <!-- <option> - Select Toxicity-Types - </option> -->
+                            <option value=''> - Select Toxicity Types - </option>
                             <option *ngFor="let toxiCity of toxiCities" [value]="toxiCity.id">
                                 {{toxiCity.toxiCity}}
                             </option>
@@ -71,8 +69,7 @@
                     <div class="form-group">
                         <label path="routeSlno" for="routeSlno" cssClass="required">Route-of-administration</label>
                         <select class="form-control" name="routeSlno" formControlName="routeSlno">
-                            <option value="" hidden> - Select Route-Types - </option>
-                            <!-- <option> - Select Route-Types - </option> -->
+                            <option value=''> - Select Route-Types - </option>
                             <option *ngFor="let routeAdmin of routeAdmins" [value]="routeAdmin.id">
                                 {{routeAdmin.route}}
                             </option>
@@ -105,8 +102,7 @@
                     <div class="form-group">
                         <label path="unitSlno" for="unitSlno" cssClass="required">Unit(Single-value)</label>
                         <select class="form-control" name="unitSlno" formControlName="unitSlno">
-                            <option value="" hidden> - Select Unit-Types - </option>
-                            <!-- <option> - Select Unit-Types - </option> -->
+                            <option value=''> - Select Unit-Types - </option>
                             <option *ngFor="let unitsinglevalue of unitsinglevalues" [value]="unitsinglevalue.id">
                                 {{unitsinglevalue.unit}}
                             </option>
@@ -136,10 +132,8 @@
                 <div class="col-xs-3 col-sm-3">
                     <div class="form-group">
                         <label path="unitedSlno" for="unitedSlno" cssClass="required">Unit</label>
-                        <!-- <input class="form-control" path="twhrs" name="twhrs" formControlName="twhrs" /> -->
                         <select class="form-control" name="unitedSlno" formControlName="unitedSlno">
-                            <option value="" hidden> - Select Units-Types - </option>
-                            <!-- <option> - Select Units-Types- </option> -->
+                            <option value=''> - Select Units-Types- </option>
                             <option *ngFor="let unitlowendvalue of unitlowendvalues" [value]="unitlowendvalue.id">
                                 {{unitlowendvalue.united}}
                             </option>
@@ -157,8 +151,7 @@
                         <div class="form-group">
                             <label path="conditionType" for="series" cssClass="required">Condition type</label>
                             <select class="form-control" name="conditionType" formControlName="conditionType">
-                                <option value="" hidden> - Select Condition type - </option>
-                                <!-- <option>- Select Condition type -</option> -->
+                                <option value=''>- Select Condition type -</option>
                                 <option>Combination Chemotherapy</option>
                                 <option>Drug Interactions</option>
                             </select>
@@ -191,10 +184,8 @@
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
                             <label path="singleUnit" for="series" cssClass="required">Unit(Single-value)</label>
-                            <!-- <input class="form-control" name="singleUnit" formControlName="singleUnit"> -->
                             <select class="form-control" name="singleUnit" formControlName="singleUnit">
-                                <option value="" hidden> - Select Unit-Types - </option>
-                                
+                                <option value=''> - Select Unit-Types - </option>
                                 <option *ngFor="let unitsinglevalue of unitsinglevalues" [value]="unitsinglevalue.id">
                                     {{unitsinglevalue.unit}}
                                 </option>
@@ -226,8 +217,7 @@
                             <label path="highLowUnit" for="series" cssClass="required">Unit</label>
                             <!-- <input class="form-control" name="highLowUnit" formControlName="highLowUnit"> -->
                             <select class="form-control" name="highLowUnit" formControlName="highLowUnit">
-                                <option value="" hidden> - Select Units-Types - </option>
-                                <!-- <option> - Select Units-Types- </option> -->
+                                <option value=''> - Select Units-Types- </option>
                                 <option *ngFor="let unitlowendvalue of unitlowendvalues" [value]="unitlowendvalue.id">
                                     {{unitlowendvalue.united}}
                                 </option>
@@ -273,10 +263,9 @@
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
                             <label path="categorySlno" for="categorySlno" cssClass="required">Category</label>
-                            <!-- <input class="form-control" path="twhrs" name="twhrs" formControlName="twhrs" /> -->
                             <select class="form-control" name="categorySlno" formControlName="categorySlno">
                                 <option value="" hidden> - Select Category - </option>
-                                <!-- <option> - Select Category - </option> -->
+                                <option value=''> - Select Category - </option>
                                 <option *ngFor="let category of categorys" [value]="category.id">
                                     {{category.category}}
                                 </option>
@@ -289,8 +278,7 @@
                             <label path="functionSlno" for="functionSlno" cssClass="required">Category(functions)</label>
                             <!-- <input class="form-control" path="twhrs" name="twhrs" formControlName="twhrs" /> -->
                             <select class="form-control" name="functionSlno" formControlName="functionSlno">
-                                <option value="" hidden> - Select Category Function - </option>
-                                <!-- <option> - Select Category Function - </option> -->
+                                <option value=''> - Select Category Function - </option>
                                 <option *ngFor="let function of categoryfunctions" [value]="function.id">
                                     {{function.function}}
                                 </option>
@@ -318,8 +306,7 @@
                             <label path="originalPrefixSlno" for="originalPrefixSlno" cssClass="required">Original-prefix</label>
                             <!-- <input class="form-control" path="twhrs" name="twhrs" formControlName="twhrs" /> -->
                             <select class="form-control" name="originalPrefixSlno" formControlName="originalPrefixSlno">
-                                <option value="" hidden> - Select Original Prefix - </option>
-                                <!-- <option> - Select Original Prefix - </option> -->
+                                <option value=''> - Select Original Prefix - </option>
                                 <option *ngFor="let originalPrefix of Originals" [value]="originalPrefix.id">
                                     {{originalPrefix.originalPrefix}}
                                 </option>
@@ -338,7 +325,7 @@
                         <div class="form-group">
                             <label path="unit" for="unit" cssClass="required">Unit(SingleValue)</label>
                             <select class="form-control" name="unit" formControlName="unit">
-                                <option value="" hidden> - Select unit(SingleValue) - </option>
+                                <option value=''> - Select unit(SingleValue) - </option>
                                 <option *ngFor="let unitsinglevalueObject of unitsinglevalues"
                                     [value]="unitsinglevalueObject.id">
                                     {{unitsinglevalueObject.unit}}
@@ -372,7 +359,7 @@
                         <div class="form-group">
                             <label path="units" for="units" cssClass="required">Unit (High & Low)</label>
                             <select class="form-control" name="units" formControlName="units">
-                                <option value="" hidden> - Select Unit - </option>
+                                <option value=''> - Select Unit - </option>
                                 <option *ngFor="let unitlowendvalueObject of unitlowendvalues"
                                     [value]="unitlowendvalueObject.id">
                                     {{unitlowendvalueObject.united}}
@@ -406,8 +393,7 @@
                                 <label path="typeSlno" for="typeSlno" cssClass="required">Type</label>
                                 <!-- <input class="form-control" path="twhrs" name="twhrs" formControlName="twhrs" /> -->
                                 <select class="form-control" name="typeSlno" formControlName="typeSlno">
-                                    <option value="" hidden> - Select Types - </option>
-                                    <!-- <option> - Select Types - </option> -->
+                                    <option value=''> - Select Types - </option>
                                     <option *ngFor="let type of types" [value]="type.id">
                                         {{type.type}}
                                     </option>
@@ -462,9 +448,8 @@
                         <div class="col-xs-3 col-sm-3">
                             <div class="form-group">
                                 <label path="gender" for="gender" cssClass="required">Gender</label>
-                                <!-- <input class="form-control" path="twhrs" name="twhrs" formControlName="twhrs" /> -->
                                 <select class="form-control" name="gender" formControlName="gender">
-                                    <option value="" hidden> - Select -Gender - </option>
+                                    <option value=''> - Select -Gender - </option>
                                     <option> Male </option>
                                     <option> Female </option>
                                 </select>
@@ -496,14 +481,6 @@
                 <fieldset class="scheduler-border">
                     <legend class="scheduler-border">Target</legend>
                     <div class="row">
-                        <!-- <div class="col-xs-4 col-sm-4">
-                            <div class="form-group">
-                                <label path="ligandVersions" for="ligandVersions"
-                                    cssClass="required">Ligand-Version</label>
-                                <input class="form-control" path="ligandVersions" name="ligandVersions"
-                                    formControlName="ligandVersions" readonly />
-                            </div>
-                        </div> -->
                         <div class="col-xs-4 col-sm-5"></div>
                         <div class="col-xs-4 col-sm-5"></div>
                         <div class="col-sm-1"> <button type="button" class="form-control" class="btn btn-primary" style="width:100px" (click)="onTargetReset()">Clear Target

@@ -51,7 +51,6 @@
                     <div class="form-group">
                         <label path="ligandVersionSlno" for="ligandVersionSlno" cssClass="required">Ligand-Version</label>
                         <select class="form-control" name="ligandVersionSlno" formControlName="ligandVersionSlno" (blur)="onBlurEvent($event)">
-                            <option value="" hidden> - Select Ligand Version - </option>
                             <option> - Select Ligand Version - </option>
                             <option *ngFor="let ligandVersion of ligandVersions" [value]="ligandVersion.id">
                                 {{ligandVersion.ligandVersion}}
@@ -65,8 +64,7 @@
                     <div class="form-group">
                         <label path="ligandTypeSlno" for="ligandTypeSlno" cssClass="required">Ligand-Type</label>
                         <select class="form-control" name="ligandTypeSlno" formControlName="ligandTypeSlno">
-                            <option value="" hidden> - Select Ligand Types - </option>
-                            <option> - Select Ligand Types - </option>
+                            <option value=''> - Select Ligand Types - </option>
                             <option *ngFor="let ligandtype of ligandtypes" [value]="ligandtype.id">
                                 {{ligandtype.ligandtype}}
                             </option>
