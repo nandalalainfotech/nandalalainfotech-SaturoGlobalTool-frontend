@@ -49,7 +49,7 @@ export class AssayComponent implements OnInit {
   AssayForm: FormGroup | any;
   frameworkComponents: any;
   submitted = false;
-
+  tanNo: string | any = "";
   assayId: number | any;
   ligandSlno: number | any;
   ordinal: string = "";
@@ -112,7 +112,9 @@ export class AssayComponent implements OnInit {
   insertDatetime: Date | any;
   updatedUser: string = "";
   updatedDatetime: Date | any;
-
+  tanarrays: any = [];
+  tanarr: any = [];
+  ligandtanversions: Ligand001wb[] = [];
   assay: Assay001wb[] = [];
   curatotTask: Assay001wb[] = [];
   ligands: Ligand001wb[] = [];
@@ -301,6 +303,16 @@ export class AssayComponent implements OnInit {
 
     this.ligandManager.allligand(this.username).subscribe(response => {
       this.ligands = deserialize<Ligand001wb[]>(Ligand001wb, response);
+      for (let i = 0; i < this.ligands.length; i++) {
+        this.tanarrays.push(this.ligands[i].tanNumber)
+      }
+      this.tanarr = new Set(this.tanarrays);
+      let j = this.ligands.length - 1;
+      for (j; j < this.ligands.length; j++) {
+        this.AssayForm.patchValue({
+          tanNo: this.ligands[j].tanNumber,
+        })
+      }
     });
 
     this.assayTypeManager.allassayType().subscribe(response => {
@@ -344,6 +356,7 @@ export class AssayComponent implements OnInit {
     });
 
     this.AssayForm = this.formBuilder.group({
+      tanNo: [''],
       ligandSlno: [this.ligandSlno],
       // ordinal: [''],
       // collectionId: [''],
@@ -422,21 +435,54 @@ export class AssayComponent implements OnInit {
 
     this.loadData();
 
+    this.AssayForm.get('tanNo').valueChanges.subscribe((value: any) => {
+      this.ligandtanversions = [];
+      let legandversions = [];
+      for (let i = 0; i < this.ligands.length; i++) {
+
+        if (this.ligands[i].tanNumber == value) {
+          legandversions.push(this.ligands[i].ligandVersionSlno);
+        }
+
+        if (this.ligands[i].tanNumber == value) {
+          this.ligandtanversions.push(this.ligands[i]);
+        }
+      }
+     
+      if (legandversions.length < 1) {
+        this.AssayForm.patchValue({
+          'ligandSlno': legandversions[0],
+        });
+      }
+    });
+
+    this.AssayForm.get('ligandSlno').valueChanges.subscribe((value: any) => {
+      for (let tannumber of this.ligands) {
+        if ((tannumber.tanNumber == this.f.tanNo.value) && (tannumber.ligandId == value)) {
+          this.AssayForm.patchValue({
+            'ligandname': tannumber.identifier1,
+          });
+          break;
+        }
+      }
+    });
 
   }
   // this.username = this.authManager.getcurrentUser.username;
   loadData() {
+    this.assay = [];
+    this.gridOptions?.api?.reset();
     this.username = this.authManager.getcurrentUser.username;
-    this.assayManager.allassay(this.username).subscribe(response => {
-      this.assay = deserialize<Assay001wb[]>(Assay001wb, response);
-      // console.log("allassay in assay", this.assay);
-      if (this.assay.length > 0) {
-        this.gridOptions?.api?.setRowData(this.assay);
-      } else {
-        this.gridOptions?.api?.setRowData([]);
-      }
-    });
-
+    setTimeout(() => {
+      this.assayManager.allassay(this.username).subscribe(response => {
+        this.assay = deserialize<Assay001wb[]>(Assay001wb, response);
+        if (this.assay.length > 0) {
+          this.gridOptions?.api?.setRowData(this.assay);
+        } else {
+          this.gridOptions?.api?.setRowData([]);
+        }
+      });
+    }, 10);
    
   }
 
@@ -1339,9 +1385,9 @@ export class AssayComponent implements OnInit {
     assay001wb.targetStatus = "embargoed";
 
     assay001wb.dataLocator = null;
-    assay001wb.dataLocator1 = this.f.dataLocator1.value ? "Table " + this.f.dataLocator1.value : null;
-    assay001wb.dataLocator2 = this.f.dataLocator2.value ? "Figure " + this.f.dataLocator2.value : null;
-    assay001wb.dataLocator3 = this.f.dataLocator3.value ? "Page " + this.f.dataLocator3.value + " (text)" : null;
+    assay001wb.dataLocator1 = this.f.dataLocator1.value ? this.f.dataLocator1.value : null;
+    assay001wb.dataLocator2 = this.f.dataLocator2.value ? this.f.dataLocator2.value : null;
+    assay001wb.dataLocator3 = this.f.dataLocator3.value ? this.f.dataLocator3.value : null;
     assay001wb.categorySlno = this.f.categorySlno.value ? this.f.categorySlno.value : null;
     assay001wb.functionSlno = this.f.functionSlno.value ? this.f.functionSlno.value : null;
     assay001wb.parameter = this.f.parameter.value ? this.f.parameter.value : "";
@@ -1606,6 +1652,7 @@ export class AssayComponent implements OnInit {
     //   if (this.assay[i].status != "Submitted to QC") {
         this.AssayForm.patchValue({
           // 'ordinal': this.assay[i].ordinal,
+        'tanNo': this.assay[i].ligandSlno2?.tanNumber,
           'ligandSlno': this.assay[i].ligandSlno,
           'assayTypeSlno': this.assay[i].assayTypeSlno,
           'toxiCitySlno': this.assay[i].toxiCitySlno,
@@ -1693,6 +1740,7 @@ export class AssayComponent implements OnInit {
         // this.insertUser = this.assay[i].insertUser;
 
         this.AssayForm.patchValue({
+        'tanNo': this.assay[i].ligandSlno2?.tanNumber,
           'ordinal': this.assay[i].ordinal,
           'ligandSlno': this.assay[i].ligandSlno,
           'assayTypeSlno': this.assay[i].assayTypeSlno,

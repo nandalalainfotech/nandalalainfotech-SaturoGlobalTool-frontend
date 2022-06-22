@@ -6,7 +6,7 @@
                 <div class="col-xs-4 col-sm-4">
                     <div class="form-group">
                         <label path="tanNumber" for="tanNumber" cssClass="required">TAN Number</label>
-                        <input readonly class="form-control" name="tanNumber" formControlName="tanNumber" [ngClass]="{ 'is-invalid': submitted && f.tanNumber.errors }">
+                        <input readonly class="form-control" autocomplete="off" name="tanNumber" formControlName="tanNumber" [ngClass]="{ 'is-invalid': submitted && f.tanNumber.errors }">
                         <!-- <select class="form-control" name="tanNumber" formControlName="tanNumber">
                            <option value="" hidden> - Select Tan tanNumber - </option>
                            <option >
@@ -79,20 +79,20 @@
                 <div class="col-xs-4 col-sm-4">
                     <div class="form-group">
                         <label path="identifier1" for="series" cssClass="required">Identifier 1</label>
-                        <input class="form-control" name="identifier1" formControlName="identifier1">
+                        <input class="form-control" autocomplete="off" name="identifier1" formControlName="identifier1">
                     </div>
                 </div>
 
                 <div class="col-xs-4 col-sm-4">
                     <div class="form-group">
                         <label path="identifier2" for="series" cssClass="required">Identifier 2</label>
-                        <input class="form-control" name="identifier2" formControlName="identifier2">
+                        <input class="form-control" autocomplete="off" name="identifier2" formControlName="identifier2">
                     </div>
                 </div>
                 <div class="col-xs-4 col-sm-4">
                     <div class="form-group">
                         <label path="identifier3" for="series" cssClass="required">Identifier 3</label>
-                        <input class="form-control" name="identifier3" formControlName="identifier3">
+                        <input class="form-control" autocomplete="off" name="identifier3" formControlName="identifier3">
                     </div>
                 </div>
             </div>
@@ -100,21 +100,21 @@
                 <div class="col-xs-4 col-sm-4">
                     <div class="form-group">
                         <label path="collectionId" for="series" cssClass="required">Collection-id</label>
-                        <input class="form-control" name="collectionId" formControlName="collectionId">
+                        <input class="form-control" autocomplete="off" name="collectionId" formControlName="collectionId">
                     </div>
                 </div>
 
                 <div class="col-xs-4 col-sm-4">
                     <div class="form-group">
                         <label path="locator" for="series" cssClass="required">Ligand Locator</label>
-                        <input class="form-control" name="locator" formControlName="locator">
+                        <input class="form-control" autocomplete="off" name="locator" formControlName="locator">
                     </div>
                 </div>
 
                 <div class="col-xs-4 col-sm-4">
                     <div class="form-group">
                         <label path="ligandDetail" for="series" cssClass="required">Ligand-detail</label>
-                        <input class="form-control" name="ligandDetail" formControlName="ligandDetail">
+                        <input class="form-control" autocomplete="off" name="ligandDetail" formControlName="ligandDetail">
                     </div>
                 </div>
             </div>
@@ -125,21 +125,21 @@
                     <div class="col-xs-4 col-sm-4">
                         <div class="form-group">
                             <label path="diseaseName1" for="series" cssClass="required">Original-disease-name 1</label>
-                            <input class="form-control" name="diseaseName1" formControlName="diseaseName1">
+                            <input class="form-control" autocomplete="off" name="diseaseName1" formControlName="diseaseName1">
                         </div>
                     </div>
 
                     <div class="col-xs-4 col-sm-4">
                         <div class="form-group">
                             <label path="diseaseName2" for="series" cssClass="required">Original-disease-name 2</label>
-                            <input class="form-control" name="diseaseName2" formControlName="diseaseName2">
+                            <input class="form-control" autocomplete="off" name="diseaseName2" formControlName="diseaseName2">
                         </div>
                     </div>
 
                     <div class="col-xs-4 col-sm-4">
                         <div class="form-group">
                             <label path="diseaseName3" for="series" cssClass="required">Original-disease-name 3</label>
-                            <input class="form-control" name="diseaseName3" formControlName="diseaseName3">
+                            <input class="form-control" autocomplete="off" name="diseaseName3" formControlName="diseaseName3">
                         </div>
                     </div>
                 </div>
@@ -156,21 +156,21 @@
                 <div class="col-xs-4 col-sm-4">
                     <div class="form-group">
                         <!-- <label type="hidden" path="targetVersion" for="targetVersion" cssClass="required">Target-version</label> -->
-                        <input type="hidden" class="form-control" name="targetVersion" formControlName="targetVersion">
+                        <input type="hidden" autocomplete="off"class="form-control" name="targetVersion" formControlName="targetVersion">
                     </div>
                 </div>
 
                 <div class="col-xs-4 col-sm-4">
                     <div class="form-group">
                         <!-- <label path="collectionId1" for="collectionId1" cssClass="required">Collection-id</label> -->
-                        <input type="hidden" lass="form-control" name="collectionId1" formControlName="collectionId1">
+                        <input type="hidden" class="form-control" autocomplete="off"name="collectionId1" formControlName="collectionId1">
                     </div>
                 </div>
 
                 <div class="col-xs-4 col-sm-4">
                     <div class="form-group">
                         <!-- <label path="original" for="original" cssClass="required">Original-target-name</label> -->
-                        <input type="hidden" class="form-control" name="original" formControlName="original">
+                        <input type="hidden" autocomplete="off" class="form-control" name="original" formControlName="original">
                     </div>
                 </div>
 
@@ -179,20 +179,20 @@
                 <div class="col-xs-4 col-sm-4">
                     <div class="form-group">
                         <!-- <label path="acronym" for="series" cssClass="required">Acronym</label> -->
-                        <input type="hidden" class="form-control" name="acronym" formControlName="acronym">
+                        <input type="hidden" autocomplete="off" class="form-control" name="acronym" formControlName="acronym">
                     </div>
                 </div>
 
                 <div class="col-xs-4 col-sm-4">
                     <div class="form-group">
                         <!-- <label path="organism" for="series" cssClass="required">Organism-source</label> -->
-                        <input type="hidden" class="form-control" name="organism" formControlName="organism">
+                        <input type="hidden" autocomplete="off" class="form-control" name="organism" formControlName="organism">
                     </div>
                 </div>
                 <div class="col-xs-4 col-sm-4">
                     <div class="form-group">
                         <!-- <label path="variant" for="variant" cssClass="required">Variant</label> -->
-                        <input type="hidden" class="form-control" name="variant" formControlName="variant">
+                        <input type="hidden" autocomplete="off" class="form-control" name="variant" formControlName="variant">
                     </div>
                 </div>
             </div>
@@ -201,7 +201,7 @@
             <div class="row">
 
                 <div class="form-group">
-                    <div class="col-sm-6"></div>
+                    <div class="col-sm-5"></div>
                     <div class="col-sm-1">
                         <button type="button" class="btn btn-primary" (click)="onRepeat()">Repeat</button>
                     </div>
@@ -216,6 +216,9 @@
                     </div>
                     <div class="col-sm-1">
                         <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                    <div class="col-sm-1">
+                        <button type="button" class="btn btn-primary" cdkStepperNext>Next</button>
                     </div>
                     <div class="col-sm-1"></div>
                 </div>

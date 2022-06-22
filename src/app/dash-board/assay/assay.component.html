@@ -5,12 +5,26 @@
             <div class="row">
                 <div class="col-xs-3 col-sm-3">
                     <div class="form-group">
+                        <label path="tanNo" for="tanNo" cssClass="required">TAN NUMBER</label>
+                        <select class="form-control" name="tanNo" formControlName="tanNo" >
+                            <option value="" hidden> - Select Tan Number - </option>
+                         
+                            <option *ngFor="let tanarray of tanarr" >
+                                {{tanarray}}
+                            </option>
+                        </select>
+                        <!-- <input type="text" class="form-control" name="tanNo" formControlName="tanNo" readonly (blur)="onBlurEvent($event)"> -->
+                    </div>
+                </div>
+                <div class="col-xs-3 col-sm-3">
+                    <div class="form-group">
                         <label path="ligandSlno" for="ligandSlno" cssClass="required">Ligand-Version</label>
-                        <select class="form-control" name="ligandSlno" formControlName="ligandSlno" (blur)="onBlurEvent($event)">
-                            <option value="" hidden> - Select Ligand-Version - </option>
-                            <option value="null"> - Select Ligand-Version - </option>
-                            <option *ngFor="let ligandObject of ligands" [value]="ligandObject.ligandId" >
-                                {{ligandObject.ligandVersionSlno2?.ligandVersion}}
+                        <!-- <input type="text" class="form-control" name="ligandname" formControlName="ligandSlno" readonly> -->
+                        <select class="form-control" name="tanNo" formControlName="ligandSlno">
+                            <option value=''> - Select Ligand Version - </option>
+
+                            <option *ngFor="let ligandtanversion of ligandtanversions" [value]="ligandtanversion.ligandId">
+                                {{ligandtanversion.ligandVersionSlno2?.ligandVersion}}
                             </option>
                         </select>
 
@@ -19,7 +33,7 @@
                 <div class="col-xs-3 col-sm-3">
                     <div class="form-group">
                         <label path="ligandname" for="series" cssClass="required">Ligand Name</label>
-                        <input type="text" class="form-control" name="ligandname" formControlName="ligandname" readonly>
+                        <input type="text" autocomplete="off" class="form-control" name="ligandname" formControlName="ligandname" readonly>
 
                     </div>
                 </div>
@@ -79,14 +93,14 @@
                 <div class="col-xs-3 col-sm-3">
                     <div class="form-group">
                         <label path="administration" for="series" cssClass="required">Administration-regimen</label>
-                        <input class="form-control" name="administration" formControlName="administration">
+                        <input class="form-control" autocomplete="off" name="administration" formControlName="administration">
                     </div>
                 </div>
 
                 <div class="col-xs-3 col-sm-3">
                     <div class="form-group">
                         <label path="procedure" for="series" cssClass="required">Procedure</label>
-                        <input class="form-control" name="procedure" formControlName="procedure">
+                        <input class="form-control" autocomplete="off" name="procedure" formControlName="procedure">
                     </div>
                 </div>
 
@@ -95,7 +109,7 @@
                 <div class="col-xs-3 col-sm-3">
                     <div class="form-group">
                         <label path="ligandSvalue" for="series" cssClass="required">Ligand-Dose(Single-value)</label>
-                        <input class="form-control" name="ligandSvalue" formControlName="ligandSvalue" (click)="onSingleValueClick()">
+                        <input class="form-control" autocomplete="off" name="ligandSvalue" formControlName="ligandSvalue" (click)="onSingleValueClick()">
                     </div>
                 </div>
                 <div class="col-xs-3 col-sm-3">
@@ -118,14 +132,14 @@
                 <div class="col-xs-3 col-sm-3">
                     <div class="form-group">
                         <label path="ligandHvalue" for="series" cssClass="required">Ligand-Dose(High-end-value)</label>
-                        <input class="form-control" name="ligandHvalue" formControlName="ligandHvalue" (click)="highValueClick()">
+                        <input class="form-control" autocomplete="off" name="ligandHvalue" formControlName="ligandHvalue" (click)="highValueClick()">
                     </div>
                 </div>
 
                 <div class="col-xs-3 col-sm-3">
                     <div class="form-group">
                         <label path="ligandLvalue" for="series" cssClass="required">Ligand-Dose(Low-end-value)</label>
-                        <input class="form-control" name="ligandLvalue" formControlName="ligandLvalue">
+                        <input class="form-control" autocomplete="off" name="ligandLvalue" formControlName="ligandLvalue">
                     </div>
                 </div>
 
@@ -161,7 +175,7 @@
                         <div class="form-group">
                             <label path="conditionMaterial" for="series" cssClass="required">Condition
                                 material</label>
-                            <input class="form-control" name="conditionMaterial" formControlName="conditionMaterial">
+                            <input class="form-control" autocomplete="off" name="conditionMaterial" formControlName="conditionMaterial">
                         </div>
                     </div>
 
@@ -169,7 +183,7 @@
                         <div class="form-group">
                             <label path="conditionMaterialid" for="series" cssClass="required">Condition
                                 material-id</label>
-                            <input class="form-control" name="conditionMaterialid" formControlName="conditionMaterialid">
+                            <input class="form-control" autocomplete="off" name="conditionMaterialid" formControlName="conditionMaterialid">
                         </div>
                     </div>
                 </div>
@@ -177,7 +191,7 @@
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
                             <label path="singleCondition" for="series" cssClass="required">Condition(Single-value)</label>
-                            <input class="form-control" name="singleCondition" formControlName="singleCondition" (click)="onsingleConditionClick()">
+                            <input class="form-control" autocomplete="off" name="singleCondition" formControlName="singleCondition" (click)="onsingleConditionClick()">
 
                         </div>
                     </div>
@@ -185,7 +199,8 @@
                         <div class="form-group">
                             <label path="singleUnit" for="series" cssClass="required">Unit(Single-value)</label>
                             <select class="form-control" name="singleUnit" formControlName="singleUnit">
-                                <option value=''> - Select Unit-Types - </option>
+                                <option value="" hidden> - Select Unit-Types - </option>
+                                
                                 <option *ngFor="let unitsinglevalue of unitsinglevalues" [value]="unitsinglevalue.id">
                                     {{unitsinglevalue.unit}}
                                 </option>
@@ -201,14 +216,14 @@
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
                             <label path="highCondition" for="series" cssClass="required">Condition(High-end-value)</label>
-                            <input class="form-control" name="highCondition" formControlName="highCondition" (click)="highConditionClick()">
+                            <input class="form-control" autocomplete="off" name="highCondition" formControlName="highCondition" (click)="highConditionClick()">
                         </div>
                     </div>
 
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
                             <label path="lowCondition" for="series" cssClass="required">Condition(Low-end-value)</label>
-                            <input class="form-control" name="lowCondition" formControlName="lowCondition">
+                            <input class="form-control" autocomplete="off" name="lowCondition" formControlName="lowCondition">
                         </div>
                     </div>
 
@@ -235,19 +250,19 @@
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
                             <label path="dataLocator1" for="parameterDetail" cssClass="required">Table (Data-locator)</label>
-                            <input class="form-control" name="dataLocator1" formControlName="dataLocator1">
+                            <input class="form-control" autocomplete="off" name="dataLocator1" formControlName="dataLocator1">
                         </div>
                     </div>
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
                             <label path="dataLocator2" for="dataLocator2" cssClass="required">Figure (Data-locator)</label>
-                            <input class="form-control" name="dataLocator2" formControlName="dataLocator2">
+                            <input class="form-control" autocomplete="off" name="dataLocator2" formControlName="dataLocator2">
                         </div>
                     </div>
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
                             <label path="dataLocator3" for="dataLocator3" cssClass="required">Page (Data-locator)</label>
-                            <input class="form-control" name="dataLocator3" formControlName="dataLocator3">
+                            <input class="form-control" autocomplete="off" name="dataLocator3" formControlName="dataLocator3">
                         </div>
                     </div>
                 </div>
@@ -288,14 +303,14 @@
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
                             <label path="parameter" for="parameter" cssClass="required">Parameter</label>
-                            <input class="form-control" name="parameter" formControlName="parameter">
+                            <input class="form-control" autocomplete="off" name="parameter" formControlName="parameter">
                         </div>
                     </div>
 
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
                             <label path="parameterDetail" for="parameterDetail" cssClass="required">Parameter-detail</label>
-                            <input class="form-control" name="parameterDetail" formControlName="parameterDetail">
+                            <input class="form-control" autocomplete="off" name="parameterDetail" formControlName="parameterDetail">
                         </div>
                     </div>
                 </div>
@@ -317,7 +332,7 @@
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
                             <label path="singleValue" for="singleValue" cssClass="required">Single-value</label>
-                            <input class="form-control" name="singleValue" formControlName="singleValue" (click)="singleValClick()">
+                            <input class="form-control" autocomplete="off" name="singleValue" formControlName="singleValue" (click)="singleValClick()">
                         </div>
                     </div>
 
@@ -344,14 +359,14 @@
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
                             <label path="highEndValue" for="highEndValue" cssClass="required">High-end-value</label>
-                            <input class="form-control" name="highEndValue" formControlName="highEndValue" (click)="highEndValueClick()">
+                            <input class="form-control" autocomplete="off" name="highEndValue" formControlName="highEndValue" (click)="highEndValueClick()">
                         </div>
                     </div>
 
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
                             <label path="lowEndValue" for="lowEndValue" cssClass="required">Low-end-value</label>
-                            <input class="form-control" name="lowEndValue" formControlName="lowEndValue">
+                            <input class="form-control" autocomplete="off" name="lowEndValue" formControlName="lowEndValue">
                         </div>
                     </div>
 
@@ -404,21 +419,21 @@
                         <div class="col-xs-3 col-sm-3">
                             <div class="form-group">
                                 <label path="cell" for="cell" cssClass="required">Cell</label>
-                                <input class="form-control" name="cell" formControlName="cell">
+                                <input class="form-control" autocomplete="off" name="cell" formControlName="cell">
                             </div>
                         </div>
 
                         <div class="col-xs-3 col-sm-3">
                             <div class="form-group">
                                 <label path="cellDetail" for="cellDetail" cssClass="required">Cell-detail</label>
-                                <input class="form-control" name="cellDetail" formControlName="cellDetail">
+                                <input class="form-control" autocomplete="off" name="cellDetail" formControlName="cellDetail">
                             </div>
                         </div>
 
                         <div class="col-xs-3 col-sm-3">
                             <div class="form-group">
                                 <label path="organ" for="organ" cssClass="required">Organ</label>
-                                <input class="form-control" name="organ" formControlName="organ">
+                                <input class="form-control" autocomplete="off" name="organ" formControlName="organ">
                             </div>
                         </div>
                     </div>
@@ -427,21 +442,21 @@
                         <div class="col-xs-3 col-sm-3">
                             <div class="form-group">
                                 <label path="organDetail" for="organDetail" cssClass="required">Organ-detail</label>
-                                <input class="form-control" name="organDetail" formControlName="organDetail">
+                                <input class="form-control" autocomplete="off" name="organDetail" formControlName="organDetail">
                             </div>
                         </div>
 
                         <div class="col-xs-3 col-sm-3">
                             <div class="form-group">
                                 <label path="species" for="species" cssClass="required">Species</label>
-                                <input class="form-control" name="organDetail" formControlName="species">
+                                <input class="form-control" autocomplete="off" name="organDetail" formControlName="species">
                             </div>
                         </div>
 
                         <div class="col-xs-3 col-sm-3">
                             <div class="form-group">
                                 <label path="speciesDetail" for="speciesDetail" cssClass="required">Species-detail</label>
-                                <input class="form-control" name="speciesDetail" formControlName="speciesDetail">
+                                <input class="form-control" autocomplete="off" name="speciesDetail" formControlName="speciesDetail">
                             </div>
                         </div>
 
@@ -461,7 +476,7 @@
                         <div class="col-xs-3 col-sm-3">
                             <div class="form-group">
                                 <label path="ageGroup" for="ageGroup" cssClass="required">Age-group</label>
-                                <input class="form-control" name="ageGroup" formControlName="ageGroup">
+                                <input class="form-control" autocomplete="off" name="ageGroup" formControlName="ageGroup">
                             </div>
                         </div>
                     </div>
@@ -494,21 +509,21 @@
                         <div class="col-xs-4 col-sm-4">
                             <div class="form-group">
                                 <label path="targetVersion" for="targetVersion" cssClass="required">Target-version</label>
-                                <input class="form-control" name="targetVersion" formControlName="targetVersion">
+                                <input class="form-control" autocomplete="off" name="targetVersion" formControlName="targetVersion">
                             </div>
                         </div>
 
                         <div class="col-xs-4 col-sm-4">
                             <div class="form-group">
                                 <label path="collectionId1" for="collectionId1" cssClass="required">Collection-id</label>
-                                <input class="form-control" name="collectionId1" formControlName="collectionId1">
+                                <input class="form-control" autocomplete="off" name="collectionId1" formControlName="collectionId1">
                             </div>
                         </div>
 
                         <div class="col-xs-4 col-sm-4">
                             <div class="form-group">
                                 <label path="original" for="original" cssClass="required">Original-target-name</label>
-                                <input class="form-control" name="original" formControlName="original">
+                                <input class="form-control" autocomplete="off" name="original" formControlName="original">
                             </div>
                         </div>
 
@@ -517,20 +532,20 @@
                         <div class="col-xs-4 col-sm-4">
                             <div class="form-group">
                                 <label path="acronym" for="series" cssClass="required">Acronym</label>
-                                <input class="form-control" name="acronym" formControlName="acronym">
+                                <input class="form-control" autocomplete="off" name="acronym" formControlName="acronym">
                             </div>
                         </div>
 
                         <div class="col-xs-4 col-sm-4">
                             <div class="form-group">
                                 <label path="organism" for="series" cssClass="required">Organism-source</label>
-                                <input class="form-control" name="organism" formControlName="organism">
+                                <input class="form-control" autocomplete="off" name="organism" formControlName="organism">
                             </div>
                         </div>
                         <div class="col-xs-4 col-sm-4">
                             <div class="form-group">
                                 <label path="variant" for="variant" cssClass="required">Variant</label>
-                                <input class="form-control" name="variant" formControlName="variant">
+                                <input class="form-control" autocomplete="off" name="variant" formControlName="variant">
                             </div>
                         </div>
                     </div>
