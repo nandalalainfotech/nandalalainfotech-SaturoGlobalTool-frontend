@@ -68,7 +68,7 @@ import { ErrorInterceptor } from './_helpers/error.interceptor';
 		GojsAngularModule,
 		CdkStepperModule,
         NgStepperModule,
-		InlineEditingModule
+		InlineEditingModule,
 	],
 	exports: [PopupComponent, NgbCollapseModule],
 	providers: [AuthManager, CalloutService, DataSharedService,BaseService, UserManager,RoleManager,
