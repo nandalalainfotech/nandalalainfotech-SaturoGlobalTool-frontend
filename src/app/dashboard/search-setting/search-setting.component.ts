@@ -1,4 +1,6 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GridOptions } from 'ag-grid-community';
 import { deserialize } from 'serializer.ts/Serializer';
@@ -21,8 +23,13 @@ import { Utils } from 'src/app/shared/utils/utils';
   styleUrls: ['./search-setting.component.css']
 })
 export class SearchSettingComponent implements OnInit {
+
+  public LigandForm: FormGroup | any;
+  submitted = false;
+
   frameworkComponents: any;
   public gridOptions: GridOptions | any;
+  ligandId: number | any;
   tanNum: string = "";
   LigVer: string = "";
   assay: Assay001wb[] = [];
@@ -35,6 +42,13 @@ export class SearchSettingComponent implements OnInit {
   user?: User001mb;
   hexToRgb: any;
   rgbToHex: any;
+
+  insertUser: string = "";
+  insertDatetime: Date | any;
+  updatedUser: string = "";
+  updatedDatetime: Date | any;
+
+  public inprocess: any;
   @HostBinding('style.--color_l1') colorthemes_1: any;
   @HostBinding('style.--color_l2') colorthemes_2: any;
   @HostBinding('style.--color_l3') colorthemes_3: any;
@@ -46,6 +60,8 @@ export class SearchSettingComponent implements OnInit {
     private ligandVersionManager: LigandVersionManager,
     private modalService: NgbModal,
     private calloutService: CalloutService,
+    private route: ActivatedRoute,
+    private formBuilder: FormBuilder,
 
   ) {
     this.frameworkComponents = {
@@ -54,8 +70,32 @@ export class SearchSettingComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.inprocess = this.route.queryParams.subscribe((params: { [x: string]: any; }) => {
+
+      let LigandId = params["ligandId"];
+      this.ligandId = LigandId;
+      console.log("this.ligandId-->",this.ligandId);
+      
+      let InsertUser = params["insertUsers"];
+      this.insertUser = InsertUser;
+
+      let TanNumber = params["tanNumber"];
+      this.tanNum = TanNumber;
+
+      
+
+
+    });
+
     this.username = this.authManager.getcurrentUser.username;
     this.createDataGrid001();
+
+    // this.LigandForm = this.formBuilder.group({
+
+    //   tanNum: [this.tanNum],
+      
+    // });
 
     this.ligandVersionManager.allligandVersion().subscribe(response => {
       this.ligandVersions = deserialize<Ligandversion001mb[]>(Ligandversion001mb, response);

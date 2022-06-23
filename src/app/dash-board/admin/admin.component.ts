@@ -175,16 +175,16 @@ export class AdminComponent implements OnInit {
         suppressSizeToFit: true,
         // valueGetter: this.setCuratorName.bind(this)
       },
-      {
-        headerName: 'CURATOR BATCH NUMBER',
-        field: 'cbatchNo',
-        width: 200,
-        flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-      },
+      // {
+      //   headerName: 'CURATOR BATCH NUMBER',
+      //   field: 'cbatchNo',
+      //   width: 200,
+      //   flex: 1,
+      //   sortable: true,
+      //   filter: true,
+      //   resizable: true,
+      //   suppressSizeToFit: true,
+      // },
       {
         headerName: 'CURATOR TAN NUMBER',
         field: 'curatorTanNo',
@@ -196,18 +196,18 @@ export class AdminComponent implements OnInit {
         suppressSizeToFit: true
       },
 
-      {
-        headerName: 'CURATOR DATE ALLOCATED',
-        width: 200,
-        flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-        valueGetter: (params: any) => {
-          return params.data.curatorAllocateDate ? this.datepipe.transform(params.data.curatorAllocateDate, 'dd-MM-yyyy') : '';
-        }
-      },
+      // {
+      //   headerName: 'CURATOR DATE ALLOCATED',
+      //   width: 200,
+      //   flex: 1,
+      //   sortable: true,
+      //   filter: true,
+      //   resizable: true,
+      //   suppressSizeToFit: true,
+      //   valueGetter: (params: any) => {
+      //     return params.data.curatorAllocateDate ? this.datepipe.transform(params.data.curatorAllocateDate, 'dd-MM-yyyy') : '';
+      //   }
+      // },
 
 
       {
@@ -220,16 +220,16 @@ export class AdminComponent implements OnInit {
         resizable: true,
         suppressSizeToFit: true,
       },
-      {
-        headerName: 'REVIEWER BATCH NUMBER',
-        field: 'rbatchNo',
-        width: 200,
-        flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-      },
+      // {
+      //   headerName: 'REVIEWER BATCH NUMBER',
+      //   field: 'rbatchNo',
+      //   width: 200,
+      //   flex: 1,
+      //   sortable: true,
+      //   filter: true,
+      //   resizable: true,
+      //   suppressSizeToFit: true,
+      // },
       {
         headerName: 'REVIEWER TAN NUMBER',
         field: 'reviewerTanNo',
@@ -253,57 +253,10 @@ export class AdminComponent implements OnInit {
       //   }
       // },
 
-      // {
-      //   headerName: 'FILE NAME',
-      //   field: 'filename',
-      //   width: 200,
-      //   flex: 1,
-      //   sortable: true,
-      //   filter: true,
-      //   resizable: true,
-      //   suppressSizeToFit: true
-      // },
-      // {
-      //   headerName: 'Edit',
-      //   cellRenderer: 'iconRenderer',
-      //   width: 80,
-      //   // flex: 1,
-      //   suppressSizeToFit: true,
-      //   cellStyle: { textAlign: 'center' },
-      //   cellRendererParams: {
-      //     onClick: this.onEditButtonClick.bind(this),
-      //     label: 'Edit'
-      //   },
-      // },
-      // {
-      //   headerName: 'Delete',
-      //   cellRenderer: 'iconRenderer',
-      //   width: 85,
-      //   // flex: 1,
-      //   suppressSizeToFit: true,
-      //   cellStyle: { textAlign: 'center' },
-      //   cellRendererParams: {
-      //     onClick: this.onDeleteButtonClick.bind(this),
-      //     label: 'Delete'
-      //   },
-      // },
-      // {
-      //   headerName: 'Audit',
-      //   cellRenderer: 'iconRenderer',
-      //   width: 80,
-      //   // flex: 1,
-      //   suppressSizeToFit: true,
-      //   cellStyle: { textAlign: 'center' },
-      //   cellRendererParams: {
-      //     onClick: this.onAuditButtonClick.bind(this),
-      //     label: 'Audit'
-      //   },
-      // },
+      
     ];
   }
-  // setCuratorName(params: any): string {
-  //   return params.data? params.data.curatorName : null;
-  // }
+ 
   onCreatorChange(event: any) {
     let curatorName: string = '';
     for (let i = 0; i < this.curators.length; i++) {
@@ -329,49 +282,7 @@ export class AdminComponent implements OnInit {
    
   }
 
-  // onEditButtonClick(params: any) {
-  //   this.curatorId = params.data.curatorId;
-  //   this.insertUser = params.data.insertUser;
-  //   this.insertDatetime = params.data.insertDatetime;
-  //   this.TaskAllocationForm.patchValue({
-  //     'curatorName': params.data.curatorName,
-  //     'curatorTanNo': params.data.curatorTanNo,
-  //     'curatorAllocateDate': new Date(params.data.curatorAllocateDate),
-  //     'curatorCompleteDate': new Date(params.data.curatorCompleteDate),
-  //     'reviewerName': params.data.reviewerName,
-  //     'reviewerTanNo': params.data.reviewerTanNo,
-  //     'reviewerAllocateDate': new Date(params.data.reviewerAllocateDate),
-  //     'reviewerCompleteDate': new Date(params.data.reviewerCompleteDate),
-
-  //   });
-  // }
-
-  // onDeleteButtonClick(params: any) {
-  //   const modalRef = this.modalService.open(ConformationComponent);
-  //   modalRef.componentInstance.details = "TaskAllocation";
-  //   modalRef.result.then((data) => {
-  //     if (data == "Yes") {
-  //       this.taskAllocationManager.taskdelete(params.data.curatorId).subscribe((response) => {
-  //         for (let i = 0; i < this.taskallocations.length; i++) {
-  //           if (this.taskallocations[i].curatorId == params.data.curatorId) {
-  //             this.taskallocations?.splice(i, 1);
-  //             break;
-  //           }
-  //         }
-  //         const selectedRows = params.api.getSelectedRows();
-  //         params.api.applyTransaction({ remove: selectedRows });
-  //         this.gridOptions.api.deselectAll();
-  //         this.calloutService.showSuccess("TaskAllocation Removed Successfully");
-  //       });
-  //     }
-  //   })
-  // }
-
-  // onAuditButtonClick(params: any) {
-  //   const modalRef = this.modalService.open(AuditComponent);
-  //   modalRef.componentInstance.title = "TaskAllocation";
-  //   modalRef.componentInstance.details = params.data;
-  // }
+  
 
   private markFormGroupTouched(formGroup: FormGroup) {
     (<any>Object).values(formGroup.controls).forEach((control: any) => {
@@ -444,10 +355,4 @@ export class AdminComponent implements OnInit {
     this.TaskAllocationForm.reset();
   }
 
-  //   reset(element:any) {
-  //     this.submitted = false;
-  //     element.value = "";
-  //     this.TaskAllocationForm.reset();
-  // }
-
-}
+  }
