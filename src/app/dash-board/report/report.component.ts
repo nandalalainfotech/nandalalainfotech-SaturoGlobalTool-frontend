@@ -39,7 +39,7 @@ export class ReportComponent implements OnInit {
   updatedUser: string = "";
   updatedDatetime: Date | any;
   // searchPopup: string = '';
-
+  // tans:any []=[];
   ligand: Ligand001wb[] = [];
   // Ligandversions=Ligandversion001mb[] = [];
   // Ligandtypes=Ligandtype001mb[] = [];
@@ -80,38 +80,23 @@ export class ReportComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params: ParamMap) => {
-        this.tanNumber = params.get('tanNumber');
-        
-      }
-    );
-
-    // this.inprocess = this.route.queryParams.subscribe((params: { [x: string]: any; }) => {
-    //   let ReviewerTan = params["tanNumber"];
-    //   this.tanNumber = ReviewerTan;
-    //   console.log("params---->",this.tanNumber);
-    // });
-
-    this.createDataGrid001();
-    this.taskAllocationManager.findByTanNo(this.username).subscribe(response => {
-      this.tanNos = deserialize<Taskallocation001wb[]>(Taskallocation001wb, response);
-
+      this.tanNumber = params.get('tanNumber');
     });
 
-    // this.LigandForm = this.formBuilder.group({
-    //   tanNumber: [this.tanNumber],
-
-    // });
-
-
-
     this.username = this.authManager.getcurrentUser.username;
+    console.log("this.username", this.username)
+    this.createDataGrid001();
+    console.log("this.username", this.username)
+    this.taskAllocationManager.findByTanNo(this.username).subscribe(response => {
+      this.tanNos = deserialize<Taskallocation001wb[]>(Taskallocation001wb, response);
+      console.log("this.username", this.username)
+    });
 
     this.assayManager.findByReviewer(this.username).subscribe(response => {
       this.assays = deserialize<Assay001wb[]>(Assay001wb, response);
-      
+
       for (let assay of this.assays) {
-        if (assay.status == "Submitted to QC" && assay.ligandSlno2?.tanNumber == this.tanNumber ) {
-          console.log("this.tanNumber--->",assay.ligandSlno2?.tanNumber == this.tanNumber);
+        if (assay.status == "Submitted to QC") {
           this.reviewerDatas.push(assay);
           // console.log(" this.reviewerDatas in report", this.reviewerDatas);
         }
@@ -189,7 +174,7 @@ export class ReportComponent implements OnInit {
         filter: true,
         resizable: true,
         valueGetter: this.settanNumber.bind(this),
-        
+
       },
       {
         headerName: 'Ligand-Version',
@@ -952,6 +937,14 @@ export class ReportComponent implements OnInit {
   //  ------EXCEL FILE --------//
 
   onGenerateExcelReport() {
+    
+  //   for(let i=0; i<this.assays.length; i++){
+  //     console.log("tan", this.assays[i].ligandSlno2?.tanNumber)
+  //     this.tans.push(this.assays[i].ligandSlno2?.tanNumber)
+  //   }
+  
+  //  let tanNos=new Set (this.tans)
+  //  console.log("tanNos",tanNos);
     this.ligandReportsManager.machineReportsExcel().subscribe((response) => {
       // if (this.ligand) {
       //   saveAs(response);

@@ -448,7 +448,7 @@ export class AssayComponent implements OnInit {
           this.ligandtanversions.push(this.ligands[i]);
         }
       }
-     
+
       if (legandversions.length < 1) {
         this.AssayForm.patchValue({
           'ligandSlno': legandversions[0],
@@ -471,19 +471,17 @@ export class AssayComponent implements OnInit {
   // this.username = this.authManager.getcurrentUser.username;
   loadData() {
     this.assay = [];
-    this.gridOptions?.api?.reset();
+    this.gridOptions?.api?.setRowData([]);
     this.username = this.authManager.getcurrentUser.username;
-    setTimeout(() => {
-      this.assayManager.allassay(this.username).subscribe(response => {
-        this.assay = deserialize<Assay001wb[]>(Assay001wb, response);
-        if (this.assay.length > 0) {
-          this.gridOptions?.api?.setRowData(this.assay);
-        } else {
-          this.gridOptions?.api?.setRowData([]);
-        }
-      });
-    }, 10);
-   
+    this.assayManager.allassay(this.username).subscribe(response => {
+      this.assay = deserialize<Assay001wb[]>(Assay001wb, response);
+      if (this.assay.length > 0) {
+        let data = JSON.parse(JSON.stringify(this.assay));
+        this.gridOptions?.api?.setRowData(data);
+      } else {
+        this.gridOptions?.api?.setRowData([]);
+      }
+    });
   }
 
 
@@ -1185,24 +1183,24 @@ export class AssayComponent implements OnInit {
 
   onDeleteButtonClick(params: any) {
     // if (params.data.status != "Submitted to QC") {
-      const modalRef = this.modalService.open(ConformationComponent);
-      modalRef.componentInstance.details = "Assay";
-      modalRef.result.then((data) => {
-        if (data == "Yes") {
-          this.assayManager.assaydelete(params.data.assayId).subscribe((response) => {
-            for (let i = 0; i < this.assay.length; i++) {
-              if (this.assay[i].assayId == params.data.assayId) {
-                this.assay?.splice(i, 1);
-                break;
-              }
+    const modalRef = this.modalService.open(ConformationComponent);
+    modalRef.componentInstance.details = "Assay";
+    modalRef.result.then((data) => {
+      if (data == "Yes") {
+        this.assayManager.assaydelete(params.data.assayId).subscribe((response) => {
+          for (let i = 0; i < this.assay.length; i++) {
+            if (this.assay[i].assayId == params.data.assayId) {
+              this.assay?.splice(i, 1);
+              break;
             }
-            const selectedRows = params.api.getSelectedRows();
-            params.api.applyTransaction({ remove: selectedRows });
-            this.gridOptions.api.deselectAll();
-            this.calloutService.showSuccess("Assay Removed Successfully");
-          });
-        }
-      })
+          }
+          const selectedRows = params.api.getSelectedRows();
+          params.api.applyTransaction({ remove: selectedRows });
+          this.gridOptions.api.deselectAll();
+          this.calloutService.showSuccess("Assay Removed Successfully");
+        });
+      }
+    })
     // }
   }
 
@@ -1438,7 +1436,23 @@ export class AssayComponent implements OnInit {
     assay001wb.insertDatetime = new Date();
     this.assayManager.assaysave(assay001wb).subscribe((response) => {
       this.calloutService.showSuccess("Curator data is in progress. Curator can edit data");
+      this.gridOptions?.api?.setRowData([]);
       this.loadData();
+      // this.gridOptions?.api?.setRowData([]);
+      // console.log("testing");
+      //  this.assayManager.allassay(this.username).subscribe(response => {
+      //   this.assay = deserialize<Assay001wb[]>(Assay001wb, response);
+      //   console.log("this.assay", this.assay);
+      //   if (this.assay.length > 0) {
+      //     console.log("this.assay-----True", this.assay);
+      //     this.gridOptions?.api?.setRowData([]);
+      //   } else {
+      //     this.gridOptions?.api?.setRowData([]);
+      //   }
+      // });
+
+      // this.gridOptions?.api?.refreshCells();
+      // this.ngOnInit();
       this.AssayForm.reset();
       this.submitted = false;
     });
@@ -1645,70 +1659,70 @@ export class AssayComponent implements OnInit {
   onRepeat() {
     let i = this.assay.length - 1;
     for (i; i < this.assay.length; i++) {
-    //   if (this.assay[i].status == "Submitted to QC") {
-    //     this.calloutService.showWarning("This data can't be Edited");
-    //   }
+      //   if (this.assay[i].status == "Submitted to QC") {
+      //     this.calloutService.showWarning("This data can't be Edited");
+      //   }
 
-    //   if (this.assay[i].status != "Submitted to QC") {
-        this.AssayForm.patchValue({
-          // 'ordinal': this.assay[i].ordinal,
+      //   if (this.assay[i].status != "Submitted to QC") {
+      this.AssayForm.patchValue({
+        // 'ordinal': this.assay[i].ordinal,
         'tanNo': this.assay[i].ligandSlno2?.tanNumber,
-          'ligandSlno': this.assay[i].ligandSlno,
-          'assayTypeSlno': this.assay[i].assayTypeSlno,
-          'toxiCitySlno': this.assay[i].toxiCitySlno,
-          'routeSlno': this.assay[i].routeSlno,
-          'ligandSvalue': this.assay[i].ligandSvalue,
-          'unitSlno': this.assay[i].unitSlno,
-          'ligandHvalue': this.assay[i].ligandHvalue,
-          'ligandLvalue': this.assay[i].ligandLvalue,
-          'unitedSlno': this.assay[i].unitedSlno,
-          'administration': this.assay[i].administration,
-          'procedure': this.assay[i].procedure,
-          'conditionType': this.assay[i].conditionType,
-          'conditionMaterial': this.assay[i].conditionMaterial,
-          'conditionMaterialid': this.assay[i].conditionMaterialid,
-          'singleCondition': this.assay[i].singleCondition,
-          'singleUnit': this.assay[i].singleUnit,
-          'highCondition': this.assay[i].highCondition,
-          'lowCondition': this.assay[i].lowCondition,
-          'highLowUnit': this.assay[i].highLowUnit,
+        'ligandSlno': this.assay[i].ligandSlno,
+        'assayTypeSlno': this.assay[i].assayTypeSlno,
+        'toxiCitySlno': this.assay[i].toxiCitySlno,
+        'routeSlno': this.assay[i].routeSlno,
+        'ligandSvalue': this.assay[i].ligandSvalue,
+        'unitSlno': this.assay[i].unitSlno,
+        'ligandHvalue': this.assay[i].ligandHvalue,
+        'ligandLvalue': this.assay[i].ligandLvalue,
+        'unitedSlno': this.assay[i].unitedSlno,
+        'administration': this.assay[i].administration,
+        'procedure': this.assay[i].procedure,
+        'conditionType': this.assay[i].conditionType,
+        'conditionMaterial': this.assay[i].conditionMaterial,
+        'conditionMaterialid': this.assay[i].conditionMaterialid,
+        'singleCondition': this.assay[i].singleCondition,
+        'singleUnit': this.assay[i].singleUnit,
+        'highCondition': this.assay[i].highCondition,
+        'lowCondition': this.assay[i].lowCondition,
+        'highLowUnit': this.assay[i].highLowUnit,
 
-          // 'dataLocator': this.assay[i].dataLocator,
-          'dataLocator1': this.assay[i].dataLocator1,
-          'dataLocator2': this.assay[i].dataLocator2,
-          'dataLocator3': this.assay[i].dataLocator3,
-          'categorySlno': this.assay[i].categorySlno,
-          'functionSlno': this.assay[i].functionSlno,
-          'parameter': this.assay[i].parameter,
-          'parameterDetail': this.assay[i].parameterDetail,
-          'originalPrefixSlno': this.assay[i].originalPrefixSlno,
-          'unit': this.assay[i].unit,
-          'singleValue': this.assay[i].singleValue,
-          'highEndValue': this.assay[i].highEndValue,
-          'lowEndValue': this.assay[i].lowEndValue,
-          'units': this.assay[i].units,
-          'nonNumeric': this.assay[i].nonNumeric,
-          'remark': this.assay[i].remark,
-          'typeSlno': this.assay[i].typeSlno,
-          'cell': this.assay[i].cell,
-          'cellDetail': this.assay[i].cellDetail,
-          'organ': this.assay[i].organ,
-          'organDetail': this.assay[i].organDetail,
-          'species': this.assay[i].species,
-          'speciesDetail': this.assay[i].speciesDetail,
-          'gender': this.assay[i].gender,
-          'ageGroup': this.assay[i].ageGroup,
+        // 'dataLocator': this.assay[i].dataLocator,
+        'dataLocator1': this.assay[i].dataLocator1,
+        'dataLocator2': this.assay[i].dataLocator2,
+        'dataLocator3': this.assay[i].dataLocator3,
+        'categorySlno': this.assay[i].categorySlno,
+        'functionSlno': this.assay[i].functionSlno,
+        'parameter': this.assay[i].parameter,
+        'parameterDetail': this.assay[i].parameterDetail,
+        'originalPrefixSlno': this.assay[i].originalPrefixSlno,
+        'unit': this.assay[i].unit,
+        'singleValue': this.assay[i].singleValue,
+        'highEndValue': this.assay[i].highEndValue,
+        'lowEndValue': this.assay[i].lowEndValue,
+        'units': this.assay[i].units,
+        'nonNumeric': this.assay[i].nonNumeric,
+        'remark': this.assay[i].remark,
+        'typeSlno': this.assay[i].typeSlno,
+        'cell': this.assay[i].cell,
+        'cellDetail': this.assay[i].cellDetail,
+        'organ': this.assay[i].organ,
+        'organDetail': this.assay[i].organDetail,
+        'species': this.assay[i].species,
+        'speciesDetail': this.assay[i].speciesDetail,
+        'gender': this.assay[i].gender,
+        'ageGroup': this.assay[i].ageGroup,
 
 
-          'targetVersion': this.assay[i].targetVersion,
-          'collectionId1': this.assay[i].collectionId1,
-          'original': this.assay[i].original,
-          'acronym': this.assay[i].acronym,
-          'organism': this.assay[i].organism,
-          'variant': this.assay[i].variant,
+        'targetVersion': this.assay[i].targetVersion,
+        'collectionId1': this.assay[i].collectionId1,
+        'original': this.assay[i].original,
+        'acronym': this.assay[i].acronym,
+        'organism': this.assay[i].organism,
+        'variant': this.assay[i].variant,
 
-        });
-      }
+      });
+    }
     // }
   }
 
@@ -1731,76 +1745,76 @@ export class AssayComponent implements OnInit {
   onEdit() {
     let i = this.assay.length - 1;
     for (i; i < this.assay.length; i++) {
-    //   if (this.assay[i].status == "Submitted to QC") {
-    //     this.calloutService.showWarning("This data can't be Edited");
-    //   }
-    //   if (this.assay[i].status != "Submitted to QC") {
-        this.assayId = this.assay[i].assayId;
-        this.insertDatetime = new Date();
-        // this.insertUser = this.assay[i].insertUser;
+      //   if (this.assay[i].status == "Submitted to QC") {
+      //     this.calloutService.showWarning("This data can't be Edited");
+      //   }
+      //   if (this.assay[i].status != "Submitted to QC") {
+      this.assayId = this.assay[i].assayId;
+      this.insertDatetime = new Date();
+      // this.insertUser = this.assay[i].insertUser;
 
-        this.AssayForm.patchValue({
+      this.AssayForm.patchValue({
         'tanNo': this.assay[i].ligandSlno2?.tanNumber,
-          'ordinal': this.assay[i].ordinal,
-          'ligandSlno': this.assay[i].ligandSlno,
-          'assayTypeSlno': this.assay[i].assayTypeSlno,
-          'toxiCitySlno': this.assay[i].toxiCitySlno,
-          'routeSlno': this.assay[i].routeSlno,
-          'ligandSvalue': this.assay[i].ligandSvalue,
-          'unitSlno': this.assay[i].unitSlno,
-          'ligandHvalue': this.assay[i].ligandHvalue,
-          'ligandLvalue': this.assay[i].ligandLvalue,
-          'unitedSlno': this.assay[i].unitedSlno,
-          'administration': this.assay[i].administration,
-          'procedure': this.assay[i].procedure,
-          'conditionType': this.assay[i].conditionType,
-          'conditionMaterial': this.assay[i].conditionMaterial,
-          'conditionMaterialid': this.assay[i].conditionMaterialid,
-          'singleCondition': this.assay[i].singleCondition,
-          'singleUnit': this.assay[i].singleUnit,
-          'highCondition': this.assay[i].highCondition,
-          'lowCondition': this.assay[i].lowCondition,
-          'highLowUnit': this.assay[i].highLowUnit,
+        'ordinal': this.assay[i].ordinal,
+        'ligandSlno': this.assay[i].ligandSlno,
+        'assayTypeSlno': this.assay[i].assayTypeSlno,
+        'toxiCitySlno': this.assay[i].toxiCitySlno,
+        'routeSlno': this.assay[i].routeSlno,
+        'ligandSvalue': this.assay[i].ligandSvalue,
+        'unitSlno': this.assay[i].unitSlno,
+        'ligandHvalue': this.assay[i].ligandHvalue,
+        'ligandLvalue': this.assay[i].ligandLvalue,
+        'unitedSlno': this.assay[i].unitedSlno,
+        'administration': this.assay[i].administration,
+        'procedure': this.assay[i].procedure,
+        'conditionType': this.assay[i].conditionType,
+        'conditionMaterial': this.assay[i].conditionMaterial,
+        'conditionMaterialid': this.assay[i].conditionMaterialid,
+        'singleCondition': this.assay[i].singleCondition,
+        'singleUnit': this.assay[i].singleUnit,
+        'highCondition': this.assay[i].highCondition,
+        'lowCondition': this.assay[i].lowCondition,
+        'highLowUnit': this.assay[i].highLowUnit,
 
-          'dataLocator1': this.assay[i].dataLocator1,
-          'dataLocator2': this.assay[i].dataLocator2,
-          'dataLocator3': this.assay[i].dataLocator3,
-          'categorySlno': this.assay[i].categorySlno,
-          'functionSlno': this.assay[i].functionSlno,
-          'parameter': this.assay[i].parameter,
-          'parameterDetail': this.assay[i].parameterDetail,
-          'originalPrefixSlno': this.assay[i].originalPrefixSlno,
-          'unit': this.assay[i].unit,
-          'singleValue': this.assay[i].singleValue,
-          'highEndValue': this.assay[i].highEndValue,
-          'lowEndValue': this.assay[i].lowEndValue,
-          'units': this.assay[i].units,
-          'nonNumeric': this.assay[i].nonNumeric,
-          'remark': this.assay[i].remark,
-          'typeSlno': this.assay[i].typeSlno,
-          'cell': this.assay[i].cell,
-          'cellDetail': this.assay[i].cellDetail,
-          'organ': this.assay[i].organ,
-          'organDetail': this.assay[i].organDetail,
-          'species': this.assay[i].species,
-          'speciesDetail': this.assay[i].speciesDetail,
-          'gender': this.assay[i].gender,
-          'ageGroup': this.assay[i].ageGroup,
-
-
-          'targetVersion': this.assay[i].targetVersion,
-          'collectionId1': this.assay[i].collectionId1,
-          'original': this.assay[i].original,
-          'acronym': this.assay[i].acronym,
-          'organism': this.assay[i].organism,
-          'variant': this.assay[i].variant,
+        'dataLocator1': this.assay[i].dataLocator1,
+        'dataLocator2': this.assay[i].dataLocator2,
+        'dataLocator3': this.assay[i].dataLocator3,
+        'categorySlno': this.assay[i].categorySlno,
+        'functionSlno': this.assay[i].functionSlno,
+        'parameter': this.assay[i].parameter,
+        'parameterDetail': this.assay[i].parameterDetail,
+        'originalPrefixSlno': this.assay[i].originalPrefixSlno,
+        'unit': this.assay[i].unit,
+        'singleValue': this.assay[i].singleValue,
+        'highEndValue': this.assay[i].highEndValue,
+        'lowEndValue': this.assay[i].lowEndValue,
+        'units': this.assay[i].units,
+        'nonNumeric': this.assay[i].nonNumeric,
+        'remark': this.assay[i].remark,
+        'typeSlno': this.assay[i].typeSlno,
+        'cell': this.assay[i].cell,
+        'cellDetail': this.assay[i].cellDetail,
+        'organ': this.assay[i].organ,
+        'organDetail': this.assay[i].organDetail,
+        'species': this.assay[i].species,
+        'speciesDetail': this.assay[i].speciesDetail,
+        'gender': this.assay[i].gender,
+        'ageGroup': this.assay[i].ageGroup,
 
 
-        });
-      }
+        'targetVersion': this.assay[i].targetVersion,
+        'collectionId1': this.assay[i].collectionId1,
+        'original': this.assay[i].original,
+        'acronym': this.assay[i].acronym,
+        'organism': this.assay[i].organism,
+        'variant': this.assay[i].variant,
 
 
+      });
     }
+
+
+  }
 
   // }
 }
