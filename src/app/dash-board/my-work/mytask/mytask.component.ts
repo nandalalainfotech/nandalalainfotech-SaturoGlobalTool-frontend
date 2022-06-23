@@ -112,7 +112,7 @@ export class MytaskComponent implements OnInit {
         headerName: 'CURATOR NAME',
         field: 'curatorName',
         width: 150,
-        // flex: 1,
+        flex: 1,
         sortable: true,
         filter: true,
         resizable: true,
@@ -123,7 +123,7 @@ export class MytaskComponent implements OnInit {
         headerName: 'TAN NUMBER',
         field: 'curatorTanNo',
         width: 150,
-        // flex: 1,
+        flex: 1,
         sortable: true,
         filter: true,
         resizable: true,
@@ -137,8 +137,8 @@ export class MytaskComponent implements OnInit {
       {
         headerName: 'START',
         cellRenderer: 'iconRenderer',
-        width: 100,
-        // flex: 1,
+        width: 10,
+        flex: 1,
         suppressSizeToFit: true,
         cellStyle: { textAlign: 'center' },
         cellRendererParams: {
@@ -149,29 +149,29 @@ export class MytaskComponent implements OnInit {
         
       },
 
-      {
-        headerName: ' BATCH NUMBER',
-        field: 'cbatchNo',
-        width: 200,
-        flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true
-      },
-      {
-        headerName: 'ALLOCATED DATE',
-        field: 'date',
-        width: 200,
-        flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-        valueGetter: (params: any) => {
-          return params.data.curatorAllocateDate ? this.datepipe.transform(params.data.curatorAllocateDate, 'dd-MM-yyyy') : '';
-        }
-},
+//       {
+//         headerName: ' BATCH NUMBER',
+//         field: 'cbatchNo',
+//         width: 200,
+//         flex: 1,
+//         sortable: true,
+//         filter: true,
+//         resizable: true,
+//         suppressSizeToFit: true
+//       },
+//       {
+//         headerName: 'ALLOCATED DATE',
+//         field: 'date',
+//         width: 200,
+//         flex: 1,
+//         sortable: true,
+//         filter: true,
+//         resizable: true,
+//         suppressSizeToFit: true,
+//         valueGetter: (params: any) => {
+//           return params.data.curatorAllocateDate ? this.datepipe.transform(params.data.curatorAllocateDate, 'dd-MM-yyyy') : '';
+//         }
+// },
     ];
   }
   onMoveToLigand(params: any) {

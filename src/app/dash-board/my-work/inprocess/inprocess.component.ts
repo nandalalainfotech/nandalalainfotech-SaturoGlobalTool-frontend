@@ -23,7 +23,8 @@ import { CalloutService } from 'src/app/shared/services/services/callout.service
 export class InprocessComponent implements OnInit {
 
   submitted = false;
-  public gridOptions: GridOptions | any;
+  public gridOptions1: GridOptions | any;
+  public gridOptions2: GridOptions | any;
   onFirstDataRendered: any;
   frameworkComponents: any;
   username: any;
@@ -32,6 +33,8 @@ export class InprocessComponent implements OnInit {
   assays: Assay001wb[] = [];
   assay001wbs?: Assay001wb;
   inProcessAssays: Assay001wb[] = [];
+  inProcessLigand: Assay001wb[] = [];
+  submittedToQCAssays: Assay001wb[] = [];
   public inprocess: any;
 
   constructor(
@@ -53,12 +56,12 @@ export class InprocessComponent implements OnInit {
   ngOnInit(): void {
 
     this.createDataGrid001();
+    this.createDataGrid002();
 
     this.username = this.authManager.getcurrentUser.username;
 
     this.ligandManager.allligand(this.username).subscribe(response => {
       this.ligands = deserialize<Ligand001wb[]>(Ligand001wb, response);
-      console.log("this.ligands in inProcess---->", this.ligands);
 
       for (let ligandObject of this.ligands) {
         if (ligandObject.status == "In Process") {
@@ -68,14 +71,14 @@ export class InprocessComponent implements OnInit {
             for (let assay of ligandObject.assay001wbs) {
               if (assay.status == "In Process") {
 
-                this.inProcessAssays.push(assay);
-
-              }
+                this.inProcessLigand.push(assay);
+             
+            }
             }
           } else {
-            let inProcessAssay = new Assay001wb();
+            let inProcessLigand = new Assay001wb();
 
-            inProcessAssay.ligandSlno = ligandObject.ligandId;
+            inProcessLigand.ligandSlno = ligandObject.ligandId;
             let ligand001wb = new Ligand001wb();
             ligand001wb.ligandId = ligandObject.ligandId;
             ligand001wb.tanNumber = ligandObject.tanNumber;
@@ -99,44 +102,60 @@ export class InprocessComponent implements OnInit {
             ligand001wb.diseaseName3 = ligandObject.diseaseName3;
             ligand001wb.status = ligandObject.status;
 
-            inProcessAssay.ligandSlno2 = ligand001wb;
+            inProcessLigand.ligandSlno2 = ligand001wb;
 
 
             // inProcessAssay. = ligandObject.tanNumber;
             // inProcessAssay.status = ligandObject.status;
-            this.inProcessAssays.push(inProcessAssay);
+            this.inProcessLigand.push(inProcessLigand);
 
           }
         }
       }
 
-      if (this.inProcessAssays.length > 0) {
-        this.gridOptions?.api?.setRowData(this.inProcessAssays);
+      if (this.inProcessLigand.length > 0) {
+        this.gridOptions1?.api?.setRowData(this.inProcessLigand);
       } else {
-        this.gridOptions?.api?.setRowData([]);
+        this.gridOptions1?.api?.setRowData([]);
+      }
+    });
+
+    // ----------------------------------Assay In Process------------------------
+
+    this.assayManager.findInprocesStatus(this.username).subscribe(response => {
+      this.assays = deserialize<Assay001wb[]>(Assay001wb, response);
+      // console.log(" this.findInprocesStatus", this.assays);
+
+      for (let assay of this.assays) {
+        if (assay.status == "In Process") {
+          this.inProcessAssays.push(assay);
+
+        }
+      }
+      if (this.inProcessAssays.length > 0) {
+        this.gridOptions2?.api?.setRowData(this.inProcessAssays);
+      } else {
+        this.gridOptions2?.api?.setRowData([]);
       }
     });
 
   }
 
-
-
-
   // get f() { return this.AssayForm.controls; }
 
   createDataGrid001(): void {
-    this.gridOptions = {
+    this.gridOptions1 = {
       paginationPageSize: 10,
       rowSelection: 'single',
       // onFirstDataRendered: this.onFirstDataRendered.bind(this),
     };
-    this.gridOptions.editType = 'fullRow';
-    this.gridOptions.enableRangeSelection = true;
-    this.gridOptions.animateRows = true;
+    this.gridOptions1.editType = 'fullRow';
+    this.gridOptions1.enableRangeSelection = true;
+    this.gridOptions1.animateRows = true;
 
     // if(this.inProcessAssays[i].status){
 
-    this.gridOptions.columnDefs = [
+    this.gridOptions1.columnDefs = [
       {
         headerName: 'Sl-No',
         field: 'ligandSlno',
@@ -186,7 +205,7 @@ export class InprocessComponent implements OnInit {
         suppressSizeToFit: true,
         cellStyle: { textAlign: 'left' },
         cellRendererParams: {
-          onClick: this.onDeleteButtonClick.bind(this),
+          onClick: this.onLigandDeleteButtonClick.bind(this),
           label: 'Delete'
         },
       },
@@ -198,11 +217,10 @@ export class InprocessComponent implements OnInit {
   }
 
   setTanNumber(params: any): string {
-
     return params.data.ligandSlno2 ? params.data.ligandSlno2.tanNumber : null;
   }
 
-  onDeleteButtonClick(params: any) {
+  onLigandDeleteButtonClick(params: any) {
     // if (params.data.status != "Submitted to QC") {
     const modalRef = this.modalService.open(ConformationComponent);
     modalRef.componentInstance.details = "Ligand";
@@ -217,20 +235,124 @@ export class InprocessComponent implements OnInit {
           }
           const selectedRows = params.api.getSelectedRows();
           params.api.applyTransaction({ remove: selectedRows });
-          this.gridOptions.api.deselectAll();
+          this.gridOptions1.api.deselectAll();
           this.calloutService.showSuccess("Inprocess Data Removed Successfully");
         });
       }
     })
-  // }
+    // }
+  }
+  // --------------------------------------------Assay inprocess-----------------
+
+  createDataGrid002(): void {
+    this.gridOptions2 = {
+      paginationPageSize: 10,
+      rowSelection: 'single',
+      // onFirstDataRendered: this.onFirstDataRendered.bind(this),
+    };
+    this.gridOptions2.editType = 'fullRow';
+    this.gridOptions2.enableRangeSelection = true;
+    this.gridOptions2.animateRows = true;
+
+    // if(this.inProcessAssays[i].status){
+
+    this.gridOptions2.columnDefs = [
+      {
+        headerName: 'Sl-No',
+        field: 'assayId',
+        width: 100,
+        flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        headerCheckboxSelection: true,
+        headerCheckboxSelectionFilteredOnly: true,
+        checkboxSelection: true,
+        suppressSizeToFit: true,
+      },
+
+      {
+        headerName: 'TAN NUMBER',
+        field: 'tanNumber',
+        width: 200,
+        flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+        valueGetter: this.setAssayTanNumber.bind(this)
+      },
+
+      {
+        headerName: 'START',
+        cellRenderer: 'iconRenderer',
+        width: 100,
+        flex: 1,
+        suppressSizeToFit: true,
+        cellStyle: { textAlign: 'center' },
+        cellRendererParams: {
+          onClick: this.onInprocessMoveToLigand.bind(this),
+          label: 'Start',
+        },
+      },
+
+
+
+      {
+        headerName: 'Delete',
+        cellRenderer: 'iconRenderer',
+        width: 85,
+        flex: 1,
+        suppressSizeToFit: true,
+        cellStyle: { textAlign: 'left' },
+        cellRendererParams: {
+          onClick: this.onAssaydDeleteButtonClick.bind(this),
+          label: 'Delete'
+        },
+      },
+
+    ]
+
+
+    // }
   }
 
+  setAssayTanNumber(params: any): string {
+
+    return params.data.ligandSlno2 ? params.data.ligandSlno2.tanNumber : null;
+  }
+
+  onAssaydDeleteButtonClick(params: any) {
+    // if (params.data.status != "Submitted to QC") {
+    const modalRef = this.modalService.open(ConformationComponent);
+    modalRef.componentInstance.details = "Ligand";
+    modalRef.result.then((data) => {
+      if (data == "Yes") {
+        this.ligandManager.liganddelete(params.data.ligandId).subscribe((response) => {
+          for (let i = 0; i < this.inProcessAssays.length; i++) {
+            if (this.inProcessAssays[i].ligandSlno == params.data.ligandSlno2.ligandId) {
+              this.inProcessAssays?.splice(i, 1);
+              break;
+            }
+          }
+          const selectedRows = params.api.getSelectedRows();
+          params.api.applyTransaction({ remove: selectedRows });
+          this.gridOptions2.api.deselectAll();
+          this.calloutService.showSuccess("Inprocess Data Removed Successfully");
+        });
+      }
+    })
+    // }
+  }
 
   onInprocessMoveToLigand(params: any) {
     // console.log("params", params.data);
     // let assayId = params.data.assayId;
+    // let ligandId =params.data.ligandId;
     let navigationExtras: NavigationExtras = {
       queryParams: {
+
+        "ligandId": params.data.ligandSlno2.ligandId,
         "insertUsers": params.data.insertUser,
         "tanNumber": params.data.ligandSlno2.tanNumber,
         "ligandVersions": params.data.ligandSlno2.ligandVersionSlno,

@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GridOptions } from 'ag-grid-community';
 import { deserialize } from 'serializer.ts/Serializer';
 import { AuditComponent } from 'src/app/shared/audit/audit.component';
@@ -13,6 +13,7 @@ import { LigandManager } from 'src/app/shared/services/restcontroller/bizservice
 import { Assay001wb } from 'src/app/shared/services/restcontroller/entities/Assay001wb ';
 import { Ligand001wb } from 'src/app/shared/services/restcontroller/entities/Ligand001wb';
 import { CalloutService } from 'src/app/shared/services/services/callout.service';
+import { v4 as uuid } from 'uuid';
 
 @Component({
   selector: 'app-submitted-to-qc',
@@ -20,20 +21,30 @@ import { CalloutService } from 'src/app/shared/services/services/callout.service
   styleUrls: ['./submitted-to-qc.component.css']
 })
 export class SubmittedToQcComponent implements OnInit {
-
+  public AssayForm: FormGroup | any;
   submitted = false;
   public gridOptions: GridOptions | any;
   onFirstDataRendered: any;
   frameworkComponents: any;
   username: any;
-
+  submittedToQCAssaysTan: any = [];
   ligand: Ligand001wb[] = [];
   assays: Assay001wb[] = [];
   inProcessAssays: Assay001wb[] = [];
   submittedToQCAssays: Assay001wb[] = [];
+  ligand001mb?: Ligand001wb;
+  ligandTans?: any[];
+  ligands?: Ligand001wb[] = [];
+  insertUser: string = "";
+  insertDatetime: Date | any;
+  updatedUser: string = "";
+  updatedDatetime: Date | any;
+  assayId: number | any;
+
 
   constructor(
     private authManager: AuthManager,
+    public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
     private calloutService: CalloutService,
     private http: HttpClient,
@@ -41,7 +52,7 @@ export class SubmittedToQcComponent implements OnInit {
     private assayManager: AssayManager,
     private ligandManager: LigandManager,
     private router: Router
-  ) { 
+  ) {
     this.frameworkComponents = {
       iconRenderer: IconRendererComponent
     }
@@ -49,42 +60,29 @@ export class SubmittedToQcComponent implements OnInit {
 
   ngOnInit(): void {
     this.createDataGrid001();
-
     this.username = this.authManager.getcurrentUser.username;
-//  this.ligandManager.findSubmotToQcStatus(this.username).subscribe(response => {
-//       this.ligand = deserialize<Ligand001wb[]>(Ligand001wb, response);
-//       console.log("this.ligand in process",this.ligand);
-      
-//       if (this.ligand.length > 0) {
-//         this.gridOptions?.api?.setRowData(this.ligand);
-//       } else {
-//         this.gridOptions?.api?.setRowData([]);
-//       }
-//     });
-this.assayManager.findInprocesStatus(this.username).subscribe(response => {
-  this.assays = deserialize<Assay001wb[]>(Assay001wb, response);
-  // console.log(" this.findInprocesStatus", this.assays);
+    // this.assayManager.findInprocesStatus(this.username).subscribe(response => {
+    //   this.assays = deserialize<Assay001wb[]>(Assay001wb, response);
+
+    // });
+
+    this.ligandManager.allligand(this.username).subscribe(response => {
+      this.ligand = deserialize<Ligand001wb[]>(Ligand001wb, response);
+      this.ligands = this.ligand.filter((v,i,a)=>a.findIndex(v2=>(v2.status === "Before submit the data" && v2.tanNumber===v.tanNumber))===i);
+      console.log("this.ligands------->>>",this.ligands);
+      this.gridOptions?.api?.refreshCells();
+      if (this.ligand.length > 0) {
+        this.gridOptions?.api?.setRowData(this.ligands);
+      } else {
+        this.gridOptions?.api?.setRowData([]);
+      }
+    });
+  }
+
+
   
-  for (let assay of this.assays) {
-    if(assay.status == "Before submit the data" ) {
-      this.submittedToQCAssays.push(assay);
-      console.log("this.submittedToQCAssays--->",this.submittedToQCAssays);
-      
-    } 
-  }
-  if (this.submittedToQCAssays.length > 0) {
-    this.gridOptions?.api?.setRowData(this.submittedToQCAssays);
-  } else {
-    this.gridOptions?.api?.setRowData([]);
-  }
-});
 
-  }
-
-
-
-
-  // get f() { return this.AssayForm.controls; }
+  get f() { return this.AssayForm.controls; }
 
   createDataGrid001(): void {
     this.gridOptions = {
@@ -96,11 +94,12 @@ this.assayManager.findInprocesStatus(this.username).subscribe(response => {
     this.gridOptions.editType = 'fullRow';
     this.gridOptions.enableRangeSelection = true;
     this.gridOptions.animateRows = true;
+    // this.gridOptions.refreshCells({ force: true });
 
     this.gridOptions.columnDefs = [
       {
         headerName: 'Sl-No',
-        field: 'assayId',
+        field: 'ligandId',
         width: 200,
         flex: 1,
         sortable: true,
@@ -111,41 +110,40 @@ this.assayManager.findInprocesStatus(this.username).subscribe(response => {
         checkboxSelection: true,
         suppressSizeToFit: true,
       },
-      {
-        headerName: ' BATCH NUMBER',
-        field: 'cbatchNo',
-        width: 150,
-        flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true
-      },
+      // {
+      //   headerName: ' BATCH NUMBER',
+      //   field: 'cbatchNo',
+      //   width: 150,
+      //   flex: 1,
+      //   sortable: true,
+      //   filter: true,
+      //   resizable: true,
+      //   suppressSizeToFit: true
+      // },
       {
         headerName: 'TAN NUMBER',
+        field: 'tanNumber',
         width: 150,
         flex: 1,
         sortable: true,
         filter: true,
         resizable: true,
         suppressSizeToFit: true,
-        valueGetter: this.setTanNumber.bind(this)
+        // valueGetter: this.setTanNumber.bind(this)
       },
 
-     
-      
-      {
-        headerName: 'View',
-        cellRenderer: 'iconRenderer',
-        width: 80,
-        flex: 1,
-        suppressSizeToFit: true,
-        cellStyle: { textAlign: 'left' },
-        cellRendererParams: {
-          // onClick: this.onEditButtonClick.bind(this),
-          label: 'Edit'
-        },
-      },
+      // {
+      //   headerName: 'View',
+      //   cellRenderer: 'iconRenderer',
+      //   width: 80,
+      //   flex: 1,
+      //   suppressSizeToFit: true,
+      //   cellStyle: { textAlign: 'left' },
+      //   cellRendererParams: {
+      //     // onClick: this.onEditButtonClick.bind(this),
+      //     label: 'Edit'
+      //   },
+      // },
 
       {
         headerName: 'Edit',
@@ -155,7 +153,7 @@ this.assayManager.findInprocesStatus(this.username).subscribe(response => {
         suppressSizeToFit: true,
         cellStyle: { textAlign: 'left' },
         cellRendererParams: {
-          // onClick: this.onEditButtonClick.bind(this),
+          onClick: this.onEditButtonClick.bind(this),
           label: 'Edit'
         },
       },
@@ -167,60 +165,26 @@ this.assayManager.findInprocesStatus(this.username).subscribe(response => {
         suppressSizeToFit: true,
         cellStyle: { textAlign: 'left' },
         cellRendererParams: {
-          // onClick: this.onDeleteButtonClick.bind(this),
+          onClick: this.onSubmitToQcClick.bind(this),
           label: 'Start'
         },
       },
-
-      
-      
-      
     ]
   }
-  setTanNumber(params: any): string {
-    return params.data.ligandSlno2 ? params.data.ligandSlno2.tanNumber : null;
-  }
-
-  setVersion(params: any): string {
-    return params.data.ligandSlno2 ? params.data.ligandSlno2.ligandVersionSlno2?.ligandVersion : null;
-  }
-
-  setAssayType(params: any): string {
-    return params.data.assayTypeSlno2 ? params.data.assayTypeSlno2.assayType : null;
-  }
-
-  setToxicityType(params: any): string {
-    return params.data.toxiCitySlno2 ? params.data.toxiCitySlno2.toxiCity : null;
-  }
-
-  setRouteAdmin(params: any): string {
-    return params.data.routeSlno2 ? params.data.routeSlno2.route : null;
-  }
-
-  setUnitSingleValue(params: any): string {
-    return params.data.unitSlno2 ? params.data.unitSlno2.unit : null;
-  }
-
-  setUnitLowValue(params: any): string {
-    return params.data.unitedSlno2 ? params.data.unitedSlno2.united : null;
-  }
-
-  setCategory(params: any){
-    return params.data.categorySlno2 ? params.data.categorySlno2.category : null;
-  }
-
-  setCategoryFunction(params: any){
-    return params.data.functionSlno2 ? params.data.functionSlno2.function : null;
-  }
- 
-  setOriginalPrefix(params: any) {
-    return params.data.originalPrefixSlno2 ? params.data.originalPrefixSlno2.originalPrefix : null;
-  }
 
 
-  setTypes(params: any) {
-    return params.data.typeSlno2 ? params.data.typeSlno2.type : null;
+  onEditButtonClick(params: any) {
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        "ligandId": params.data.ligandSlno2.ligandId,
+        "tanNumber": params.data.ligandSlno2.tanNumber,
+        "insertUsers": params.data.insertUser,
+      }
+    };
+
+    this.router.navigate(["/app-dash-board/app-search-setting"], navigationExtras);
   }
+
   onSubmittedMoveToLigand(params: any) {
     let navigationExtras: NavigationExtras = {
       queryParams: {
@@ -238,22 +202,26 @@ this.assayManager.findInprocesStatus(this.username).subscribe(response => {
         "diseaseName3": params.data.diseaseName3,
       }
     };
-    
-    this.router.navigate(["/app-dash-board/app-stepper"],navigationExtras);
+
+    this.router.navigate(["/app-dash-board/app-stepper"], navigationExtras);
   }
 
-  setLigandVersion(params: any): string {
-    return params.data.ligandVersionSlno2 ? params.data.ligandVersionSlno2.ligandVersion : null;
+  onSubmitToQcClick(params: any) {
+    this.ligandManager.updateStatus(params.data.ligandId, params.data.tanNumber).subscribe(response => {
+      this.ligand = deserialize<Ligand001wb[]>(Ligand001wb, response);
+      this.calloutService.showSuccess("Assay Details Saved Successfully and \n Details Sent to Reviewer");
+      this.gridOptions?.api?.setRowData([]);
+      
+      this.ligandManager.allligand(this.username).subscribe(response => {
+        this.ligand = deserialize<Ligand001wb[]>(Ligand001wb, response);
+        this.ligands = this.ligand.filter((v,i,a)=>a.findIndex(v2=>(v2.status === "Before submit the data" && v2.tanNumber===v.tanNumber))===i);
+        this.gridOptions?.api?.refreshCells();
+        if (this.ligand.length > 0) {
+          this.gridOptions?.api?.setRowData(this.ligands);
+        } else {
+          this.gridOptions?.api?.setRowData([]);
+        }
+      });
+    });
   }
-
-  setType(params: any): string {
-    return params.data.ligandTypeSlno2 ? params.data.ligandTypeSlno2.ligandtype : null;
-  }
-
-  // onAuditButtonClick(params: any) {
-  //   const modalRef = this.modalService.open(AuditComponent);
-  //   modalRef.componentInstance.title = "Assay";
-  //   modalRef.componentInstance.details = params.data;
-  // }
-
 }

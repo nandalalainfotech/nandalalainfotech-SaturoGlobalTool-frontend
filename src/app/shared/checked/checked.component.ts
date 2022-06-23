@@ -213,8 +213,8 @@ export class CheckedComponent implements OnInit {
   }
 
   ngOnInit(): void {
-this.ligandId=this.data.ligandSlno2.ligandId;
-this.assayId=this.data.assayId;
+    this.ligandId = this.data.ligandSlno2.ligandId;
+    this.assayId = this.data.assayId;
 
     this.CheckedForm = this.formBuilder.group({
       ligandId: [this.data.ligandSlno2.ligandId],
@@ -556,7 +556,7 @@ this.assayId=this.data.assayId;
     ligand001wb.acronym = "";
     ligand001wb.organism = "";
     ligand001wb.variant = "";
-    ligand001wb.status =  "";
+    ligand001wb.status = "";
 
 
     ligand001wb.ligandId = this.ligandId;
@@ -587,7 +587,7 @@ this.assayId=this.data.assayId;
     assay001wb.unitedSlno = this.f.unitedSlno.value ? this.f.unitedSlno.value : null;
     assay001wb.administration = this.f.administration.value ? this.f.administration.value : "";
     assay001wb.procedure = this.f.procedure.value ? this.f.procedure.value : "";
-    assay001wb.target = "bioactivity-target" + "/" + "SaturoGlobal" + "/" + this.ligand001mb?.tanNumber + "/" + this.ligand001mb?.ligandVersionSlno2?.ligandVersion + "/" + this.f.targetVersion.value +  ">" + "bioactivity-target" + "/" + uuid();
+    assay001wb.target = "bioactivity-target" + "/" + "SaturoGlobal" + "/" + this.ligand001mb?.tanNumber + "/" + this.ligand001mb?.ligandVersionSlno2?.ligandVersion + "/" + this.f.targetVersion.value + ">" + "bioactivity-target" + "/" + uuid();
     assay001wb.conditionType = this.f.conditionType.value ? this.f.conditionType.value : "";
     assay001wb.conditionMaterial = this.f.conditionMaterial.value ? this.f.conditionMaterial.value : "";
     assay001wb.conditionMaterialid = this.f.conditionMaterialid.value ? this.f.conditionMaterialid.value : "";
@@ -597,7 +597,7 @@ this.assayId=this.data.assayId;
     assay001wb.lowCondition = this.f.lowCondition.value ? this.f.lowCondition.value : "";
     assay001wb.highLowUnit = this.f.highLowUnit.value ? this.f.highLowUnit.value : "";
     assay001wb.status = "Completed";
-    assay001wb.targetStatus="embargoed";
+    assay001wb.targetStatus = "embargoed";
 
     assay001wb.dataLocator = this.f.dataLocator.value ? this.f.dataLocator.value : "";
     assay001wb.categorySlno = this.f.categorySlno.value ? this.f.categorySlno.value : null;
@@ -633,19 +633,19 @@ this.assayId=this.data.assayId;
     assay001wb.variant = this.f.variant.value ? this.f.variant.value : "";
 
 
-      assay001wb.assayId = this.assayId;
-      
-      assay001wb.insertUser = this.insertUser;
-      assay001wb.insertDatetime = this.insertDatetime;
-      assay001wb.updatedUser = this.authManager.getcurrentUser.username;
-      assay001wb.updatedDatetime = new Date();
-      this.assayManager.assayupdate(assay001wb).subscribe((response) => {
-        this.calloutService.showSuccess("Reviewer Details Updated Successfully");
-        // this.loadData();
-        // this.CheckedForm.reset();
-        // this.assayId = null;
-        this.submitted = false;
-      });
+    assay001wb.assayId = this.assayId;
+
+    assay001wb.insertUser = this.insertUser;
+    assay001wb.insertDatetime = this.insertDatetime;
+    assay001wb.updatedUser = this.authManager.getcurrentUser.username;
+    assay001wb.updatedDatetime = new Date();
+    this.assayManager.assayupdate(assay001wb).subscribe((response) => {
+      this.calloutService.showSuccess("Reviewer Details Updated Successfully");
+      // this.loadData();
+      // this.CheckedForm.reset();
+      // this.assayId = null;
+      this.submitted = false;
+    });
 
 
 

@@ -42,6 +42,14 @@ export class LigandManager extends BaseService {
         return this.putCallService(`${this.ligandUrl}` + "/update", {}, ligand001wb);
     }
 
+    updateStatus(ligandId: any, tanNumber: any) {
+        console.log("tanNumber",tanNumber,ligandId)
+        let data: any = {};
+        data['ligandId'] = ligandId;
+        data['tanNumber'] = tanNumber;
+        return this.putCallService(`${this.ligandUrl}` + "/updateStatus/"+ligandId+"/"+tanNumber);
+    }
+
     liganddelete(ligandId: any) {
         let data: any = {};
         data['ligandId'] = ligandId;
