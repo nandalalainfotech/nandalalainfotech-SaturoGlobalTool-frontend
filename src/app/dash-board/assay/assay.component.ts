@@ -1267,7 +1267,7 @@ export class AssayComponent implements OnInit {
     assay001wb.highCondition = this.f.highCondition.value ? this.f.highCondition.value : "";
     assay001wb.lowCondition = this.f.lowCondition.value ? this.f.lowCondition.value : "";
     assay001wb.highLowUnit = this.f.highLowUnit.value ? this.f.highLowUnit.value : "";
-    assay001wb.status = "Submitted to QC";
+    assay001wb.status = "Before submit the data";
     assay001wb.targetStatus = "embargoed";
 
     assay001wb.dataLocator = null;
