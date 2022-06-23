@@ -149,16 +149,16 @@ export class MytaskComponent implements OnInit {
         
       },
 
-//       {
-//         headerName: ' BATCH NUMBER',
-//         field: 'cbatchNo',
-//         width: 200,
-//         flex: 1,
-//         sortable: true,
-//         filter: true,
-//         resizable: true,
-//         suppressSizeToFit: true
-//       },
+      {
+        headerName: ' BATCH NUMBER',
+        field: 'cbatchNo',
+        width: 200,
+        flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true
+      },
 //       {
 //         headerName: 'ALLOCATED DATE',
 //         field: 'date',
