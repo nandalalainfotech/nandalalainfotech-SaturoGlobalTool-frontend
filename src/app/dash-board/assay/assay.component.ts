@@ -1385,9 +1385,9 @@ export class AssayComponent implements OnInit {
     assay001wb.targetStatus = "embargoed";
 
     assay001wb.dataLocator = null;
-    assay001wb.dataLocator1 = this.f.dataLocator1.value ? this.f.dataLocator1.value : null;
-    assay001wb.dataLocator2 = this.f.dataLocator2.value ? this.f.dataLocator2.value : null;
-    assay001wb.dataLocator3 = this.f.dataLocator3.value ? this.f.dataLocator3.value : null;
+    assay001wb.dataLocator1 = this.f.dataLocator1.value ? this.f.dataLocator1.value : "";
+    assay001wb.dataLocator2 = this.f.dataLocator2.value ? this.f.dataLocator2.value : "";
+    assay001wb.dataLocator3 = this.f.dataLocator3.value ? this.f.dataLocator3.value : "";
     assay001wb.categorySlno = this.f.categorySlno.value ? this.f.categorySlno.value : null;
     assay001wb.functionSlno = this.f.functionSlno.value ? this.f.functionSlno.value : null;
     assay001wb.parameter = this.f.parameter.value ? this.f.parameter.value : "";
