@@ -20,7 +20,7 @@
                     <div class="form-group">
                         <label path="ligandSlno" for="ligandSlno" cssClass="required">Ligand-Version</label>
                         <!-- <input type="text" class="form-control" name="ligandname" formControlName="ligandSlno" readonly> -->
-                        <select class="form-control" name="tanNo" formControlName="ligandSlno">
+                        <select class="form-control" name="tanNo" formControlName="ligandSlno" (blur)="onBlurEvent($event)">
                             <option value=''> - Select Ligand Version - </option>
 
                             <option *ngFor="let ligandtanversion of ligandtanversions" [value]="ligandtanversion.ligandId">
