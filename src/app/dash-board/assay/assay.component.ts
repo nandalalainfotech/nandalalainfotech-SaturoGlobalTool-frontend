@@ -1326,14 +1326,14 @@ export class AssayComponent implements OnInit {
       this.assayManager.assaysave(assay001wb).subscribe((response) => {
         this.calloutService.showSuccess("Assay Details Saved Successfully and \n Details Not Sent to Reviewer");
         this.loadData();
-        this.AssayForm.reset();
+        this.onReset();
         this.submitted = false;
       });
     }
 
   }
 
-  
+
 
   toggleInprocess(event: any, AssayForm: any) {
 
@@ -1439,7 +1439,7 @@ export class AssayComponent implements OnInit {
     this.assayManager.assaysave(assay001wb).subscribe((response) => {
       this.calloutService.showWarning("Assay details are in process");
       this.loadData();
-      this.AssayForm.reset();
+      this.onReset();
       this.submitted = false;
     });
     // }
@@ -1447,8 +1447,58 @@ export class AssayComponent implements OnInit {
   }
 
   onReset() {
-    this.submitted = false;
-    this.AssayForm.reset();
+    this.AssayForm.get('ligandSlno').reset();
+    this.AssayForm.get('ligandname').reset();
+    this.AssayForm.get('assayTypeSlno').reset();
+    this.AssayForm.get('toxiCitySlno').reset();
+    this.AssayForm.get('routeSlno').reset();
+    this.AssayForm.get('ligandSvalue').reset();
+    this.AssayForm.get('unitSlno').reset();
+    this.AssayForm.get('ligandHvalue').reset();
+    this.AssayForm.get('ligandLvalue').reset();
+    this.AssayForm.get('unitedSlno').reset();
+    this.AssayForm.get('administration').reset();
+    this.AssayForm.get('procedure').reset();
+    this.AssayForm.get('conditionType').reset();
+    this.AssayForm.get('conditionMaterial').reset();
+    this.AssayForm.get('conditionMaterialid').reset();
+    this.AssayForm.get('singleCondition').reset();
+    this.AssayForm.get('singleUnit').reset();
+    this.AssayForm.get('highCondition').reset();
+    this.AssayForm.get('lowCondition').reset();
+    this.AssayForm.get('highLowUnit').reset();
+    this.AssayForm.get('dataLocator1').reset();
+    this.AssayForm.get('dataLocator2').reset();
+    this.AssayForm.get('dataLocator3').reset();
+    this.AssayForm.get('categorySlno').reset();
+    this.AssayForm.get('functionSlno').reset();
+    this.AssayForm.get('parameter').reset();
+    this.AssayForm.get('parameterDetail').reset();
+    this.AssayForm.get('originalPrefixSlno').reset();
+    this.AssayForm.get('unit').reset();
+    this.AssayForm.get('singleValue').reset();
+    this.AssayForm.get('highEndValue').reset();
+    this.AssayForm.get('lowEndValue').reset();
+
+    this.AssayForm.get('units').reset();
+    this.AssayForm.get('nonNumeric').reset();
+    this.AssayForm.get('remark').reset();
+    this.AssayForm.get('typeSlno').reset();
+    this.AssayForm.get('cell').reset();
+    this.AssayForm.get('cellDetail').reset();
+    this.AssayForm.get('organ').reset();
+    this.AssayForm.get('organDetail').reset();
+
+    this.AssayForm.get('species').reset();
+    this.AssayForm.get('speciesDetail').reset();
+    this.AssayForm.get('gender').reset();
+    this.AssayForm.get('ageGroup').reset();
+    this.AssayForm.get('targetVersion').reset();
+    this.AssayForm.get('collectionId1').reset();
+    this.AssayForm.get('original').reset();
+    this.AssayForm.get('acronym').reset();
+    this.AssayForm.get('organism').reset();
+    this.AssayForm.get('variant').reset();
   }
 
   onBlurEvent(event: any) {
@@ -1541,7 +1591,7 @@ export class AssayComponent implements OnInit {
       if (this.assay[i].status != "Submitted to QC") {
         this.AssayForm.patchValue({
           // 'ordinal': this.assay[i].ordinal,
-	   'tanNo': this.assay[i].ligandSlno2?.tanNumber,
+          'tanNo': this.assay[i].ligandSlno2?.tanNumber,
           'ligandSlno': this.assay[i].ligandSlno,
           'assayTypeSlno': this.assay[i].assayTypeSlno,
           'toxiCitySlno': this.assay[i].toxiCitySlno,
@@ -1562,42 +1612,42 @@ export class AssayComponent implements OnInit {
           'lowCondition': this.assay[i].lowCondition,
           'highLowUnit': this.assay[i].highLowUnit,
 
-        // 'dataLocator': this.assay[i].dataLocator,
-        'dataLocator1': this.assay[i].dataLocator1,
-        'dataLocator2': this.assay[i].dataLocator2,
-        'dataLocator3': this.assay[i].dataLocator3,
-        'categorySlno': this.assay[i].categorySlno,
-        'functionSlno': this.assay[i].functionSlno,
-        'parameter': this.assay[i].parameter,
-        'parameterDetail': this.assay[i].parameterDetail,
-        'originalPrefixSlno': this.assay[i].originalPrefixSlno,
-        'unit': this.assay[i].unit,
-        'singleValue': this.assay[i].singleValue,
-        'highEndValue': this.assay[i].highEndValue,
-        'lowEndValue': this.assay[i].lowEndValue,
-        'units': this.assay[i].units,
-        'nonNumeric': this.assay[i].nonNumeric,
-        'remark': this.assay[i].remark,
-        'typeSlno': this.assay[i].typeSlno,
-        'cell': this.assay[i].cell,
-        'cellDetail': this.assay[i].cellDetail,
-        'organ': this.assay[i].organ,
-        'organDetail': this.assay[i].organDetail,
-        'species': this.assay[i].species,
-        'speciesDetail': this.assay[i].speciesDetail,
-        'gender': this.assay[i].gender,
-        'ageGroup': this.assay[i].ageGroup,
+          // 'dataLocator': this.assay[i].dataLocator,
+          'dataLocator1': this.assay[i].dataLocator1,
+          'dataLocator2': this.assay[i].dataLocator2,
+          'dataLocator3': this.assay[i].dataLocator3,
+          'categorySlno': this.assay[i].categorySlno,
+          'functionSlno': this.assay[i].functionSlno,
+          'parameter': this.assay[i].parameter,
+          'parameterDetail': this.assay[i].parameterDetail,
+          'originalPrefixSlno': this.assay[i].originalPrefixSlno,
+          'unit': this.assay[i].unit,
+          'singleValue': this.assay[i].singleValue,
+          'highEndValue': this.assay[i].highEndValue,
+          'lowEndValue': this.assay[i].lowEndValue,
+          'units': this.assay[i].units,
+          'nonNumeric': this.assay[i].nonNumeric,
+          'remark': this.assay[i].remark,
+          'typeSlno': this.assay[i].typeSlno,
+          'cell': this.assay[i].cell,
+          'cellDetail': this.assay[i].cellDetail,
+          'organ': this.assay[i].organ,
+          'organDetail': this.assay[i].organDetail,
+          'species': this.assay[i].species,
+          'speciesDetail': this.assay[i].speciesDetail,
+          'gender': this.assay[i].gender,
+          'ageGroup': this.assay[i].ageGroup,
 
 
-        'targetVersion': this.assay[i].targetVersion,
-        'collectionId1': this.assay[i].collectionId1,
-        'original': this.assay[i].original,
-        'acronym': this.assay[i].acronym,
-        'organism': this.assay[i].organism,
-        'variant': this.assay[i].variant,
+          'targetVersion': this.assay[i].targetVersion,
+          'collectionId1': this.assay[i].collectionId1,
+          'original': this.assay[i].original,
+          'acronym': this.assay[i].acronym,
+          'organism': this.assay[i].organism,
+          'variant': this.assay[i].variant,
 
-      });
-    }
+        });
+      }
     }
   }
 
@@ -1628,68 +1678,68 @@ export class AssayComponent implements OnInit {
         this.insertDatetime = new Date();
         // this.insertUser = this.assay[i].insertUser;
 
-      this.AssayForm.patchValue({
-        'tanNo': this.assay[i].ligandSlno2?.tanNumber,
-        'ordinal': this.assay[i].ordinal,
-        'ligandSlno': this.assay[i].ligandSlno,
-        'assayTypeSlno': this.assay[i].assayTypeSlno,
-        'toxiCitySlno': this.assay[i].toxiCitySlno,
-        'routeSlno': this.assay[i].routeSlno,
-        'ligandSvalue': this.assay[i].ligandSvalue,
-        'unitSlno': this.assay[i].unitSlno,
-        'ligandHvalue': this.assay[i].ligandHvalue,
-        'ligandLvalue': this.assay[i].ligandLvalue,
-        'unitedSlno': this.assay[i].unitedSlno,
-        'administration': this.assay[i].administration,
-        'procedure': this.assay[i].procedure,
-        'conditionType': this.assay[i].conditionType,
-        'conditionMaterial': this.assay[i].conditionMaterial,
-        'conditionMaterialid': this.assay[i].conditionMaterialid,
-        'singleCondition': this.assay[i].singleCondition,
-        'singleUnit': this.assay[i].singleUnit,
-        'highCondition': this.assay[i].highCondition,
-        'lowCondition': this.assay[i].lowCondition,
-        'highLowUnit': this.assay[i].highLowUnit,
+        this.AssayForm.patchValue({
+          'tanNo': this.assay[i].ligandSlno2?.tanNumber,
+          'ordinal': this.assay[i].ordinal,
+          'ligandSlno': this.assay[i].ligandSlno,
+          'assayTypeSlno': this.assay[i].assayTypeSlno,
+          'toxiCitySlno': this.assay[i].toxiCitySlno,
+          'routeSlno': this.assay[i].routeSlno,
+          'ligandSvalue': this.assay[i].ligandSvalue,
+          'unitSlno': this.assay[i].unitSlno,
+          'ligandHvalue': this.assay[i].ligandHvalue,
+          'ligandLvalue': this.assay[i].ligandLvalue,
+          'unitedSlno': this.assay[i].unitedSlno,
+          'administration': this.assay[i].administration,
+          'procedure': this.assay[i].procedure,
+          'conditionType': this.assay[i].conditionType,
+          'conditionMaterial': this.assay[i].conditionMaterial,
+          'conditionMaterialid': this.assay[i].conditionMaterialid,
+          'singleCondition': this.assay[i].singleCondition,
+          'singleUnit': this.assay[i].singleUnit,
+          'highCondition': this.assay[i].highCondition,
+          'lowCondition': this.assay[i].lowCondition,
+          'highLowUnit': this.assay[i].highLowUnit,
 
-        'dataLocator1': this.assay[i].dataLocator1,
-        'dataLocator2': this.assay[i].dataLocator2,
-        'dataLocator3': this.assay[i].dataLocator3,
-        'categorySlno': this.assay[i].categorySlno,
-        'functionSlno': this.assay[i].functionSlno,
-        'parameter': this.assay[i].parameter,
-        'parameterDetail': this.assay[i].parameterDetail,
-        'originalPrefixSlno': this.assay[i].originalPrefixSlno,
-        'unit': this.assay[i].unit,
-        'singleValue': this.assay[i].singleValue,
-        'highEndValue': this.assay[i].highEndValue,
-        'lowEndValue': this.assay[i].lowEndValue,
-        'units': this.assay[i].units,
-        'nonNumeric': this.assay[i].nonNumeric,
-        'remark': this.assay[i].remark,
-        'typeSlno': this.assay[i].typeSlno,
-        'cell': this.assay[i].cell,
-        'cellDetail': this.assay[i].cellDetail,
-        'organ': this.assay[i].organ,
-        'organDetail': this.assay[i].organDetail,
-        'species': this.assay[i].species,
-        'speciesDetail': this.assay[i].speciesDetail,
-        'gender': this.assay[i].gender,
-        'ageGroup': this.assay[i].ageGroup,
-
-
-        'targetVersion': this.assay[i].targetVersion,
-        'collectionId1': this.assay[i].collectionId1,
-        'original': this.assay[i].original,
-        'acronym': this.assay[i].acronym,
-        'organism': this.assay[i].organism,
-        'variant': this.assay[i].variant,
+          'dataLocator1': this.assay[i].dataLocator1,
+          'dataLocator2': this.assay[i].dataLocator2,
+          'dataLocator3': this.assay[i].dataLocator3,
+          'categorySlno': this.assay[i].categorySlno,
+          'functionSlno': this.assay[i].functionSlno,
+          'parameter': this.assay[i].parameter,
+          'parameterDetail': this.assay[i].parameterDetail,
+          'originalPrefixSlno': this.assay[i].originalPrefixSlno,
+          'unit': this.assay[i].unit,
+          'singleValue': this.assay[i].singleValue,
+          'highEndValue': this.assay[i].highEndValue,
+          'lowEndValue': this.assay[i].lowEndValue,
+          'units': this.assay[i].units,
+          'nonNumeric': this.assay[i].nonNumeric,
+          'remark': this.assay[i].remark,
+          'typeSlno': this.assay[i].typeSlno,
+          'cell': this.assay[i].cell,
+          'cellDetail': this.assay[i].cellDetail,
+          'organ': this.assay[i].organ,
+          'organDetail': this.assay[i].organDetail,
+          'species': this.assay[i].species,
+          'speciesDetail': this.assay[i].speciesDetail,
+          'gender': this.assay[i].gender,
+          'ageGroup': this.assay[i].ageGroup,
 
 
-      });
+          'targetVersion': this.assay[i].targetVersion,
+          'collectionId1': this.assay[i].collectionId1,
+          'original': this.assay[i].original,
+          'acronym': this.assay[i].acronym,
+          'organism': this.assay[i].organism,
+          'variant': this.assay[i].variant,
+
+
+        });
+      }
+
+
     }
-
-
-  }
 
   }
 }

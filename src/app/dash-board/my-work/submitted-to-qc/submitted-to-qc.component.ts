@@ -176,8 +176,8 @@ export class SubmittedToQcComponent implements OnInit {
   onEditButtonClick(params: any) {
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        "ligandId": params.data.ligandSlno2.ligandId,
-        "tanNumber": params.data.ligandSlno2.tanNumber,
+        "ligandId": params.data.ligandId,
+        "tanNumber": params.data.tanNumber,
         "insertUsers": params.data.insertUser,
       }
     };
