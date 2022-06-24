@@ -6,14 +6,14 @@
                 <div class="col-xs-3 col-sm-3">
                     <div class="form-group">
                         <label path="tanNo" for="tanNo" cssClass="required">TAN NUMBER</label>
-                        <select class="form-control" name="tanNo" formControlName="tanNo" >
+                        <!-- <select class="form-control" name="tanNo" formControlName="tanNo" >
                             <option value="" hidden> - Select Tan Number - </option>
                          
                             <option *ngFor="let tanarray of tanarr" >
                                 {{tanarray}}
                             </option>
-                        </select>
-                        <!-- <input type="text" class="form-control" name="tanNo" formControlName="tanNo" readonly (blur)="onBlurEvent($event)"> -->
+                        </select> -->
+                        <input type="text" class="form-control" name="tanNo" formControlName="tanNo" readonly>
                     </div>
                 </div>
                 <div class="col-xs-3 col-sm-3">
