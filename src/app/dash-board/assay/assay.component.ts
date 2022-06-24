@@ -1258,7 +1258,7 @@ export class AssayComponent implements OnInit {
     assay001wb.unitedSlno = this.f.unitedSlno.value ? this.f.unitedSlno.value : null;
     assay001wb.administration = this.f.administration.value ? this.f.administration.value : "";
     assay001wb.procedure = this.f.procedure.value ? this.f.procedure.value : "";
-    assay001wb.target = "bioactivity-target" + "/" + "SaturoGlobal" + "/" + this.ligand001mb?.tanNumber + "/" + this.ligand001mb?.ligandVersionSlno2?.ligandVersion + "/" + this.f.targetVersion.value + ">" + "bioactivity-target" + "/" + uuid();
+    assay001wb.target = "bioactivity-target" + "/" + "saturoglobal" + "/" + this.ligand001mb?.tanNumber + "/" + this.ligand001mb?.ligandVersionSlno2?.ligandVersion + "/" + this.f.targetVersion.value + ">" + "bioactivity-target" + "/" + uuid();
     assay001wb.conditionType = this.f.conditionType.value ? this.f.conditionType.value : "";
     assay001wb.conditionMaterial = this.f.conditionMaterial.value ? this.f.conditionMaterial.value : "";
     assay001wb.conditionMaterialid = this.f.conditionMaterialid.value ? this.f.conditionMaterialid.value : "";
@@ -1372,7 +1372,7 @@ export class AssayComponent implements OnInit {
     assay001wb.unitedSlno = this.f.unitedSlno.value ? this.f.unitedSlno.value : null;
     assay001wb.administration = this.f.administration.value ? this.f.administration.value : "";
     assay001wb.procedure = this.f.procedure.value ? this.f.procedure.value : "";
-    assay001wb.target = "bioactivity-target" + "/" + "SaturoGlobal" + "/" + this.ligand001mb?.tanNumber + "/" + this.ligand001mb?.ligandVersionSlno2?.ligandVersion + "/" + this.f.targetVersion.value + ">" + "bioactivity-target" + "/" + uuid();
+    assay001wb.target = "bioactivity-target" + "/" + "saturoglobal" + "/" + this.ligand001mb?.tanNumber + "/" + this.ligand001mb?.ligandVersionSlno2?.ligandVersion + "/" + this.f.targetVersion.value + ">" + "bioactivity-target" + "/" + uuid();
     assay001wb.conditionType = this.f.conditionType.value ? this.f.conditionType.value : "";
     assay001wb.conditionMaterial = this.f.conditionMaterial.value ? this.f.conditionMaterial.value : "";
     assay001wb.conditionMaterialid = this.f.conditionMaterialid.value ? this.f.conditionMaterialid.value : "";
@@ -1385,9 +1385,9 @@ export class AssayComponent implements OnInit {
     assay001wb.targetStatus = "embargoed";
 
     assay001wb.dataLocator = null;
-    assay001wb.dataLocator1 = this.f.dataLocator1.value ? "Table " + this.f.dataLocator1.value : null;
-    assay001wb.dataLocator2 = this.f.dataLocator2.value ? "Figure " + this.f.dataLocator2.value : null;
-    assay001wb.dataLocator3 = this.f.dataLocator3.value ? "Page " + this.f.dataLocator3.value + " (text)" : null;
+    assay001wb.dataLocator1 = this.f.dataLocator1.value ? this.f.dataLocator1.value : null;
+    assay001wb.dataLocator2 = this.f.dataLocator2.value ? this.f.dataLocator2.value : null;
+    assay001wb.dataLocator3 = this.f.dataLocator3.value ? this.f.dataLocator3.value : null;
     assay001wb.categorySlno = this.f.categorySlno.value ? this.f.categorySlno.value : null;
     assay001wb.functionSlno = this.f.functionSlno.value ? this.f.functionSlno.value : null;
     assay001wb.parameter = this.f.parameter.value ? this.f.parameter.value : "";
@@ -1504,16 +1504,6 @@ export class AssayComponent implements OnInit {
   onBlurEvent(event: any) {
     this.ligandManager.findOne(event.target.value).subscribe(response => {
       this.ligand001mb = deserialize<Ligand001wb>(Ligand001wb, response);
-
-      if (this.ligand001mb.identifier1 != "") {
-        this.AssayForm.patchValue({
-          'ligandname': this.ligand001mb.identifier1,
-        });
-      } else {
-        this.AssayForm.patchValue({
-          'ligandname': this.ligand001mb.locator,
-        });
-      }
     });
   }
 
@@ -1676,7 +1666,7 @@ export class AssayComponent implements OnInit {
       if (this.assay[i].status != "Submitted to Qc") {
         this.assayId = this.assay[i].assayId;
         this.insertDatetime = new Date();
-        // this.insertUser = this.assay[i].insertUser;
+        this.insertUser = this.assay[i].insertUser;
 
         this.AssayForm.patchValue({
           'tanNo': this.assay[i].ligandSlno2?.tanNumber,

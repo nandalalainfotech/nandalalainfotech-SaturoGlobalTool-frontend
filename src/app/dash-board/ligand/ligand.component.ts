@@ -67,7 +67,7 @@ export class LigandComponent implements OnInit {
   acronym: number | any;
   organism: number | any;
   variant: number | any;
-  insertUser: string = "";
+  insertUser?: string = "";
   insertDatetime: Date | any;
   updatedUser: string = "";
   updatedDatetime: Date | any;
@@ -118,7 +118,7 @@ export class LigandComponent implements OnInit {
 
       let LigandId = params["ligandId"];
       this.ligandId = LigandId;
-      console.log("this.ligandId-->", this.ligandId);
+      // console.log("this.ligandId-->", this.ligandId);
 
       let InsertUser = params["insertUsers"];
       this.insertUser = InsertUser;
@@ -618,6 +618,7 @@ export class LigandComponent implements OnInit {
 
     this.ligandVersionManager.findOne(event.target.value).subscribe(response => {
       this.ligandVersion001 = response;
+
     });
   }
 
@@ -632,8 +633,8 @@ export class LigandComponent implements OnInit {
     let ligand001wb = new Ligand001wb();
 
     ligand001wb.tanNumber = this.f.tanNumber.value ? this.f.tanNumber.value : "";
-    ligand001wb.ligandUri = "bioactivity-ligand" + "/" + "SaturoGlobal" + "/" + this.f.tanNumber.value + "/" + this.f.ligandVersionSlno.value + ">" + "bioactivity-ligand" + "/" + uuid();
-    ligand001wb.ligandVersionSlno = this.f.ligandVersionSlno.value ? this.ligandVersion001?.ligandVersion : null;
+    ligand001wb.ligandUri = "bioactivity-ligand" + "/" + "saturoglobal" + "/" + this.f.tanNumber.value + "/" + this.ligandVersion001?.ligandVersion + ">" + "bioactivity-ligand" + "/" + uuid();
+    ligand001wb.ligandVersionSlno = this.f.ligandVersionSlno.value ? this.f.ligandVersionSlno.value : null;
     ligand001wb.ligandStatus = "embargoed";
     ligand001wb.collection = "cas";
     ligand001wb.ligandTypeSlno = this.f.ligandTypeSlno.value ? this.f.ligandTypeSlno.value : null;
@@ -701,7 +702,7 @@ export class LigandComponent implements OnInit {
     let ligand001wb = new Ligand001wb();
 
     ligand001wb.tanNumber = this.f.tanNumber.value ? this.f.tanNumber.value : "";
-    ligand001wb.ligandUri = "bioactivity-ligand" + "/" + "SaturoGlobal" + "/" + this.f.tanNumber.value + "/" + this.f.ligandVersionSlno.value + ">" + "bioactivity-ligand" + "/" + uuid();
+    ligand001wb.ligandUri = "bioactivity-ligand" + "/" + "saturoglobal" + "/" + this.f.tanNumber.value + "/" + this.ligandVersion001?.ligandVersion + ">" + "bioactivity-ligand" + "/" + uuid();
     ligand001wb.ligandVersionSlno = this.f.ligandVersionSlno.value ? this.f.ligandVersionSlno.value : null;
     ligand001wb.ligandStatus = "embargoed";
     ligand001wb.collection = "cas";
@@ -818,6 +819,7 @@ export class LigandComponent implements OnInit {
       }
 
       if (this.ligand[i].status != "Submitted to QC") {
+        this.insertUser = this.ligand[i].insertUser;
         this.insertDatetime = new Date();
         this.ligandId = this.ligand[i].ligandId;
         this.LigandForm.patchValue({
