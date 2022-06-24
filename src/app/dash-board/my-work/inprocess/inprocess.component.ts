@@ -346,7 +346,6 @@ export class InprocessComponent implements OnInit {
   }
 
   onInprocessMoveToLigand(params: any) {
-    // console.log("params", params.data);
     // let assayId = params.data.assayId;
     // let ligandId =params.data.ligandId;
     let navigationExtras: NavigationExtras = {
@@ -355,7 +354,7 @@ export class InprocessComponent implements OnInit {
         "ligandId": params.data.ligandSlno2.ligandId,
         "insertUsers": params.data.insertUser,
         "tanNumber": params.data.ligandSlno2.tanNumber,
-        "ligandVersions": params.data.ligandSlno2.ligandVersionSlno,
+        "ligandVersions": params.data.ligandSlno2.ligandVersionSlno2.ligandVersion,
         "ligandType": params.data.ligandSlno2.ligandTypeSlno,
         "identifier1": params.data.ligandSlno2.identifier1,
         "identifier2": params.data.ligandSlno2.identifier2,
@@ -371,17 +370,17 @@ export class InprocessComponent implements OnInit {
 
         "assayId": params.data.assayId,
         "insertUser": params.data.insertUser,
-        "ligandVersion": params.data.ligandSlno,
-        "assayType": params.data.assayTypeSlno,
-        "toxiCity": params.data.toxiCitySlno,
-        "route": params.data.routeSlno,
+        "ligandVersion": params.data.ligandSlno?params.data.ligandSlno:null,
+        "assayType": params.data.assayTypeSlno? params.data.assayTypeSlno:null,
+        "toxiCity": params.data.toxiCitySlno? params.data.toxiCitySlno:null,
+        "route": params.data.routeSlno? params.data.routeSlno:null,
         "administration": params.data.administration,
         "procedure": params.data.procedure,
         "ligandSvalue": params.data.ligandSvalue,
-        "unit": params.data.unitSlno,
+        "unit": params.data.unitSlno?params.data.unitSlno:null,
         "ligandHvalue": params.data.ligandHvalue,
         "ligandLvalue": params.data.ligandLvalue,
-        "unitedSlno": params.data.unitedSlno,
+        "unitedSlno": params.data.unitedSlno?params.data.unitedSlno:null,
 
         "conditionType": params.data.conditionType,
         "conditionMaterial": params.data.conditionMaterial,
@@ -394,22 +393,22 @@ export class InprocessComponent implements OnInit {
         "dataLocator1": params.data.dataLocator1,
         "dataLocator2": params.data.dataLocator2,
         "dataLocator3": params.data.dataLocator3,
-        "category": params.data.categorySlno,
-        "function": params.data.functionSlno,
+        "category": params.data.categorySlno?params.data.categorySlno:null,
+        "function": params.data.functionSlno?params.data.functionSlno:null,
 
         "parameter": params.data.parameter,
         "parameterDetail": params.data.parameterDetail,
-        "originalPrefixSlno": params.data.originalPrefixSlno,
+        "originalPrefixSlno": params.data.originalPrefixSlno? params.data.originalPrefixSlno:null,
         "singleValue": params.data.singleValue,
-        "measurementunits": params.data.units,
+        "measurementunits": params.data.unitSlno? params.data.unitSlno:null,
         "highEndValue": params.data.highEndValue,
         "lowEndValue": params.data.lowEndValue,
-        "measurementunitedSlno": params.data.unitSlno,
+        "measurementunitedSlno": params.data.unitedSlno?params.data.unitedSlno:null,
         "nonNumeric": params.data.nonNumeric,
         "remark": params.data.remark,
         //  pending  to bio
 
-        "type": params.data.typeSlno,
+        "type": params.data.typeSlno?params.data.typeSlno:null,
         "cell": params.data.cell,
         "cellDetail": params.data.cellDetail,
         "organ": params.data.organ,

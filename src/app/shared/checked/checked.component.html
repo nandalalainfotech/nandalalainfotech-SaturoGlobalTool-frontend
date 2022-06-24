@@ -8,7 +8,7 @@
             <fieldset class="scheduler-border">
                 <legend class="scheduler-border">Ligand</legend>
 
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-sm-9">
 
                     </div>
@@ -22,7 +22,7 @@
                     </div>
                 </div>
 
-                <br>
+                <br> -->
 
                 <div class="row">
                     <div class="col-sm-6">
@@ -599,14 +599,13 @@
             <fieldset class="scheduler-border">
                 <legend class="scheduler-border">Measurement</legend>
 
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
                             <div class="col-sm-5">
                                 <label path="assaySlno" for="assaySlno" cssClass="required">Ligand-Version :</label>
                             </div>
                             <div class="col-sm-7" *ngIf="isEditable">
-                                <!-- <input class="assaySlno" name="assaySlno" formControlName="assaySlno"> -->
                                 <select class="" name="assaySlno" formControlName="assaySlno">
                                     <option value="" hidden> - Select Ligand-Version - </option>
                                     <option *ngFor="let assayObject of assays" [value]="assayObject.assayId">
@@ -634,7 +633,7 @@
                         </div>
                     </div>
                 </div>
-                <br>
+                <br> -->
                 <div class="row">
 
                     <div class="col-sm-6">
@@ -1179,8 +1178,8 @@
                 <br>
                 <br>
                 <div class="row">
-                    <div class="col-sm-7"></div>
-                    <div class="col-sm-1"><button type="button" (click)="onRejectClick($event, CheckedForm)" class="btn btn-primary">Reject</button></div>
+                    <div class="col-sm-8"></div>
+                    <!-- <div class="col-sm-1"><button type="button" (click)="onRejectClick($event, CheckedForm)" class="btn btn-primary">Reject</button></div> -->
                     <!-- <div class="col-sm-1"></div> -->
                     <div class="col-sm-1"><button type="button" (click)="onEditReviewerClick($event)" class="btn btn-primary" style="margin-left:20px">Edit</button></div>
                     <div class="col-sm-1"><button type="submit" class="btn btn-primary" style="margin-left:40px">Submit</button></div>

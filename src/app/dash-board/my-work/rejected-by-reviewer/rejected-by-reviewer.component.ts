@@ -87,7 +87,6 @@ export class RejectedByReviewerComponent implements OnInit {
 
     this.assayManager.findInprocesStatus(this.username).subscribe(response => {
       this.assays = deserialize<Assay001wb[]>(Assay001wb, response);
-      console.log(" this.findInprocesStatus---1--", this.assays);
       
       for (let assay of this.assays) {
         if(assay.status == "Rejected") {
