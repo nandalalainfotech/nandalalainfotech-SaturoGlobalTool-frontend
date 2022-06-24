@@ -596,7 +596,7 @@ export class CheckedComponent implements OnInit {
     assay001wb.status = "Before submit the data";
     assay001wb.targetStatus = "embargoed";
 
-    assay001wb.dataLocator = this.f.dataLocator.value ? this.f.dataLocator.value : "";
+    // assay001wb.dataLocator = this.f.dataLocator.value ? this.f.dataLocator.value : "";
     assay001wb.categorySlno = this.f.categorySlno.value ? this.f.categorySlno.value : null;
     assay001wb.functionSlno = this.f.functionSlno.value ? this.f.functionSlno.value : null;
     assay001wb.parameter = this.f.parameter.value ? this.f.parameter.value : "";
@@ -637,7 +637,7 @@ export class CheckedComponent implements OnInit {
     assay001wb.updatedUser = this.authManager.getcurrentUser.username;
     assay001wb.updatedDatetime = new Date();
     this.assayManager.assayupdate(assay001wb).subscribe((response) => {
-      this.calloutService.showSuccess("Reviewer Details Updated Successfully");
+      this.calloutService.showSuccess("Details Updated Successfully");
       // this.loadData();
       // this.CheckedForm.reset();
       // this.assayId = null;

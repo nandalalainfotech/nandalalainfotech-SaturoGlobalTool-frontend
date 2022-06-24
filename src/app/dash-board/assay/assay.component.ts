@@ -1502,9 +1502,11 @@ export class AssayComponent implements OnInit {
   }
 
   onBlurEvent(event: any) {
-    this.ligandManager.findOne(event.target.value).subscribe(response => {
-      this.ligand001mb = deserialize<Ligand001wb>(Ligand001wb, response);
-    });
+    if(event.target.value) {
+      this.ligandManager.findOne(event.target.value).subscribe(response => {
+        this.ligand001mb = deserialize<Ligand001wb>(Ligand001wb, response);
+      });
+    }
   }
 
   setEnable() {

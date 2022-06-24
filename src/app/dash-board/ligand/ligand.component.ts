@@ -615,11 +615,12 @@ export class LigandComponent implements OnInit {
   }
 
   onBlurEvent(event: any) {
-
+    if(event.target.value) {
     this.ligandVersionManager.findOne(event.target.value).subscribe(response => {
       this.ligandVersion001 = response;
 
     });
+  }
   }
 
   onLigandClick(event: any, LigandForm: any) {
