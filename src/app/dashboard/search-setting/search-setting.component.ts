@@ -75,13 +75,15 @@ export class SearchSettingComponent implements OnInit {
 
       let LigandId = params["ligandId"];
       this.ligandId = LigandId;
-      console.log("this.ligandId-->",this.ligandId);
       
       let InsertUser = params["insertUsers"];
       this.insertUser = InsertUser;
 
+
       let TanNumber = params["tanNumber"];
       this.tanNum = TanNumber;
+     
+      
 
       
 

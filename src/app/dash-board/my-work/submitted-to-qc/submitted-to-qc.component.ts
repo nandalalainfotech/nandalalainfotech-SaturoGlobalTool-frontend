@@ -68,8 +68,8 @@ export class SubmittedToQcComponent implements OnInit {
 
     this.ligandManager.allligand(this.username).subscribe(response => {
       this.ligand = deserialize<Ligand001wb[]>(Ligand001wb, response);
+      
       this.ligands = this.ligand.filter((v,i,a)=>a.findIndex(v2=>(v2.status === "Before submit the data" && v2.tanNumber===v.tanNumber))===i);
-      console.log("this.ligands------->>>",this.ligands);
       this.gridOptions?.api?.refreshCells();
       if (this.ligand.length > 0) {
         this.gridOptions?.api?.setRowData(this.ligands);
