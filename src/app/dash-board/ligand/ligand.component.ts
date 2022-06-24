@@ -685,7 +685,7 @@ export class LigandComponent implements OnInit {
       this.ligandManager.ligandsave(ligand001wb).subscribe((response) => {
         this.calloutService.showSuccess("Ligand Details Saved Successfully");
         this.loadData();
-        this.LigandForm.reset();
+        this.onReset();
         this.submitted = false;
       });
     }
@@ -752,7 +752,7 @@ export class LigandComponent implements OnInit {
 
       this.calloutService.showWarning("Ligand details are in process ");
       this.loadData();
-      this.LigandForm.reset();
+      this.onReset();
       this.submitted = false;
     });
     // }
@@ -762,8 +762,19 @@ export class LigandComponent implements OnInit {
 
 
   onReset() {
-    this.submitted = false;
-    this.LigandForm.reset();
+    // this.submitted = false;
+    // this.LigandForm.reset();
+    this.LigandForm.get('ligandVersionSlno').reset();
+    this.LigandForm.get('ligandTypeSlno').reset();
+    this.LigandForm.get('ligandDetail').reset();
+    this.LigandForm.get('identifier1').reset();
+    this.LigandForm.get('identifier2').reset();
+    this.LigandForm.get('identifier3').reset();
+    this.LigandForm.get('collectionId').reset();
+    this.LigandForm.get('locator').reset();
+    this.LigandForm.get('diseaseName1').reset();
+    this.LigandForm.get('diseaseName2').reset();
+    this.LigandForm.get('diseaseName3').reset();
   }
 
   onRepeat() {
