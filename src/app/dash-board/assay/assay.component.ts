@@ -458,10 +458,18 @@ export class AssayComponent implements OnInit {
 
     this.AssayForm.get('ligandSlno').valueChanges.subscribe((value: any) => {
       for (let tannumber of this.ligands) {
+       
         if ((tannumber.tanNumber == this.f.tanNo.value) && (tannumber.ligandId == value)) {
+
+          if(tannumber.identifier1){
           this.AssayForm.patchValue({
             'ligandname': tannumber.identifier1,
           });
+         }else{
+          this.AssayForm.patchValue({
+            'ligandname': tannumber.locator,
+          });
+          }
           break;
         }
       }
