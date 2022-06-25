@@ -236,14 +236,13 @@
             <fieldset class="scheduler-border">
                 <legend class="scheduler-border">Assay</legend>
 
-                <div class="row">
-                    <div class="col-sm-6">
+                 <div class="row">
+                     <div class="col-sm-6">
                         <div class="form-group">
                             <div class="col-sm-5">
                                 <label path="ligandSlno" for="ligandSlno" cssClass="required">Ligand-Version :</label>
                             </div>
                             <div class="col-sm-7" *ngIf="isEditable">
-                                <!-- <input class="ligandSlno" name="ligandSlno" formControlName="ligandSlno"> -->
                                 <select name="ligandSlno" formControlName="ligandSlno">
                                     <option value="" hidden> - Select Ligand-Version - </option>
                                     <option> - Select Ligand-Version - </option>
@@ -256,9 +255,9 @@
                                 <span>{{data.ligandSlno2?.ligandVersionSlno2?.ligandVersion}}</span>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="col-sm-6">
+                    </div> 
+                </div>
+                    <!-- <div class="col-sm-6">
                         <div class="form-group">
                             <div class="col-sm-5">
                                 <label path="ordinal" for="series" cssClass="required">Ordinal :</label>
@@ -270,9 +269,9 @@
                                 <span>{{data.ordinal}}</span>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <br>
+                    </div>-->
+                
+                <br> 
 
                 <div class="row">
                     <div class="col-sm-6">
@@ -541,10 +540,18 @@
                                 <label path="singleUnit" for="series" cssClass="required">Unit(Single-value)</label>
                             </div>
                             <div class="col-sm-7" *ngIf="isEditable">
-                                <input class="" name="singleUnit" formControlName="singleUnit">
+                                <!-- <input class="" name="singleUnit" formControlName="singleUnit"> -->
+                                <select class="" name="singleUnit" formControlName="singleUnit">
+                                    <option value="" hidden> - Select Unit-Types - </option>
+                                    <option> - Select Unit-Types - </option>
+                                    <option *ngFor="let unitsinglevalue of unitsinglevalues"
+                                        [value]="unitsinglevalue.id">
+                                        {{unitsinglevalue.unit}}
+                                    </option>
+                                </select>
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.singleUnit}}</span>
+                                <span>{{this.conditionunit}}</span>
                             </div>
                         </div>
                     </div>
@@ -583,10 +590,18 @@
                                 <label path="highLowUnit" for="series" cssClass="required">Unit</label>
                             </div>
                             <div class="col-sm-7" *ngIf="isEditable">
-                                <input class="" name="highLowUnit" formControlName="highLowUnit">
+                                <!-- <input class="" name="highLowUnit" formControlName="highLowUnit"> -->
+                                <select class="" name="highLowUnit" formControlName="highLowUnit">
+                                    <option value="" hidden> - Select Units-Types - </option>
+                                    <option> - Select Units-Types- </option>
+                                    <option *ngFor="let unitlowendvalue of unitlowendvalues"
+                                        [value]="unitlowendvalue.id">
+                                        {{unitlowendvalue.united}}
+                                    </option>
+                                </select>
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.highLowUnit}}</span>
+                                <span>{{conditionunited}}</span>
                             </div>
                         </div>
                     </div>
@@ -819,10 +834,18 @@
                                 <label path="unit" for="unit" cssClass="required">Unit :</label>
                             </div>
                             <div class="col-sm-7" *ngIf="isEditable">
-                                <input class="unit" name="unit" formControlName="unit">
+                                <!-- <input class="unit" name="unit" formControlName="unit"> -->
+                                <select class="" name="unit" formControlName="unit">
+                                    <option value="" hidden> - Select Unit-Types - </option>
+                                    <option> - Select Unit-Types - </option>
+                                    <option *ngFor="let unitsinglevalue of unitsinglevalues"
+                                        [value]="unitsinglevalue.id">
+                                        {{unitsinglevalue.unit}}
+                                    </option>
+                                </select>
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.unit}}</span>
+                                <span>{{measurementunit}}</span>
                             </div>
                         </div>
                     </div>
@@ -865,10 +888,18 @@
                                 <label path="units" for="series" cssClass="required">Unit :</label>
                             </div>
                             <div class="col-sm-7" *ngIf="isEditable">
-                                <input class="units" name="units" formControlName="units">
+                                <!-- <input class="units" name="units" formControlName="units"> -->
+                                <select class="" name="units" formControlName="units">
+                                    <option value="" hidden> - Select Units-Types - </option>
+                                    <option> - Select Units-Types- </option>
+                                    <option *ngFor="let unitlowendvalue of unitlowendvalues"
+                                        [value]="unitlowendvalue.id">
+                                        {{unitlowendvalue.united}}
+                                    </option>
+                                </select>
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.units}}</span>
+                                <span>{{measurementunited}}</span>
                             </div>
                         </div>
                     </div>
@@ -1067,7 +1098,7 @@
                 <legend class="scheduler-border">Target</legend>
 
                 <div class="row">
-                    <div class="col-sm-6">
+                    <!-- <div class="col-sm-6">
                         <div class="form-group">
                             <div class="col-sm-5">
                                 <label path="ligandVersions" for="ligandVersions" cssClass="required">Ligand
@@ -1080,7 +1111,7 @@
                                 <span>{{data.ligandSlno2?.ligandVersionSlno2?.ligandVersion}}</span>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="col-sm-6">
                         <div class="form-group">
                             <div class="col-sm-5">
@@ -1095,6 +1126,7 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-sm-6"></div>
 
                 </div>
                 <br>

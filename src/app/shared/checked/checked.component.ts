@@ -170,6 +170,10 @@ export class CheckedComponent implements OnInit {
   childMenuString: string = "";
   hexToRgb: any;
   rgbToHex: any;
+  conditionunit: any;
+  conditionunited: any;
+  measurementunit: any;
+  measurementunited: any;
   public gridOptions: GridOptions | any;
   rowData: Observable<any[]> | any;
 
@@ -210,6 +214,29 @@ export class CheckedComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.unitSingleValueManager.allunitSingleValue().subscribe(response => {
+      this.unitsinglevalues = deserialize<Unitsinglevalue001mb[]>(Unitsinglevalue001mb, response);
+      for(let i=0;i<this.unitsinglevalues.length;i++){
+        if(this.unitsinglevalues[i].id==this.data.singleUnit){
+          this.conditionunit=this.unitsinglevalues[i].unit;
+        }
+        if(this.unitsinglevalues[i].id==this.data.unit){
+          this.measurementunit=this.unitsinglevalues[i].unit;
+        }
+      }
+    });
+
+    this.unitlowendvalueManager.allunitlowendvalue().subscribe(response => {
+      this.unitlowendvalues = deserialize<Unitlowendvalue001mb[]>(Unitlowendvalue001mb, response);
+      for(let i=0;i<this.unitlowendvalues.length;i++){
+        if(this.unitlowendvalues[i].id==this.data.highLowUnit){
+          this.conditionunited=this.unitlowendvalues[i].united;
+        }
+        if(this.unitlowendvalues[i].id==this.data.units){
+          this.measurementunited=this.unitlowendvalues[i].united;
+        }
+      }
+    });
     this.insertUser = this.data.insertUser;
     this.ligandId = this.data.ligandSlno2.ligandId;
     this.assayId = this.data.assayId;
@@ -222,7 +249,7 @@ export class CheckedComponent implements OnInit {
       ligandDetail: [this.data.ligandSlno2.ligandDetail? this.data.ligandSlno2.ligandDetail:""],
       identifier1: [this.data.ligandSlno2.identifier1? this.data.ligandSlno2.identifier1:""],
       identifier2: [this.data.ligandSlno2.identifier2? this.data.ligandSlno2.identifier2:""],
-      identifier3: [this.data.ligandSlno2.identifier3? this.data.ligandSlno2.identifier3:"null"],
+      identifier3: [this.data.ligandSlno2.identifier3? this.data.ligandSlno2.identifier3:""],
       collectionId: [this.data.ligandSlno2.collectionId? this.data.ligandSlno2.collectionId:""],
       locator: [this.data.ligandSlno2.locator? this.data.ligandSlno2.locator:""],
       // citation: [this.data.tanNumber],
@@ -235,7 +262,7 @@ export class CheckedComponent implements OnInit {
       // -----------Assay-----------
       assayId: [this.data.assayId? this.data.assayId:null],
       ligandSlno: [this.data.ligandSlno? this.data.ligandSlno:null],
-      ordinal: [this.data.ordinal? this.data.ordinal:""],
+      // ordinal: [this.data.ordinal? this.data.ordinal:""],
       assayTypeSlno: [this.data.assayTypeSlno? this.data.assayTypeSlno:null],
       toxiCitySlno: [this.data.toxiCitySlno? this.data.toxiCitySlno:null],
       routeSlno: [this.data.routeSlno? this.data.routeSlno:null],
@@ -250,10 +277,10 @@ export class CheckedComponent implements OnInit {
       conditionMaterial: [this.data.conditionMaterial? this.data.conditionMaterial:""],
       conditionMaterialid: [this.data.conditionMaterialid? this.data.conditionMaterialid:""],
       singleCondition: [this.data.singleCondition? this.data.singleCondition:""],
-      singleUnit: [this.data.singleUnit? this.data.singleUnit:""],
+      singleUnit: [this.data.singleUnit?this.data.singleUnit:null],
       highCondition: [this.data.highCondition? this.data.highCondition:""],
       lowCondition: [this.data.lowCondition?this.data.lowCondition:""],
-      highLowUnit: [this.data.highLowUnit? this.data.highLowUnit:""],
+      highLowUnit: [this.data.highLowUnit?this.data.highLowUnit:null],
 
 
       // assaySlno: [this.ligandSlno? this.ligandSlno:null],
@@ -268,10 +295,10 @@ export class CheckedComponent implements OnInit {
       parameterDetail: [this.data.parameterDetail? this.data.parameterDetail:""],
       originalPrefixSlno: [this.data.originalPrefixSlno? this.data.originalPrefixSlno:null],
       singleValue: [this.data.singleValue? this.data.singleValue:""],
-      unit: [this.data.unitSlno? this.data.unitSlno:null],
+      unit: [this.data.unit? this.data.unit:null],
       highEndValue: [this.data.highEndValue? this.data.highEndValue:""],
       lowEndValue: [this.data.lowEndValue?this.data.lowEndValue:""],
-      units: [this.data.unitedSlno?this.data.unitedSlno:null],
+      units: [this.data.units?this.data.units:null],
       nonNumeric: [this.data.nonNumeric? this.data.nonNumeric:""],
       remark: [this.data.remark? this.data.remark:""],
       typeSlno: [this.data.typeSlno?this.data.typeSlno:null],
@@ -284,7 +311,7 @@ export class CheckedComponent implements OnInit {
       gender: [this.data.gender? this.data.gender:""],
       ageGroup: [this.data.ageGroup?this.data.ageGroup:""],
 
-      ligandVersions: [this.data.ligandSlno2.ligandVersionSlno? this.data.ligandSlno2.ligandVersionSlno:null],
+      // ligandVersions: [this.data.ligandSlno2.ligandVersionSlno? this.data.ligandSlno2.ligandVersionSlno:null],
       targetVersion: [this.data.targetVersion? this.data.targetVersion:""],
       collectionId1: [this.data.collectionId1? this.data.collectionId1:""],
       original: [this.data.original? this.data.original:""],
@@ -334,13 +361,6 @@ export class CheckedComponent implements OnInit {
       this.routeAdmins = deserialize<Routeofadministration001mb[]>(Routeofadministration001mb, response);
     });
 
-    this.unitSingleValueManager.allunitSingleValue().subscribe(response => {
-      this.unitsinglevalues = deserialize<Unitsinglevalue001mb[]>(Unitsinglevalue001mb, response);
-    });
-
-    this.unitlowendvalueManager.allunitlowendvalue().subscribe(response => {
-      this.unitlowendvalues = deserialize<Unitlowendvalue001mb[]>(Unitlowendvalue001mb, response);
-    });
     // -----------------------Assay end------------------------
     // this.assayManager.allassay(this.username).subscribe(response => {
     //   this.assays = deserialize<Assay001wb[]>(Assay001wb, response);
@@ -571,7 +591,7 @@ export class CheckedComponent implements OnInit {
 
 
     let assay001wb = new Assay001wb();
-    assay001wb.ordinal = this.f.ordinal.value ? this.f.ordinal.value : "";
+    assay001wb.ordinal =  "";
     assay001wb.collectionId = "47498009Q-1";
     assay001wb.ligandSlno = this.f.ligandSlno.value ? this.f.ligandSlno.value : null;
     assay001wb.assayTypeSlno = this.f.assayTypeSlno.value ? this.f.assayTypeSlno.value : null;
@@ -597,6 +617,10 @@ export class CheckedComponent implements OnInit {
     assay001wb.targetStatus = "embargoed";
 
     // assay001wb.dataLocator = this.f.dataLocator.value ? this.f.dataLocator.value : "";
+    assay001wb.dataLocator = null;
+    assay001wb.dataLocator1 = this.f.dataLocator1.value ? this.f.dataLocator1.value : "";
+    assay001wb.dataLocator2 = this.f.dataLocator2.value ? this.f.dataLocator2.value : "";
+    assay001wb.dataLocator3 = this.f.dataLocator3.value ? this.f.dataLocator3.value : "";
     assay001wb.categorySlno = this.f.categorySlno.value ? this.f.categorySlno.value : null;
     assay001wb.functionSlno = this.f.functionSlno.value ? this.f.functionSlno.value : null;
     assay001wb.parameter = this.f.parameter.value ? this.f.parameter.value : "";
