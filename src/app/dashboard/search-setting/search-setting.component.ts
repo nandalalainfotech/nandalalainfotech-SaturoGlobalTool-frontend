@@ -82,12 +82,6 @@ export class SearchSettingComponent implements OnInit {
 
       let TanNumber = params["tanNumber"];
       this.tanNum = TanNumber;
-     
-      
-
-      
-
-
     });
 
     this.username = this.authManager.getcurrentUser.username;
@@ -775,9 +769,12 @@ export class SearchSettingComponent implements OnInit {
   }
 
 
-
+  gTanNum: any;
+  gLigVer: any;
   onSearch(tanNum: any, LigVer: any) {
     // let assays: Assay001wb[] = [];
+    this.gTanNum = tanNum;
+    this.gLigVer = LigVer;
     this.assays = [];
     for (let i = 0; i < this.assay.length; i++) {
       if ((this.assay[i].ligandSlno2?.tanNumber == tanNum) && (this.assay[i].ligandSlno2?.ligandVersionSlno2?.ligandVersion == LigVer)) {
@@ -798,7 +795,12 @@ export class SearchSettingComponent implements OnInit {
     modalRef.componentInstance.data = params.data;
     modalRef.result.then((data) => {
       if (data == "Yes") {
-        this.calloutService.showSuccess("Ligand Data Accepted Successfully");
+        this.calloutService.showSuccess("Details Updated Successfully");
+        this.assay = [];
+        this.assayManager.allassay(this.username).subscribe(response => {
+          this.assay = deserialize<Assay001wb[]>(Assay001wb, response);
+          this.onSearch(this.gTanNum, this.gLigVer);
+        });
       }
     }
     )
