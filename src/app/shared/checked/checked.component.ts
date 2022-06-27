@@ -362,9 +362,9 @@ export class CheckedComponent implements OnInit {
     });
 
     // -----------------------Assay end------------------------
-    // this.assayManager.allassay(this.username).subscribe(response => {
-    //   this.assays = deserialize<Assay001wb[]>(Assay001wb, response);
-    // });
+    this.assayManager.allassay(this.username).subscribe(response => {
+      this.assays = deserialize<Assay001wb[]>(Assay001wb, response);
+    });
 
     this.categoryManager.allcategoryType().subscribe(response => {
       this.categorys = deserialize<Category001mb[]>(Category001mb, response);
@@ -661,11 +661,12 @@ export class CheckedComponent implements OnInit {
     assay001wb.updatedUser = this.authManager.getcurrentUser.username;
     assay001wb.updatedDatetime = new Date();
     this.assayManager.assayupdate(assay001wb).subscribe((response) => {
-      this.calloutService.showSuccess("Details Updated Successfully");
+      // this.calloutService.showSuccess("Details Updated Successfully");
       // this.loadData();
       // this.CheckedForm.reset();
       // this.assayId = null;
       this.submitted = false;
+      this.activeModal.close('Yes');
     });
 
 
