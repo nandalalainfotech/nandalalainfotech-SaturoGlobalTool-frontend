@@ -200,7 +200,7 @@
                             <label path="singleUnit" for="series" cssClass="required">Unit(Single-value)</label>
                             <select class="form-control" name="singleUnit" formControlName="singleUnit">
                                 <option value="" hidden> - Select Unit-Types - </option>
-                                
+                                <option value=""> - Select Unit-Types - </option>
                                 <option *ngFor="let unitsinglevalue of unitsinglevalues" [value]="unitsinglevalue.id">
                                     {{unitsinglevalue.unit}}
                                 </option>
