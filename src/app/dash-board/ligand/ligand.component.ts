@@ -49,7 +49,7 @@ export class LigandComponent implements OnInit {
   identifier2: string = "";
   identifier3: string = "";
   collection: string = "";
-  collectionId: number | any;
+  collectionId: string = "";
   ligandDetail: string = "";
   locator: string = "";
   sourceType: string = "";
