@@ -55,6 +55,7 @@
 
                 <div class="col-xs-3 col-sm-3">
                     <div class="form-group">
+                        {{AssayForm.controls.assayTypeSlno.value}}
                         <label path="assayTypeSlno" for="assayTypeSlno" cssClass="required">Assay-type</label>
                         <select class="form-control" name="assayTypeSlno" formControlName="assayTypeSlno">
                             <option value=''> - Select Assay Types - </option>
@@ -139,7 +140,7 @@
                 <div class="col-xs-3 col-sm-3">
                     <div class="form-group">
                         <label path="ligandLvalue" for="series" cssClass="required">Ligand-Dose(Low-end-value)</label>
-                        <input class="form-control" autocomplete="off" name="ligandLvalue" formControlName="ligandLvalue">
+                        <input class="form-control" autocomplete="off" name="ligandLvalue" formControlName="ligandLvalue" (click)="highValueClick()">
                     </div>
                 </div>
 
@@ -223,7 +224,7 @@
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
                             <label path="lowCondition" for="series" cssClass="required">Condition(Low-end-value)</label>
-                            <input class="form-control" autocomplete="off" name="lowCondition" formControlName="lowCondition">
+                            <input class="form-control" autocomplete="off" name="lowCondition" formControlName="lowCondition" (click)="highConditionClick()">
                         </div>
                     </div>
 
@@ -359,14 +360,14 @@
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
                             <label path="highEndValue" for="highEndValue" cssClass="required">High-end-value</label>
-                            <input class="form-control" autocomplete="off" name="highEndValue" formControlName="highEndValue" (click)="highEndValueClick()">
+                            <input class="form-control" autocomplete="off" name="highEndValue" formControlName="highEndValue" (click)="highandlowValueClick()">
                         </div>
                     </div>
 
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
                             <label path="lowEndValue" for="lowEndValue" cssClass="required">Low-end-value</label>
-                            <input class="form-control" autocomplete="off" name="lowEndValue" formControlName="lowEndValue">
+                            <input class="form-control" autocomplete="off" name="lowEndValue" formControlName="lowEndValue" (click)="highandlowValueClick()">
                         </div>
                     </div>
 
@@ -388,7 +389,7 @@
                     <div class="col-xs-6 col-sm-6">
                         <div class="form-group">
                             <label path="nonNumeric" for="nonNumeric" cssClass="required">Original-value(Non-numeric-value)</label>
-                            <textarea class="form-control" name="nonNumeric" formControlName="nonNumeric"></textarea>
+                            <textarea class="form-control" name="nonNumeric" formControlName="nonNumeric" (click)="nonNumericClick()"></textarea>
                         </div>
                     </div>
 

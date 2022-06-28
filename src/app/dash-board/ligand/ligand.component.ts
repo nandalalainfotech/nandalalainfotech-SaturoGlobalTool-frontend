@@ -118,7 +118,6 @@ export class LigandComponent implements OnInit {
 
       let LigandId = params["ligandId"];
       this.ligandId = LigandId;
-      // console.log("this.ligandId-->", this.ligandId);
 
       let InsertUser = params["insertUsers"];
       this.insertUser = InsertUser;
@@ -224,7 +223,6 @@ export class LigandComponent implements OnInit {
   loadData() {
     this.ligandManager.allligand(this.username).subscribe(response => {
       this.ligand = deserialize<Ligand001wb[]>(Ligand001wb, response);
-      // console.log("this.ligand check---->",this.ligand);
 
       if (this.ligand.length > 0) {
         this.gridOptions?.api?.setRowData(this.ligand);

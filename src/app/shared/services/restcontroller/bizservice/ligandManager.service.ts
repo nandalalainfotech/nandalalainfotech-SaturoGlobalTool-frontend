@@ -15,6 +15,15 @@ export class LigandManager extends BaseService {
         return this.getCallService(`${this.ligandUrl}` + "/findAll",data);
     }
 
+    findAllByLigandIdAndAssayId(ligandId:any, assayId: any) {
+        console.log("ligandService---->>",ligandId,assayId);
+        
+        let data: any = {};
+        data['ligandId'] = ligandId;
+        data['assayId'] = assayId;
+        return this.getCallService(`${this.ligandUrl}` + "/findAllByLigandIdAndAssayId",data);
+    }
+
     findInprocesStatus(username:any) {
         let data: any = {};
         data['username'] = username;

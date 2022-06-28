@@ -72,8 +72,8 @@ export class InprocessComponent implements OnInit {
               if (assay.status == "In Process") {
 
                 this.inProcessLigand.push(assay);
-             
-            }
+
+              }
             }
           } else {
             let inProcessLigand = new Assay001wb();
@@ -124,7 +124,6 @@ export class InprocessComponent implements OnInit {
 
     this.assayManager.findInprocesStatus(this.username).subscribe(response => {
       this.assays = deserialize<Assay001wb[]>(Assay001wb, response);
-      // console.log(" this.findInprocesStatus", this.assays);
 
       for (let assay of this.assays) {
         if (assay.status == "In Process") {
@@ -348,83 +347,13 @@ export class InprocessComponent implements OnInit {
   onInprocessMoveToLigand(params: any) {
     // let assayId = params.data.assayId;
     // let ligandId =params.data.ligandId;
+
     let navigationExtras: NavigationExtras = {
       queryParams: {
-
         "ligandId": params.data.ligandSlno2.ligandId,
-        "insertUsers": params.data.insertUser,
-        "tanNumber": params.data.ligandSlno2.tanNumber,
-        "ligandVersions": params.data.ligandSlno2.ligandVersionSlno2.ligandVersion,
-        "ligandType": params.data.ligandSlno2.ligandTypeSlno,
-        "identifier1": params.data.ligandSlno2.identifier1,
-        "identifier2": params.data.ligandSlno2.identifier2,
-        "identifier3": params.data.ligandSlno2.identifier3,
-        "collectionId": params.data.ligandSlno2.collectionId,
-        "locator": params.data.ligandSlno2.locator,
-        "ligandDetail": params.data.ligandSlno2.ligandDetail,
-        "diseaseName1": params.data.ligandSlno2.diseaseName1,
-        "diseaseName2": params.data.ligandSlno2.diseaseName2,
-        "diseaseName3": params.data.ligandSlno2.diseaseName3,
-
-
-
+        // "insertUsers": params.data.insertUser,
+        // "tanNumber": params.data.ligandSlno2.tanNumber,
         "assayId": params.data.assayId,
-        "insertUser": params.data.insertUser,
-        "ligandVersion": params.data.ligandSlno?params.data.ligandSlno:null,
-        "assayType": params.data.assayTypeSlno? params.data.assayTypeSlno:null,
-        "toxiCity": params.data.toxiCitySlno? params.data.toxiCitySlno:null,
-        "route": params.data.routeSlno? params.data.routeSlno:null,
-        "administration": params.data.administration,
-        "procedure": params.data.procedure,
-        "ligandSvalue": params.data.ligandSvalue,
-        "unit": params.data.unitSlno?params.data.unitSlno:null,
-        "ligandHvalue": params.data.ligandHvalue,
-        "ligandLvalue": params.data.ligandLvalue,
-        "unitedSlno": params.data.unitedSlno?params.data.unitedSlno:null,
-
-        "conditionType": params.data.conditionType,
-        "conditionMaterial": params.data.conditionMaterial,
-        "conditionMaterialid": params.data.conditionMaterialid,
-        "singleCondition": params.data.singleCondition,
-        "units": params.data.units,
-        "highCondition": params.data.highCondition,
-        "lowCondition": params.data.lowCondition,
-        "highLowUnit": params.data.highLowUnit,
-        "dataLocator1": params.data.dataLocator1,
-        "dataLocator2": params.data.dataLocator2,
-        "dataLocator3": params.data.dataLocator3,
-        "category": params.data.categorySlno?params.data.categorySlno:null,
-        "function": params.data.functionSlno?params.data.functionSlno:null,
-
-        "parameter": params.data.parameter,
-        "parameterDetail": params.data.parameterDetail,
-        "originalPrefixSlno": params.data.originalPrefixSlno? params.data.originalPrefixSlno:null,
-        "singleValue": params.data.singleValue,
-        "measurementunits": params.data.unitSlno? params.data.unitSlno:null,
-        "highEndValue": params.data.highEndValue,
-        "lowEndValue": params.data.lowEndValue,
-        "measurementunitedSlno": params.data.unitedSlno?params.data.unitedSlno:null,
-        "nonNumeric": params.data.nonNumeric,
-        "remark": params.data.remark,
-        //  pending  to bio
-
-        "type": params.data.typeSlno?params.data.typeSlno:null,
-        "cell": params.data.cell,
-        "cellDetail": params.data.cellDetail,
-        "organ": params.data.organ,
-        "organDetail": params.data.organDetail,
-        "species": params.data.species,
-        "speciesDetail": params.data.speciesDetail,
-        "gender": params.data.gender,
-        "ageGroup": params.data.ageGroup,
-        "targetVersion": params.data.targetVersion,
-        "collectionId1": params.data.collectionId1,
-        "original": params.data.original,
-        "acronym": params.data.acronym,
-        "organism": params.data.organism,
-        "variant": params.data.variant,
-
-
       }
     };
 

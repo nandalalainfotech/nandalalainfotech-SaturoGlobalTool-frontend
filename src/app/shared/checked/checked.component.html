@@ -236,8 +236,8 @@
             <fieldset class="scheduler-border">
                 <legend class="scheduler-border">Assay</legend>
 
-                 <div class="row">
-                     <div class="col-sm-6">
+                <div class="row">
+                    <div class="col-sm-6">
                         <div class="form-group">
                             <div class="col-sm-5">
                                 <label path="ligandSlno" for="ligandSlno" cssClass="required">Ligand-Version :</label>
@@ -255,9 +255,9 @@
                                 <span>{{data.ligandSlno2?.ligandVersionSlno2?.ligandVersion}}</span>
                             </div>
                         </div>
-                    </div> 
+                    </div>
                 </div>
-                    <!-- <div class="col-sm-6">
+                <!-- <div class="col-sm-6">
                         <div class="form-group">
                             <div class="col-sm-5">
                                 <label path="ordinal" for="series" cssClass="required">Ordinal :</label>
@@ -270,8 +270,8 @@
                             </div>
                         </div>
                     </div>-->
-                
-                <br> 
+
+                <br>
 
                 <div class="row">
                     <div class="col-sm-6">
@@ -344,8 +344,7 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <div class="col-sm-5">
-                                <label path="ligandSvalue" for="series" cssClass="required">Ligand-Dose(Single-value)
-                                    :</label>
+                                <label path="ligandSvalue" for="series" cssClass="required">Ligand-Dose(Single-value):</label>
                             </div>
                             <div class="col-sm-7" *ngIf="isEditable">
                                 <input class="" name="ligandSvalue" formControlName="ligandSvalue">
@@ -476,6 +475,7 @@
                                 <!-- <input class="" name="conditionType" formControlName="conditionType"> -->
                                 <select class="" name="conditionType" formControlName="conditionType">
                                     <option value="" hidden> - Select Condition type - </option>
+                                    <option value=''>No option</option>
                                     <option>Combination Chemotherapy</option>
                                     <option>Drug Interactions</option>
                                 </select>

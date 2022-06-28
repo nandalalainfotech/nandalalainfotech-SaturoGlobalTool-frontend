@@ -118,7 +118,6 @@ export class AdminComponent implements OnInit {
     this.username = this.authManager.getcurrentUser.username;
     this.taskAllocationManager.alltask(this.username).subscribe(response => {
       this.taskallocations = deserialize<Taskallocation001wb[]>(Taskallocation001wb, response);
-      // console.log("this.taskallocations", this.taskallocations);
 
       if (this.taskallocations.length > 0) {
         this.gridOptions?.api?.setRowData(this.taskallocations);
@@ -129,13 +128,11 @@ export class AdminComponent implements OnInit {
 
     this.userManager.allcurator().subscribe((response) => {
       this.curators = deserialize<User001mb[]>(User001mb, response);
-      // console.log("this.Moorthycurator--------------->", this.curators);
 
     })
 
     this.userManager.allreviewer().subscribe((response) => {
       this.reviewers = deserialize<User001mb[]>(User001mb, response);
-      // console.log("this.reviewers",this.reviewers);
 
     })
 
@@ -265,7 +262,6 @@ export class AdminComponent implements OnInit {
         break;
       }
     }
-    // console.log("curatorName--------------->", curatorName);
     this.TaskAllocationForm.patchValue({
       'curatorName': curatorName
     });
@@ -319,7 +315,6 @@ export class AdminComponent implements OnInit {
     // taskallocation001wb.reviewerAllocateDate = this.f.reviewerAllocateDate.value ? this.f.reviewerAllocateDate.value : "";
     // taskallocation001wb.reviewerCompleteDate = this.f.reviewerCompleteDate.value ? this.f.reviewerCompleteDate.value : "";
     // taskallocation001wb.filename = this.f.filename.value ? this.f.filename.value : "";
-    //  console.log("taskallocation001wb.filename", taskallocation001wb.filename);
     if (this.curatorId) {
       taskallocation001wb.curatorId = this.curatorId;
       taskallocation001wb.insertUser = this.insertUser;
@@ -339,7 +334,6 @@ export class AdminComponent implements OnInit {
       taskallocation001wb.insertDatetime = new Date();
       this.taskAllocationManager.tasksave(taskallocation001wb, this.selectedFile).subscribe((response) => {
         this.calloutService.showSuccess("TaskAllocation Details Saved Successfully");
-        // console.log("enter save", response);
 
         this.loadData();
         this.TaskAllocationForm.reset();
