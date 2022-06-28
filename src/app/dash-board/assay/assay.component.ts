@@ -51,7 +51,6 @@ export class AssayComponent implements OnInit {
   submitted = false;
   tanNo: string | any = "";
   assayId: number | any;
-  ligandId: number | any;
   ligandSlno: number | any;
   ordinal: string = "";
   // collectionId: string = "";
@@ -127,8 +126,6 @@ export class AssayComponent implements OnInit {
   ligandVersions: Ligandversion001mb[] = [];
   ligandtypes: Ligandtype001mb[] = [];
   ligand001mb?: Ligand001wb;
-  assay001wbs?: Assay001wb;
-  inProcessLigand: Assay001wb[] = [];
 
   categorys: Category001mb[] = [];
   categoryfunctions: Categoryfunction001mb[] = [];
@@ -141,7 +138,7 @@ export class AssayComponent implements OnInit {
   username: any;
   rolename?: string = "";
   user?: User001mb;
-  collectionId: string = "";
+
   public inprocess: any;
 
   @HostBinding('style.--color_l1') colorthemes_1: any;
@@ -178,34 +175,175 @@ export class AssayComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params: { [x: string]: any; }) => {
-      this.assayId = params["assayId"];
-      this.ligandId = params["ligandId"];
 
-      this.ligandManager.findAllByLigandIdAndAssayId(this.ligandId, this.assayId).subscribe(response => {
-       let ligand = deserialize<Ligand001wb>(Ligand001wb, response);
+    // this.route.paramMap.subscribe((params: ParamMap) => {
+    //   // let tanNumber = params.get('tanNumber');
+    //   console.log("params----in assay-->>",params);
+      
+    // });
 
-        // for(let object of ligand) {
-        //   // let assay : Assay001wb = ligand.assay001wbs[0].assayId;
-        // }
+    this.inprocess = this.route.queryParams.subscribe((params: { [x: string]: any; }) => {
+      console.log("params");
 
-      });
+      let AssayId = params["assayId"];
+      this.assayId = AssayId;
 
-      // this.assayManager.findAllByLigandIdAndAssayId(this.assayId).subscribe(response => {
-      //   this.ligandAndAssayId = deserialize<Assay001wb[]>(Assay001wb, response);
+      let InsertUser = params["insertUser"];
+      this.insertUser = InsertUser;
 
-      //   });
+      let LigandVersion = params["ligandVersion"];
+      this.ligandSlno = LigandVersion;
 
-      //   let AssayType =  this.ligandAndAssayId[0].assayTypeSlno;
-      //     this.assayTypeSlno = AssayType;
+      let AssayType = params["assayType"];
+      this.assayTypeSlno = AssayType;
 
 
+      let ToxiCity = params["toxiCity"];
+      this.toxiCitySlno = ToxiCity;
+
+      let Route = params["route"];
+      this.routeSlno = Route;
+
+      let Administration = params["administration"];
+      this.administration = Administration;
+
+      let Procedure = params["procedure"];
+      this.procedure = Procedure;
+
+      let LigandSvalue = params["ligandSvalue"];
+      this.ligandSvalue = LigandSvalue;
+
+      let Unit = params["unit"];
+      this.unitSlno = Unit;
+
+      let LigandHvalue = params["ligandHvalue"];
+      this.ligandHvalue = LigandHvalue;
+
+      let LigandLvalue = params["ligandLvalue"];
+      this.ligandLvalue = LigandLvalue;
+
+      let UnitedSlno = params["unitedSlno"];
+      this.unitedSlno = UnitedSlno;
+
+      let ConditionType = params["conditionType"];
+      this.conditionType = ConditionType;
+
+      let ConditionMaterial = params["conditionMaterial"];
+      this.conditionMaterial = ConditionMaterial;
+
+      let ConditionMaterialid = params["conditionMaterialid"];
+      this.conditionMaterialid = ConditionMaterialid;
+
+      let SingleCondition = params["singleCondition"];
+      this.singleCondition = SingleCondition;
+
+      let Units = params["units"];
+      this.singleUnit = Units;
+
+      let HighCondition = params["highCondition"];
+      this.highCondition = HighCondition;
+
+      let LowCondition = params["lowCondition"];
+      this.lowCondition = LowCondition;
+
+      let HighLowUnit = params["highLowUnit"];
+      this.highLowUnit = HighLowUnit;
+
+      let DataLocator1 = params["dataLocator1"];
+      this.dataLocator1 = DataLocator1;
+
+      let DataLocator2 = params["dataLocator2"];
+      this.dataLocator2 = DataLocator2;
+
+      let DataLocator3 = params["dataLocator3"];
+      this.dataLocator3 = DataLocator3;
+
+      let Category = params["category"];
+      this.categorySlno = Category;
+
+      let Function = params["function"];
+      this.functionSlno = Function;
+
+      let Parameter = params["parameter"];
+      this.parameter = Parameter;
+
+      let ParameterDetail = params["parameterDetail"];
+      this.parameterDetail = ParameterDetail;
+
+      let OriginalPrefixSlno = params["originalPrefixSlno"];
+      this.originalPrefixSlno = OriginalPrefixSlno;
+
+      let SingleValue = params["singleValue"];
+      this.singleValue = SingleValue;
+
+      let Measurementunits = params["measurementunits"];
+      this.unit = Measurementunits;
+
+      let HighEndValue = params["highEndValue"];
+      this.highEndValue = HighEndValue;
+
+      let LowEndValue = params["lowEndValue"];
+      this.lowEndValue = LowEndValue;
+
+      let MeasurementunitedSlno = params["measurementunitedSlno"];
+      this.units = MeasurementunitedSlno;
+
+      let NonNumeric = params["nonNumeric"];
+      this.nonNumeric = NonNumeric;
+
+      let Remark = params["remark"];
+      this.remark = Remark;
+
+      let Type = params["type"];
+      this.typeSlno = Type;
+
+      let Cell = params["cell"];
+      this.cell = Cell;
+
+      let CellDetail = params["cellDetail"];
+      this.cellDetail = CellDetail;
+
+      let Organ = params["organ"];
+      this.organ = Organ;
+
+      let OrganDetail = params["organDetail"];
+      this.organDetail = OrganDetail;
+
+      let Species = params["species"];
+      this.species = Species;
+
+      let SpeciesDetail = params["speciesDetail"];
+      this.speciesDetail = SpeciesDetail;
+
+      let Gender = params["gender"];
+      this.gender = Gender;
+
+      let AgeGroup = params["ageGroup"];
+      this.ageGroup = AgeGroup;
+
+      let TargetVersion = params["targetVersion"];
+      this.targetVersion = TargetVersion;
+
+      let CollectionId1 = params["collectionId1"];
+      this.collectionId1 = CollectionId1;
+
+      let Original = params["original"];
+      this.original = Original;
+
+      let Acronym = params["acronym"];
+      this.acronym = Acronym;
+
+      let Organism = params["organism"];
+      this.organism = Organism;
+
+      let Variant = params["variant"];
+      this.variant = Variant;
 
     });
     this.AssayForm = this.formBuilder.group({
       tanNo: [''],
       ligandSlno: [''],
-      assayTypeSlno: [],
+      assayTypeSlno: [''],
       toxiCitySlno: [''],
       routeSlno: [''],
       ligandSvalue: [''],
@@ -291,7 +429,7 @@ export class AssayComponent implements OnInit {
       this.categorys = deserialize<Category001mb[]>(Category001mb, data[6]);
       this.categoryfunctions = deserialize<Categoryfunction001mb[]>(Categoryfunction001mb, data[7]);
       this.Originals = deserialize<Originalprefix001mb[]>(Originalprefix001mb, data[8]);
-
+     
       setTimeout(() => {
         this.AssayForm.patchValue({
           ligandSlno: this.ligandSlno,
@@ -343,7 +481,7 @@ export class AssayComponent implements OnInit {
           original: this.original,
           acronym: this.acronym,
           organism: this.organism,
-          variant: this.variant
+          variant:  this.variant
         });
         for (let tannumber of this.ligands) {
           if ((tannumber.tanNumber == this.f.tanNo.value) && (tannumber.ligandId == this.ligandSlno)) {
@@ -1455,6 +1593,20 @@ export class AssayComponent implements OnInit {
   }
 
   setEnable() {
+    this.AssayForm.get('ligandSvalue').enable();
+    this.AssayForm.get('unitSlno').enable();
+    this.AssayForm.get('ligandHvalue').enable();
+    this.AssayForm.get('ligandLvalue').enable();
+    this.AssayForm.get('unitedSlno').enable();
+
+    // this.AssayForm.get('ligandSvalue').Setvalue="";
+    // this.AssayForm.get('unitSlno').Setvalue="";
+    // this.AssayForm.get('ligandHvalue').Setvalue="";
+    // this.AssayForm.get('ligandLvalue').Setvalue="";
+    // this.AssayForm.get('unitedSlno').Setvalue="";
+  }
+
+  onsetEnable() {
     this.AssayForm.get('ligandSvalue').enable();
     this.AssayForm.get('unitSlno').enable();
     this.AssayForm.get('ligandHvalue').enable();
