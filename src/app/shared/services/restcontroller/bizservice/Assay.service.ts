@@ -13,6 +13,14 @@ export class AssayManager extends BaseService {
         return this.getCallService(`${this.assayUrl}` + "/findAll",data);
     }
 
+    findAllByLigandIdAndAssayId(assayId:any) {
+        console.log("assayService---->>",assayId);
+        
+        let data: any = {};
+        data['assayId'] = assayId;
+        return this.getCallService(`${this.assayUrl}` + "/findAllByLigandIdAndAssayId",data);
+    }
+
     findInprocesStatus(username:any) {
         let data: any = {};
         data['username'] = username;

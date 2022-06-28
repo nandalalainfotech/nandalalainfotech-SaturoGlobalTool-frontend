@@ -85,7 +85,6 @@ export class ReviewerTaskComponent implements OnInit {
 
     this.taskAllocationManager.findByReviewerTanNo(this.username).subscribe(response => {
       this.taskallocations = deserialize<Taskallocation001wb[]>(Taskallocation001wb, response);
-      // console.log(" this.taskallocations in REVIEWER TASK", this.taskallocations);
 
       if (this.taskallocations.length > 0) {
         this.gridOptions?.api?.setRowData(this.taskallocations);

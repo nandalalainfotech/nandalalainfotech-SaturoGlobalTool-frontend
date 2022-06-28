@@ -672,6 +672,8 @@ export class CheckedComponent implements OnInit {
 
   }
 
+  
+
   onEditReviewerClick(event: any) {
     this.isEditable = !this.isEditable;
   }
