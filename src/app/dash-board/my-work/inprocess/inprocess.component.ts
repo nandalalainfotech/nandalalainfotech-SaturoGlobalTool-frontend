@@ -356,7 +356,7 @@ export class InprocessComponent implements OnInit {
         "ligandId": params.data.ligandSlno2.ligandId,
         "insertUsers": params.data.insertUser,
         "tanNumber": params.data.ligandSlno2.tanNumber,
-        "ligandVersions": params.data.ligandSlno2.ligandVersionSlno2.ligandVersion,
+        "ligandVersions": params.data.ligandSlno2.ligandVersionSlno,
         "ligandType": params.data.ligandSlno2.ligandTypeSlno,
         "identifier1": params.data.ligandSlno2.identifier1,
         "identifier2": params.data.ligandSlno2.identifier2,

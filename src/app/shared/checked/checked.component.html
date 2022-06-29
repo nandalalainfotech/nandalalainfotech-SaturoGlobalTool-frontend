@@ -246,7 +246,7 @@
                                 <select name="ligandSlno" formControlName="ligandSlno">
                                     <option value="" hidden> - Select Ligand-Version - </option>
                                     <option> - Select Ligand-Version - </option>
-                                    <option *ngFor="let ligandObject of ligand" [value]="ligandObject.ligandId">
+                                    <option *ngFor="let ligandObject of ligandtanversions" [value]="ligandObject.ligandId">
                                         {{ligandObject.ligandVersionSlno2?.ligandVersion}}
                                     </option>
                                 </select>
