@@ -14,7 +14,6 @@ export class AssayManager extends BaseService {
     }
 
     findAllByLigandIdAndAssayId(assayId:any) {
-        console.log("assayService---->>",assayId);
         
         let data: any = {};
         data['assayId'] = assayId;

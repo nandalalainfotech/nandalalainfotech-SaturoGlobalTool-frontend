@@ -38,7 +38,7 @@ export class Ligand001wb {
     updatedUser?: string | null;
     updatedDatetime?: Date | null;
 
-    assay001wbs?: Assay001wb[] = [];
+    assay001wbs: Assay001wb[] = [];
     ligandVersionSlno2?: Ligandversion001mb;
     ligandTypeSlno2?: Ligandtype001mb;
 

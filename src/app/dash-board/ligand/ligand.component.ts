@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GridOptions } from 'ag-grid-community';
-import { Observable } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { deserialize } from 'serializer.ts/Serializer';
 import { Role } from 'src/app/role';
 import { AuditComponent } from 'src/app/shared/audit/audit.component';
@@ -40,45 +40,49 @@ export class LigandComponent implements OnInit {
 
 
   ligandId: number | any;
-  tanNumber: string = "";
+  assayId?: any;
+  tanNumber?: string | any;
   ligandUri: number | any;
   ligandVersionSlno: number | any;
-  ligandStatus: string = "";
-  ligandTypeSlno: string = "";
-  identifier1: string = "";
-  identifier2: string = "";
-  identifier3: string = "";
-  collection: string = "";
-  collectionId: string = "";
-  ligandDetail: string = "";
-  locator: string = "";
-  sourceType: string = "";
-  citation: string = "";
-  relatedDocument: string = "";
-  registryNumber: string = "";
-  diseaseName1: string = "";
-  diseaseName2: string = "";
-  diseaseName3: string = "";
+  ligandStatus: string | any;
+  ligandTypeSlno: string | any;
+  identifier1: string | any;
+  identifier2: string | any;
+  identifier3: string | any;
+  collection: string | any;
+  collectionId: string | any;
+  ligandDetail: string | any;
+  locator: string | any;
+  sourceType: string | any;
+  citation: string | any;
+  relatedDocument: string | any;
+  registryNumber: string | any;
+  diseaseName1: string | any;
+  diseaseName2: string | any;
+  diseaseName3: string | any;
   target: number | any;
   targetVersion: number | any;
-  targetStatus: string = "";
+  targetStatus: string | any;
   collectionId1: number | any;
   original: number | any;
   acronym: number | any;
   organism: number | any;
   variant: number | any;
-  insertUser?: string = "";
+  insertUser?: string | any;
   insertDatetime: Date | any;
-  updatedUser: string = "";
+  updatedUser: string | any;
   updatedDatetime: Date | any;
-  ligand: Ligand001wb[] = [];
+  ligands: Ligand001wb[] = [];
   ligandVersions: Ligandversion001mb[] = [];
   ligandtypes: Ligandtype001mb[] = [];
   tanNos: Taskallocation001wb[] = [];
   ligandVersion001?: Ligandversion001mb;
-  assay001wbs: Assay001wb[] = [];
+  // assay001wbs: Assay001wb[] = [];
   hexToRgb: any;
   rgbToHex: any;
+
+  ligand001mb?: Ligand001wb;
+  assay001wbs?: Assay001wb;
 
   user001mb?: User001mb;
   roles: Role001mb[] = [];
@@ -112,86 +116,81 @@ export class LigandComponent implements OnInit {
   }
 
   ngOnInit(): void {
+   
+    this.route.queryParams.subscribe((params: { [x: string]: any; }) => {
+      this.ligandId = params["ligandId"];
+     
+
+      if ( this.ligandId) {
+        this.ligandManager.findAllByLigandId(this.ligandId).subscribe(response => {
+          let ligand = deserialize<Ligand001wb>(Ligand001wb, response);
+
+          let LigandId = ligand.ligandId;
+          this.ligandId = LigandId;
+
+          let InsertUser = ligand.insertUser;
+          this.insertUser = InsertUser;
 
 
-    this.inprocess = this.route.queryParams.subscribe((params: { [x: string]: any; }) => {
+          let TanNumber = ligand.tanNumber;
+          this.tanNumber = TanNumber;
 
-      let LigandId = params["ligandId"];
-      this.ligandId = LigandId;
+          let LigandVersion = ligand.ligandVersionSlno;
+          this.ligandVersionSlno = LigandVersion;
 
-      let InsertUser = params["insertUsers"];
-      this.insertUser = InsertUser;
+          let LigandType = ligand.ligandTypeSlno;
+          this.ligandTypeSlno = LigandType;
 
-      let TanNumber = params["tanNumber"];
-      this.tanNumber = TanNumber;
+          let Identifier1 = ligand.identifier1;
+          this.identifier1 = Identifier1;
 
-      let LigandVersion = params["ligandVersions"];
-      this.ligandVersionSlno = LigandVersion;
+          let Identifier2 = ligand.identifier2;
+          this.identifier2 = Identifier2;
 
-      let LigandType = params["ligandType"];
-      this.ligandTypeSlno = LigandType;
+          let Identifier3 = ligand.identifier3;
+          this.identifier3 = Identifier3;
 
-      let Identifier1 = params["identifier1"];
-      this.identifier1 = Identifier1;
+          let CollectionId = ligand.collectionId;
+          this.collectionId = CollectionId;
 
-      let Identifier2 = params["identifier2"];
-      this.identifier2 = Identifier2;
+          let Locator = ligand.locator;
+          this.locator = Locator;
 
-      let Identifier3 = params["identifier3"];
-      this.identifier3 = Identifier3;
+          let LigandDetail = ligand.ligandDetail;
+          this.ligandDetail = LigandDetail;
 
-      let CollectionId = params["collectionId"];
-      this.collectionId = CollectionId;
+          let DiseaseName1 = ligand.diseaseName1;
+          this.diseaseName1 = DiseaseName1;
 
-      let Locator = params["locator"];
-      this.locator = Locator;
+          let DiseaseName2 = ligand.diseaseName2;
+          this.diseaseName2 = DiseaseName2;
 
-      let LigandDetail = params["ligandDetail"];
-      this.ligandDetail = LigandDetail;
+          let DiseaseName3 = ligand.diseaseName3;
+          this.diseaseName3 = DiseaseName3;
 
-      let DiseaseName1 = params["diseaseName1"];
-      this.diseaseName1 = DiseaseName1;
-
-      let DiseaseName2 = params["diseaseName2"];
-      this.diseaseName2 = DiseaseName2;
-
-      let DiseaseName3 = params["diseaseName3"];
-      this.diseaseName3 = DiseaseName3;
-
-
-    });
-
-    this.ligandVersionManager.allligandVersion().subscribe(response => {
-      this.ligandVersions = deserialize<Ligandversion001mb[]>(Ligandversion001mb, response);
-
-    });
-
-    this.ligandTypeManager.allligandType().subscribe(response => {
-      this.ligandtypes = deserialize<Ligandtype001mb[]>(Ligandtype001mb, response);
-
-      this.taskAllocationManager.findByTanNo(this.username).subscribe(response => {
-        this.tanNos = deserialize<Taskallocation001wb[]>(Taskallocation001wb, response);
-
-      });
+        });
+      }
+      else {
+        this.tanNumber = params["tanNumber"];
+       }
 
     });
 
-    this.createDataGrid001();
 
     this.LigandForm = this.formBuilder.group({
-      tanNumber: [this.tanNumber, Validators.required],
-      ligandVersionSlno: [this.ligandVersionSlno],
-      ligandId: [this.ligandId],
-      ligandTypeSlno: [this.ligandTypeSlno],
-      identifier1: [this.identifier1],
-      identifier2: [this.identifier2],
-      identifier3: [this.identifier3],
-      collectionId: [this.collectionId],
-      ligandDetail: [this.ligandDetail],
-      locator: [this.locator],
-      diseaseName1: [this.diseaseName1],
-      diseaseName2: [this.diseaseName2],
-      diseaseName3: [this.diseaseName3],
+      tanNumber: ['', Validators.required],
+      ligandVersionSlno: [''],
+      ligandId: [''],
+      ligandTypeSlno: [''],
+      identifier1: [''],
+      identifier2: [''],
+      identifier3: [''],
+      collectionId: [''],
+      ligandDetail: [''],
+      locator: [''],
+      diseaseName1: [''],
+      diseaseName2: [''],
+      diseaseName3: [''],
       // target: [''],
       targetVersion: [''],
       collectionId1: [''],
@@ -201,6 +200,55 @@ export class LigandComponent implements OnInit {
       variant: [''],
     });
 
+    this.createDataGrid001();
+
+    this.username = this.authManager.getcurrentUser.username;
+
+    // this.ligandVersionManager.allligandVersion().subscribe(response => {
+    //   this.ligandVersions = deserialize<Ligandversion001mb[]>(Ligandversion001mb, response);
+
+    // });
+
+    // this.ligandTypeManager.allligandType().subscribe(response => {
+    //   this.ligandtypes = deserialize<Ligandtype001mb[]>(Ligandtype001mb, response);
+    // });
+
+    // this.taskAllocationManager.findByTanNo(this.username).subscribe(response => {
+    //   this.tanNos = deserialize<Taskallocation001wb[]>(Taskallocation001wb, response);
+
+    // });
+
+    let res1 = this.ligandVersionManager.allligandVersion();
+    let res2 = this.ligandTypeManager.allligandType();
+    let res3 = this.taskAllocationManager.findByTanNo(this.username);
+
+    forkJoin([res1, res2, res3]).subscribe(data => {
+
+      this.ligandVersions = deserialize<Ligandversion001mb[]>(Ligandversion001mb, data[0]);
+      this.ligandtypes = deserialize<Ligandtype001mb[]>(Ligandtype001mb, data[1]);
+      this.tanNos = deserialize<Taskallocation001wb[]>(Taskallocation001wb, data[2]);
+
+      setTimeout(() => {
+        this.LigandForm.patchValue({
+          tanNumber: this.tanNumber,
+          ligandVersionSlno: this.ligandVersionSlno,
+          ligandId: this.ligandId,
+          ligandTypeSlno: this.ligandTypeSlno,
+          identifier1: this.identifier1,
+          identifier2: this.identifier2,
+          identifier3: this.identifier3,
+          collectionId: this.collectionId,
+          ligandDetail: this.ligandDetail,
+          locator: this.locator,
+          diseaseName1: this.diseaseName1,
+          diseaseName2: this.diseaseName2,
+          diseaseName3: this.diseaseName3,
+
+        }, 10);
+
+      });
+
+    });
 
     this.loadData();
 
@@ -222,10 +270,10 @@ export class LigandComponent implements OnInit {
 
   loadData() {
     this.ligandManager.allligand(this.username).subscribe(response => {
-      this.ligand = deserialize<Ligand001wb[]>(Ligand001wb, response);
+      this.ligands = deserialize<Ligand001wb[]>(Ligand001wb, response);
 
-      if (this.ligand.length > 0) {
-        this.gridOptions?.api?.setRowData(this.ligand);
+      if (this.ligands.length > 0) {
+        this.gridOptions?.api?.setRowData(this.ligands);
       } else {
         this.gridOptions?.api?.setRowData([]);
       }
@@ -579,9 +627,9 @@ export class LigandComponent implements OnInit {
       modalRef.result.then((data) => {
         if (data == "Yes") {
           this.ligandManager.liganddelete(params.data.ligandId).subscribe((response) => {
-            for (let i = 0; i < this.ligand.length; i++) {
-              if (this.ligand[i].ligandId == params.data.ligandId) {
-                this.ligand?.splice(i, 1);
+            for (let i = 0; i < this.ligands.length; i++) {
+              if (this.ligands[i].ligandId == params.data.ligandId) {
+                this.ligands?.splice(i, 1);
                 break;
               }
             }
@@ -613,12 +661,12 @@ export class LigandComponent implements OnInit {
   }
 
   onBlurEvent(event: any) {
-    if(event.target.value) {
-    this.ligandVersionManager.findOne(event.target.value).subscribe(response => {
-      this.ligandVersion001 = response;
+    if (event.target.value) {
+      this.ligandVersionManager.findOne(event.target.value).subscribe(response => {
+        this.ligandVersion001 = response;
 
-    });
-  }
+      });
+    }
   }
 
   onLigandClick(event: any, LigandForm: any) {
@@ -778,69 +826,69 @@ export class LigandComponent implements OnInit {
   }
 
   onRepeat() {
-    let i = this.ligand.length - 1;
-    for (i; i < this.ligand.length; i++) {
-      if (this.ligand[i].status == "Submitted to QC") {
+    let i = this.ligands.length - 1;
+    for (i; i < this.ligands.length; i++) {
+      if (this.ligands[i].status == "Submitted to QC") {
         this.calloutService.showWarning("This data can't be Edited. Already Submitted to Reviewer");
       }
 
-      if (this.ligand[i].status != "Submitted to QC") {
+      if (this.ligands[i].status != "Submitted to QC") {
         this.LigandForm.patchValue({
-          'tanNumber': this.ligand[i].tanNumber,
-          'ligandVersionSlno': this.ligand[i].ligandVersionSlno,
-          'ligandTypeSlno': this.ligand[i].ligandTypeSlno,
-          'ligandDetail': this.ligand[i].ligandDetail,
-          'identifier1': this.ligand[i].identifier1,
-          'identifier2': this.ligand[i].identifier2,
-          'identifier3': this.ligand[i].identifier3,
-          'collectionId': this.ligand[i].collectionId,
-          'locator': this.ligand[i].locator,
-          'diseaseName1': this.ligand[i].diseaseName1,
-          'diseaseName2': this.ligand[i].diseaseName2,
-          'diseaseName3': this.ligand[i].diseaseName3,
-          'targetVersion': this.ligand[i].targetVersion,
-          'collectionId1': this.ligand[i].collectionId1,
-          'original': this.ligand[i].original,
-          'acronym': this.ligand[i].acronym,
-          'organism': this.ligand[i].organism,
-          'variant': this.ligand[i].variant,
+          'tanNumber': this.ligands[i].tanNumber,
+          'ligandVersionSlno': this.ligands[i].ligandVersionSlno,
+          'ligandTypeSlno': this.ligands[i].ligandTypeSlno,
+          'ligandDetail': this.ligands[i].ligandDetail,
+          'identifier1': this.ligands[i].identifier1,
+          'identifier2': this.ligands[i].identifier2,
+          'identifier3': this.ligands[i].identifier3,
+          'collectionId': this.ligands[i].collectionId,
+          'locator': this.ligands[i].locator,
+          'diseaseName1': this.ligands[i].diseaseName1,
+          'diseaseName2': this.ligands[i].diseaseName2,
+          'diseaseName3': this.ligands[i].diseaseName3,
+          'targetVersion': this.ligands[i].targetVersion,
+          'collectionId1': this.ligands[i].collectionId1,
+          'original': this.ligands[i].original,
+          'acronym': this.ligands[i].acronym,
+          'organism': this.ligands[i].organism,
+          'variant': this.ligands[i].variant,
         });
       }
     }
   }
 
   onEdit() {
-    let i = this.ligand.length - 1;
-    for (i; i < this.ligand.length; i++) {
+    let i = this.ligands.length - 1;
+    for (i; i < this.ligands.length; i++) {
 
-      if (this.ligand[i].status == "Submitted to QC") {
+      if (this.ligands[i].status == "Submitted to QC") {
         this.calloutService.showWarning("This data can't be Edited. Already Submitted to Reviewer");
       }
 
-      if (this.ligand[i].status != "Submitted to QC") {
-        this.insertUser = this.ligand[i].insertUser;
+      if (this.ligands[i].status != "Submitted to QC") {
+        this.insertUser = this.ligands[i].insertUser;
         this.insertDatetime = new Date();
-        this.ligandId = this.ligand[i].ligandId;
+        this.ligandId = this.ligands[i].ligandId;
         this.LigandForm.patchValue({
           // 'ligandId': this.ligand[i].ligandId,
-          'tanNumber': this.ligand[i].tanNumber,
-          'ligandVersionSlno': this.ligand[i].ligandVersionSlno,
-          'ligandTypeSlno': this.ligand[i].ligandTypeSlno,
-          'ligandDetail': this.ligand[i].ligandDetail,
-          'identifier1': this.ligand[i].identifier1,
-          'identifier2': this.ligand[i].identifier2,
-          'identifier3': this.ligand[i].identifier3,
-          'collectionId': this.ligand[i].collectionId,
-          'locator': this.ligand[i].locator,
-          'diseaseName1': this.ligand[i].diseaseName1,
-          'diseaseName2': this.ligand[i].diseaseName2,
-          'diseaseName3': this.ligand[i].diseaseName3,
-          'targetVersion': this.ligand[i].targetVersion,
-          'collectionId1': this.ligand[i].collectionId1,
-          'original': this.ligand[i].original,
-          'acronym': this.ligand[i].acronym,
-          'organism': this.ligand[i].organism,
-          'variant': this.ligand[i].variant,
+          'tanNumber': this.ligands[i].tanNumber,
+          'ligandVersionSlno': this.ligands[i].ligandVersionSlno,
+          'ligandTypeSlno': this.ligands[i].ligandTypeSlno,
+          'ligandDetail': this.ligands[i].ligandDetail,
+          'identifier1': this.ligands[i].identifier1,
+          'identifier2': this.ligands[i].identifier2,
+          'identifier3': this.ligands[i].identifier3,
+          'collectionId': this.ligands[i].collectionId,
+          'locator': this.ligands[i].locator,
+          'diseaseName1': this.ligands[i].diseaseName1,
+          'diseaseName2': this.ligands[i].diseaseName2,
+          'diseaseName3': this.ligands[i].diseaseName3,
+          'targetVersion': this.ligands[i].targetVersion,
+          'collectionId1': this.ligands[i].collectionId1,
+          'original': this.ligands[i].original,
+          'acronym': this.ligands[i].acronym,
+          'organism': this.ligands[i].organism,
+          'variant': this.ligands[i].variant,
         });
       }
     }
