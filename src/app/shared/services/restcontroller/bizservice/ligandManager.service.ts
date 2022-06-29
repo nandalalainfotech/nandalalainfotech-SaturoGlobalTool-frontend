@@ -16,13 +16,21 @@ export class LigandManager extends BaseService {
     }
 
     findAllByLigandIdAndAssayId(ligandId:any, assayId: any) {
-        console.log("ligandService---->>",ligandId,assayId);
         
         let data: any = {};
         data['ligandId'] = ligandId;
         data['assayId'] = assayId;
         return this.getCallService(`${this.ligandUrl}` + "/findAllByLigandIdAndAssayId",data);
     }
+
+    findAllByLigandId(ligandId:any) {
+        
+        let data: any = {};
+        data['ligandId'] = ligandId;
+        return this.getCallService(`${this.ligandUrl}` + "/findAllByLigandId",data);
+    }
+
+   
 
     findInprocesStatus(username:any) {
         let data: any = {};
@@ -52,7 +60,6 @@ export class LigandManager extends BaseService {
     }
 
     updateStatus(ligandId: any, tanNumber: any) {
-        console.log("tanNumber",tanNumber,ligandId)
         let data: any = {};
         data['ligandId'] = ligandId;
         data['tanNumber'] = tanNumber;
