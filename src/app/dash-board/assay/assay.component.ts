@@ -183,7 +183,6 @@ export class AssayComponent implements OnInit {
     // });
 
     this.inprocess = this.route.queryParams.subscribe((params: { [x: string]: any; }) => {
-      console.log("params");
 
       let AssayId = params["assayId"];
       this.assayId = AssayId;
@@ -403,11 +402,12 @@ export class AssayComponent implements OnInit {
     let res4 = this.routeofAdminManager.allrouteofadminType();
     let res5 = this.unitSingleValueManager.allunitSingleValue();
     let res6 = this.unitlowendvalueManager.allunitlowendvalue();
-    let res7 = this.categoryfunctionManager.allcategoryFunction();
-    let res8 = this.originalprefixManager.alloriginalPrefix();
-    let res9 = this.bioTypeManager.allbioType();
+    let res7 = this.categoryManager.allcategoryType();
+    let res8 = this.categoryfunctionManager.allcategoryFunction();
+    let res9 = this.originalprefixManager.alloriginalPrefix();
+    let res10 = this.bioTypeManager.allbioType();
 
-    forkJoin([res1, res2, res3, res4, res5, res6, res7, res8, res9]).subscribe(data => {
+    forkJoin([res1, res2, res3, res4, res5, res6, res7, res8, res9, res10]).subscribe(data => {
       // res1
       this.ligands = deserialize<Ligand001wb[]>(Ligand001wb, data[0]);
       for (let i = 0; i < this.ligands.length; i++) {
@@ -429,6 +429,7 @@ export class AssayComponent implements OnInit {
       this.categorys = deserialize<Category001mb[]>(Category001mb, data[6]);
       this.categoryfunctions = deserialize<Categoryfunction001mb[]>(Categoryfunction001mb, data[7]);
       this.Originals = deserialize<Originalprefix001mb[]>(Originalprefix001mb, data[8]);
+      this.types = deserialize<Type001mb[]>(Type001mb, data[9]);
      
       setTimeout(() => {
         this.AssayForm.patchValue({

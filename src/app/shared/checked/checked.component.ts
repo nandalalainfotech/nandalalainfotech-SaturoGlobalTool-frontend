@@ -146,7 +146,7 @@ export class CheckedComponent implements OnInit {
   ligand: Ligand001wb[] = [];
   ligandVersions1: Ligandversion001mb[] = [];
   ligandtypes: Ligandtype001mb[] = [];
-
+  ligandtanversions: Ligand001wb[] = [];
   assayTypes: Assaytype001mb[] = [];
   toxiCities: Toxicity001mb[] = [];
   routeAdmins: Routeofadministration001mb[] = [];
@@ -331,6 +331,10 @@ export class CheckedComponent implements OnInit {
     this.username = this.authManager.getcurrentUser.username;
     this.ligandManager.allligand(this.username).subscribe(response => {
       this.ligand = deserialize<Ligand001wb[]>(Ligand001wb, response);
+      for (let i = 0; i < this.ligand.length; i++) {
+        if (this.ligand[i].tanNumber == this.data.ligandSlno2.tanNumber) {
+          this.ligandtanversions.push(this.ligand[i]);
+        }}
     });
 
     this.ligandVersionManager.allligandVersion().subscribe(response => {
