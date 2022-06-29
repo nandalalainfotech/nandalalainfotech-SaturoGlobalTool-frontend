@@ -53,7 +53,7 @@
                                 <!-- <input class="ligandVersionSlno" name="ligandVersionSlno"
                                     formControlName="ligandVersionSlno"> -->
                                 <select name="ligandVersionSlno" formControlName="ligandVersionSlno">
-                                    <option value="" hidden> - Select Ligand Version - </option>
+                                    <option value=""> - Select Ligand Version - </option>
                                     <option *ngFor="let ligVersions of ligandVersions1" [value]="ligVersions.id">
                                         {{ligVersions.ligandVersion}}
                                     </option>
@@ -74,7 +74,7 @@
                             <div class="col-sm-7" *ngIf="isEditable">
                                 <!-- <input class="ligandTypeSlno" name="ligandTypeSlno" formControlName="ligandTypeSlno"> -->
                                 <select name="ligandTypeSlno" formControlName="ligandTypeSlno">
-                                    <option value="" hidden> - Select Ligand Types - </option>
+                                    <option value=""> - Select Ligand Types - </option>
                                     <!-- <option> - Select Ligand Types - </option> -->
                                     <option *ngFor="let ligandtype of ligandtypes" [value]="ligandtype.id">
                                         {{ligandtype.ligandtype}}
@@ -244,8 +244,7 @@
                             </div>
                             <div class="col-sm-7" *ngIf="isEditable">
                                 <select name="ligandSlno" formControlName="ligandSlno">
-                                    <option value="" hidden> - Select Ligand-Version - </option>
-                                    <option> - Select Ligand-Version - </option>
+                                    <option value=""> - Select Ligand-Version - </option>
                                     <option *ngFor="let ligandObject of ligandtanversions" [value]="ligandObject.ligandId">
                                         {{ligandObject.ligandVersionSlno2?.ligandVersion}}
                                     </option>
@@ -282,7 +281,7 @@
                             <div class="col-sm-7" *ngIf="isEditable">
                                 <!-- <input class="assayTypeSlno" name="assayTypeSlno" formControlName="assayTypeSlno"> -->
                                 <select class="" name="assayTypeSlno" formControlName="assayTypeSlno">
-                                    <option value="" hidden> - Select Assay-Types - </option>
+                                    <option value=""> - Select Assay-Types - </option>
                                     <option *ngFor="let assayType of assayTypes" [value]="assayType.id">
                                         {{assayType.assayType}}
                                     </option>
@@ -303,8 +302,7 @@
                             <div class="col-sm-7" *ngIf="isEditable">
                                 <!-- <input class="toxiCitySlno" name="toxiCitySlno" formControlName="toxiCitySlno"> -->
                                 <select class="" name="toxiCitySlno" formControlName="toxiCitySlno">
-                                    <option value="" hidden> - Select Toxicity-Types - </option>
-                                    <option> - Select Toxicity-Types - </option>
+                                    <option value="" > - Select Toxicity-Types - </option>
                                     <option *ngFor="let toxiCity of toxiCities" [value]="toxiCity.id">
                                         {{toxiCity.toxiCity}}
                                     </option>
@@ -328,8 +326,7 @@
                             <div class="col-sm-7" *ngIf="isEditable">
                                 <!-- <input class="routeSlno" name="routeSlno" formControlName="routeSlno"> -->
                                 <select class="" name="routeSlno" formControlName="routeSlno">
-                                    <option value="" hidden> - Select Route-Types - </option>
-                                    <option> - Select Route-Types - </option>
+                                    <option value=""> - Select Route-Types - </option>
                                     <option *ngFor="let routeAdmin of routeAdmins" [value]="routeAdmin.id">
                                         {{routeAdmin.route}}
                                     </option>
@@ -366,8 +363,7 @@
                             <div class="col-sm-7" *ngIf="isEditable">
                                 <!-- <input class="unitSlno" name="unitSlno" formControlName="unitSlno"> -->
                                 <select class="" name="unitSlno" formControlName="unitSlno">
-                                    <option value="" hidden> - Select Unit-Types - </option>
-                                    <option> - Select Unit-Types - </option>
+                                    <option value=""> - Select Unit-Types - </option>
                                     <option *ngFor="let unitsinglevalue of unitsinglevalues"
                                         [value]="unitsinglevalue.id">
                                         {{unitsinglevalue.unit}}
@@ -419,8 +415,7 @@
                             <div class="col-sm-7" *ngIf="isEditable">
                                 <!-- <input class="" name="unitedSlno" formControlName="unitedSlno"> -->
                                 <select class="" name="unitedSlno" formControlName="unitedSlno">
-                                    <option value="" hidden> - Select Units-Types - </option>
-                                    <option> - Select Units-Types- </option>
+                                    <option value=""> - Select Units-Types - </option>
                                     <option *ngFor="let unitlowendvalue of unitlowendvalues"
                                         [value]="unitlowendvalue.id">
                                         {{unitlowendvalue.united}}
@@ -474,8 +469,7 @@
                             <div class="col-sm-7" *ngIf="isEditable">
                                 <!-- <input class="" name="conditionType" formControlName="conditionType"> -->
                                 <select class="" name="conditionType" formControlName="conditionType">
-                                    <option value="" hidden> - Select Condition type - </option>
-                                    <option value=''>No option</option>
+                                    <option value=""> - Select Condition type - </option>
                                     <option>Combination Chemotherapy</option>
                                     <option>Drug Interactions</option>
                                 </select>
@@ -542,8 +536,7 @@
                             <div class="col-sm-7" *ngIf="isEditable">
                                 <!-- <input class="" name="singleUnit" formControlName="singleUnit"> -->
                                 <select class="" name="singleUnit" formControlName="singleUnit">
-                                    <option value="" hidden> - Select Unit-Types - </option>
-                                    <option> - Select Unit-Types - </option>
+                                    <option value=""> - Select Unit-Types - </option>
                                     <option *ngFor="let unitsinglevalue of unitsinglevalues"
                                         [value]="unitsinglevalue.id">
                                         {{unitsinglevalue.unit}}
@@ -592,8 +585,7 @@
                             <div class="col-sm-7" *ngIf="isEditable">
                                 <!-- <input class="" name="highLowUnit" formControlName="highLowUnit"> -->
                                 <select class="" name="highLowUnit" formControlName="highLowUnit">
-                                    <option value="" hidden> - Select Units-Types - </option>
-                                    <option> - Select Units-Types- </option>
+                                    <option value=""> - Select Units-Types - </option>
                                     <option *ngFor="let unitlowendvalue of unitlowendvalues"
                                         [value]="unitlowendvalue.id">
                                         {{unitlowendvalue.united}}
@@ -709,8 +701,7 @@
                             <div class="col-sm-7" *ngIf="isEditable">
                                 <!-- <input class="categorySlno" name="categorySlno" formControlName="categorySlno"> -->
                                 <select class="" name="categorySlno" formControlName="categorySlno">
-                                    <option value="" hidden> - Select Category - </option>
-                                    <option> - Select Category - </option>
+                                    <option value=""> - Select Category - </option>
                                     <option *ngFor="let categorytype of categorys" [value]="categorytype.id">
                                         {{categorytype.category}}
                                     </option>
@@ -743,6 +734,7 @@
                                     </option>
                                 </select> -->
                                 <select class="" name="functionSlno" formControlName="functionSlno">
+                                    <option value=""> - Select Category Functions - </option>
                                     <option *ngFor="let function of categoryfunctions" [value]="function.id">
                                         {{function.function}}
                                     </option>
@@ -797,8 +789,7 @@
                             <div class="col-sm-7" *ngIf="isEditable">
                                 <!-- <input class="originalPrefixSlno" name="originalPrefixSlno" formControlName="originalPrefixSlno"> -->
                                 <select class="" name="originalPrefixSlno" formControlName="originalPrefixSlno">
-                                    <option value="" hidden> - Select Original Prefix - </option>
-                                    <option> - Select Original Prefix - </option>
+                                    <option value=""> - Select Original Prefix - </option>
                                     <option *ngFor="let originalPrefixs of Originals" [value]="originalPrefixs.id">
                                         {{originalPrefixs.originalPrefix}}
                                     </option>
@@ -836,8 +827,7 @@
                             <div class="col-sm-7" *ngIf="isEditable">
                                 <!-- <input class="unit" name="unit" formControlName="unit"> -->
                                 <select class="" name="unit" formControlName="unit">
-                                    <option value="" hidden> - Select Unit-Types - </option>
-                                    <option> - Select Unit-Types - </option>
+                                    <option value=""> - Select Unit-Types - </option>
                                     <option *ngFor="let unitsinglevalue of unitsinglevalues"
                                         [value]="unitsinglevalue.id">
                                         {{unitsinglevalue.unit}}
@@ -890,8 +880,7 @@
                             <div class="col-sm-7" *ngIf="isEditable">
                                 <!-- <input class="units" name="units" formControlName="units"> -->
                                 <select class="" name="units" formControlName="units">
-                                    <option value="" hidden> - Select Units-Types - </option>
-                                    <option> - Select Units-Types- </option>
+                                    <option value=""> - Select Units-Types - </option>
                                     <option *ngFor="let unitlowendvalue of unitlowendvalues"
                                         [value]="unitlowendvalue.id">
                                         {{unitlowendvalue.united}}
@@ -947,8 +936,7 @@
                             <div class="col-sm-7" *ngIf="isEditable">
                                 <!-- <input class="typeSlno" name="typeSlno" formControlName="typeSlno"> -->
                                 <select class="" name="typeSlno" formControlName="typeSlno">
-                                    <option value="" hidden> - Select Types - </option>
-                                    <option> - Select Types - </option>
+                                    <option value=""> - Select Types - </option>
                                     <option *ngFor="let type1 of types" [value]="type1.id">
                                         {{type1.type}}
                                     </option>
