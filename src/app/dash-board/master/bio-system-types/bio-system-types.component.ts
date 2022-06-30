@@ -162,6 +162,7 @@ export class BioSystemTypesComponent implements OnInit {
   onDeleteButtonClick(params: any) {
     const modalRef = this.modalService.open(ConformationComponent);
     modalRef.componentInstance.details = "Types";
+    modalRef.componentInstance.description = "Are you sure want to delete this Type ?";
     modalRef.result.then((data) => {
       if (data == "Yes") {
         this.bioTypeManager.bioTypedelete(params.data.id).subscribe((response) => {

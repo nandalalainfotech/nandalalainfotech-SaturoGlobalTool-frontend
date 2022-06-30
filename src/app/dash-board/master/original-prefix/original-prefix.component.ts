@@ -161,6 +161,7 @@ export class OriginalPrefixComponent implements OnInit {
   onDeleteButtonClick(params: any) {
     const modalRef = this.modalService.open(ConformationComponent);
     modalRef.componentInstance.details = "OriginalPrefix";
+    modalRef.componentInstance.description = "Are you sure want to delete OrigionalPrefix ?";
     modalRef.result.then((data) => {
       if (data == "Yes") {
         this.originalprefixManager.originalPrefixdelete(params.data.id).subscribe((response) => {

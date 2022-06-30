@@ -161,6 +161,7 @@ export class UnitSvalueComponent implements OnInit {
   onDeleteButtonClick(params: any) {
     const modalRef = this.modalService.open(ConformationComponent);
     modalRef.componentInstance.details = "UnitSingleValue";
+    modalRef.componentInstance.description = "Are you sure want to delete Unit Single Value ?";
     modalRef.result.then((data) => {
       if (data == "Yes") {
         this.unitSingleValueManager.unitSingleValuedelete(params.data.id).subscribe((response) => {

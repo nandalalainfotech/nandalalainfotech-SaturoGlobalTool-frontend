@@ -161,6 +161,7 @@ export class CategoryComponent implements OnInit {
   onDeleteButtonClick(params: any) {
     const modalRef = this.modalService.open(ConformationComponent);
     modalRef.componentInstance.details = "toxiCity";
+    modalRef.componentInstance.description = "Are you sure want to delete Category Type ?";
     modalRef.result.then((data) => {
       if (data == "Yes") {
         this.categoryManager.categoryTypedelete(params.data.id).subscribe((response) => {

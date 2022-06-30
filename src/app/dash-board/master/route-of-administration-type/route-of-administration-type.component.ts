@@ -167,6 +167,7 @@ export class RouteOfAdministrationTypeComponent implements OnInit {
   onDeleteButtonClick(params: any) {
     const modalRef = this.modalService.open(ConformationComponent);
     modalRef.componentInstance.details = "toxiCity";
+    modalRef.componentInstance.description = "Are you sure want to delete Routes ?";
     modalRef.result.then((data) => {
       if (data == "Yes") {
         this.routeofAdminManager.routeofadminTypedelete(params.data.id).subscribe((response) => {

@@ -170,6 +170,7 @@ export class LigandVersionComponent implements OnInit {
   onDeleteButtonClick(params: any) {
     const modalRef = this.modalService.open(ConformationComponent);
     modalRef.componentInstance.details = "LigandVersion";
+    modalRef.componentInstance.description = "Are you sure want to delete LigandVersion ?";
     modalRef.result.then((data) => {
       if (data == "Yes") {
         this.ligandVersionManager.ligandVersiondelete(params.data.id).subscribe((response) => {

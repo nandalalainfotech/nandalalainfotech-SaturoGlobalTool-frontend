@@ -261,7 +261,7 @@ export class CheckedComponent implements OnInit {
 
       // -----------Assay-----------
       assayId: [this.data.assayId? this.data.assayId:null],
-      ligandSlno: [this.data.ligandSlno? this.data.ligandSlno:""],
+      // ligandSlno: [this.data.ligandSlno? this.data.ligandSlno:""],
       // ordinal: [this.data.ordinal? this.data.ordinal:""],
       assayTypeSlno: [this.data.assayTypeSlno? this.data.assayTypeSlno:""],
       toxiCitySlno: [this.data.toxiCitySlno? this.data.toxiCitySlno:""],
@@ -597,7 +597,8 @@ export class CheckedComponent implements OnInit {
     let assay001wb = new Assay001wb();
     assay001wb.ordinal =  "";
     assay001wb.collectionId = "47498009Q-1";
-    assay001wb.ligandSlno = this.f.ligandSlno.value ? this.f.ligandSlno.value : null;
+    assay001wb.ligandSlno = this.data.ligandSlno2.ligandId;
+    // assay001wb.ligandSlno = this.f.ligandSlno.value ? this.f.ligandSlno.value : null;
     assay001wb.assayTypeSlno = this.f.assayTypeSlno.value ? this.f.assayTypeSlno.value : null;
     assay001wb.toxiCitySlno = this.f.toxiCitySlno.value ? this.f.toxiCitySlno.value : null;
     assay001wb.routeSlno = this.f.routeSlno.value ? this.f.routeSlno.value : null;

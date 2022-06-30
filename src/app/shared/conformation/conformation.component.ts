@@ -11,6 +11,7 @@ import { Utils } from '../utils/utils';
 })
 export class ConformationComponent implements OnInit {
     @Input() title: string = '';
+    @Input() description: string = '';
     @Input() details: any;
     hexToRgb: any;
     rgbToHex: any;

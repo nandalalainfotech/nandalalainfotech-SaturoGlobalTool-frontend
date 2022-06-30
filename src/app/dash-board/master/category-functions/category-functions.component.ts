@@ -171,6 +171,7 @@ export class CategoryFunctionsComponent implements OnInit {
   onDeleteButtonClick(params: any) {
     const modalRef = this.modalService.open(ConformationComponent);
     modalRef.componentInstance.details = "Category function";
+    modalRef.componentInstance.description = "Are you sure want to delete Category Function ?";
     modalRef.result.then((data) => {
       if (data == "Yes") {
         this.categoryfunctionManager.categoryFunctiondelete(params.data.id).subscribe((response) => {

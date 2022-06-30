@@ -624,6 +624,7 @@ export class LigandComponent implements OnInit {
     if (params.data.status != "Submitted to QC") {
       const modalRef = this.modalService.open(ConformationComponent);
       modalRef.componentInstance.details = "Ligand";
+      modalRef.componentInstance.description = "Are you sure want to delete Ligand ?";
       modalRef.result.then((data) => {
         if (data == "Yes") {
           this.ligandManager.liganddelete(params.data.ligandId).subscribe((response) => {
