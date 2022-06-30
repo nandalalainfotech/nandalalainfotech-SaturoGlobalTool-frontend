@@ -167,6 +167,7 @@ export class LigandTypeComponent implements OnInit {
   onDeleteButtonClick(params: any) {
     const modalRef = this.modalService.open(ConformationComponent);
     modalRef.componentInstance.details = "LigandType";
+    modalRef.componentInstance.description = "Are you sure want to delete LigandType ?";
     modalRef.result.then((data) => {
       if (data == "Yes") {
         this.ligandTypeManager.ligandTypedelete(params.data.id).subscribe((response) => {

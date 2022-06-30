@@ -165,6 +165,7 @@ export class AssayTypeComponent implements OnInit {
   onDeleteButtonClick(params: any) {
     const modalRef = this.modalService.open(ConformationComponent);
     modalRef.componentInstance.details = "assayType";
+    modalRef.componentInstance.description = "Are you sure want to delete Assay Type ?";
     modalRef.result.then((data) => {
       if (data == "Yes") {
         this.assayTypeManager.assayTypedelete(params.data.id).subscribe((response) => {

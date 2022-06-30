@@ -159,6 +159,7 @@ export class UnitLvalueComponent implements OnInit {
   onDeleteButtonClick(params: any) {
     const modalRef = this.modalService.open(ConformationComponent);
     modalRef.componentInstance.details = "UnitLowValue";
+    modalRef.componentInstance.description = "Are you sure want to delete UnitLowValue ?";
     modalRef.result.then((data) => {
       if (data == "Yes") {
         this.unitlowendvalueManager.unitlowendvaluedelete(params.data.id).subscribe((response) => {

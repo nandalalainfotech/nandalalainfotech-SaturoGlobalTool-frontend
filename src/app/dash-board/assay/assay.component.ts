@@ -50,7 +50,7 @@ export class AssayComponent implements OnInit {
   frameworkComponents: any;
   submitted = false;
   tanNo: string | any = "";
-  assayId?:number | any;
+  assayId?: number | any;
   ligandId: number | any;
   ligandSlno: number | any;
   ordinal: string | any;
@@ -1282,6 +1282,7 @@ export class AssayComponent implements OnInit {
     if (params.data.status != "Submitted to Qc") {
       const modalRef = this.modalService.open(ConformationComponent);
       modalRef.componentInstance.details = "Assay";
+      modalRef.componentInstance.description = "Are you sure want to delete Assay ?";
       modalRef.result.then((data) => {
         if (data == "Yes") {
           this.assayManager.assaydelete(params.data.assayId).subscribe((response) => {
@@ -1339,6 +1340,7 @@ export class AssayComponent implements OnInit {
       this.calloutService.showWarning("Please Enter Any One DataLocater");
       return;
     }
+
 
     let assay001wb = new Assay001wb();
 
@@ -1417,16 +1419,38 @@ export class AssayComponent implements OnInit {
       });
     }
     else {
-
-      assay001wb.insertUser = this.authManager.getcurrentUser.username;
-      assay001wb.insertDatetime = new Date();
-      this.assayManager.assaysave(assay001wb).subscribe((response) => {
-        this.calloutService.showSuccess("Assay Details Saved Successfully and \n Details Not Sent to Reviewer");
-        this.loadData();
-        this.onReset();
-        this.submitted = false;
+      let res = this.assayManager.findAllByTanligandID(this.f.ligandSlno.value);
+      forkJoin([res]).subscribe(data => {
+        let assay = data[0];
+        if (assay.length > 0) {
+          const modalRef = this.modalService.open(ConformationComponent);
+          modalRef.componentInstance.details = "Assay";
+          modalRef.componentInstance.description = "Existing Ligand Version is repeated.  Are you sure want to Save Assay ?";
+          modalRef.result.then((data) => {
+            if (data == "Yes") {
+              assay001wb.insertUser = this.authManager.getcurrentUser.username;
+              assay001wb.insertDatetime = new Date();
+              this.assayManager.assaysave(assay001wb).subscribe((response) => {
+                this.calloutService.showSuccess("Assay Details Saved Successfully and  Details Not Sent to Reviewer");
+                this.loadData();
+                this.onReset();
+                this.submitted = false;
+              });
+            }
+          });
+        } else {
+          assay001wb.insertUser = this.authManager.getcurrentUser.username;
+          assay001wb.insertDatetime = new Date();
+          this.assayManager.assaysave(assay001wb).subscribe((response) => {
+            this.calloutService.showSuccess("Assay Details Saved Successfully and \n Details Not Sent to Reviewer");
+            this.loadData();
+            this.onReset();
+            this.submitted = false;
+          });
+        }
       });
     }
+
 
   }
 

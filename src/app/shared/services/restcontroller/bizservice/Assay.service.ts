@@ -13,6 +13,13 @@ export class AssayManager extends BaseService {
         return this.getCallService(`${this.assayUrl}` + "/findAll",data);
     }
 
+    findAllByTanligandID(ligandSlno:any) {
+        let data: any = {};
+        data['ligandSlno'] = ligandSlno;
+        return this.getCallService(`${this.assayUrl}` + "/findAllByTanligandID",data);
+    }
+
+
     findAllByLigandIdAndAssayId(assayId:any) {
         
         let data: any = {};
