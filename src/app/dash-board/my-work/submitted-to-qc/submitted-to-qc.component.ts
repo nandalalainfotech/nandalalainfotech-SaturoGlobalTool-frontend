@@ -207,6 +207,7 @@ export class SubmittedToQcComponent implements OnInit {
   }
 
   onSubmitToQcClick(params: any) {
+  
     this.ligandManager.updateStatus(params.data.ligandId, params.data.tanNumber).subscribe(response => {
       this.ligand = deserialize<Ligand001wb[]>(Ligand001wb, response);
       this.calloutService.showSuccess("Assay Details Saved Successfully and \n Details Sent to Reviewer");

@@ -75,13 +75,15 @@ export class SearchSettingComponent implements OnInit {
 
       let LigandId = params["ligandId"];
       this.ligandId = LigandId;
-      
+
       let InsertUser = params["insertUsers"];
       this.insertUser = InsertUser;
 
 
       let TanNumber = params["tanNumber"];
       this.tanNum = TanNumber;
+      console.log("this.tanNum i search component", this.tanNum);
+
     });
 
     this.username = this.authManager.getcurrentUser.username;
@@ -90,7 +92,7 @@ export class SearchSettingComponent implements OnInit {
     // this.LigandForm = this.formBuilder.group({
 
     //   tanNum: [this.tanNum],
-      
+
     // });
 
     this.ligandVersionManager.allligandVersion().subscribe(response => {
@@ -100,6 +102,9 @@ export class SearchSettingComponent implements OnInit {
 
     this.assayManager.allassay(this.username).subscribe(response => {
       this.assay = deserialize<Assay001wb[]>(Assay001wb, response);
+      
+      console.log(" this.assay all", this.assay);
+      
     });
 
     this.ligandManager.allligand(this.username).subscribe(response => {
@@ -776,9 +781,14 @@ export class SearchSettingComponent implements OnInit {
     this.gTanNum = tanNum;
     this.gLigVer = LigVer;
     this.assays = [];
+    console.log("this.assay out in search-------------->", this.assay);
     for (let i = 0; i < this.assay.length; i++) {
+      console.log("this.assay entry in search-------------->", this.assay);
       if ((this.assay[i].ligandSlno2?.tanNumber == tanNum) && (this.assay[i].ligandSlno2?.ligandVersionSlno2?.ligandVersion == LigVer)) {
+        console.log("this.assay[i] in search-------------->", this.assay[i]);
+
         this.assays.push(this.assay[i]);
+        console.log("this.assays in search-------------->", this.assays);
       }
     }
 
