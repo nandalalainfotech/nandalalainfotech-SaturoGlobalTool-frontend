@@ -1,10 +1,11 @@
 import { BaseEntity } from "./BaseEntity";
-import { Person001mb } from "./Person001mb";
 import { Role001mb } from "./Role001mb";
 
-export class User001mb extends Person001mb {
+export class User001mb extends BaseEntity {
     personId?: number;
     roleid?: number;
+    firstname?: string;
+    lastname?: string;
     username?: string;
     password?: string;
     status?: string;
