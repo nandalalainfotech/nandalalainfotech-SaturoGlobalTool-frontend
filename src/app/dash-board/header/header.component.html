@@ -38,7 +38,7 @@
                                 (colorPickerSelect)="defaultColor()"></i></a>
                     </li>
 
-                    <li class="setting" routerLink="./app-search-setting">
+                    <li class="setting" routerLink="./app-search-setting" *ngIf="user?.rolename== 'User' || user?.rolename== 'Reviewer'">
                         <a>
                             <i class="fa fa-search" aria-hidden="true" title="Search" style="color: white" [ngClass]="
                                     parentMenuString == 'Search'
