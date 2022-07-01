@@ -35,7 +35,7 @@ export class BaseService {
         private calloutService: CalloutService,
         public dataSharedService: DataSharedService,
         public baseService: BaseService
-    ) {}
+    ) { }
 
     ngOnInit() {
         let userJson: any = sessionStorage.getItem('currentUser');
@@ -119,7 +119,7 @@ export class BaseService {
                 });
         });
     }
-    
+
     protected putCallService(
         url: string,
         parameters: Object = {},
@@ -232,26 +232,7 @@ export class BaseService {
     }
 
     private handleError(error: Response | any, url: string) {
-        this.dataSharedService.isShowsLoaderIcon(false);
-        if (
-            error.error.statusCode == BaseService.SC_UNAUTHORIZED ||
-            error.error.statusCode == BaseService.SC_SERVICE_UNAVAILABLE
-        ) {
-            this.calloutService.showError(error.error.message);
-            return throwError(error.error.message);
-        } else if (error.error.statusCode == BaseService.REQUEST_REDIRECT) {
-            this.calloutService.showError(error.error.message);
-            return throwError(error.error.message);
-        } else if (error.error.statusCode == BaseService.SC_NOT_FOUND) {
-            this.calloutService.showError('Invalid Request');
-            return throwError(error);
-        } else if (error.error.statusCode == BaseService.SC_BAD_REQUEST) {
-            this.calloutService.showError(error.error.message);
-            return throwError(error);
-        } else {
-            this.calloutService.showError(error.error.message);
-            return throwError(error);
-        }
+        this.calloutService.showError(error);
+        return throwError(error);
     }
-    // starting pointing
 }

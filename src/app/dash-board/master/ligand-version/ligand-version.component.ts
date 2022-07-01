@@ -125,7 +125,7 @@ export class LigandVersionComponent implements OnInit {
         width: 80,
         flex: 1,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
+        cellStyle: { textAlign: 'left' },
         cellRendererParams: {
           onClick: this.onEditButtonClick.bind(this),
           label: 'Edit'
@@ -137,7 +137,7 @@ export class LigandVersionComponent implements OnInit {
         width: 85,
         flex: 1,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
+        cellStyle: { textAlign: 'left' },
         cellRendererParams: {
           onClick: this.onDeleteButtonClick.bind(this),
           label: 'Delete'
@@ -149,7 +149,7 @@ export class LigandVersionComponent implements OnInit {
         width: 80,
         flex: 1,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
+        cellStyle: { textAlign: 'left' },
         cellRendererParams: {
           onClick: this.onAuditButtonClick.bind(this),
           label: 'Audit'
@@ -170,6 +170,7 @@ export class LigandVersionComponent implements OnInit {
   onDeleteButtonClick(params: any) {
     const modalRef = this.modalService.open(ConformationComponent);
     modalRef.componentInstance.details = "LigandVersion";
+    modalRef.componentInstance.description = "Are you sure want to delete LigandVersion ?";
     modalRef.result.then((data) => {
       if (data == "Yes") {
         this.ligandVersionManager.ligandVersiondelete(params.data.id).subscribe((response) => {

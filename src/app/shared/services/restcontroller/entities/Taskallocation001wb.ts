@@ -4,7 +4,8 @@ export class Taskallocation001wb {
     cbatchNo?: string | null;
     curatorTanNo?: string | null;
     curatorAllocateDate?: Date | null;
-   insertUser?: string;
+    rbatchNo?: string | null;
+    insertUser?: string;
     insertDatetime?: Date;
     updatedUser?: string | null;
     updatedDatetime?: Date | null;

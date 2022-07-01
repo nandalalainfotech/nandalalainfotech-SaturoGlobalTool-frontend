@@ -46,12 +46,14 @@ export class AdminComponent implements OnInit {
   updatedDatetime: Date | any;
   filename: string = "";
   selectedFile: any;
+  element: any;
   rowData: any;
   user?: User001mb;
   taskallocations: Taskallocation001wb[] = [];
   curators: User001mb[] = [];
   reviewers: User001mb[] = [];
   users: User001mb[] = [];
+  username: any;
 
 
   @HostBinding('style.--color_l1') colorthemes_1: any;
@@ -113,10 +115,10 @@ export class AdminComponent implements OnInit {
   // }
 
   loadData() {
-    this.taskAllocationManager.alltask().subscribe(response => {
+    this.username = this.authManager.getcurrentUser.username;
+    this.taskAllocationManager.alltask(this.username).subscribe(response => {
       this.taskallocations = deserialize<Taskallocation001wb[]>(Taskallocation001wb, response);
-      console.log("this.taskallocations",this.taskallocations);
-      
+
       if (this.taskallocations.length > 0) {
         this.gridOptions?.api?.setRowData(this.taskallocations);
       } else {
@@ -126,14 +128,12 @@ export class AdminComponent implements OnInit {
 
     this.userManager.allcurator().subscribe((response) => {
       this.curators = deserialize<User001mb[]>(User001mb, response);
-      // console.log("this.Moorthycurator--------------->", this.curators);
 
     })
 
     this.userManager.allreviewer().subscribe((response) => {
       this.reviewers = deserialize<User001mb[]>(User001mb, response);
-      console.log("this.reviewers",this.reviewers);
-      
+
     })
 
   }
@@ -160,7 +160,7 @@ export class AdminComponent implements OnInit {
         resizable: true,
         suppressSizeToFit: true
       },
-   
+
       {
         headerName: 'CURATOR NAME',
         field: 'curatorName',
@@ -193,50 +193,50 @@ export class AdminComponent implements OnInit {
         suppressSizeToFit: true
       },
 
+      // {
+      //   headerName: 'CURATOR DATE ALLOCATED',
+      //   width: 200,
+      //   flex: 1,
+      //   sortable: true,
+      //   filter: true,
+      //   resizable: true,
+      //   suppressSizeToFit: true,
+      //   valueGetter: (params: any) => {
+      //     return params.data.curatorAllocateDate ? this.datepipe.transform(params.data.curatorAllocateDate, 'dd-MM-yyyy') : '';
+      //   }
+      // },
+
+
       {
-        headerName: 'CURATOR DATE ALLOCATED',
+        headerName: 'REVIEWER NAME',
+        field: 'reviewerName',
         width: 200,
         flex: 1,
         sortable: true,
         filter: true,
         resizable: true,
         suppressSizeToFit: true,
-        valueGetter: (params: any) => {
-          return params.data.curatorAllocateDate ? this.datepipe.transform(params.data.curatorAllocateDate, 'dd-MM-yyyy') : '';
-        }
       },
-
-      
-      // {
-      //   headerName: 'REVIEWER NAME',
-      //   field: 'reviewerName',
-      //   width: 200,
-      //   flex: 1,
-      //   sortable: true,
-      //   filter: true,
-      //   resizable: true,
-      //   suppressSizeToFit: true,
-      // },
-      // {
-      //   headerName: 'REVIEWER BATCH NUMBER',
-      //   field: 'rbatchNo',
-      //   width: 200,
-      //   flex: 1,
-      //   sortable: true,
-      //   filter: true,
-      //   resizable: true,
-      //   suppressSizeToFit: true,
-      // },
-      // {
-      //   headerName: 'REVIEWER TAN NUMBER',
-      //   field: 'reviewerTanNo',
-      //   width: 200,
-      //   flex: 1,
-      //   sortable: true,
-      //   filter: true,
-      //   resizable: true,
-      //   suppressSizeToFit: true
-      // },
+      {
+        headerName: 'REVIEWER BATCH NUMBER',
+        field: 'rbatchNo',
+        width: 200,
+        flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+      },
+      {
+        headerName: 'REVIEWER TAN NUMBER',
+        field: 'reviewerTanNo',
+        width: 200,
+        flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true
+      },
       // {
       //   headerName: 'REVIEWER DATE ALLOCATED',
       //   width: 200,
@@ -249,73 +249,19 @@ export class AdminComponent implements OnInit {
       //     return params.data.reviewerAllocateDate ? this.datepipe.transform(params.data.reviewerAllocateDate, 'dd-MM-yyyy') : '';
       //   }
       // },
-     
-      // {
-      //   headerName: 'FILE NAME',
-      //   field: 'filename',
-      //   width: 200,
-      //   flex: 1,
-      //   sortable: true,
-      //   filter: true,
-      //   resizable: true,
-      //   suppressSizeToFit: true
-      // },
-      {
-        headerName: 'Edit',
-        cellRenderer: 'iconRenderer',
-        width: 80,
-        // flex: 1,
-        suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
-        cellRendererParams: {
-          onClick: this.onEditButtonClick.bind(this),
-          label: 'Edit'
-        },
-      },
-      {
-        headerName: 'Delete',
-        cellRenderer: 'iconRenderer',
-        width: 85,
-        // flex: 1,
-        suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
-        cellRendererParams: {
-          onClick: this.onDeleteButtonClick.bind(this),
-          label: 'Delete'
-        },
-      },
-      {
-        headerName: 'Audit',
-        cellRenderer: 'iconRenderer',
-        width: 80,
-        // flex: 1,
-        suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
-        cellRendererParams: {
-          onClick: this.onAuditButtonClick.bind(this),
-          label: 'Audit'
-        },
-      },
+
+      
     ];
   }
-  // setCuratorName(params: any): string {
-  //   return params.data? params.data.curatorName : null;
-  // }
+ 
   onCreatorChange(event: any) {
-    // console.log("event.target.text",event.target.value);
-    // this.TaskAllocationForm.patchValue({
-    //   'curatorName': event.target.value
-    // });
-
-
     let curatorName: string = '';
-    for(let i=0;i<this.curators.length;i++) {
-      if(event && event.target.value == this.curators[i].personId) {
+    for (let i = 0; i < this.curators.length; i++) {
+      if (event && event.target.value == this.curators[i].personId) {
         // curatorName = this.curators[i].username;
         break;
       }
     }
-    console.log("curatorName--------------->", curatorName);
     this.TaskAllocationForm.patchValue({
       'curatorName': curatorName
     });
@@ -323,62 +269,16 @@ export class AdminComponent implements OnInit {
 
   onReviewerChange(event: any) {
     // let reviewerName: any = "";
-    for(let i=0;i<this.reviewers.length;i++) {
-      if(event && event.target.value == this.reviewers[i].personId) {
-       this.reviewerSlno = this.reviewers[i].personId;
+    for (let i = 0; i < this.reviewers.length; i++) {
+      if (event && event.target.value == this.reviewers[i].personId) {
+        this.reviewerSlno = this.reviewers[i].personId;
         break;
       }
     }
-    // console.log("reviewerName--------------->", reviewerName);
-    // this.TaskAllocationForm.patchValue({
-    //   // 'reviewerName': reviewerName
-    //   'reviewerName': reviewerName
-    // });
+   
   }
 
-  onEditButtonClick(params: any) {
-    this.curatorId = params.data.curatorId;
-    this.insertUser = params.data.insertUser;
-    this.insertDatetime = params.data.insertDatetime;
-    this.TaskAllocationForm.patchValue({
-      'curatorName': params.data.curatorName,
-      'curatorTanNo': params.data.curatorTanNo,
-      'curatorAllocateDate': new Date(params.data.curatorAllocateDate),
-      'curatorCompleteDate': new Date(params.data.curatorCompleteDate),
-      'reviewerName': params.data.reviewerName,
-      'reviewerTanNo': params.data.reviewerTanNo,
-      'reviewerAllocateDate': new Date(params.data.reviewerAllocateDate),
-      'reviewerCompleteDate': new Date(params.data.reviewerCompleteDate),
-
-    });
-  }
-
-  onDeleteButtonClick(params: any) {
-    const modalRef = this.modalService.open(ConformationComponent);
-    modalRef.componentInstance.details = "TaskAllocation";
-    modalRef.result.then((data) => {
-      if (data == "Yes") {
-        this.taskAllocationManager.taskdelete(params.data.curatorId).subscribe((response) => {
-          for (let i = 0; i < this.taskallocations.length; i++) {
-            if (this.taskallocations[i].curatorId == params.data.curatorId) {
-              this.taskallocations?.splice(i, 1);
-              break;
-            }
-          }
-          const selectedRows = params.api.getSelectedRows();
-          params.api.applyTransaction({ remove: selectedRows });
-          this.gridOptions.api.deselectAll();
-          this.calloutService.showSuccess("TaskAllocation Removed Successfully");
-        });
-      }
-    })
-  }
-
-  onAuditButtonClick(params: any) {
-    const modalRef = this.modalService.open(AuditComponent);
-    modalRef.componentInstance.title = "TaskAllocation";
-    modalRef.componentInstance.details = params.data;
-  }
+  
 
   private markFormGroupTouched(formGroup: FormGroup) {
     (<any>Object).values(formGroup.controls).forEach((control: any) => {
@@ -393,9 +293,9 @@ export class AdminComponent implements OnInit {
   onFileSelected(event: any) {
     let fileList: FileList = event.target.files;
     if (fileList.length > 0) {
-        this.selectedFile = fileList[0];
+      this.selectedFile = fileList[0];
     }
-}
+  }
 
   onTaskAllocationClick(event: any, TaskAllocationForm: any) {
     this.markFormGroupTouched(this.TaskAllocationForm);
@@ -415,7 +315,6 @@ export class AdminComponent implements OnInit {
     // taskallocation001wb.reviewerAllocateDate = this.f.reviewerAllocateDate.value ? this.f.reviewerAllocateDate.value : "";
     // taskallocation001wb.reviewerCompleteDate = this.f.reviewerCompleteDate.value ? this.f.reviewerCompleteDate.value : "";
     // taskallocation001wb.filename = this.f.filename.value ? this.f.filename.value : "";
-  //  console.log("taskallocation001wb.filename", taskallocation001wb.filename);
     if (this.curatorId) {
       taskallocation001wb.curatorId = this.curatorId;
       taskallocation001wb.insertUser = this.insertUser;
@@ -433,11 +332,13 @@ export class AdminComponent implements OnInit {
     else {
       taskallocation001wb.insertUser = this.authManager.getcurrentUser.username;
       taskallocation001wb.insertDatetime = new Date();
-      this.taskAllocationManager.tasksave(taskallocation001wb,this.selectedFile).subscribe((response) => {
+      this.taskAllocationManager.tasksave(taskallocation001wb, this.selectedFile).subscribe((response) => {
         this.calloutService.showSuccess("TaskAllocation Details Saved Successfully");
+
         this.loadData();
         this.TaskAllocationForm.reset();
         this.submitted = false;
+
       });
     }
 
@@ -447,10 +348,5 @@ export class AdminComponent implements OnInit {
     this.submitted = false;
     this.TaskAllocationForm.reset();
   }
-//   reset(element:any) {
-//     this.submitted = false;
-//     element.value = "";
-//     this.TaskAllocationForm.reset();
-// }
 
-}
+  }

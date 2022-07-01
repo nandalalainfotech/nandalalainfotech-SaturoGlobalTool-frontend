@@ -1,11 +1,10 @@
 <fieldset class="scheduler-border">
-    <legend class="scheduler-border">Category-functions</legend>
     <div class="formData">
         <form [formGroup]="CategoryFunctionForm" (ngSubmit)="oncategoryFunctionClick($event, CategoryFunctionForm)" >
             <div class="row">      
                 <div class="col-xs-3 col-sm-3">
                     <div class="form-group">
-                        <label path="function" for="function" cssClass="required">Category-functions</label>
+                        <label path="function" for="function" cssClass="required" style="margin-top: 20px;">Category-functions</label>
                         <input class="form-control" name="function" formControlName="function"
                             [ngClass]="{ 'is-invalid': submitted && f.function.errors }">
                         <div *ngIf="submitted && f.function.errors" class="invalid-feedback">

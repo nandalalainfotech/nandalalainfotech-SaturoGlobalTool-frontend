@@ -29,6 +29,8 @@ export class RegistrationComponent implements OnInit {
     roleid: number | any;
     insertUser: string = "";
     insertDatetime: Date | any;
+    firstname?: string = "";
+    lastname?: string = "";
     username: string = "";
     status: string = "";
     securityquestion: string = "";
@@ -95,12 +97,13 @@ export class RegistrationComponent implements OnInit {
 
     loaddata() {
 
-        this.personManager.allperson().subscribe((response) => {
-            this.persons = deserialize<User001mb[]>(User001mb, response);
-        })
+        // this.personManager.allperson().subscribe((response) => {
+        //     this.persons = deserialize<User001mb[]>(User001mb, response);
+        // })
 
         this.userManager.alluser().subscribe((response) => {
             this.users = deserialize<User001mb[]>(User001mb, response);
+            console.log("this.users", this.users);
             if (this.users.length > 0) {
                 this.gridOptions?.api?.setRowData(this.users);
             } else {
@@ -136,7 +139,7 @@ export class RegistrationComponent implements OnInit {
             },
             {
                 headerName: 'Firstname',
-                field: 'person.firstname',
+                field: 'firstname',
                 width: 200,
                 flex: 1,
                 sortable: true,
@@ -146,7 +149,7 @@ export class RegistrationComponent implements OnInit {
             },
             {
                 headerName: 'Lastname ',
-                field: 'person.lastname',
+                field: 'lastname',
                 width: 200,
                 flex: 1,
                 sortable: true,
@@ -265,8 +268,8 @@ export class RegistrationComponent implements OnInit {
         this.insertUser = params.data.insertUser;
         this.insertDatetime = params.data.insertDatetime;
         this.registerForm.patchValue({
-            'firstname': params.data.person.firstname,
-            'lastname': params.data.person.lastname,
+            'firstname': params.data.firstname,
+            'lastname': params.data.lastname,
             // 'domain': params.data.domain,
             'roleid': params.data.roleid,
             'username': params.data.username,
@@ -287,7 +290,7 @@ export class RegistrationComponent implements OnInit {
             }
             const selectedRows = params.api.getSelectedRows();
             params.api.applyTransaction({ remove: selectedRows });
-            this.calloutService.showSuccess("Order Removed Successfully");
+            this.calloutService.showSuccess("User Details Removed Successfully");
         });
     }
 
@@ -317,7 +320,7 @@ export class RegistrationComponent implements OnInit {
         if (this.registerForm.invalid) {
             return;
         }
-        let person001mb = new Person001mb();
+        // let person001mb = new Person001mb();
         let user001mb = new User001mb();
         user001mb.firstname = this.f.firstname.value ? this.f.firstname.value : "";
         user001mb.lastname = this.f.lastname.value ? this.f.lastname.value : "";
@@ -335,7 +338,7 @@ export class RegistrationComponent implements OnInit {
             user001mb.updatedUser = this.authManager.getcurrentUser.username;
             user001mb.updatedDatetime = new Date();
             this.userManager.updateuser(user001mb).subscribe(response => {
-                this.calloutService.showSuccess("Order Updated Successfully");
+                this.calloutService.showSuccess("User Details Updated Successfully");
                 this.loaddata();
                 this.registerForm.reset();
                 this.submitted = false;
@@ -346,7 +349,7 @@ export class RegistrationComponent implements OnInit {
             user001mb.insertUser = this.authManager.getcurrentUser.username;
             user001mb.insertDatetime = new Date();
             this.userManager.saveuser(user001mb).subscribe((response) => {
-                this.calloutService.showSuccess("Order Saved Successfully");
+                this.calloutService.showSuccess("User Details Registered Successfully");
                 this.loaddata();
                 this.registerForm.reset();
                 this.submitted = false;

@@ -15,8 +15,37 @@ export class LigandManager extends BaseService {
         return this.getCallService(`${this.ligandUrl}` + "/findAll",data);
     }
 
+    findAllByLigandIdAndAssayId(ligandId:any, assayId: any) {
+        
+        let data: any = {};
+        data['ligandId'] = ligandId;
+        data['assayId'] = assayId;
+        return this.getCallService(`${this.ligandUrl}` + "/findAllByLigandIdAndAssayId",data);
+    }
+
+    findAllByLigandId(ligandId:any) {
+        
+        let data: any = {};
+        data['ligandId'] = ligandId;
+        return this.getCallService(`${this.ligandUrl}` + "/findAllByLigandId",data);
+    }
+
+   
+
+    findInprocesStatus(username:any) {
+        let data: any = {};
+        data['username'] = username;
+        return this.getCallService(`${this.ligandUrl}` + "/findInprocesStatus",data);
+    }
+
+    
+    findSubmotToQcStatus(username:any) {
+        let data: any = {};
+        data['username'] = username;
+        return this.getCallService(`${this.ligandUrl}` + "/findSubmotToQcStatus",data);
+    }
+
     ligandsave(ligand001wb: Ligand001wb) {
-        console.log("ligand001wb--->", ligand001wb);     
         return this.postCallService(`${this.ligandUrl}` + "/save", {}, ligand001wb);
     }
 
@@ -28,6 +57,13 @@ export class LigandManager extends BaseService {
 
     ligandupdate(ligand001wb: Ligand001wb) {
         return this.putCallService(`${this.ligandUrl}` + "/update", {}, ligand001wb);
+    }
+
+    updateStatus(ligandId: any, tanNumber: any) {
+        let data: any = {};
+        data['ligandId'] = ligandId;
+        data['tanNumber'] = tanNumber;
+        return this.putCallService(`${this.ligandUrl}` + "/updateStatus/"+ligandId+"/"+tanNumber);
     }
 
     liganddelete(ligandId: any) {

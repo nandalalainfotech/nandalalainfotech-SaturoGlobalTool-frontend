@@ -1,11 +1,11 @@
 <fieldset class="scheduler-border">
-    <legend class="scheduler-border">Original-Prefix</legend>
+
     <div class="formData">
         <form [formGroup]="OriginalPrefixForm" (ngSubmit)="onOrginialPrefixClick($event, OriginalPrefixForm)" >
             <div class="row">      
                 <div class="col-xs-3 col-sm-3">
                     <div class="form-group">
-                        <label path="originalPrefix" for="originalPrefix" cssClass="required">Original-Prefix</label>
+                        <label path="originalPrefix" for="originalPrefix" cssClass="required" style="margin-top: 20px;">Original-Prefix</label>
                         <input class="form-control" name="originalPrefix" formControlName="originalPrefix"
                             [ngClass]="{ 'is-invalid': submitted && f.originalPrefix.errors }">
                         <div *ngIf="submitted && f.originalPrefix.errors" class="invalid-feedback">

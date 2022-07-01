@@ -122,7 +122,7 @@ export class LigandTypeComponent implements OnInit {
         width: 80,
         flex: 1,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
+        cellStyle: { textAlign: 'left' },
         cellRendererParams: {
           onClick: this.onEditButtonClick.bind(this),
           label: 'Edit'
@@ -134,7 +134,7 @@ export class LigandTypeComponent implements OnInit {
         width: 85,
         flex: 1,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
+        cellStyle: { textAlign: 'left' },
         cellRendererParams: {
           onClick: this.onDeleteButtonClick.bind(this),
           label: 'Delete'
@@ -146,7 +146,7 @@ export class LigandTypeComponent implements OnInit {
         width: 80,
         flex: 1,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
+        cellStyle: { textAlign: 'left' },
         cellRendererParams: {
           onClick: this.onAuditButtonClick.bind(this),
           label: 'Audit'
@@ -167,6 +167,7 @@ export class LigandTypeComponent implements OnInit {
   onDeleteButtonClick(params: any) {
     const modalRef = this.modalService.open(ConformationComponent);
     modalRef.componentInstance.details = "LigandType";
+    modalRef.componentInstance.description = "Are you sure want to delete LigandType ?";
     modalRef.result.then((data) => {
       if (data == "Yes") {
         this.ligandTypeManager.ligandTypedelete(params.data.id).subscribe((response) => {

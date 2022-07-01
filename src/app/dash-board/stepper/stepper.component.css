@@ -5,3 +5,10 @@
 .mat-form-field {
     margin-top: 16px;
 }
+
+.step-title{
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+   
+}

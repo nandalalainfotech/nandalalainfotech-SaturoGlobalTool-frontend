@@ -112,7 +112,7 @@ export class UnitLvalueComponent implements OnInit {
         width: 80,
         flex: 1,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
+        cellStyle: { textAlign: 'left' },
         cellRendererParams: {
           onClick: this.onEditButtonClick.bind(this),
           label: 'Edit'
@@ -124,7 +124,7 @@ export class UnitLvalueComponent implements OnInit {
         width: 85,
         flex: 1,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
+        cellStyle: { textAlign: 'left' },
         cellRendererParams: {
           onClick: this.onDeleteButtonClick.bind(this),
           label: 'Delete'
@@ -136,7 +136,7 @@ export class UnitLvalueComponent implements OnInit {
         width: 80,
         flex: 1,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
+        cellStyle: { textAlign: 'left' },
         cellRendererParams: {
           onClick: this.onAuditButtonClick.bind(this),
           label: 'Audit'
@@ -159,6 +159,7 @@ export class UnitLvalueComponent implements OnInit {
   onDeleteButtonClick(params: any) {
     const modalRef = this.modalService.open(ConformationComponent);
     modalRef.componentInstance.details = "UnitLowValue";
+    modalRef.componentInstance.description = "Are you sure want to delete UnitLowValue ?";
     modalRef.result.then((data) => {
       if (data == "Yes") {
         this.unitlowendvalueManager.unitlowendvaluedelete(params.data.id).subscribe((response) => {
@@ -171,7 +172,7 @@ export class UnitLvalueComponent implements OnInit {
           const selectedRows = params.api.getSelectedRows();
           params.api.applyTransaction({ remove: selectedRows });
           this.gridOptions.api.deselectAll();
-          this.calloutService.showSuccess("UnitLowValue Removed Successfully");
+          this.calloutService.showSuccess("Unit (Low-EndValue) Removed Successfully");
         });
       }
     })
@@ -211,7 +212,7 @@ export class UnitLvalueComponent implements OnInit {
       unitlowendvalue001mb.updatedUser = this.authManager.getcurrentUser.username;
       unitlowendvalue001mb.updatedDatetime = new Date();
       this.unitlowendvalueManager.unitlowendvalueupdate(unitlowendvalue001mb).subscribe((response) => {
-        this.calloutService.showSuccess("UnitLowValue Details Updated Successfully");
+        this.calloutService.showSuccess("Unit (Low-EndValue) Updated Successfully");
         this.UnitLowendForm.reset();
         this.id = null;
         this.loadData();
@@ -222,7 +223,7 @@ export class UnitLvalueComponent implements OnInit {
       unitlowendvalue001mb.insertUser = this.authManager.getcurrentUser.username;
       unitlowendvalue001mb.insertDatetime = new Date();
       this.unitlowendvalueManager.unitlowendvaluesave(unitlowendvalue001mb).subscribe((response) => {
-        this.calloutService.showSuccess("UnitLowValue Details Saved Successfully");
+        this.calloutService.showSuccess("Unit (Low-EndValue) Saved Successfully");
         this.UnitLowendForm.reset();
         this.loadData();
         this.submitted = false;

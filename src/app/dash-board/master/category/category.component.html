@@ -1,11 +1,10 @@
 <fieldset class="scheduler-border">
-    <legend class="scheduler-border">Category</legend>
     <div class="formData">
         <form [formGroup]="CategoryForm" (ngSubmit)="oncategoryClick($event, CategoryForm)" >
             <div class="row">      
                 <div class="col-xs-3 col-sm-3">
                     <div class="form-group">
-                        <label path="category" for="category" cssClass="required">Category</label>
+                        <label path="category" for="category" cssClass="required" style="margin-top: 20px;">Category</label>
                         <input class="form-control" name="category" formControlName="category"
                             [ngClass]="{ 'is-invalid': submitted && f.category.errors }">
                         <div *ngIf="submitted && f.category.errors" class="invalid-feedback">

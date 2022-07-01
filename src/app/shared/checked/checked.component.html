@@ -1,4 +1,4 @@
-<app-checked-popup class="checked " acceptLabel="Accept" cancelLabel="Reject" acceptIcon="fa fa-check" [widthArg]="400" [heightArg]="400" (cancelClick)="onCancelClick()">
+<app-checked-popup class="checked " acceptLabel="Accept" cancelLabel="Close" acceptIcon="fa fa-check" [widthArg]="400" [heightArg]="400" (cancelClick)="onCancelClick()">
     <!-- <fieldset class="scheduler-border">
 
         <legend class="scheduler-border">Link</legend> -->
@@ -7,6 +7,23 @@
         <form [formGroup]="CheckedForm" (ngSubmit)="onReviewerClick($event, CheckedForm)">
             <fieldset class="scheduler-border">
                 <legend class="scheduler-border">Ligand</legend>
+
+                <!-- <div class="row">
+                    <div class="col-sm-9">
+
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label cssClass="required">IN PROCESS </label>
+
+                            <button type="button" [ngStyle]="{'background-color': bgcolor}" (click)="onInProcessClick()" class="btn1 router-btn" style="display:block !important;"></button>
+
+                        </div>
+                    </div>
+                </div>
+
+                <br> -->
+
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
@@ -17,10 +34,11 @@
                                 <input type="text" class="tanNumber" name="tanNumber" formControlName="tanNumber">
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.ligandSlno2.tanNumber}}</span>
+                                <span>{{data.ligandSlno2?.tanNumber}}</span>
                             </div>
                         </div>
                     </div>
+
                 </div>
 
                 <br>
@@ -35,14 +53,14 @@
                                 <!-- <input class="ligandVersionSlno" name="ligandVersionSlno"
                                     formControlName="ligandVersionSlno"> -->
                                 <select name="ligandVersionSlno" formControlName="ligandVersionSlno">
-                                        <option  value="" hidden> - Select Ligand Version - </option>
-                                        <option  *ngFor="let ligVersions of ligandVersions1" [value]="ligVersions.id">
-                                            {{ligVersions.ligandVersion}}
-                                        </option>
-                                    </select>
+                                    <option value=""> - Select Ligand Version - </option>
+                                    <option *ngFor="let ligVersions of ligandVersions1" [value]="ligVersions.id">
+                                        {{ligVersions.ligandVersion}}
+                                    </option>
+                                </select>
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.ligandSlno2.ligandVersionSlno2.ligandVersion}}</span>
+                                <span>{{data.ligandSlno2?.ligandVersionSlno2?.ligandVersion}}</span>
                             </div>
                         </div>
                     </div>
@@ -56,7 +74,7 @@
                             <div class="col-sm-7" *ngIf="isEditable">
                                 <!-- <input class="ligandTypeSlno" name="ligandTypeSlno" formControlName="ligandTypeSlno"> -->
                                 <select name="ligandTypeSlno" formControlName="ligandTypeSlno">
-                                    <option value="" hidden> - Select Ligand Types - </option>
+                                    <option value=""> - Select Ligand Types - </option>
                                     <!-- <option> - Select Ligand Types - </option> -->
                                     <option *ngFor="let ligandtype of ligandtypes" [value]="ligandtype.id">
                                         {{ligandtype.ligandtype}}
@@ -64,7 +82,7 @@
                                 </select>
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.ligandSlno2.ligandTypeSlno2.ligandtype}}</span>
+                                <span>{{data.ligandSlno2?.ligandTypeSlno2?.ligandtype}}</span>
                             </div>
                         </div>
                     </div>
@@ -80,7 +98,7 @@
                                 <input class="ligandDetail" name="ligandDetail" formControlName="ligandDetail">
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.ligandSlno2.ligandDetail}}</span>
+                                <span>{{data.ligandSlno2?.ligandDetail}}</span>
                             </div>
                         </div>
                     </div>
@@ -94,7 +112,7 @@
                                 <input class="identifier1" name="identifier1" formControlName="identifier1">
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.ligandSlno2.identifier1}}</span>
+                                <span>{{data.ligandSlno2?.identifier1}}</span>
                             </div>
                         </div>
                     </div>
@@ -111,7 +129,7 @@
                                 <input class="identifier2" name="identifier2" formControlName="identifier2">
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.ligandSlno2.identifier2}}</span>
+                                <span>{{data.ligandSlno2?.identifier2}}</span>
                             </div>
                         </div>
                     </div>
@@ -125,7 +143,7 @@
                                 <input class="identifier3" name="identifier3" formControlName="identifier3">
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.ligandSlno2.identifier3}}</span>
+                                <span>{{data.ligandSlno2?.identifier3}}</span>
                             </div>
                         </div>
                     </div>
@@ -141,7 +159,7 @@
                                 <input class="collectionId" name="collectionId" formControlName="collectionId">
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.ligandSlno2.collectionId}}</span>
+                                <span>{{data.ligandSlno2?.collectionId}}</span>
                             </div>
                         </div>
                     </div>
@@ -155,7 +173,7 @@
                                 <input class="locator" name="locator" formControlName="locator">
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.ligandSlno2.locator}}</span>
+                                <span>{{data.ligandSlno2?.locator}}</span>
                             </div>
                         </div>
                     </div>
@@ -173,7 +191,7 @@
                                 <input class="diseaseName1" path="diseaseName1" name="diseaseName1" formControlName="diseaseName1" />
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.ligandSlno2.diseaseName1}}</span>
+                                <span>{{data.ligandSlno2?.diseaseName1}}</span>
                             </div>
                         </div>
                     </div>
@@ -188,7 +206,7 @@
                                 <input class="diseaseName2" path="diseaseName2" name="diseaseName2" formControlName="diseaseName2" />
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.ligandSlno2.diseaseName2}}</span>
+                                <span>{{data.ligandSlno2.diseaseName2}}</span>
                             </div>
                         </div>
                     </div>
@@ -205,118 +223,7 @@
                                 <input class="diseaseName3" path="diseaseName3" name="diseaseName3" formControlName="diseaseName3" />
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.ligandSlno2.diseaseName3}}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <br>
-                <br>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <div class="col-sm-5">
-                                <label path="ligandVersions" for="ligandVersions" cssClass="required">Ligand
-                                    Version:</label>
-                            </div>
-                            <div class="col-sm-7" *ngIf="isEditable">
-                                <input class="ligandVersions" path="ligandVersions" name="ligandVersions" formControlName="ligandVersions" readonly />
-                            </div>
-                            <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.ligandSlno2.ligandVersionSlno2.ligandVersion}}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <div class="col-sm-5">
-                                <label path="targetVersion" for="targetVersion" cssClass="required">Target version
-                                    :</label>
-                            </div>
-                            <div class="col-sm-7" *ngIf="isEditable">
-                                <input class="targetVersion" name="targetVersion" formControlName="targetVersion">
-                            </div>
-                            <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.ligandSlno2.targetVersion}}</span>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <div class="col-sm-5">
-                                <label path="collectionId1" for="collectionId1" cssClass="required">Collection-id:</label>
-                            </div>
-                            <div class="col-sm-7" *ngIf="isEditable">
-                                <input class="collectionId1" name="collectionId1" formControlName="collectionId1">
-                            </div>
-                            <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.ligandSlno2.collectionId1}}</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <div class="col-sm-5">
-                                <label path="original" for="original" cssClass="required">Original target name:</label>
-                            </div>
-                            <div class="col-sm-7" *ngIf="isEditable">
-                                <input class="original" name="original" formControlName="original">
-                            </div>
-                            <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.ligandSlno2.original}}</span>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <br>
-                <div class="row">
-
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <div class="col-sm-5">
-                                <label path="acronym" for="series" cssClass="required">Acronym :</label>
-                            </div>
-                            <div class="col-sm-7" *ngIf="isEditable">
-                                <input class="acronym" name="acronym" formControlName="acronym">
-                            </div>
-                            <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.ligandSlno2.acronym}}</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <div class="col-sm-5">
-                                <label path="organism" for="series" cssClass="required">Organism source:</label>
-                            </div>
-                            <div class="col-sm-7" *ngIf="isEditable">
-                                <input class="organism" name="organism" formControlName="organism">
-                            </div>
-                            <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.ligandSlno2.organism}}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <div class="col-sm-5">
-                                <label path="variant" for="variant" cssClass="required">Variant :</label>
-                            </div>
-                            <div class="col-sm-7" *ngIf="isEditable">
-                                <input class="variant" name="variant" formControlName="variant">
-                            </div>
-                            <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.ligandSlno2.variant}}</span>
+                                <span>{{data.ligandSlno2.diseaseName3}}</span>
                             </div>
                         </div>
                     </div>
@@ -329,29 +236,27 @@
             <fieldset class="scheduler-border">
                 <legend class="scheduler-border">Assay</legend>
 
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
                             <div class="col-sm-5">
                                 <label path="ligandSlno" for="ligandSlno" cssClass="required">Ligand-Version :</label>
                             </div>
                             <div class="col-sm-7" *ngIf="isEditable">
-                                <!-- <input class="ligandSlno" name="ligandSlno" formControlName="ligandSlno"> -->
                                 <select name="ligandSlno" formControlName="ligandSlno">
-                                    <option value="" hidden> - Select Ligand-Version - </option>
-                                    <option> - Select Ligand-Version - </option>
-                                    <option *ngFor="let ligandObject of ligand" [value]="ligandObject.ligandId">
+                                    <option value=""> - Select Ligand-Version - </option>
+                                    <option *ngFor="let ligandObject of ligandtanversions" [value]="ligandObject.ligandId">
                                         {{ligandObject.ligandVersionSlno2?.ligandVersion}}
                                     </option>
                                 </select>
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.ligandSlno2.ligandVersionSlno2.ligandVersion}}</span>
+                                <span>{{data.ligandSlno2?.ligandVersionSlno2?.ligandVersion}}</span>
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-sm-6">
+                </div> -->
+                <!-- <div class="col-sm-6">
                         <div class="form-group">
                             <div class="col-sm-5">
                                 <label path="ordinal" for="series" cssClass="required">Ordinal :</label>
@@ -360,11 +265,11 @@
                                 <input class="ordinal" name="ordinal" formControlName="ordinal">
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.ordinal}}</span>
+                                <span>{{data.ordinal}}</span>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </div>-->
+
                 <br>
 
                 <div class="row">
@@ -376,14 +281,14 @@
                             <div class="col-sm-7" *ngIf="isEditable">
                                 <!-- <input class="assayTypeSlno" name="assayTypeSlno" formControlName="assayTypeSlno"> -->
                                 <select class="" name="assayTypeSlno" formControlName="assayTypeSlno">
-                                    <option value="" hidden> - Select Assay-Types - </option>
+                                    <option value=""> - Select Assay-Types - </option>
                                     <option *ngFor="let assayType of assayTypes" [value]="assayType.id">
                                         {{assayType.assayType}}
                                     </option>
                                 </select>
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.assayTypeSlno}}</span>
+                                <span>{{data.assayTypeSlno2?.assayType}}</span>
                             </div>
                         </div>
                     </div>
@@ -397,15 +302,14 @@
                             <div class="col-sm-7" *ngIf="isEditable">
                                 <!-- <input class="toxiCitySlno" name="toxiCitySlno" formControlName="toxiCitySlno"> -->
                                 <select class="" name="toxiCitySlno" formControlName="toxiCitySlno">
-                                    <option value="" hidden> - Select Toxicity-Types - </option>
-                                    <option> - Select Toxicity-Types - </option>
+                                    <option value="" > - Select Toxicity-Types - </option>
                                     <option *ngFor="let toxiCity of toxiCities" [value]="toxiCity.id">
                                         {{toxiCity.toxiCity}}
                                     </option>
                                 </select>
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.toxiCitySlno}}</span>
+                                <span>{{data.toxiCitySlno2?.toxiCity}}</span>
                             </div>
                         </div>
                     </div>
@@ -422,15 +326,14 @@
                             <div class="col-sm-7" *ngIf="isEditable">
                                 <!-- <input class="routeSlno" name="routeSlno" formControlName="routeSlno"> -->
                                 <select class="" name="routeSlno" formControlName="routeSlno">
-                                    <option value="" hidden> - Select Route-Types - </option>
-                                    <option> - Select Route-Types - </option>
+                                    <option value=""> - Select Route-Types - </option>
                                     <option *ngFor="let routeAdmin of routeAdmins" [value]="routeAdmin.id">
                                         {{routeAdmin.route}}
                                     </option>
                                 </select>
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.routeSlno}}</span>
+                                <span>{{data.routeSlno2?.route}}</span>
                             </div>
                         </div>
                     </div>
@@ -438,14 +341,13 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <div class="col-sm-5">
-                                <label path="ligandSvalue" for="series" cssClass="required">Ligand-Dose(Single-value)
-                                    :</label>
+                                <label path="ligandSvalue" for="series" cssClass="required">Ligand-Dose(Single-value):</label>
                             </div>
                             <div class="col-sm-7" *ngIf="isEditable">
                                 <input class="" name="ligandSvalue" formControlName="ligandSvalue">
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.ligandSvalue}}</span>
+                                <span>{{data.ligandSvalue}}</span>
                             </div>
                         </div>
                     </div>
@@ -461,15 +363,15 @@
                             <div class="col-sm-7" *ngIf="isEditable">
                                 <!-- <input class="unitSlno" name="unitSlno" formControlName="unitSlno"> -->
                                 <select class="" name="unitSlno" formControlName="unitSlno">
-                                    <option value="" hidden> - Select Unit-Types - </option>
-                                    <option> - Select Unit-Types - </option>
-                                    <option *ngFor="let unitsinglevalue of unitsinglevalues" [value]="unitsinglevalue.id">
+                                    <option value=""> - Select Unit-Types - </option>
+                                    <option *ngFor="let unitsinglevalue of unitsinglevalues"
+                                        [value]="unitsinglevalue.id">
                                         {{unitsinglevalue.unit}}
                                     </option>
                                 </select>
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.unitSlno}}</span>
+                                <span>{{data.unitSlno2?.unit}}</span>
                             </div>
                         </div>
                     </div>
@@ -484,7 +386,7 @@
                                 <input class="" name="ligandHvalue" formControlName="ligandHvalue">
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.ligandHvalue}}</span>
+                                <span>{{data.ligandHvalue}}</span>
                             </div>
                         </div>
                     </div>
@@ -500,7 +402,7 @@
                                 <input class="" name="ligandLvalue" formControlName="ligandLvalue">
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.ligandLvalue}}</span>
+                                <span>{{data.ligandLvalue}}</span>
                             </div>
                         </div>
                     </div>
@@ -513,15 +415,15 @@
                             <div class="col-sm-7" *ngIf="isEditable">
                                 <!-- <input class="" name="unitedSlno" formControlName="unitedSlno"> -->
                                 <select class="" name="unitedSlno" formControlName="unitedSlno">
-                                    <option value="" hidden> - Select Units-Types - </option>
-                                    <option> - Select Units-Types- </option>
-                                    <option *ngFor="let unitlowendvalue of unitlowendvalues" [value]="unitlowendvalue.id">
+                                    <option value=""> - Select Units-Types - </option>
+                                    <option *ngFor="let unitlowendvalue of unitlowendvalues"
+                                        [value]="unitlowendvalue.id">
                                         {{unitlowendvalue.united}}
                                     </option>
                                 </select>
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.unitedSlno}}</span>
+                                <span>{{data.unitedSlno2?.united}}</span>
                             </div>
                         </div>
                     </div>
@@ -537,7 +439,7 @@
                                 <input class="" name="administration" formControlName="administration">
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.administration}}</span>
+                                <span>{{data.administration}}</span>
                             </div>
                         </div>
                     </div>
@@ -551,7 +453,7 @@
                                 <input class="" name="procedure" formControlName="procedure">
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.procedure}}</span>
+                                <span>{{data.procedure}}</span>
                             </div>
                         </div>
                     </div>
@@ -567,13 +469,13 @@
                             <div class="col-sm-7" *ngIf="isEditable">
                                 <!-- <input class="" name="conditionType" formControlName="conditionType"> -->
                                 <select class="" name="conditionType" formControlName="conditionType">
-                                    <option value="" hidden> - Select Condition type - </option>
+                                    <option value=""> - Select Condition type - </option>
                                     <option>Combination Chemotherapy</option>
                                     <option>Drug Interactions</option>
                                 </select>
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.conditionType}}</span>
+                                <span>{{data.conditionType}}</span>
                             </div>
                         </div>
                     </div>
@@ -588,7 +490,7 @@
                                 <input class="" name="conditionMaterial" formControlName="conditionMaterial">
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.conditionMaterial}}</span>
+                                <span>{{data.conditionMaterial}}</span>
                             </div>
                         </div>
                     </div>
@@ -606,7 +508,7 @@
                                 <input class="" name="conditionMaterialid" formControlName="conditionMaterialid">
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.conditionMaterialid}}</span>
+                                <span>{{data.conditionMaterialid}}</span>
                             </div>
                         </div>
                     </div>
@@ -619,7 +521,7 @@
                                 <input class="" name="singleCondition" formControlName="singleCondition">
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.singleCondition}}</span>
+                                <span>{{data.singleCondition}}</span>
                             </div>
                         </div>
                     </div>
@@ -632,10 +534,17 @@
                                 <label path="singleUnit" for="series" cssClass="required">Unit(Single-value)</label>
                             </div>
                             <div class="col-sm-7" *ngIf="isEditable">
-                                <input class="" name="singleUnit" formControlName="singleUnit">
+                                <!-- <input class="" name="singleUnit" formControlName="singleUnit"> -->
+                                <select class="" name="singleUnit" formControlName="singleUnit">
+                                    <option value=""> - Select Unit-Types - </option>
+                                    <option *ngFor="let unitsinglevalue of unitsinglevalues"
+                                        [value]="unitsinglevalue.id">
+                                        {{unitsinglevalue.unit}}
+                                    </option>
+                                </select>
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.singleUnit}}</span>
+                                <span>{{this.conditionunit}}</span>
                             </div>
                         </div>
                     </div>
@@ -648,7 +557,7 @@
                                 <input class="" name="highCondition" formControlName="highCondition">
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.highCondition}}</span>
+                                <span>{{data.highCondition}}</span>
                             </div>
                         </div>
                     </div>
@@ -664,7 +573,7 @@
                                 <input class="" name="lowCondition" formControlName="lowCondition">
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.lowCondition}}</span>
+                                <span>{{data.lowCondition}}</span>
                             </div>
                         </div>
                     </div>
@@ -674,10 +583,17 @@
                                 <label path="highLowUnit" for="series" cssClass="required">Unit</label>
                             </div>
                             <div class="col-sm-7" *ngIf="isEditable">
-                                <input class="" name="highLowUnit" formControlName="highLowUnit">
+                                <!-- <input class="" name="highLowUnit" formControlName="highLowUnit"> -->
+                                <select class="" name="highLowUnit" formControlName="highLowUnit">
+                                    <option value=""> - Select Units-Types - </option>
+                                    <option *ngFor="let unitlowendvalue of unitlowendvalues"
+                                        [value]="unitlowendvalue.id">
+                                        {{unitlowendvalue.united}}
+                                    </option>
+                                </select>
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.highLowUnit}}</span>
+                                <span>{{conditionunited}}</span>
                             </div>
                         </div>
                     </div>
@@ -690,14 +606,13 @@
             <fieldset class="scheduler-border">
                 <legend class="scheduler-border">Measurement</legend>
 
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
                             <div class="col-sm-5">
                                 <label path="assaySlno" for="assaySlno" cssClass="required">Ligand-Version :</label>
                             </div>
                             <div class="col-sm-7" *ngIf="isEditable">
-                                <!-- <input class="assaySlno" name="assaySlno" formControlName="assaySlno"> -->
                                 <select class="" name="assaySlno" formControlName="assaySlno">
                                     <option value="" hidden> - Select Ligand-Version - </option>
                                     <option *ngFor="let assayObject of assays" [value]="assayObject.assayId">
@@ -706,7 +621,7 @@
                                 </select>
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.assaySlno2.ligandSlno2.ligandVersionSlno2.ligandVersion}}</span>
+                                <span>{{data.ligandSlno2.ligandVersionSlno2.ligandVersion}}</span>
                             </div>
                         </div>
                     </div>
@@ -725,6 +640,56 @@
                         </div>
                     </div>
                 </div>
+                <br> -->
+                <div class="row">
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="col-sm-5">
+                                <label path="dataLocator1" for="series" cssClass="required">Table (Data-locator) :</label>
+                            </div>
+                            <div class="col-sm-7" *ngIf="isEditable">
+                                <input class="dataLocator1" name="dataLocator1" formControlName="dataLocator1">
+                            </div>
+                            <div class="col-sm-7" *ngIf="!isEditable">
+                                <span>{{data.dataLocator1}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="col-sm-5">
+                                <label path="dataLocator2" for="series" cssClass="required">Figure (Data-locator) :</label>
+                            </div>
+                            <div class="col-sm-7" *ngIf="isEditable">
+                                <input class="dataLocator2" name="dataLocator2" formControlName="dataLocator2">
+                            </div>
+                            <div class="col-sm-7" *ngIf="!isEditable">
+                                <span>{{data.dataLocator2}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="col-sm-5">
+                                <label path="dataLocator3" for="series" cssClass="required">Page (Data-locator) :</label>
+                            </div>
+                            <div class="col-sm-7" *ngIf="isEditable">
+                                <input class="dataLocator3" name="dataLocator3" formControlName="dataLocator3">
+                            </div>
+                            <div class="col-sm-7" *ngIf="!isEditable">
+                                <span>{{data.dataLocator3}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
                 <br>
 
                 <div class="row">
@@ -736,15 +701,14 @@
                             <div class="col-sm-7" *ngIf="isEditable">
                                 <!-- <input class="categorySlno" name="categorySlno" formControlName="categorySlno"> -->
                                 <select class="" name="categorySlno" formControlName="categorySlno">
-                                    <option value="" hidden> - Select Category - </option>
-                                    <option> - Select Category - </option>
+                                    <option value=""> - Select Category - </option>
                                     <option *ngFor="let categorytype of categorys" [value]="categorytype.id">
                                         {{categorytype.category}}
                                     </option>
                                 </select>
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <!-- <span>{{data.categorySlno2.category}}</span> -->
+                                <span>{{data.categorySlno2?.category}}</span>
                             </div>
                         </div>
                     </div>
@@ -752,7 +716,7 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <div class="col-sm-5">
-                                <label path="functionSlno" for="series" cssClass="required">Category(functions) :</label>
+                                <label path="functionSlno" for="series" cssClass="required">Category(functions):</label>
                             </div>
                             <div class="col-sm-7" *ngIf="isEditable">
                                 <!-- <input class="functionSlno" name="functionSlno" formControlName="functionSlno"> -->
@@ -770,13 +734,14 @@
                                     </option>
                                 </select> -->
                                 <select class="" name="functionSlno" formControlName="functionSlno">
+                                    <option value=""> - Select Category Functions - </option>
                                     <option *ngFor="let function of categoryfunctions" [value]="function.id">
                                         {{function.function}}
                                     </option>
                                 </select>
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <!-- <span>{{data.functionSlno2.function}}</span> -->
+                                <span>{{data.functionSlno2?.function}}</span>
                             </div>
                         </div>
                     </div>
@@ -801,7 +766,8 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <div class="col-sm-5">
-                                <label path="parameterDetail" for="series" cssClass="required">Parameter-detail :</label>
+                                <label path="parameterDetail" for="series" cssClass="required">Parameter-detail
+                                    :</label>
                             </div>
                             <div class="col-sm-7" *ngIf="isEditable">
                                 <input class="parameterDetail" name="parameterDetail" formControlName="parameterDetail">
@@ -823,15 +789,14 @@
                             <div class="col-sm-7" *ngIf="isEditable">
                                 <!-- <input class="originalPrefixSlno" name="originalPrefixSlno" formControlName="originalPrefixSlno"> -->
                                 <select class="" name="originalPrefixSlno" formControlName="originalPrefixSlno">
-                                    <option value="" hidden> - Select Original Prefix - </option>
-                                    <option> - Select Original Prefix - </option>
+                                    <option value=""> - Select Original Prefix - </option>
                                     <option *ngFor="let originalPrefixs of Originals" [value]="originalPrefixs.id">
                                         {{originalPrefixs.originalPrefix}}
                                     </option>
                                 </select>
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <!-- <span>{{this.data.originalPrefixSlno2.originalPrefix}}</span> -->
+                                <span>{{this.data.originalPrefixSlno2?.originalPrefix}}</span>
                             </div>
                         </div>
                     </div>
@@ -860,10 +825,17 @@
                                 <label path="unit" for="unit" cssClass="required">Unit :</label>
                             </div>
                             <div class="col-sm-7" *ngIf="isEditable">
-                                <input class="unit" name="unit" formControlName="unit">
+                                <!-- <input class="unit" name="unit" formControlName="unit"> -->
+                                <select class="" name="unit" formControlName="unit">
+                                    <option value=""> - Select Unit-Types - </option>
+                                    <option *ngFor="let unitsinglevalue of unitsinglevalues"
+                                        [value]="unitsinglevalue.id">
+                                        {{unitsinglevalue.unit}}
+                                    </option>
+                                </select>
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.unit}}</span>
+                                <span>{{measurementunit}}</span>
                             </div>
                         </div>
                     </div>
@@ -906,10 +878,17 @@
                                 <label path="units" for="series" cssClass="required">Unit :</label>
                             </div>
                             <div class="col-sm-7" *ngIf="isEditable">
-                                <input class="units" name="units" formControlName="units">
+                                <!-- <input class="units" name="units" formControlName="units"> -->
+                                <select class="" name="units" formControlName="units">
+                                    <option value=""> - Select Units-Types - </option>
+                                    <option *ngFor="let unitlowendvalue of unitlowendvalues"
+                                        [value]="unitlowendvalue.id">
+                                        {{unitlowendvalue.united}}
+                                    </option>
+                                </select>
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <span>{{data.units}}</span>
+                                <span>{{measurementunited}}</span>
                             </div>
                         </div>
                     </div>
@@ -957,15 +936,14 @@
                             <div class="col-sm-7" *ngIf="isEditable">
                                 <!-- <input class="typeSlno" name="typeSlno" formControlName="typeSlno"> -->
                                 <select class="" name="typeSlno" formControlName="typeSlno">
-                                    <option value="" hidden> - Select Types - </option>
-                                    <option> - Select Types - </option>
+                                    <option value=""> - Select Types - </option>
                                     <option *ngFor="let type1 of types" [value]="type1.id">
                                         {{type1.type}}
                                     </option>
                                 </select>
                             </div>
                             <div class="col-sm-7" *ngIf="!isEditable">
-                                <!-- <span>{{data.typeSlno2.type}}</span> -->
+                                <span>{{data.typeSlno2?.type}}</span>
                             </div>
                         </div>
                     </div>
@@ -1052,7 +1030,8 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <div class="col-sm-5">
-                                <label path="speciesDetail" for="speciesDetail" cssClass="required">Species-detail :</label>
+                                <label path="speciesDetail" for="speciesDetail" cssClass="required">Species-detail
+                                    :</label>
                             </div>
                             <div class="col-sm-7" *ngIf="isEditable">
                                 <input class="speciesDetail" name="speciesDetail" formControlName="speciesDetail">
@@ -1066,7 +1045,7 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <div class="col-sm-5">
-                                <label path="gender" for="series" cssClass="required">SpeciesGender :</label>
+                                <label path="gender" for="series" cssClass="required">Gender :</label>
                             </div>
                             <div class="col-sm-7" *ngIf="isEditable">
                                 <!-- <input class="gender" name="gender" formControlName="gender"> -->
@@ -1100,15 +1079,135 @@
                     </div>
                 </div>
 
+
+            </fieldset>
+
+            <fieldset class="scheduler-border">
+                <legend class="scheduler-border">Target</legend>
+
+                <div class="row">
+                    <!-- <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="col-sm-5">
+                                <label path="ligandVersions" for="ligandVersions" cssClass="required">Ligand
+                                    Version:</label>
+                            </div>
+                            <div class="col-sm-7" *ngIf="isEditable">
+                                <input class="ligandVersions" path="ligandVersions" name="ligandVersions" formControlName="ligandVersions" readonly />
+                            </div>
+                            <div class="col-sm-7" *ngIf="!isEditable">
+                                <span>{{data.ligandSlno2?.ligandVersionSlno2?.ligandVersion}}</span>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="col-sm-5">
+                                <label path="targetVersion" for="targetVersion" cssClass="required">Target version
+                                    :</label>
+                            </div>
+                            <div class="col-sm-7" *ngIf="isEditable">
+                                <input class="targetVersion" name="targetVersion" formControlName="targetVersion">
+                            </div>
+                            <div class="col-sm-7" *ngIf="!isEditable">
+                                <span>{{data.targetVersion}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6"></div>
+
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="col-sm-5">
+                                <label path="collectionId1" for="collectionId1" cssClass="required">Collection-id:</label>
+                            </div>
+                            <div class="col-sm-7" *ngIf="isEditable">
+                                <input class="collectionId1" name="collectionId1" formControlName="collectionId1">
+                            </div>
+                            <div class="col-sm-7" *ngIf="!isEditable">
+                                <span>{{data.collectionId1}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="col-sm-5">
+                                <label path="original" for="original" cssClass="required">Original target name:</label>
+                            </div>
+                            <div class="col-sm-7" *ngIf="isEditable">
+                                <input class="original" name="original" formControlName="original">
+                            </div>
+                            <div class="col-sm-7" *ngIf="!isEditable">
+                                <span>{{data.original}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <br>
+                <div class="row">
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="col-sm-5">
+                                <label path="acronym" for="series" cssClass="required">Acronym :</label>
+                            </div>
+                            <div class="col-sm-7" *ngIf="isEditable">
+                                <input class="acronym" name="acronym" formControlName="acronym">
+                            </div>
+                            <div class="col-sm-7" *ngIf="!isEditable">
+                                <span>{{data.acronym}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="col-sm-5">
+                                <label path="organism" for="series" cssClass="required">Organism source:</label>
+                            </div>
+                            <div class="col-sm-7" *ngIf="isEditable">
+                                <input class="organism" name="organism" formControlName="organism">
+                            </div>
+                            <div class="col-sm-7" *ngIf="!isEditable">
+                                <span>{{data.organism}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="col-sm-5">
+                                <label path="variant" for="variant" cssClass="required">Variant :</label>
+                            </div>
+                            <div class="col-sm-7" *ngIf="isEditable">
+                                <input class="variant" name="variant" formControlName="variant">
+                            </div>
+                            <div class="col-sm-7" *ngIf="!isEditable">
+                                <span>{{data.variant}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <br>
                 <br>
                 <div class="row">
                     <div class="col-sm-8"></div>
-                    <div class="col-sm-1"><button type="button" (click)="onEditReviewerClick($event)" class="btn btn-primary">Edit</button></div>
-                    <div class="col-sm-1"><button type="submit" class="btn btn-primary" style="margin-left:20px">Submit</button></div>
+                    <!-- <div class="col-sm-1"><button type="button" (click)="onRejectClick($event, CheckedForm)" class="btn btn-primary">Reject</button></div> -->
+                    <!-- <div class="col-sm-1"></div> -->
+                    <div class="col-sm-1"><button type="button" (click)="onEditReviewerClick($event)" class="btn btn-primary" style="margin-left:20px">Edit</button></div>
+                    <div class="col-sm-1"><button type="submit" class="btn btn-primary" style="margin-left:40px">Submit</button></div>
                     <div class="col-sm-2"></div>
                 </div>
+
             </fieldset>
+
         </form>
     </div>
     <!-- </fieldset> -->

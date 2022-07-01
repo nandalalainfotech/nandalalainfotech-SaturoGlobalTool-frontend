@@ -1,11 +1,10 @@
 <fieldset class="scheduler-border">
-    <legend class="scheduler-border">Ligand Type</legend>
     <div class="formData">
         <form [formGroup]="LigandtypeForm" (ngSubmit)="onLigandtypeClick($event, LigandtypeForm)" >
             <div class="row">      
                 <div class="col-xs-3 col-sm-3">
                     <div class="form-group">
-                        <label path="ligandtype" for="ligandtype" cssClass="required">Ligand Types</label>
+                        <label path="ligandtype" for="ligandtype" cssClass="required" style="margin-top: 20px;">Ligand Types</label>
                         <input class="form-control" name="ligandtype" formControlName="ligandtype"
                             [ngClass]="{ 'is-invalid': submitted && f.ligandtype.errors }">
                         <div *ngIf="submitted && f.ligandtype.errors" class="invalid-feedback">

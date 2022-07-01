@@ -38,7 +38,10 @@ export class Assay001wb {
     status?: string;
 
 
-    dataLocator?: string;
+    dataLocator?: string | any;
+    dataLocator1?: string | null;
+    dataLocator2?: string | null;
+    dataLocator3?: string | null;
     categorySlno?: number;
     functionSlno?: number;
     parameter?: string;
@@ -70,7 +73,7 @@ export class Assay001wb {
     organism?: string;
     variant?: string;
     
-    insertUser?: string;
+    insertUser?: string |any;
     insertDatetime?: Date;
     updatedUser?: string | null;
     updatedDatetime?: Date | null;

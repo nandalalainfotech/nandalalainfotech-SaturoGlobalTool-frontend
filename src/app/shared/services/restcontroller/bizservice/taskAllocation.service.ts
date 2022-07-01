@@ -10,10 +10,23 @@ import { Taskallocation001wb } from "../entities/Taskallocation001wb";
 export class TaskAllocationManager extends BaseService {
     private taskallocationUrl: string = `${environment.apiUrl}/taskallocation`
 
-    alltask() {
-        // let data: any = {};
-        // data['username'] = username;
-        return this.getCallService(`${this.taskallocationUrl}` + "/findAll");
+    alltask(username: any) {
+        let data: any = {};
+        data['username'] = username;
+        
+        return this.getCallService(`${this.taskallocationUrl}` + "/findAll", data);
+    }
+
+    findByTanNo(username: any) {
+        let data: any = {};
+        data['username'] = username;
+        return this.getCallService(`${this.taskallocationUrl}` + "/findByTanNo", data);
+    }
+
+    findByReviewerTanNo(username: any) {
+        let data: any = {};
+        data['username'] = username;
+        return this.getCallService(`${this.taskallocationUrl}` + "/findByReviewerTanNo", data);
     }
 
     tasksave(taskallocation001wb: Taskallocation001wb, selectedFile: any) {

@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, HostBinding, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ControllersService, GridOptions } from 'ag-grid-community';
-import { Observable } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { deserialize } from 'serializer.ts/Serializer';
 import { AuditComponent } from 'src/app/shared/audit/audit.component';
 import { ConformationComponent } from 'src/app/shared/conformation/conformation.component';
@@ -48,68 +49,75 @@ export class AssayComponent implements OnInit {
   AssayForm: FormGroup | any;
   frameworkComponents: any;
   submitted = false;
-
-  assayId: number | any;
+  tanNo: string | any = "";
+  assayId?: number | any;
+  ligandId: number | any;
   ligandSlno: number | any;
-  ordinal: string = "";
+  ordinal: string | any;
   // collectionId: string = "";
   assayTypeSlno: number | any;
   toxiCitySlno: number | any;
   routeSlno: number | any;
-  ligandSvalue: string = "";
+  ligandSvalue: string | any;
   unitSlno: number | any;
-  ligandHvalue: string = "";
-  ligandLvalue: string = "";
+  ligandHvalue: string | any;
+  ligandLvalue: string | any;
   unitedSlno: number | any;
-  administration: string = "";
-  procedure: string = "";
-  conditionType: string = "";
-  conditionMaterial: string = "";
-  conditionMaterialid: string = "";
-  singleCondition: string = "";
-  singleUnit: string = "";
-  highCondition: string = "";
-  lowCondition: string = "";
-  highLowUnit: string = "";
+  administration: string | any;
+  procedure: string | any;
+  conditionType: string | any;
+  conditionMaterial: string | any;
+  conditionMaterialid: string | any;
+  singleCondition: string | any;
+  singleUnit: string | any;
+  highCondition: string | any;
+  lowCondition: string | any;
+  highLowUnit: string | any;
 
-  dataLocator: string = "";
+  dataLocator1: string | any;
+  dataLocator2: string | any;
+  dataLocator3: string | any;
+  dataLocator: string | any;
   categorySlno: number | any;
   functionSlno: number | any;
-  parameter: string = "";
-  parameterDetail: string = "";
-  singleValue: string = "";
-  unit: string = "";
+  parameter: string | any;
+  parameterDetail: string | any;
+  singleValue: string | any;
+  unit: string | any;
   originalPrefixSlno: number | any;
-  highEndValue: string = "";
-  lowEndValue: string = "";
-  units: string = "";
-  nonNumeric: string = "";
-  remark: string = "";
+  highEndValue: string | any;
+  lowEndValue: string | any;
+  units: string | any;
+  nonNumeric: string | any;
+  remark: string | any;
   typeSlno: number | any;
-  cell: string = "";
-  cellDetail: string = "";
-  organ: string = "";
-  organDetail: string = "";
-  species: string = "";
-  speciesDetail: string = "";
-  gender?: string | null;
-  ageGroup: string = "";
+  cell: string | any;
+  cellDetail: string | any;
+  organ: string | any;
+  organDetail: string | any;
+  species: string | any;
+  speciesDetail: string | any;
+  gender?: string | any;
+  ageGroup: string | any;
 
-  target: string = "";
-  targetVersion: string = "";
-  targetStatus: string = "";
-  collectionId1: string = "";
-  original: string = "";
-  acronym: string = "";
-  organism: string = "";
-  variant: string = "";
+  target: string | any;
+  targetVersion: string | any;
+  targetStatus: string | any;
+  collectionId1: string | any;
+  original: string | any;
+  acronym: string | any;
+  organism: string | any;
+  variant: string | any;
 
   insertUser: string = "";
   insertDatetime: Date | any;
   updatedUser: string = "";
   updatedDatetime: Date | any;
-
+  tanarrays: any = [];
+  tanarr: any = [];
+  ligandtanversions: Ligand001wb[] = [];
   assay: Assay001wb[] = [];
+  curatotTask: Assay001wb[] = [];
   ligands: Ligand001wb[] = [];
   assayTypes: Assaytype001mb[] = [];
   toxiCities: Toxicity001mb[] = [];
@@ -119,6 +127,8 @@ export class AssayComponent implements OnInit {
   ligandVersions: Ligandversion001mb[] = [];
   ligandtypes: Ligandtype001mb[] = [];
   ligand001mb?: Ligand001wb;
+  assay001wbs?: Assay001wb;
+  inProcessLigand: Assay001wb[] = [];
 
   categorys: Category001mb[] = [];
   categoryfunctions: Categoryfunction001mb[] = [];
@@ -131,6 +141,8 @@ export class AssayComponent implements OnInit {
   username: any;
   rolename?: string = "";
   user?: User001mb;
+  collectionId: string = "";
+  public inprocess: any;
 
   @HostBinding('style.--color_l1') colorthemes_1: any;
   @HostBinding('style.--color_l2') colorthemes_2: any;
@@ -154,7 +166,8 @@ export class AssayComponent implements OnInit {
     private categoryManager: CategoryManager,
     private categoryfunctionManager: CategoryfunctionManager,
     private originalprefixManager: OriginalprefixManager,
-    private bioTypeManager: BioTypeManager,) {
+    private bioTypeManager: BioTypeManager,
+    private route: ActivatedRoute) {
 
     this.frameworkComponents = {
       iconRenderer: IconRendererComponent
@@ -162,60 +175,187 @@ export class AssayComponent implements OnInit {
 
   }
 
+
+
   ngOnInit(): void {
+    this.route.queryParams.subscribe((params: { [x: string]: any; }) => {
+      this.assayId = params["assayId"];
+      this.ligandId = params["ligandId"];
 
-    this.createDataGrid001();
-    this.username = this.authManager.getcurrentUser.username;
+      this.ligandManager.findAllByLigandIdAndAssayId(this.ligandId, this.assayId).subscribe(response => {
+        let ligand = deserialize<Ligand001wb>(Ligand001wb, response);
+        let AssayId = ligand.assay001wbs[0]?.assayId;
+        this.assayId = AssayId;
 
-    this.ligandManager.allligand(this.username).subscribe(response => {
-      this.ligands = deserialize<Ligand001wb[]>(Ligand001wb, response);
+        let InsertUser = ligand.assay001wbs[0]?.insertUser;
+        this.insertUser = InsertUser;
+
+        let LigandSlno = ligand.assay001wbs[0]?.ligandSlno;
+        this.ligandSlno = LigandSlno;
+
+        let AssayType = ligand.assay001wbs[0]?.assayTypeSlno;
+        this.assayTypeSlno = AssayType;
+
+        let ToxiCity = ligand.assay001wbs[0]?.toxiCitySlno;
+        this.toxiCitySlno = ToxiCity;
+
+        let Route = ligand.assay001wbs[0]?.routeSlno;
+        this.routeSlno = Route;
+
+        let Administration = ligand.assay001wbs[0]?.administration;
+        this.administration = Administration;
+
+        let Procedure = ligand.assay001wbs[0]?.procedure;
+        this.procedure = Procedure;
+
+        let LigandSvalue = ligand.assay001wbs[0]?.ligandSvalue;
+        this.ligandSvalue = LigandSvalue;
+
+        let Unit = ligand.assay001wbs[0]?.unitSlno;
+        this.unitSlno = Unit;
+
+        let LigandHvalue = ligand.assay001wbs[0]?.ligandHvalue;
+        this.ligandHvalue = LigandHvalue;
+
+        let LigandLvalue = ligand.assay001wbs[0]?.ligandLvalue;
+        this.ligandLvalue = LigandLvalue;
+
+        let UnitedSlno = ligand.assay001wbs[0]?.unitedSlno;
+        this.unitedSlno = UnitedSlno;
+
+        let ConditionType = ligand.assay001wbs[0]?.conditionType;
+        this.conditionType = ConditionType;
+
+        let ConditionMaterial = ligand.assay001wbs[0]?.conditionMaterial;
+        this.conditionMaterial = ConditionMaterial;
+
+        let ConditionMaterialid = ligand.assay001wbs[0]?.conditionMaterialid;
+        this.conditionMaterialid = ConditionMaterialid;
+
+        let SingleCondition = ligand.assay001wbs[0]?.singleCondition;
+        this.singleCondition = SingleCondition;
+
+        let Units = ligand.assay001wbs[0]?.singleUnit;
+        this.singleUnit = Units;
+
+        let HighCondition = ligand.assay001wbs[0]?.highCondition;
+        this.highCondition = HighCondition;
+
+        let LowCondition = ligand.assay001wbs[0]?.lowCondition;
+        this.lowCondition = LowCondition;
+
+        let HighLowUnit = ligand.assay001wbs[0]?.highLowUnit;
+        this.highLowUnit = HighLowUnit;
+
+        let DataLocator1 = ligand.assay001wbs[0]?.dataLocator1;
+        this.dataLocator1 = DataLocator1;
+
+        let DataLocator2 = ligand.assay001wbs[0]?.dataLocator2;
+        this.dataLocator2 = DataLocator2;
+
+        let DataLocator3 = ligand.assay001wbs[0]?.dataLocator3;
+        this.dataLocator3 = DataLocator3;
+
+        let Category = ligand.assay001wbs[0]?.categorySlno;
+        this.categorySlno = Category;
+
+        let Function = ligand.assay001wbs[0]?.functionSlno;
+        this.functionSlno = Function;
+
+        let Parameter = ligand.assay001wbs[0]?.parameter;
+        this.parameter = Parameter;
+
+        let ParameterDetail = ligand.assay001wbs[0]?.parameterDetail;
+        this.parameterDetail = ParameterDetail;
+
+        let OriginalPrefixSlno = ligand.assay001wbs[0]?.originalPrefixSlno;
+        this.originalPrefixSlno = OriginalPrefixSlno;
+
+        let SingleValue = ligand.assay001wbs[0]?.singleValue;
+        this.singleValue = SingleValue;
+
+        let Measurementunits = ligand.assay001wbs[0]?.unit;
+        this.unit = Measurementunits;
+
+        let HighEndValue = ligand.assay001wbs[0]?.highEndValue;
+        this.highEndValue = HighEndValue;
+
+        let LowEndValue = ligand.assay001wbs[0]?.lowEndValue;
+        this.lowEndValue = LowEndValue;
+
+        let MeasurementunitedSlno = ligand.assay001wbs[0]?.units;
+        this.units = MeasurementunitedSlno;
+
+        let NonNumeric = ligand.assay001wbs[0]?.nonNumeric;
+        this.nonNumeric = NonNumeric;
+
+        let Remark = ligand.assay001wbs[0]?.remark;
+        this.remark = Remark;
+
+        let Type = ligand.assay001wbs[0]?.typeSlno;
+        this.typeSlno = Type;
+
+        let Cell = ligand.assay001wbs[0]?.cell;
+        this.cell = Cell;
+
+        let CellDetail = ligand.assay001wbs[0]?.cellDetail;
+        this.cellDetail = CellDetail;
+
+        let Organ = ligand.assay001wbs[0]?.organ;
+        this.organ = Organ;
+
+        let OrganDetail = ligand.assay001wbs[0]?.organDetail;
+        this.organDetail = OrganDetail;
+
+        let Species = ligand.assay001wbs[0]?.species;
+        this.species = Species;
+
+        let SpeciesDetail = ligand.assay001wbs[0]?.speciesDetail;
+        this.speciesDetail = SpeciesDetail;
+
+        let Gender = ligand.assay001wbs[0]?.gender;
+        this.gender = Gender;
+
+        let AgeGroup = ligand.assay001wbs[0]?.ageGroup;
+        this.ageGroup = AgeGroup;
+
+        let TargetVersion = ligand.assay001wbs[0]?.targetVersion;
+        this.targetVersion = TargetVersion;
+
+        let CollectionId1 = ligand.assay001wbs[0]?.collectionId1;
+        this.collectionId1 = CollectionId1;
+
+        let Original = ligand.assay001wbs[0]?.original;
+        this.original = Original;
+
+        let Acronym = ligand.assay001wbs[0]?.acronym;
+        this.acronym = Acronym;
+
+        let Organism = ligand.assay001wbs[0]?.organism;
+        this.organism = Organism;
+
+        let Variant = ligand.assay001wbs[0]?.variant;
+        this.variant = Variant;
+
+
+
+      });
+
+      // this.assayManager.findAllByLigandIdAndAssayId(this.assayId).subscribe(response => {
+      //   this.ligandAndAssayId = deserialize<Assay001wb[]>(Assay001wb, response);
+
+      //   });
+
+      //   let AssayType =  this.ligandAndAssayId[0].assayTypeSlno;
+      //     this.assayTypeSlno = AssayType;
+
+
+
     });
-
-    this.assayTypeManager.allassayType().subscribe(response => {
-      this.assayTypes = deserialize<Assaytype001mb[]>(Assaytype001mb, response);
-    });
-
-    this.toxicityManager.alltoxicityType().subscribe(response => {
-      this.toxiCities = deserialize<Toxicity001mb[]>(Toxicity001mb, response);
-    });
-
-    this.routeofAdminManager.allrouteofadminType().subscribe(response => {
-      this.routeAdmins = deserialize<Routeofadministration001mb[]>(Routeofadministration001mb, response);
-    });
-
-    this.unitSingleValueManager.allunitSingleValue().subscribe(response => {
-      this.unitsinglevalues = deserialize<Unitsinglevalue001mb[]>(Unitsinglevalue001mb, response);
-    });
-
-    this.unitlowendvalueManager.allunitlowendvalue().subscribe(response => {
-      this.unitlowendvalues = deserialize<Unitlowendvalue001mb[]>(Unitlowendvalue001mb, response);
-    });
-
-    this.categoryManager.allcategoryType().subscribe(response => {
-      this.categorys = deserialize<Category001mb[]>(Category001mb, response);
-
-    });
-
-    this.categoryfunctionManager.allcategoryFunction().subscribe(response => {
-      this.categoryfunctions = deserialize<Categoryfunction001mb[]>(Categoryfunction001mb, response);
-
-    });
-
-    this.originalprefixManager.alloriginalPrefix().subscribe(response => {
-      this.Originals = deserialize<Originalprefix001mb[]>(Originalprefix001mb, response);
-
-    });
-
-    this.bioTypeManager.allbioType().subscribe(response => {
-      this.types = deserialize<Type001mb[]>(Type001mb, response);
-
-    });
-
     this.AssayForm = this.formBuilder.group({
+      tanNo: [''],
       ligandSlno: [''],
-      // ordinal: [''],
-      // collectionId: [''],
-      assayTypeSlno: [''],
+      assayTypeSlno: [],
       toxiCitySlno: [''],
       routeSlno: [''],
       ligandSvalue: [''],
@@ -233,14 +373,11 @@ export class AssayComponent implements OnInit {
       lowCondition: [''],
       highLowUnit: [''],
       conditionMaterialid: [''],
-      // status: [''],
       ligandname: [''],
       dataLocator1: [''],
       dataLocator2: [''],
       dataLocator3: [''],
-      // dataLocator: [''],
       categorySlno: [''],
-      // assaySlno: [''],
       functionSlno: [''],
       parameter: [''],
       parameterDetail: [''],
@@ -261,17 +398,120 @@ export class AssayComponent implements OnInit {
       speciesDetail: [''],
       gender: [''],
       ageGroup: [''],
-
-
-      // target: [''],
-      // targetStatus: [''],
       targetVersion: [''],
       collectionId1: [''],
       original: [''],
       acronym: [''],
       organism: [''],
       variant: [''],
+    });
 
+    this.createDataGrid001();
+    this.username = this.authManager.getcurrentUser.username;
+
+    let res1 = this.ligandManager.allligand(this.username);
+    let res2 = this.assayTypeManager.allassayType();
+    let res3 = this.toxicityManager.alltoxicityType();
+    let res4 = this.routeofAdminManager.allrouteofadminType();
+    let res5 = this.unitSingleValueManager.allunitSingleValue();
+    let res6 = this.unitlowendvalueManager.allunitlowendvalue();
+    let res7 = this.categoryManager.allcategoryType();
+    let res8 = this.categoryfunctionManager.allcategoryFunction();
+    let res9 = this.originalprefixManager.alloriginalPrefix();
+    let res10 = this.bioTypeManager.allbioType();
+
+    forkJoin([res1, res2, res3, res4, res5, res6, res7, res8, res9, res10]).subscribe(data => {
+      // res1
+      this.ligands = deserialize<Ligand001wb[]>(Ligand001wb, data[0]);
+      for (let i = 0; i < this.ligands.length; i++) {
+        this.tanarrays.push(this.ligands[i].tanNumber)
+      }
+      this.tanarr = new Set(this.tanarrays);
+      let j = this.ligands.length - 1;
+      for (j; j < this.ligands.length; j++) {
+        this.AssayForm.patchValue({
+          tanNo: this.ligands[j]?.tanNumber,
+        });
+      }
+      //res2
+      this.assayTypes = deserialize<Assaytype001mb[]>(Assaytype001mb, data[1]);
+      this.toxiCities = deserialize<Toxicity001mb[]>(Toxicity001mb, data[2]);
+      this.routeAdmins = deserialize<Routeofadministration001mb[]>(Routeofadministration001mb, data[3]);
+      this.unitsinglevalues = deserialize<Unitsinglevalue001mb[]>(Unitsinglevalue001mb, data[4]);
+      this.unitlowendvalues = deserialize<Unitlowendvalue001mb[]>(Unitlowendvalue001mb, data[5]);
+      this.categorys = deserialize<Category001mb[]>(Category001mb, data[6]);
+      this.categoryfunctions = deserialize<Categoryfunction001mb[]>(Categoryfunction001mb, data[7]);
+      this.Originals = deserialize<Originalprefix001mb[]>(Originalprefix001mb, data[8]);
+      this.types = deserialize<Type001mb[]>(Type001mb, data[9]);
+
+      setTimeout(() => {
+        this.AssayForm.patchValue({
+          ligandSlno: this.ligandSlno,
+          assayTypeSlno: this.assayTypeSlno,
+          toxiCitySlno: this.toxiCitySlno,
+          routeSlno: this.routeSlno,
+          ligandSvalue: this.ligandSvalue,
+          unitSlno: this.unitSlno,
+          ligandHvalue: this.ligandHvalue,
+          ligandLvalue: this.ligandLvalue,
+          unitedSlno: this.unitedSlno,
+          administration: this.administration,
+          procedure: this.procedure,
+          conditionType: this.conditionType,
+          conditionMaterial: this.conditionMaterial,
+          singleCondition: this.singleCondition,
+          singleUnit: this.singleUnit,
+          highCondition: this.highCondition,
+          lowCondition: this.lowCondition,
+          highLowUnit: this.highLowUnit,
+          conditionMaterialid: this.conditionMaterialid,
+          ligandname: '',
+          dataLocator1: this.dataLocator1,
+          dataLocator2: this.dataLocator2,
+          dataLocator3: this.dataLocator3,
+          categorySlno: this.categorySlno,
+          functionSlno: this.functionSlno,
+          parameter: this.parameter,
+          parameterDetail: this.parameterDetail,
+          originalPrefixSlno: this.originalPrefixSlno,
+          unit: this.unit,
+          singleValue: this.singleValue,
+          highEndValue: this.highEndValue,
+          lowEndValue: this.lowEndValue,
+          units: this.units,
+          nonNumeric: this.nonNumeric,
+          remark: this.remark,
+          typeSlno: this.typeSlno,
+          cell: this.cell,
+          cellDetail: this.cellDetail,
+          organ: this.organ,
+          organDetail: this.organDetail,
+          species: this.species,
+          speciesDetail: this.speciesDetail,
+          gender: this.gender,
+          ageGroup: this.ageGroup,
+          targetVersion: this.targetVersion,
+          collectionId1: this.collectionId1,
+          original: this.original,
+          acronym: this.acronym,
+          organism: this.organism,
+          variant: this.variant
+        });
+        for (let tannumber of this.ligands) {
+          if ((tannumber.tanNumber == this.f.tanNo.value) && (tannumber.ligandId == this.ligandSlno)) {
+            if (tannumber.identifier1) {
+              this.AssayForm.patchValue({
+                'ligandname': tannumber.identifier1,
+              });
+            } else {
+              this.AssayForm.patchValue({
+                'ligandname': tannumber.locator,
+              });
+            }
+            break;
+          }
+        }
+      }, 10);
     });
 
     this.authManager.currentUserSubject.subscribe((object: any) => {
@@ -286,19 +526,55 @@ export class AssayComponent implements OnInit {
       this.colorthemes_4 = Utils.rgbToHex(rgb, 0.8);
     });
 
-
-
     this.loadData();
 
+    this.AssayForm.get('tanNo').valueChanges.subscribe((value: any) => {
+      this.ligandtanversions = [];
+      let legandversions = [];
+      for (let i = 0; i < this.ligands.length; i++) {
+        if (this.ligands[i].tanNumber == value) {
+          legandversions.push(this.ligands[i].ligandVersionSlno);
+        }
+        if (this.ligands[i].tanNumber == value) {
+          this.ligandtanversions.push(this.ligands[i]);
+        }
+      }
+
+      if (legandversions.length < 1) {
+        this.AssayForm.patchValue({
+          'ligandSlno': legandversions[0],
+        });
+      }
+    });
+
+    this.AssayForm.get('ligandSlno').valueChanges.subscribe((value: any) => {
+      for (let tannumber of this.ligands) {
+        if ((tannumber.tanNumber == this.f.tanNo.value) && (tannumber.ligandId == value)) {
+          if (tannumber.identifier1) {
+            this.AssayForm.patchValue({
+              'ligandname': tannumber.identifier1,
+            });
+          } else {
+            this.AssayForm.patchValue({
+              'ligandname': tannumber.locator,
+            });
+          }
+          break;
+        }
+      }
+    });
 
   }
-  // this.username = this.authManager.getcurrentUser.username;
-  loadData() {
-    this.assayManager.allassay().subscribe(response => {
 
+  loadData() {
+    this.assay = [];
+    this.gridOptions?.api?.setRowData([]);
+    this.username = this.authManager.getcurrentUser.username;
+    this.assayManager.allassay(this.username).subscribe(response => {
       this.assay = deserialize<Assay001wb[]>(Assay001wb, response);
       if (this.assay.length > 0) {
-        this.gridOptions?.api?.setRowData(this.assay);
+        let data = JSON.parse(JSON.stringify(this.assay));
+        this.gridOptions?.api?.setRowData(data);
       } else {
         this.gridOptions?.api?.setRowData([]);
       }
@@ -307,11 +583,12 @@ export class AssayComponent implements OnInit {
 
 
 
+
   get f() { return this.AssayForm.controls; }
 
   createDataGrid001(): void {
     this.gridOptions = {
-      paginationPageSize: 10,
+      paginationPageSize: 100,
       rowSelection: 'single',
       // onFirstDataRendered: this.onFirstDataRendered.bind(this),
     };
@@ -320,18 +597,42 @@ export class AssayComponent implements OnInit {
     this.gridOptions.animateRows = true;
 
     this.gridOptions.columnDefs = [
+      // {
+      //   headerName: 'Sl-No',
+      //   field: 'assayId',
+      //   width: 200,
+      //   // flex: 1,
+      //   sortable: true,
+      //   filter: true,
+      //   resizable: true,
+      //   headerCheckboxSelection: true,
+      //   headerCheckboxSelectionFilteredOnly: true,
+      //   checkboxSelection: true,
+      //   suppressSizeToFit: true,
+      // },
       {
-        headerName: 'Sl-No',
-        field: 'assayId',
-        width: 200,
+        headerName: 'Edit',
+        cellRenderer: 'iconRenderer',
+        width: 80,
         // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        headerCheckboxSelection: true,
-        headerCheckboxSelectionFilteredOnly: true,
-        checkboxSelection: true,
         suppressSizeToFit: true,
+        cellStyle: { textAlign: 'center' },
+        cellRendererParams: {
+          onClick: this.onEditButtonClick.bind(this),
+          label: 'Edit'
+        },
+      },
+      {
+        headerName: 'Delete',
+        cellRenderer: 'iconRenderer',
+        width: 85,
+        // flex: 1,
+        suppressSizeToFit: true,
+        cellStyle: { textAlign: 'center' },
+        cellRendererParams: {
+          onClick: this.onDeleteButtonClick.bind(this),
+          label: 'Delete'
+        },
       },
       {
         headerName: 'Ligand-Version',
@@ -343,16 +644,16 @@ export class AssayComponent implements OnInit {
         suppressSizeToFit: true,
         valueGetter: this.setVersion.bind(this)
       },
-      {
-        headerName: 'Ordinal',
-        field: 'ordinal',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true
-      },
+      // {
+      //   headerName: 'Ordinal',
+      //   field: 'ordinal',
+      //   width: 200,
+      //   // flex: 1,
+      //   sortable: true,
+      //   filter: true,
+      //   resizable: true,
+      //   suppressSizeToFit: true
+      // },
 
       {
         headerName: 'Assay-type',
@@ -546,9 +847,6 @@ export class AssayComponent implements OnInit {
         suppressSizeToFit: true
       },
 
-
-
-
       {
         headerName: 'Data-locator',
         field: 'dataLocator',
@@ -705,7 +1003,7 @@ export class AssayComponent implements OnInit {
         resizable: true,
         suppressSizeToFit: true,
         valueGetter: this.setTypes.bind(this)
-        
+
       },
       {
         headerName: 'Cell',
@@ -793,28 +1091,69 @@ export class AssayComponent implements OnInit {
       },
 
       {
-        headerName: 'Edit',
-        cellRenderer: 'iconRenderer',
-        width: 80,
+        headerName: 'TARGET VERSION',
+        field: 'targetVersion',
+        width: 200,
         // flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
-        cellRendererParams: {
-          onClick: this.onEditButtonClick.bind(this),
-          label: 'Edit'
-        },
       },
+
       {
-        headerName: 'Delete',
-        cellRenderer: 'iconRenderer',
-        width: 85,
+        headerName: 'COLLETION ID',
+        field: 'collectionId1',
+        width: 200,
         // flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
-        cellRendererParams: {
-          onClick: this.onDeleteButtonClick.bind(this),
-          label: 'Delete'
-        },
+      },
+
+      {
+        headerName: 'ORIGINAL-TARGET-NAME',
+        field: 'original',
+        width: 200,
+        // flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+      },
+
+      {
+        headerName: 'ACRONYM',
+        field: 'acronym',
+        width: 200,
+        // flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+      },
+
+      {
+        headerName: 'ORGANISM-SOURCE',
+        field: 'organism',
+        width: 200,
+        // flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+      },
+
+      {
+        headerName: 'VARIANT',
+        field: 'variant',
+        width: 200,
+        // flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
       },
       {
         headerName: 'Audit',
@@ -855,14 +1194,14 @@ export class AssayComponent implements OnInit {
     return params.data.unitedSlno2 ? params.data.unitedSlno2.united : null;
   }
 
-  setCategory(params: any){
+  setCategory(params: any) {
     return params.data.categorySlno2 ? params.data.categorySlno2.category : null;
   }
 
-  setCategoryFunction(params: any){
+  setCategoryFunction(params: any) {
     return params.data.functionSlno2 ? params.data.functionSlno2.function : null;
   }
- 
+
   setOriginalPrefix(params: any) {
     return params.data.originalPrefixSlno2 ? params.data.originalPrefixSlno2.originalPrefix : null;
   }
@@ -874,56 +1213,94 @@ export class AssayComponent implements OnInit {
 
 
   onEditButtonClick(params: any) {
-    this.assayId = params.data.assayId;
-    this.insertUser = params.data.insertUser;
-    this.insertDatetime = params.data.insertDatetime;
-    this.AssayForm.patchValue({
-      'ordinal': params.data.ordinal,
-      'ligandSlno': params.data.ligandSlno,
-      'assayTypeSlno': params.data.assayTypeSlno,
-      'toxiCitySlno': params.data.toxiCitySlno,
-      'routeSlno': params.data.routeSlno,
-      'ligandSvalue': params.data.ligandSvalue,
-      'unitSlno': params.data.unitSlno,
-      'ligandHvalue': params.data.ligandHvalue,
-      'ligandLvalue': params.data.ligandLvalue,
-      'unitedSlno': params.data.unitedSlno,
-      'administration': params.data.administration,
-      'procedure': params.data.procedure,
-      'conditionType': params.data.conditionType,
-      'conditionMaterial': params.data.conditionMaterial,
-      'conditionMaterialid': params.data.conditionMaterialid,
-      'singleCondition': params.data.singleCondition,
-      'singleUnit': params.data.singleUnit,
-      'highCondition': params.data.highCondition,
-      'lowCondition': params.data.lowCondition,
-      'highLowUnit': params.data.highLowUnit,
+    if (params.data.status != "Submitted to QC") {
+      this.assayId = params.data.assayId;
+      this.insertUser = params.data.insertUser;
+      this.insertDatetime = params.data.insertDatetime;
+      this.AssayForm.patchValue({
+        'ordinal': params.data.ordinal,
+        'ligandSlno': params.data.ligandSlno,
+        'assayTypeSlno': params.data.assayTypeSlno,
+        'toxiCitySlno': params.data.toxiCitySlno,
+        'routeSlno': params.data.routeSlno,
+        'ligandSvalue': params.data.ligandSvalue,
+        'unitSlno': params.data.unitSlno,
+        'ligandHvalue': params.data.ligandHvalue,
+        'ligandLvalue': params.data.ligandLvalue,
+        'unitedSlno': params.data.unitedSlno,
+        'administration': params.data.administration,
+        'procedure': params.data.procedure,
+        'conditionType': params.data.conditionType,
+        'conditionMaterial': params.data.conditionMaterial,
+        'conditionMaterialid': params.data.conditionMaterialid,
+        'singleCondition': params.data.singleCondition,
+        'singleUnit': params.data.singleUnit,
+        'highCondition': params.data.highCondition,
+        'lowCondition': params.data.lowCondition,
+        'highLowUnit': params.data.highLowUnit,
+
+        // 'dataLocator': this.assay[i].dataLocator,
+        'dataLocator1': params.data.dataLocator1,
+        'dataLocator2': params.data.dataLocator2,
+        'dataLocator3': params.data.dataLocator3,
+        'categorySlno': params.data.categorySlno,
+        'functionSlno': params.data.functionSlno,
+        'parameter': params.data.parameter,
+        'parameterDetail': params.data.parameterDetail,
+        'originalPrefixSlno': params.data.originalPrefixSlno,
+        'unit': params.data.unit,
+        'singleValue': params.data.singleValue,
+        'highEndValue': params.data.highEndValue,
+        'lowEndValue': params.data.lowEndValue,
+        'units': params.data.units,
+        'nonNumeric': params.data.nonNumeric,
+        'remark': params.data.remark,
+        'typeSlno': params.data.typeSlno,
+        'cell': params.data.cell,
+        'cellDetail': params.data.cellDetail,
+        'organ': params.data.organ,
+        'organDetail': params.data.organDetail,
+        'species': params.data.species,
+        'speciesDetail': params.data.speciesDetail,
+        'gender': params.data.gender,
+        'ageGroup': params.data.ageGroup,
 
 
-    });
+        'targetVersion': params.data.targetVersion,
+        'collectionId1': params.data.collectionId1,
+        'original': params.data.original,
+        'acronym': params.data.acronym,
+        'organism': params.data.organism,
+        'variant': params.data.variant,
+      });
+    }
   }
 
 
   onDeleteButtonClick(params: any) {
-    const modalRef = this.modalService.open(ConformationComponent);
-    modalRef.componentInstance.details = "Assay";
-    modalRef.result.then((data) => {
-      if (data == "Yes") {
-        this.assayManager.assaydelete(params.data.assayId).subscribe((response) => {
-          for (let i = 0; i < this.assay.length; i++) {
-            if (this.assay[i].assayId == params.data.assayId) {
-              this.assay?.splice(i, 1);
-              break;
+    if (params.data.status != "Submitted to Qc") {
+      const modalRef = this.modalService.open(ConformationComponent);
+      modalRef.componentInstance.details = "Assay";
+      modalRef.componentInstance.description = "Are you sure want to delete Assay ?";
+      modalRef.result.then((data) => {
+        if (data == "Yes") {
+          this.assayManager.assaydelete(params.data.assayId).subscribe((response) => {
+            for (let i = 0; i < this.assay.length; i++) {
+              if (this.assay[i].assayId == params.data.assayId) {
+                this.assay?.splice(i, 1);
+                break;
+              }
             }
-          }
-          const selectedRows = params.api.getSelectedRows();
-          params.api.applyTransaction({ remove: selectedRows });
-          this.gridOptions.api.deselectAll();
-          this.calloutService.showSuccess("Assay Removed Successfully");
-        });
-      }
-    })
+            const selectedRows = params.api.getSelectedRows();
+            params.api.applyTransaction({ remove: selectedRows });
+            this.gridOptions.api.deselectAll();
+            this.calloutService.showSuccess("Assay Removed Successfully");
+          });
+        }
+      })
+    }
   }
+
 
   onAuditButtonClick(params: any) {
     const modalRef = this.modalService.open(AuditComponent);
@@ -949,36 +1326,22 @@ export class AssayComponent implements OnInit {
       return;
     }
     let dataLocatorCount: number = 0;
-    if(this.f.dataLocator1.value) {
+    if (this.f.dataLocator1.value) {
       dataLocatorCount++;
     }
-    if(this.f.dataLocator2.value) {
+    if (this.f.dataLocator2.value) {
       dataLocatorCount++;
     }
-    if(this.f.dataLocator3.value) {
+    if (this.f.dataLocator3.value) {
       dataLocatorCount++;
     }
-    if(dataLocatorCount != 1) {
+    if (dataLocatorCount != 1) {
       this.calloutService.showWarning("Please Enter Any One DataLocater");
       return;
     }
 
-    let assay001wb = new Assay001wb();
-    if(this.f.dataLocator1.value !== "") {
-      console.log("table not empty", this.f.dataLocator1.value)
-      assay001wb.dataLocator = this.f.dataLocator1.value ? "Table "+this.f.dataLocator1.value : "";
-    }
-   
-    if(this.f.dataLocator2.value !== "") {
-      console.log("figure not empty", this.f.dataLocator2.value)
-      assay001wb.dataLocator = this.f.dataLocator2.value ? "Figure "+this.f.dataLocator2.value : "";
-    }
 
-    if(this.f.dataLocator3.value !== "") {
-      console.log("page not empty", this.f.dataLocator3.value)
-      assay001wb.dataLocator = this.f.dataLocator3.value ?"Page "+this.f.dataLocator3.value+" (text)" : "";
-    }
- 
+    let assay001wb = new Assay001wb();
 
     // assay001wb.ordinal = this.f.ordinal.value ? this.f.ordinal.value : "";
     assay001wb.collectionId = "47498009Q-1";
@@ -993,8 +1356,7 @@ export class AssayComponent implements OnInit {
     assay001wb.unitedSlno = this.f.unitedSlno.value ? this.f.unitedSlno.value : null;
     assay001wb.administration = this.f.administration.value ? this.f.administration.value : "";
     assay001wb.procedure = this.f.procedure.value ? this.f.procedure.value : "";
-    console.log("this.ligand001mb----target uri", this.ligand001mb)
-    assay001wb.target = "bioactivity-target" + "/" + "SaturoGlobal" + "/" + this.ligand001mb?.tanNumber + "/" + this.ligand001mb?.ligandVersionSlno2?.ligandVersion + "/" + this.f.targetVersion.value + ">" + "bioactivity-target" + "/" + uuid();
+    assay001wb.target = "bioactivity-target" + "/" + "saturoglobal" + "/" + this.ligand001mb?.tanNumber + "/" + this.ligand001mb?.ligandVersionSlno2?.ligandVersion + "/" + this.f.targetVersion.value + ">" + "bioactivity-target" + "/" + uuid();
     assay001wb.conditionType = this.f.conditionType.value ? this.f.conditionType.value : "";
     assay001wb.conditionMaterial = this.f.conditionMaterial.value ? this.f.conditionMaterial.value : "";
     assay001wb.conditionMaterialid = this.f.conditionMaterialid.value ? this.f.conditionMaterialid.value : "";
@@ -1003,10 +1365,13 @@ export class AssayComponent implements OnInit {
     assay001wb.highCondition = this.f.highCondition.value ? this.f.highCondition.value : "";
     assay001wb.lowCondition = this.f.lowCondition.value ? this.f.lowCondition.value : "";
     assay001wb.highLowUnit = this.f.highLowUnit.value ? this.f.highLowUnit.value : "";
-    assay001wb.status = "SUBMITTED TO QC";
+    assay001wb.status = "Before submit the data";
     assay001wb.targetStatus = "embargoed";
 
-    // assay001wb.dataLocator = this.f.dataLocator.value ? this.f.dataLocator.value : "";
+    assay001wb.dataLocator = null;
+    assay001wb.dataLocator1 = this.f.dataLocator1.value ? this.f.dataLocator1.value : null;
+    assay001wb.dataLocator2 = this.f.dataLocator2.value ? this.f.dataLocator2.value : null;
+    assay001wb.dataLocator3 = this.f.dataLocator3.value ? this.f.dataLocator3.value : null;
     assay001wb.categorySlno = this.f.categorySlno.value ? this.f.categorySlno.value : null;
     assay001wb.functionSlno = this.f.functionSlno.value ? this.f.functionSlno.value : null;
     assay001wb.parameter = this.f.parameter.value ? this.f.parameter.value : "";
@@ -1038,7 +1403,6 @@ export class AssayComponent implements OnInit {
     assay001wb.acronym = this.f.acronym.value ? this.f.acronym.value : "";
     assay001wb.organism = this.f.organism.value ? this.f.organism.value : "";
     assay001wb.variant = this.f.variant.value ? this.f.variant.value : "";
-    console.log("assay001wb", assay001wb);
     if (this.assayId) {
       assay001wb.assayId = this.assayId;
       assay001wb.insertUser = this.insertUser;
@@ -1046,7 +1410,7 @@ export class AssayComponent implements OnInit {
       assay001wb.updatedUser = this.authManager.getcurrentUser.username;
       assay001wb.updatedDatetime = new Date();
       this.assayManager.assayupdate(assay001wb).subscribe((response) => {
-        this.calloutService.showSuccess("Assay Details Updated Successfully");
+        this.calloutService.showSuccess("Assay Details Updated Successfully and \n Details Not Sent to Reviewer");
         this.loadData();
         this.AssayForm.reset();
         this.assayId = null;
@@ -1054,116 +1418,380 @@ export class AssayComponent implements OnInit {
       });
     }
     else {
-      assay001wb.insertUser = this.authManager.getcurrentUser.username;
-      assay001wb.insertDatetime = new Date();
-      console.log("assay001wb", assay001wb);
-      this.assayManager.assaysave(assay001wb).subscribe((response) => {
-        this.calloutService.showSuccess("Assay Details Saved Successfully");
-        this.loadData();
-        this.AssayForm.reset();
-        this.submitted = false;
+      let res = this.assayManager.findAllByTanligandID(this.f.ligandSlno.value);
+      forkJoin([res]).subscribe(data => {
+        let assay = data[0];
+        if (assay.length > 0) {
+          const modalRef = this.modalService.open(ConformationComponent);
+          modalRef.componentInstance.details = "Assay";
+          modalRef.componentInstance.description = "Existing Ligand Version is repeated.  Are you sure want to Save Assay ?";
+          modalRef.result.then((data) => {
+            if (data == "Yes") {
+              assay001wb.insertUser = this.authManager.getcurrentUser.username;
+              assay001wb.insertDatetime = new Date();
+              this.assayManager.assaysave(assay001wb).subscribe((response) => {
+                this.calloutService.showSuccess("Assay Details Saved Successfully and  Details Not Sent to Reviewer");
+                this.loadData();
+                this.onReset();
+                this.submitted = false;
+              });
+            }
+          });
+        } else {
+          assay001wb.insertUser = this.authManager.getcurrentUser.username;
+          assay001wb.insertDatetime = new Date();
+          this.assayManager.assaysave(assay001wb).subscribe((response) => {
+            this.calloutService.showSuccess("Assay Details Saved Successfully and \n Details Not Sent to Reviewer");
+            this.loadData();
+            this.onReset();
+            this.submitted = false;
+          });
+        }
       });
     }
+
+
+  }
+
+
+
+  toggleInprocess(event: any, AssayForm: any) {
+
+    this.markFormGroupTouched(this.AssayForm);
+    this.submitted = true;
+    if (this.AssayForm.invalid) {
+      return;
+    }
+    let dataLocatorCount: number = 0;
+    if (this.f.dataLocator1.value) {
+      dataLocatorCount++;
+    }
+    if (this.f.dataLocator2.value) {
+      dataLocatorCount++;
+    }
+    if (this.f.dataLocator3.value) {
+      dataLocatorCount++;
+    }
+    if (dataLocatorCount != 1) {
+      this.calloutService.showWarning("Please Enter Any One DataLocater");
+      return;
+    }
+
+    let assay001wb = new Assay001wb();
+
+    // assay001wb.ordinal = this.f.ordinal.value ? this.f.ordinal.value : "";
+    assay001wb.collectionId = "47498009Q-1";
+    assay001wb.ligandSlno = this.f.ligandSlno.value ? this.f.ligandSlno.value : null;
+    assay001wb.assayTypeSlno = this.f.assayTypeSlno.value ? this.f.assayTypeSlno.value : null;
+    assay001wb.toxiCitySlno = this.f.toxiCitySlno.value ? this.f.toxiCitySlno.value : null;
+    assay001wb.routeSlno = this.f.routeSlno.value ? this.f.routeSlno.value : null;
+    assay001wb.ligandSvalue = this.f.ligandSvalue.value ? this.f.ligandSvalue.value : "";
+    assay001wb.unitSlno = this.f.unitSlno.value ? this.f.unitSlno.value : null;
+    assay001wb.ligandHvalue = this.f.ligandHvalue.value ? this.f.ligandHvalue.value : "";
+    assay001wb.ligandLvalue = this.f.ligandLvalue.value ? this.f.ligandLvalue.value : "";
+    assay001wb.unitedSlno = this.f.unitedSlno.value ? this.f.unitedSlno.value : null;
+    assay001wb.administration = this.f.administration.value ? this.f.administration.value : "";
+    assay001wb.procedure = this.f.procedure.value ? this.f.procedure.value : "";
+    assay001wb.target = "bioactivity-target" + "/" + "saturoglobal" + "/" + this.ligand001mb?.tanNumber + "/" + this.ligand001mb?.ligandVersionSlno2?.ligandVersion + "/" + this.f.targetVersion.value + ">" + "bioactivity-target" + "/" + uuid();
+    assay001wb.conditionType = this.f.conditionType.value ? this.f.conditionType.value : "";
+    assay001wb.conditionMaterial = this.f.conditionMaterial.value ? this.f.conditionMaterial.value : "";
+    assay001wb.conditionMaterialid = this.f.conditionMaterialid.value ? this.f.conditionMaterialid.value : "";
+    assay001wb.singleCondition = this.f.singleCondition.value ? this.f.singleCondition.value : "";
+    assay001wb.singleUnit = this.f.singleUnit.value ? this.f.singleUnit.value : "";
+    assay001wb.highCondition = this.f.highCondition.value ? this.f.highCondition.value : "";
+    assay001wb.lowCondition = this.f.lowCondition.value ? this.f.lowCondition.value : "";
+    assay001wb.highLowUnit = this.f.highLowUnit.value ? this.f.highLowUnit.value : "";
+    assay001wb.status = "In Process";
+    assay001wb.targetStatus = "embargoed";
+
+    assay001wb.dataLocator = null;
+    assay001wb.dataLocator1 = this.f.dataLocator1.value ? this.f.dataLocator1.value : "";
+    assay001wb.dataLocator2 = this.f.dataLocator2.value ? this.f.dataLocator2.value : "";
+    assay001wb.dataLocator3 = this.f.dataLocator3.value ? this.f.dataLocator3.value : "";
+    assay001wb.categorySlno = this.f.categorySlno.value ? this.f.categorySlno.value : null;
+    assay001wb.functionSlno = this.f.functionSlno.value ? this.f.functionSlno.value : null;
+    assay001wb.parameter = this.f.parameter.value ? this.f.parameter.value : "";
+    assay001wb.parameterDetail = this.f.parameterDetail.value ? this.f.parameterDetail.value : "";
+    assay001wb.originalPrefixSlno = this.f.originalPrefixSlno.value ? this.f.originalPrefixSlno.value : null;
+    assay001wb.unit = this.f.unit.value ? this.f.unit.value : "";
+    assay001wb.singleValue = this.f.singleValue.value ? this.f.singleValue.value : "";
+    assay001wb.highEndValue = this.f.highEndValue.value ? this.f.highEndValue.value : "";
+    assay001wb.lowEndValue = this.f.lowEndValue.value ? this.f.lowEndValue.value : "";
+    assay001wb.units = this.f.units.value ? this.f.units.value : "";
+    assay001wb.nonNumeric = this.f.nonNumeric.value ? this.f.nonNumeric.value : "";
+    assay001wb.remark = this.f.remark.value ? this.f.remark.value : "";
+    assay001wb.typeSlno = this.f.typeSlno.value ? this.f.typeSlno.value : null;
+    assay001wb.cell = this.f.cell.value ? this.f.cell.value : "";
+    assay001wb.cellDetail = this.f.cellDetail.value ? this.f.cellDetail.value : "";
+    assay001wb.organ = this.f.organ.value ? this.f.organ.value : "";
+    assay001wb.organDetail = this.f.organDetail.value ? this.f.organDetail.value : "";
+    assay001wb.species = this.f.species.value ? this.f.species.value : "";
+    assay001wb.speciesDetail = this.f.speciesDetail.value ? this.f.speciesDetail.value : "";
+    assay001wb.gender = this.f.gender.value ? this.f.gender.value : "";
+    assay001wb.ageGroup = this.f.ageGroup.value ? this.f.ageGroup.value : "";
+
+    // assay001wb.target = "bioactivity-target" + "/" + "SaturoGlobal" + "/" + this.f.tanNumber.value + "/" + this.f.ligandVersionSlno.value + ">" + "bioactivity-target" + "/" + uuid();
+
+    assay001wb.targetStatus = "embargoed";
+    assay001wb.targetVersion = this.f.targetVersion.value ? this.f.targetVersion.value : "";
+    assay001wb.collectionId1 = this.f.collectionId1.value ? this.f.collectionId1.value : "";
+    assay001wb.original = this.f.original.value ? this.f.original.value : "";
+    assay001wb.acronym = this.f.acronym.value ? this.f.acronym.value : "";
+    assay001wb.organism = this.f.organism.value ? this.f.organism.value : "";
+    assay001wb.variant = this.f.variant.value ? this.f.variant.value : "";
+    // if (this.assayId) {
+    //   assay001wb.assayId = this.assayId;
+    //   assay001wb.insertUser = this.insertUser;
+    //   assay001wb.insertDatetime = this.insertDatetime;
+    //   assay001wb.updatedUser = this.authManager.getcurrentUser.username;
+    //   assay001wb.updatedDatetime = new Date();
+    //   this.assayManager.assayupdate(assay001wb).subscribe((response) => {
+    //     this.calloutService.showSuccess("Assay Details Updated Successfully");
+    //     this.loadData();
+    //     this.AssayForm.reset();
+    //     this.assayId = null;
+    //     this.submitted = false;
+    //   });
+    // }
+    // else {
+    assay001wb.insertUser = this.authManager.getcurrentUser.username;
+    assay001wb.insertDatetime = new Date();
+    this.assayManager.assaysave(assay001wb).subscribe((response) => {
+      this.calloutService.showWarning("Assay details are in process");
+      this.loadData();
+      this.onReset();
+      this.submitted = false;
+    });
+    // }
 
   }
 
   onReset() {
-    this.submitted = false;
-    this.AssayForm.reset();
+    this.AssayForm.get('ligandSlno').reset();
+    this.AssayForm.get('ligandname').reset();
+    this.AssayForm.get('assayTypeSlno').reset();
+    this.AssayForm.get('toxiCitySlno').reset();
+    this.AssayForm.get('routeSlno').reset();
+    this.AssayForm.get('ligandSvalue').reset();
+    this.AssayForm.get('unitSlno').reset();
+    this.AssayForm.get('ligandHvalue').reset();
+    this.AssayForm.get('ligandLvalue').reset();
+    this.AssayForm.get('unitedSlno').reset();
+    this.AssayForm.get('administration').reset();
+    this.AssayForm.get('procedure').reset();
+    this.AssayForm.get('conditionType').reset();
+    this.AssayForm.get('conditionMaterial').reset();
+    this.AssayForm.get('conditionMaterialid').reset();
+    this.AssayForm.get('singleCondition').reset();
+    this.AssayForm.get('singleUnit').reset();
+    this.AssayForm.get('highCondition').reset();
+    this.AssayForm.get('lowCondition').reset();
+    this.AssayForm.get('highLowUnit').reset();
+    this.AssayForm.get('dataLocator1').reset();
+    this.AssayForm.get('dataLocator2').reset();
+    this.AssayForm.get('dataLocator3').reset();
+    this.AssayForm.get('categorySlno').reset();
+    this.AssayForm.get('functionSlno').reset();
+    this.AssayForm.get('parameter').reset();
+    this.AssayForm.get('parameterDetail').reset();
+    this.AssayForm.get('originalPrefixSlno').reset();
+    this.AssayForm.get('unit').reset();
+    this.AssayForm.get('singleValue').reset();
+    this.AssayForm.get('highEndValue').reset();
+    this.AssayForm.get('lowEndValue').reset();
+
+    this.AssayForm.get('units').reset();
+    this.AssayForm.get('nonNumeric').reset();
+    this.AssayForm.get('remark').reset();
+    this.AssayForm.get('typeSlno').reset();
+    this.AssayForm.get('cell').reset();
+    this.AssayForm.get('cellDetail').reset();
+    this.AssayForm.get('organ').reset();
+    this.AssayForm.get('organDetail').reset();
+
+    this.AssayForm.get('species').reset();
+    this.AssayForm.get('speciesDetail').reset();
+    this.AssayForm.get('gender').reset();
+    this.AssayForm.get('ageGroup').reset();
+    this.AssayForm.get('targetVersion').reset();
+    this.AssayForm.get('collectionId1').reset();
+    this.AssayForm.get('original').reset();
+    this.AssayForm.get('acronym').reset();
+    this.AssayForm.get('organism').reset();
+    this.AssayForm.get('variant').reset();
   }
 
   onBlurEvent(event: any) {
-    this.ligandManager.findOne(event.target.value).subscribe(response => {
-      this.ligand001mb = deserialize<Ligand001wb>(Ligand001wb, response);
-      console.log("this.ligand001mb----target uri", this.ligand001mb)
-      console.log("this.ligand001mb?.identifier1", this.ligand001mb?.identifier1);
-  
-      if(this.ligand001mb.identifier1 != "")
-      {
-      this.AssayForm.patchValue({
-        'ligandname': this.ligand001mb.identifier1,
-      });
-    }else{
-      this.AssayForm.patchValue({
-        'ligandname': this.ligand001mb.locator,
+    if (event.target.value) {
+      this.ligandManager.findOne(event.target.value).subscribe(response => {
+        this.ligand001mb = deserialize<Ligand001wb>(Ligand001wb, response);
       });
     }
-    });
   }
 
-  onSingleValueClick(){
+  setEnable() {
+    this.AssayForm.get('ligandSvalue').enable();
+    this.AssayForm.get('unitSlno').enable();
+    this.AssayForm.get('ligandHvalue').enable();
+    this.AssayForm.get('ligandLvalue').enable();
+    this.AssayForm.get('unitedSlno').enable();
+
+    // this.AssayForm.get('ligandSvalue').Setvalue="";
+    // this.AssayForm.get('unitSlno').Setvalue="";
+    // this.AssayForm.get('ligandHvalue').Setvalue="";
+    // this.AssayForm.get('ligandLvalue').Setvalue="";
+    // this.AssayForm.get('unitedSlno').Setvalue="";
+  }
+
+  onsetEnable() {
+    this.AssayForm.get('ligandSvalue').enable();
+    this.AssayForm.get('unitSlno').enable();
+    this.AssayForm.get('ligandHvalue').enable();
+    this.AssayForm.get('ligandLvalue').enable();
+    this.AssayForm.get('unitedSlno').enable();
+
+    // this.AssayForm.get('ligandSvalue').Setvalue="";
+    // this.AssayForm.get('unitSlno').Setvalue="";
+    // this.AssayForm.get('ligandHvalue').Setvalue="";
+    // this.AssayForm.get('ligandLvalue').Setvalue="";
+    // this.AssayForm.get('unitedSlno').Setvalue="";
+  }
+
+  onSingleValueClick() {
     this.AssayForm.get('ligandHvalue').disable();
     this.AssayForm.get('ligandLvalue').disable();
     this.AssayForm.get('unitedSlno').disable();
+
   }
 
-  highValueClick(){
+  highValueClick() {
     this.AssayForm.get('ligandSvalue').disable();
     this.AssayForm.get('unitSlno').disable();
+
   }
+
+  setConditionEnable() {
+    this.AssayForm.get('singleCondition').enable();
+    this.AssayForm.get('singleUnit').enable();
+    this.AssayForm.get('highCondition').enable();
+    this.AssayForm.get('lowCondition').enable();
+    this.AssayForm.get('highLowUnit').enable();
+  }
+
+  onsingleConditionClick() {
+    this.AssayForm.get('highCondition').disable();
+    this.AssayForm.get('lowCondition').disable();
+    this.AssayForm.get('highLowUnit').disable();
+  }
+
+  highConditionClick() {
+    this.AssayForm.get('singleCondition').disable();
+    this.AssayForm.get('singleUnit').disable();
+  }
+
+
+  setMeasurementEnable() {
+    this.AssayForm.get('singleValue').enable();
+    this.AssayForm.get('unit').enable();
+    this.AssayForm.get('highEndValue').enable();
+    this.AssayForm.get('lowEndValue').enable();
+    this.AssayForm.get('units').enable();
+    this.AssayForm.get('nonNumeric').enable();
+  }
+
+  singleValClick() {
+    this.AssayForm.get('highEndValue').disable();
+    this.AssayForm.get('lowEndValue').disable();
+    this.AssayForm.get('units').disable();
+    this.AssayForm.get('nonNumeric').disable();
+  }
+
+  highandlowValueClick() {
+    this.AssayForm.get('singleValue').disable();
+    this.AssayForm.get('unit').disable();
+    this.AssayForm.get('nonNumeric').disable();
+  }
+
+  nonNumericClick() {
+    this.AssayForm.get('singleValue').disable();
+    this.AssayForm.get('unit').disable();
+    this.AssayForm.get('highEndValue').disable();
+    this.AssayForm.get('lowEndValue').disable();
+    this.AssayForm.get('units').disable();
+  }
+
 
   onRepeat() {
     let i = this.assay.length - 1;
     for (i; i < this.assay.length; i++) {
-      this.AssayForm.patchValue({
-        // 'ordinal': this.assay[i].ordinal,
-        'ligandSlno': this.assay[i].ligandSlno,
-        'assayTypeSlno': this.assay[i].assayTypeSlno,
-        'toxiCitySlno': this.assay[i].toxiCitySlno,
-        'routeSlno': this.assay[i].routeSlno,
-        'ligandSvalue': this.assay[i].ligandSvalue,
-        'unitSlno': this.assay[i].unitSlno,
-        'ligandHvalue': this.assay[i].ligandHvalue,
-        'ligandLvalue': this.assay[i].ligandLvalue,
-        'unitedSlno': this.assay[i].unitedSlno,
-        'administration': this.assay[i].administration,
-        'procedure': this.assay[i].procedure,
-        'conditionType': this.assay[i].conditionType,
-        'conditionMaterial': this.assay[i].conditionMaterial,
-        'conditionMaterialid': this.assay[i].conditionMaterialid,
-        'singleCondition': this.assay[i].singleCondition,
-        'singleUnit': this.assay[i].singleUnit,
-        'highCondition': this.assay[i].highCondition,
-        'lowCondition': this.assay[i].lowCondition,
-        'highLowUnit': this.assay[i].highLowUnit,
+      if (this.assay[i].status == "Submitted to QC") {
+        this.calloutService.showWarning("This data can't be Edited");
+      }
 
-        'dataLocator': this.assay[i].dataLocator,
-        'categorySlno': this.assay[i].categorySlno,
-        'functionSlno': this.assay[i].functionSlno,
-        'parameter': this.assay[i].parameter,
-        'parameterDetail': this.assay[i].parameterDetail,
-        'originalPrefixSlno': this.assay[i].originalPrefixSlno,
-        'unit': this.assay[i].unit,
-        'singleValue': this.assay[i].singleValue,
-        'highEndValue': this.assay[i].highEndValue,
-        'lowEndValue': this.assay[i].lowEndValue,
-        'units': this.assay[i].units,
-        'nonNumeric': this.assay[i].nonNumeric,
-        'remark': this.assay[i].remark,
-        'typeSlno': this.assay[i].typeSlno,
-        'cell': this.assay[i].cell,
-        'cellDetail': this.assay[i].cellDetail,
-        'organ': this.assay[i].organ,
-        'organDetail': this.assay[i].organDetail,
-        'species': this.assay[i].species,
-        'speciesDetail': this.assay[i].speciesDetail,
-        'gender': this.assay[i].gender,
-        'ageGroup': this.assay[i].ageGroup,
+      if (this.assay[i].status != "Submitted to QC") {
+        this.AssayForm.patchValue({
+          // 'ordinal': this.assay[i].ordinal,
+          'tanNo': this.assay[i].ligandSlno2?.tanNumber,
+          'ligandSlno': this.assay[i].ligandSlno,
+          'assayTypeSlno': this.assay[i].assayTypeSlno,
+          'toxiCitySlno': this.assay[i].toxiCitySlno,
+          'routeSlno': this.assay[i].routeSlno,
+          'ligandSvalue': this.assay[i].ligandSvalue,
+          'unitSlno': this.assay[i].unitSlno,
+          'ligandHvalue': this.assay[i].ligandHvalue,
+          'ligandLvalue': this.assay[i].ligandLvalue,
+          'unitedSlno': this.assay[i].unitedSlno,
+          'administration': this.assay[i].administration,
+          'procedure': this.assay[i].procedure,
+          'conditionType': this.assay[i].conditionType,
+          'conditionMaterial': this.assay[i].conditionMaterial,
+          'conditionMaterialid': this.assay[i].conditionMaterialid,
+          'singleCondition': this.assay[i].singleCondition,
+          'singleUnit': this.assay[i].singleUnit,
+          'highCondition': this.assay[i].highCondition,
+          'lowCondition': this.assay[i].lowCondition,
+          'highLowUnit': this.assay[i].highLowUnit,
+
+          // 'dataLocator': this.assay[i].dataLocator,
+          'dataLocator1': this.assay[i].dataLocator1,
+          'dataLocator2': this.assay[i].dataLocator2,
+          'dataLocator3': this.assay[i].dataLocator3,
+          'categorySlno': this.assay[i].categorySlno,
+          'functionSlno': this.assay[i].functionSlno,
+          'parameter': this.assay[i].parameter,
+          'parameterDetail': this.assay[i].parameterDetail,
+          'originalPrefixSlno': this.assay[i].originalPrefixSlno,
+          'unit': this.assay[i].unit,
+          'singleValue': this.assay[i].singleValue,
+          'highEndValue': this.assay[i].highEndValue,
+          'lowEndValue': this.assay[i].lowEndValue,
+          'units': this.assay[i].units,
+          'nonNumeric': this.assay[i].nonNumeric,
+          'remark': this.assay[i].remark,
+          'typeSlno': this.assay[i].typeSlno,
+          'cell': this.assay[i].cell,
+          'cellDetail': this.assay[i].cellDetail,
+          'organ': this.assay[i].organ,
+          'organDetail': this.assay[i].organDetail,
+          'species': this.assay[i].species,
+          'speciesDetail': this.assay[i].speciesDetail,
+          'gender': this.assay[i].gender,
+          'ageGroup': this.assay[i].ageGroup,
 
 
-        'targetVersion': this.assay[i].targetVersion,
-        'collectionId1': this.assay[i].collectionId1,
-        'original': this.assay[i].original,
-        'acronym': this.assay[i].acronym,
-        'organism': this.assay[i].organism,
-        'variant': this.assay[i].variant,
+          'targetVersion': this.assay[i].targetVersion,
+          'collectionId1': this.assay[i].collectionId1,
+          'original': this.assay[i].original,
+          'acronym': this.assay[i].acronym,
+          'organism': this.assay[i].organism,
+          'variant': this.assay[i].variant,
 
-      });
+        });
+      }
     }
   }
 
   onTargetReset() {
-    console.log("target clear")
     // this.submitted = false;
     // this.AssayForm.f.original.clear();
     // this.AssayForm.f.targetVersion.reset();
@@ -1182,66 +1810,76 @@ export class AssayComponent implements OnInit {
   onEdit() {
     let i = this.assay.length - 1;
     for (i; i < this.assay.length; i++) {
+      if (this.assay[i].status == "Submitted to Qc") {
+        this.calloutService.showWarning("This data can't be Edited");
+      }
+      if (this.assay[i].status != "Submitted to Qc") {
+        this.assayId = this.assay[i].assayId;
+        this.insertDatetime = new Date();
+        this.insertUser = this.assay[i].insertUser;
 
-      this.assayId = this.assay[i].assayId;
-      this.insertDatetime = new Date();
-      // this.insertUser = this.assay[i].insertUser;
+        this.AssayForm.patchValue({
+          'tanNo': this.assay[i].ligandSlno2?.tanNumber,
+          'ordinal': this.assay[i].ordinal,
+          'ligandSlno': this.assay[i].ligandSlno,
+          'assayTypeSlno': this.assay[i].assayTypeSlno,
+          'toxiCitySlno': this.assay[i].toxiCitySlno,
+          'routeSlno': this.assay[i].routeSlno,
+          'ligandSvalue': this.assay[i].ligandSvalue,
+          'unitSlno': this.assay[i].unitSlno,
+          'ligandHvalue': this.assay[i].ligandHvalue,
+          'ligandLvalue': this.assay[i].ligandLvalue,
+          'unitedSlno': this.assay[i].unitedSlno,
+          'administration': this.assay[i].administration,
+          'procedure': this.assay[i].procedure,
+          'conditionType': this.assay[i].conditionType,
+          'conditionMaterial': this.assay[i].conditionMaterial,
+          'conditionMaterialid': this.assay[i].conditionMaterialid,
+          'singleCondition': this.assay[i].singleCondition,
+          'singleUnit': this.assay[i].singleUnit,
+          'highCondition': this.assay[i].highCondition,
+          'lowCondition': this.assay[i].lowCondition,
+          'highLowUnit': this.assay[i].highLowUnit,
 
-      this.AssayForm.patchValue({
-        'ordinal': this.assay[i].ordinal,
-        'ligandSlno': this.assay[i].ligandSlno,
-        'assayTypeSlno': this.assay[i].assayTypeSlno,
-        'toxiCitySlno': this.assay[i].toxiCitySlno,
-        'routeSlno': this.assay[i].routeSlno,
-        'ligandSvalue': this.assay[i].ligandSvalue,
-        'unitSlno': this.assay[i].unitSlno,
-        'ligandHvalue': this.assay[i].ligandHvalue,
-        'ligandLvalue': this.assay[i].ligandLvalue,
-        'unitedSlno': this.assay[i].unitedSlno,
-        'administration': this.assay[i].administration,
-        'procedure': this.assay[i].procedure,
-        'conditionType': this.assay[i].conditionType,
-        'conditionMaterial': this.assay[i].conditionMaterial,
-        'conditionMaterialid': this.assay[i].conditionMaterialid,
-        'singleCondition': this.assay[i].singleCondition,
-        'singleUnit': this.assay[i].singleUnit,
-        'highCondition': this.assay[i].highCondition,
-        'lowCondition': this.assay[i].lowCondition,
-        'highLowUnit': this.assay[i].highLowUnit,
-
-        'dataLocator': this.assay[i].dataLocator,
-        'categorySlno': this.assay[i].categorySlno,
-        'functionSlno': this.assay[i].functionSlno,
-        'parameter': this.assay[i].parameter,
-        'parameterDetail': this.assay[i].parameterDetail,
-        'originalPrefixSlno': this.assay[i].originalPrefixSlno,
-        'unit': this.assay[i].unit,
-        'singleValue': this.assay[i].singleValue,
-        'highEndValue': this.assay[i].highEndValue,
-        'lowEndValue': this.assay[i].lowEndValue,
-        'units': this.assay[i].units,
-        'nonNumeric': this.assay[i].nonNumeric,
-        'remark': this.assay[i].remark,
-        'typeSlno': this.assay[i].typeSlno,
-        'cell': this.assay[i].cell,
-        'cellDetail': this.assay[i].cellDetail,
-        'organ': this.assay[i].organ,
-        'organDetail': this.assay[i].organDetail,
-        'species': this.assay[i].species,
-        'speciesDetail': this.assay[i].speciesDetail,
-        'gender': this.assay[i].gender,
-        'ageGroup': this.assay[i].ageGroup,
-
-
-        'targetVersion': this.assay[i].targetVersion,
-        'collectionId1': this.assay[i].collectionId1,
-        'original': this.assay[i].original,
-        'acronym': this.assay[i].acronym,
-        'organism': this.assay[i].organism,
-        'variant': this.assay[i].variant,
+          'dataLocator1': this.assay[i].dataLocator1,
+          'dataLocator2': this.assay[i].dataLocator2,
+          'dataLocator3': this.assay[i].dataLocator3,
+          'categorySlno': this.assay[i].categorySlno,
+          'functionSlno': this.assay[i].functionSlno,
+          'parameter': this.assay[i].parameter,
+          'parameterDetail': this.assay[i].parameterDetail,
+          'originalPrefixSlno': this.assay[i].originalPrefixSlno,
+          'unit': this.assay[i].unit,
+          'singleValue': this.assay[i].singleValue,
+          'highEndValue': this.assay[i].highEndValue,
+          'lowEndValue': this.assay[i].lowEndValue,
+          'units': this.assay[i].units,
+          'nonNumeric': this.assay[i].nonNumeric,
+          'remark': this.assay[i].remark,
+          'typeSlno': this.assay[i].typeSlno,
+          'cell': this.assay[i].cell,
+          'cellDetail': this.assay[i].cellDetail,
+          'organ': this.assay[i].organ,
+          'organDetail': this.assay[i].organDetail,
+          'species': this.assay[i].species,
+          'speciesDetail': this.assay[i].speciesDetail,
+          'gender': this.assay[i].gender,
+          'ageGroup': this.assay[i].ageGroup,
 
 
-      });
+          'targetVersion': this.assay[i].targetVersion,
+          'collectionId1': this.assay[i].collectionId1,
+          'original': this.assay[i].original,
+          'acronym': this.assay[i].acronym,
+          'organism': this.assay[i].organism,
+          'variant': this.assay[i].variant,
+
+
+        });
+      }
+
+
     }
+
   }
 }

@@ -1,0 +1,21 @@
+<div class="manu-breadcrumb">
+
+    <fieldset class="scheduler-border">
+        <legend class="scheduler-border">IN PROCESS</legend>
+
+        <fieldset class="scheduler-border">
+            <legend class="scheduler-border">LIGAND IN PROCESS</legend>
+            <ag-grid-angular #agGrid class="ag-theme-balham" [gridOptions]="gridOptions1" style="width: 100%; height: 350px;" [pagination]="true" [frameworkComponents]="frameworkComponents">
+            </ag-grid-angular>
+        </fieldset>
+
+        <br>
+        <br>
+        <fieldset class="scheduler-border">
+            <legend class="scheduler-border">ASSAY IN PROCESS</legend>
+            <ag-grid-angular #agGrid class="ag-theme-balham" [gridOptions]="gridOptions2" style="width: 100%; height: 350px;" [pagination]="true" [frameworkComponents]="frameworkComponents">
+            </ag-grid-angular>
+        </fieldset>
+
+    </fieldset>
+</div>

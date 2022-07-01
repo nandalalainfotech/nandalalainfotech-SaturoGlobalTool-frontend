@@ -11,14 +11,21 @@ import { NgStepperModule } from 'angular-ng-stepper';
 import { GojsAngularModule } from 'gojs-angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { SearchSettingComponent } from './dashboard/search-setting/search-setting.component';
 import { LoginComponent } from './login/login.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { AssayCheckedComponent } from './shared/assay-checked/assay-checked.component';
 import { AuditComponent } from './shared/audit/audit.component';
+import { CheckedPopupComponent } from './shared/checked-popup/checked-popup.component';
+import { CheckedComponent } from './shared/checked/checked.component';
 import { ConformationComponent } from './shared/conformation/conformation.component';
+import { InlineEditingModule } from './shared/inline-editing/inline-editing.module';
+import { MeasurementCheckedComponent } from './shared/measurement-checked/measurement-checked.component';
 import { PopupComponent } from './shared/popup/popup.component';
 import { CalloutComponent } from './shared/services/callout/callout.component';
 import { IconRendererComponent } from './shared/services/renderercomponent/icon-renderer-component';
 import { AuthManager } from './shared/services/restcontroller/bizservice/auth-manager.service';
+import { RoleManager } from './shared/services/restcontroller/bizservice/role.service';
 import { UserManager } from './shared/services/restcontroller/bizservice/user.service';
 import { BaseService } from './shared/services/services/base.service';
 import { CalloutService } from './shared/services/services/callout.service';
@@ -27,12 +34,7 @@ import { UserRegistrationComponent } from './user-registration/user-registration
 import { UserRegistrationModule } from './user-registration/user-registration.module';
 import { JwtInterceptor } from './_helpers';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
-import { CheckedPopupComponent } from './shared/checked-popup/checked-popup.component';
-import { CheckedComponent } from './shared/checked/checked.component';
-import { AssayCheckedComponent } from './shared/assay-checked/assay-checked.component';
-import { MeasurementCheckedComponent } from './shared/measurement-checked/measurement-checked.component';
-import { InlineEditingModule } from './shared/inline-editing/inline-editing.module';
-import { RoleManager } from './shared/services/restcontroller/bizservice/role.service';
+import { ReviewerViewComponent } from './shared/reviewer-view/reviewer-view.component';
 
 
 @NgModule({
@@ -49,7 +51,9 @@ import { RoleManager } from './shared/services/restcontroller/bizservice/role.se
 		CheckedPopupComponent,
 		CheckedComponent,
 		AssayCheckedComponent,
-		MeasurementCheckedComponent
+		MeasurementCheckedComponent,
+		SearchSettingComponent,
+		ReviewerViewComponent
 	],
 	imports: [
 		CommonModule,
@@ -66,7 +70,7 @@ import { RoleManager } from './shared/services/restcontroller/bizservice/role.se
 		GojsAngularModule,
 		CdkStepperModule,
         NgStepperModule,
-		InlineEditingModule
+		InlineEditingModule,
 	],
 	exports: [PopupComponent, NgbCollapseModule],
 	providers: [AuthManager, CalloutService, DataSharedService,BaseService, UserManager,RoleManager,

@@ -122,7 +122,7 @@ export class RouteOfAdministrationTypeComponent implements OnInit {
         width: 80,
         flex: 1,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
+        cellStyle: { textAlign: 'left' },
         cellRendererParams: {
           onClick: this.onEditButtonClick.bind(this),
           label: 'Edit'
@@ -134,7 +134,7 @@ export class RouteOfAdministrationTypeComponent implements OnInit {
         width: 85,
         flex: 1,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
+        cellStyle: { textAlign: 'left' },
         cellRendererParams: {
           onClick: this.onDeleteButtonClick.bind(this),
           label: 'Delete'
@@ -146,7 +146,7 @@ export class RouteOfAdministrationTypeComponent implements OnInit {
         width: 80,
         flex: 1,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
+        cellStyle: { textAlign: 'left' },
         cellRendererParams: {
           onClick: this.onAuditButtonClick.bind(this),
           label: 'Audit'
@@ -167,6 +167,7 @@ export class RouteOfAdministrationTypeComponent implements OnInit {
   onDeleteButtonClick(params: any) {
     const modalRef = this.modalService.open(ConformationComponent);
     modalRef.componentInstance.details = "toxiCity";
+    modalRef.componentInstance.description = "Are you sure want to delete Routes ?";
     modalRef.result.then((data) => {
       if (data == "Yes") {
         this.routeofAdminManager.routeofadminTypedelete(params.data.id).subscribe((response) => {
@@ -179,7 +180,7 @@ export class RouteOfAdministrationTypeComponent implements OnInit {
           const selectedRows = params.api.getSelectedRows();
           params.api.applyTransaction({ remove: selectedRows });
           this.gridOptions.api.deselectAll();
-          this.calloutService.showSuccess("toxiCityType Removed Successfully");
+          this.calloutService.showSuccess("Route Details Removed Successfully");
         });
       }
     })

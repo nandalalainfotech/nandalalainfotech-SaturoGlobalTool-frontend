@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { SearchSettingComponent } from '../dashboard/search-setting/search-setting.component';
 import { DashBoardComponent } from './dash-board.component';
 
 const routes: Routes = [
@@ -44,6 +45,21 @@ const routes: Routes = [
       {
         path: 'app-status',
         loadChildren: () => import("./status/status.module").then(m => m.StatusModule)
+      },
+      {
+        path: 'app-my-work',
+        loadChildren: () => import("./my-work/my-work.module").then(m => m.MyWorkModule)
+      },
+
+      {
+        path: 'app-reviewer-work-status',
+        loadChildren: () => import("./reviewer-work-status/reviewer-work-status.module").then(m => m.ReviewerWorkStatusModule)
+      },
+
+      {
+        path: 'app-search-setting',
+        // loadChildren: () => import("./master/master.module").then(m => m.MasterModule)
+        component: SearchSettingComponent,
       },
      
     ]

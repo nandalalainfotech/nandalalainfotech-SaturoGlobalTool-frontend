@@ -126,7 +126,7 @@ export class CategoryFunctionsComponent implements OnInit {
         width: 80,
         flex: 1,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
+        cellStyle: { textAlign: 'left' },
         cellRendererParams: {
           onClick: this.onEditButtonClick.bind(this),
           label: 'Edit'
@@ -138,7 +138,7 @@ export class CategoryFunctionsComponent implements OnInit {
         width: 85,
         flex: 1,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
+        cellStyle: { textAlign: 'left' },
         cellRendererParams: {
           onClick: this.onDeleteButtonClick.bind(this),
           label: 'Delete'
@@ -150,7 +150,7 @@ export class CategoryFunctionsComponent implements OnInit {
         width: 80,
         flex: 1,
         suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
+        cellStyle: { textAlign: 'left' },
         cellRendererParams: {
           onClick: this.onAuditButtonClick.bind(this),
           label: 'Audit'
@@ -171,6 +171,7 @@ export class CategoryFunctionsComponent implements OnInit {
   onDeleteButtonClick(params: any) {
     const modalRef = this.modalService.open(ConformationComponent);
     modalRef.componentInstance.details = "Category function";
+    modalRef.componentInstance.description = "Are you sure want to delete Category Function ?";
     modalRef.result.then((data) => {
       if (data == "Yes") {
         this.categoryfunctionManager.categoryFunctiondelete(params.data.id).subscribe((response) => {
@@ -183,7 +184,7 @@ export class CategoryFunctionsComponent implements OnInit {
           const selectedRows = params.api.getSelectedRows();
           params.api.applyTransaction({ remove: selectedRows });
           this.gridOptions.api.deselectAll();
-          this.calloutService.showSuccess("Category function Removed Successfully");
+          this.calloutService.showSuccess("Category Function Details Removed Successfully");
         });
       }
     })
@@ -212,7 +213,7 @@ export class CategoryFunctionsComponent implements OnInit {
       categoryfunction001mb.updatedUser = this.authManager.getcurrentUser.username;
       categoryfunction001mb.updatedDatetime = new Date();
       this.categoryfunctionManager.categoryFunctionupdate(categoryfunction001mb).subscribe((response) => {
-        this.calloutService.showSuccess("toxiCity Details Updated Successfully");
+        this.calloutService.showSuccess("Category Function Details Updated Successfully");
         this.CategoryFunctionForm.reset();
         this.id = null;
         this.loadData();
@@ -223,7 +224,7 @@ export class CategoryFunctionsComponent implements OnInit {
       categoryfunction001mb.insertUser = this.authManager.getcurrentUser.username;
       categoryfunction001mb.insertDatetime = new Date();
       this.categoryfunctionManager.categoryFunctionsave(categoryfunction001mb).subscribe((response) => {
-        this.calloutService.showSuccess("toxiCity Details Saved Successfully");
+        this.calloutService.showSuccess("Category Function Details Saved Successfully");
         this.CategoryFunctionForm.reset();
         this.loadData();
         this.submitted = false;

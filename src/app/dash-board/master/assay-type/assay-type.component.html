@@ -1,11 +1,10 @@
 <fieldset class="scheduler-border">
-    <legend class="scheduler-border">Assay Type</legend>
     <div class="formData">
         <form [formGroup]="AssaytypeForm" (ngSubmit)="onAssaytypeClick($event, AssaytypeForm)" >
             <div class="row">      
                 <div class="col-xs-3 col-sm-3">
                     <div class="form-group">
-                        <label path="assayType" for="series" cssClass="required">Assay Types</label>
+                        <label path="assayType" for="series" cssClass="required" style="margin-top: 20px;">Assay Types</label>
                         <input class="form-control" name="assayType" formControlName="assayType"
                             [ngClass]="{ 'is-invalid': submitted && f.assayType.errors }">
                         <div *ngIf="submitted && f.assayType.errors" class="invalid-feedback">

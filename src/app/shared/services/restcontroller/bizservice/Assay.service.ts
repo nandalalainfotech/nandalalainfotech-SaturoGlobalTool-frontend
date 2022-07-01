@@ -7,14 +7,48 @@ import { Assay001wb } from "../entities/Assay001wb ";
 export class AssayManager extends BaseService {
     private assayUrl: string = `${environment.apiUrl}/assay`
 
-    allassay() {
-        // let data: any = {};
-        // data['username'] = username;
-        return this.getCallService(`${this.assayUrl}` + "/findAll");
+    allassay(username:any) {
+        let data: any = {};
+        data['username'] = username;
+        return this.getCallService(`${this.assayUrl}` + "/findAll",data);
     }
 
+    allAssayReviewer(username:any) {
+        let data: any = {};
+        data['username'] = username;
+        return this.getCallService(`${this.assayUrl}` + "/allAssayReviewer",data);
+    }
+
+    findAllByTanligandID(ligandSlno:any) {
+        let data: any = {};
+        data['ligandSlno'] = ligandSlno;
+        return this.getCallService(`${this.assayUrl}` + "/findAllByTanligandID",data);
+    }
+
+
+    findAllByLigandIdAndAssayId(assayId:any) {
+        
+        let data: any = {};
+        data['assayId'] = assayId;
+        return this.getCallService(`${this.assayUrl}` + "/findAllByLigandIdAndAssayId",data);
+    }
+
+    findInprocesStatus(username:any) {
+        let data: any = {};
+        data['username'] = username;
+        return this.getCallService(`${this.assayUrl}` + "/findInprocesStatus",data);
+    }
+    findByReviewer(username:any) {
+        let data: any = {};
+        data['username'] = username;
+        return this.getCallService(`${this.assayUrl}` + "/findByReviewer",data);
+    }
+    // findByCuratorTan(username:any) {
+    //     let data: any = {};
+    //     data['username'] = username;
+    //     return this.getCallService(`${this.assayUrl}` + "/findByCuratorTan",data);
+    // }
     assaysave(assay001wb: Assay001wb) {
-        console.log("assay001wb----service", assay001wb);
         return this.postCallService(`${this.assayUrl}` + "/save", {}, assay001wb);
     }
 

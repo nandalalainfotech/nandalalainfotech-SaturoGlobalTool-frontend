@@ -28,30 +28,32 @@ import { LigandManager } from '../shared/services/restcontroller/bizservice/liga
 import { LigandTypeManager } from '../shared/services/restcontroller/bizservice/ligandType.service';
 import { LigandVersionManager } from '../shared/services/restcontroller/bizservice/ligandVersion.service';
 import { MeasurementManager } from '../shared/services/restcontroller/bizservice/Measurement.service';
-import { RouteofAdminManager } from '../shared/services/restcontroller/bizservice/routeOfAdministration.service';
-import { ToxicityManager } from '../shared/services/restcontroller/bizservice/toxiCity.service';
 import { OriginalprefixManager } from '../shared/services/restcontroller/bizservice/originalPrefix.service';
+import { LigandReportsManager } from '../shared/services/restcontroller/bizservice/report.service';
+import { RouteofAdminManager } from '../shared/services/restcontroller/bizservice/routeOfAdministration.service';
+import { TaskAllocationManager } from '../shared/services/restcontroller/bizservice/taskAllocation.service';
+import { ToxicityManager } from '../shared/services/restcontroller/bizservice/toxiCity.service';
 import { BioTypeManager } from '../shared/services/restcontroller/bizservice/type.service';
 import { UnitlowendvalueManager } from '../shared/services/restcontroller/bizservice/Unitlowendvalue.service';
 import { UnitSingleValueManager } from '../shared/services/restcontroller/bizservice/unitSingleValue.service';
 import { UserManager } from '../shared/services/restcontroller/bizservice/user.service';
 import { DataSharedService } from '../shared/services/services/datashared.service';
+import { AdminComponent } from './admin/admin.component';
 import { AssayComponent } from './assay/assay.component';
+import { BreadcrumbModule } from './breadcrumb/breadcrumb.module';
 import { DashboardRoutingModule } from './dash-board-routing.module';
 import { DashBoardComponent } from './dash-board.component';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { LigandComponent } from './ligand/ligand.component';
 import { MeasurementComponent } from './measurement/measurement.component';
+import { ReportComponent } from './report/report.component';
 import { SideMenuComponent } from './side-menu/side-menu.component';
+import { StatusComponent } from './status/status.component';
 import { StepperComponent } from './stepper/stepper.component';
 import { TargetComponent } from './target/target.component';
-import { ReportComponent } from './report/report.component';
-import { LigandReportsManager } from '../shared/services/restcontroller/bizservice/report.service';
-import { AdminComponent } from './admin/admin.component';
-import { BreadcrumbModule } from './breadcrumb/breadcrumb.module';
-import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
-import { StatusComponent } from './status/status.component';
+import { ReviewerWorkStatusComponent } from './reviewer-work-status/reviewer-work-status.component';
+import { MyWorkComponent } from './my-work/my-work.component';
 // import { GoJsChartComponent } from './body/go-js-chart/go-js-chart.component';
 
 
@@ -73,6 +75,8 @@ import { StatusComponent } from './status/status.component';
         ReportComponent,
         AdminComponent,
         StatusComponent,
+        // ReviewerWorkStatusComponent,
+        // MyWorkComponent,
         // BreadcrumbComponent
         // MasterComponent,
         // RadarChartComponent,
@@ -130,7 +134,8 @@ import { StatusComponent } from './status/status.component';
         CategoryfunctionManager,
         OriginalprefixManager,
         BioTypeManager,
-        LigandReportsManager
+        LigandReportsManager,
+        TaskAllocationManager
 
     ],
     exports: [NgbCollapseModule],
