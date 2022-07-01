@@ -20,7 +20,7 @@ export class CheckedPopupComponent implements OnInit {
     headerText: string = "";
     ligand: Ligand001wb[] = [];
 
-    @Input() title: string = 'Popup';
+    @Input() title: string = 'REVIEWER VIEW POPUP';
     @Input() addLabel: string = 'Add New';
     @Input() acceptLabel: string = 'Ok';
     @Input() cancelLabel: string = 'Close';

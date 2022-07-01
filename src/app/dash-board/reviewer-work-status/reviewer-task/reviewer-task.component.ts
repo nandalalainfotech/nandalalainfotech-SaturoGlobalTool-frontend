@@ -123,7 +123,7 @@ export class ReviewerTaskComponent implements OnInit {
     this.gridOptions.columnDefs = [
       {
         headerName: 'Sl-No',
-        field: 'curatorId',
+        // field: 'curatorId',
         width: 200,
         //flex: 1,
         sortable: true,
@@ -133,6 +133,7 @@ export class ReviewerTaskComponent implements OnInit {
         headerCheckboxSelectionFilteredOnly: true,
         checkboxSelection: true,
         suppressSizeToFit: true,
+        // cellTemplate: '<span>{{rowRenderIndex+1}}</span>',
         // valueGetter: this.setLigandId.bind(this)
       },
       {

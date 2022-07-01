@@ -34,6 +34,7 @@ import { UserRegistrationComponent } from './user-registration/user-registration
 import { UserRegistrationModule } from './user-registration/user-registration.module';
 import { JwtInterceptor } from './_helpers';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
+import { ReviewerViewComponent } from './shared/reviewer-view/reviewer-view.component';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import { ErrorInterceptor } from './_helpers/error.interceptor';
 		CheckedComponent,
 		AssayCheckedComponent,
 		MeasurementCheckedComponent,
-		SearchSettingComponent
+		SearchSettingComponent,
+		ReviewerViewComponent
 	],
 	imports: [
 		CommonModule,

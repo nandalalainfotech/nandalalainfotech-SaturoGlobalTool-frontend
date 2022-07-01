@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GridOptions } from 'ag-grid-community';
 import { deserialize } from 'serializer.ts/Serializer';
@@ -143,41 +143,43 @@ export class RejectedByReviewerComponent implements OnInit {
         // valueGetter: this.setLigandId.bind(this)
       },
 
-      {
-        headerName: ' BATCH NUMBER',
-        field: 'cbatchNo',
-        width: 200,
-        flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true
-      },
+      // {
+      //   headerName: ' BATCH NUMBER',
+      //   field: 'cbatchNo',
+      //   width: 200,
+      //   flex: 1,
+      //   sortable: true,
+      //   filter: true,
+      //   resizable: true,
+      //   suppressSizeToFit: true
+      // },
       
       {
         headerName: 'TAN Number',
         field: 'tanNumber',
         width: 200,
-        //flex: 1,
+        flex: 1,
         sortable: true,
         filter: true,
         resizable: true,
-        headerCheckboxSelection: true,
-        headerCheckboxSelectionFilteredOnly: true,
-        checkboxSelection: true,
+        // headerCheckboxSelection: true,
+        // headerCheckboxSelectionFilteredOnly: true,
+        // checkboxSelection: true,
         suppressSizeToFit: true,
         valueGetter: this.settanNumber.bind(this)
       },
       {
         headerName: 'RE-START',
-        field: 'status',
-        width: 200,
-        //flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
+        cellRenderer: 'iconRenderer',
+        width: 10,
+        flex: 1,
         suppressSizeToFit: true,
-        // valueGetter: this.setLigandVersion.bind(this)
+        cellStyle: { textAlign: 'left' },
+        cellRendererParams: {
+          onClick: this.onMoveToLigand.bind(this),
+          label: 'Start',
+         
+        },
       },
 
     
@@ -274,7 +276,16 @@ export class RejectedByReviewerComponent implements OnInit {
     return params.data.ligandSlno2 ? params.data.ligandSlno2.tanNumber : null;
   }
 
-  
+  onMoveToLigand(params: any) {
+
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        "tanNumber": params.data.ligandSlno2.tanNumber
+      }
+    };
+
+    this.router.navigate(["/app-dash-board/app-stepper"], navigationExtras);
+  }
   
 
  
