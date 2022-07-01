@@ -588,7 +588,7 @@ export class AssayComponent implements OnInit {
 
   createDataGrid001(): void {
     this.gridOptions = {
-      paginationPageSize: 10,
+      paginationPageSize: 100,
       rowSelection: 'single',
       // onFirstDataRendered: this.onFirstDataRendered.bind(this),
     };
@@ -597,18 +597,42 @@ export class AssayComponent implements OnInit {
     this.gridOptions.animateRows = true;
 
     this.gridOptions.columnDefs = [
+      // {
+      //   headerName: 'Sl-No',
+      //   field: 'assayId',
+      //   width: 200,
+      //   // flex: 1,
+      //   sortable: true,
+      //   filter: true,
+      //   resizable: true,
+      //   headerCheckboxSelection: true,
+      //   headerCheckboxSelectionFilteredOnly: true,
+      //   checkboxSelection: true,
+      //   suppressSizeToFit: true,
+      // },
       {
-        headerName: 'Sl-No',
-        field: 'assayId',
-        width: 200,
+        headerName: 'Edit',
+        cellRenderer: 'iconRenderer',
+        width: 80,
         // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        headerCheckboxSelection: true,
-        headerCheckboxSelectionFilteredOnly: true,
-        checkboxSelection: true,
         suppressSizeToFit: true,
+        cellStyle: { textAlign: 'center' },
+        cellRendererParams: {
+          onClick: this.onEditButtonClick.bind(this),
+          label: 'Edit'
+        },
+      },
+      {
+        headerName: 'Delete',
+        cellRenderer: 'iconRenderer',
+        width: 85,
+        // flex: 1,
+        suppressSizeToFit: true,
+        cellStyle: { textAlign: 'center' },
+        cellRendererParams: {
+          onClick: this.onDeleteButtonClick.bind(this),
+          label: 'Delete'
+        },
       },
       {
         headerName: 'Ligand-Version',
@@ -1130,31 +1154,6 @@ export class AssayComponent implements OnInit {
         filter: true,
         resizable: true,
         suppressSizeToFit: true,
-      },
-
-      {
-        headerName: 'Edit',
-        cellRenderer: 'iconRenderer',
-        width: 80,
-        // flex: 1,
-        suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
-        cellRendererParams: {
-          onClick: this.onEditButtonClick.bind(this),
-          label: 'Edit'
-        },
-      },
-      {
-        headerName: 'Delete',
-        cellRenderer: 'iconRenderer',
-        width: 85,
-        // flex: 1,
-        suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
-        cellRendererParams: {
-          onClick: this.onDeleteButtonClick.bind(this),
-          label: 'Delete'
-        },
       },
       {
         headerName: 'Audit',

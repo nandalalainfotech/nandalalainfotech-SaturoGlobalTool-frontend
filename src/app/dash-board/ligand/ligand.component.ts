@@ -287,7 +287,7 @@ export class LigandComponent implements OnInit {
 
   createDataGrid001(): void {
     this.gridOptions = {
-      paginationPageSize: 10,
+      paginationPageSize: 100,
       rowSelection: 'single',
       // onFirstDataRendered: this.onFirstDataRendered.bind(this),
     };
@@ -295,18 +295,42 @@ export class LigandComponent implements OnInit {
     this.gridOptions.enableRangeSelection = true;
     this.gridOptions.animateRows = true;
     this.gridOptions.columnDefs = [
+      // {
+      //   headerName: 'Sl-No',
+      //   field: 'ligandId',
+      //   width: 200,
+      //   // flex: 1,
+      //   sortable: true,
+      //   filter: true,
+      //   resizable: true,
+      //   headerCheckboxSelection: true,
+      //   headerCheckboxSelectionFilteredOnly: true,
+      //   checkboxSelection: true,
+      //   suppressSizeToFit: true,
+      // },
       {
-        headerName: 'Sl-No',
-        field: 'ligandId',
-        width: 200,
+        headerName: 'Edit',
+        cellRenderer: 'iconRenderer',
+        width: 80,
         // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        headerCheckboxSelection: true,
-        headerCheckboxSelectionFilteredOnly: true,
-        checkboxSelection: true,
         suppressSizeToFit: true,
+        cellStyle: { textAlign: 'left' },
+        cellRendererParams: {
+          onClick: this.onEditButtonClick.bind(this),
+          label: 'Edit'
+        },
+      },
+      {
+        headerName: 'Delete',
+        cellRenderer: 'iconRenderer',
+        width: 85,
+        // flex: 1,
+        suppressSizeToFit: true,
+        cellStyle: { textAlign: 'left' },
+        cellRendererParams: {
+          onClick: this.onDeleteButtonClick.bind(this),
+          label: 'Delete'
+        },
       },
       {
         headerName: 'TAN Number',
@@ -316,9 +340,6 @@ export class LigandComponent implements OnInit {
         sortable: true,
         filter: true,
         resizable: true,
-        headerCheckboxSelection: true,
-        headerCheckboxSelectionFilteredOnly: true,
-        checkboxSelection: true,
         suppressSizeToFit: true,
       },
 
@@ -542,30 +563,6 @@ export class LigandComponent implements OnInit {
       //   resizable: true,
       //   suppressSizeToFit: true,
       // },
-      {
-        headerName: 'Edit',
-        cellRenderer: 'iconRenderer',
-        width: 80,
-        // flex: 1,
-        suppressSizeToFit: true,
-        cellStyle: { textAlign: 'left' },
-        cellRendererParams: {
-          onClick: this.onEditButtonClick.bind(this),
-          label: 'Edit'
-        },
-      },
-      {
-        headerName: 'Delete',
-        cellRenderer: 'iconRenderer',
-        width: 85,
-        // flex: 1,
-        suppressSizeToFit: true,
-        cellStyle: { textAlign: 'left' },
-        cellRendererParams: {
-          onClick: this.onDeleteButtonClick.bind(this),
-          label: 'Delete'
-        },
-      },
       {
         headerName: 'Audit',
         cellRenderer: 'iconRenderer',
