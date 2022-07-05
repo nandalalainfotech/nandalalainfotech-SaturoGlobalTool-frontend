@@ -737,73 +737,73 @@ export class LigandComponent implements OnInit {
     }
   }
 
-  toggleInprocess(event: any, LigandForm: any) {
-    this.markFormGroupTouched(this.LigandForm);
+  // toggleInprocess(event: any, LigandForm: any) {
+  //   this.markFormGroupTouched(this.LigandForm);
 
-    this.submitted = true;
-    if (this.LigandForm.invalid) {
-      return;
-    }
-    let ligand001wb = new Ligand001wb();
+  //   this.submitted = true;
+  //   if (this.LigandForm.invalid) {
+  //     return;
+  //   }
+  //   let ligand001wb = new Ligand001wb();
 
-    ligand001wb.tanNumber = this.f.tanNumber.value ? this.f.tanNumber.value : "";
-    ligand001wb.ligandUri = "bioactivity-ligand" + "/" + "saturoglobal" + "/" + this.f.tanNumber.value + "/" + this.ligandVersion001?.ligandVersion + ">" + "bioactivity-ligand" + "/" + uuid();
-    ligand001wb.ligandVersionSlno = this.f.ligandVersionSlno.value ? this.f.ligandVersionSlno.value : null;
-    ligand001wb.ligandStatus = "embargoed";
-    ligand001wb.collection = "cas";
-    ligand001wb.ligandTypeSlno = this.f.ligandTypeSlno.value ? this.f.ligandTypeSlno.value : null;
-    ligand001wb.ligandDetail = this.f.ligandDetail.value ? this.f.ligandDetail.value : "";
-    ligand001wb.identifier1 = this.f.identifier1.value ? this.f.identifier1.value : "";
-    ligand001wb.identifier2 = this.f.identifier2.value ? this.f.identifier2.value : "";
-    ligand001wb.identifier3 = this.f.identifier3.value ? this.f.identifier3.value : "";
-    ligand001wb.collectionId = this.f.locator.value ? this.f.collectionId.value : "";
-    ligand001wb.locator = this.f.locator.value ? this.f.locator.value : "";
-    ligand001wb.sourceType = "journal";
-    ligand001wb.citation = this.f.tanNumber.value ? this.f.tanNumber.value : "";
-    ligand001wb.relatedDocument = this.f.tanNumber.value ? this.f.tanNumber.value : "";
-    ligand001wb.registryNumber = this.f.collectionId.value ? this.f.collectionId.value : "";
-    ligand001wb.diseaseName1 = this.f.diseaseName1.value ? this.f.diseaseName1.value : "";
-    ligand001wb.diseaseName2 = this.f.diseaseName2.value ? this.f.diseaseName2.value : "";
-    ligand001wb.diseaseName3 = this.f.diseaseName3.value ? this.f.diseaseName3.value : "";
-    // ligand001wb.target = "bioactivity-target" + "/" + "SaturoGlobal" + "/" + this.f.tanNumber.value + "/" + this.f.ligandVersionSlno.value + ">" + "bioactivity-target" + "/" + uuid();
-    ligand001wb.target = "";
-    ligand001wb.targetStatus = "";
-    ligand001wb.targetVersion = "";
-    ligand001wb.collectionId1 = "";
-    ligand001wb.original = "";
-    ligand001wb.acronym = "";
-    ligand001wb.organism = "";
-    ligand001wb.variant = "";
-    ligand001wb.status = "In Process";
+  //   ligand001wb.tanNumber = this.f.tanNumber.value ? this.f.tanNumber.value : "";
+  //   ligand001wb.ligandUri = "bioactivity-ligand" + "/" + "saturoglobal" + "/" + this.f.tanNumber.value + "/" + this.ligandVersion001?.ligandVersion + ">" + "bioactivity-ligand" + "/" + uuid();
+  //   ligand001wb.ligandVersionSlno = this.f.ligandVersionSlno.value ? this.f.ligandVersionSlno.value : null;
+  //   ligand001wb.ligandStatus = "embargoed";
+  //   ligand001wb.collection = "cas";
+  //   ligand001wb.ligandTypeSlno = this.f.ligandTypeSlno.value ? this.f.ligandTypeSlno.value : null;
+  //   ligand001wb.ligandDetail = this.f.ligandDetail.value ? this.f.ligandDetail.value : "";
+  //   ligand001wb.identifier1 = this.f.identifier1.value ? this.f.identifier1.value : "";
+  //   ligand001wb.identifier2 = this.f.identifier2.value ? this.f.identifier2.value : "";
+  //   ligand001wb.identifier3 = this.f.identifier3.value ? this.f.identifier3.value : "";
+  //   ligand001wb.collectionId = this.f.locator.value ? this.f.collectionId.value : "";
+  //   ligand001wb.locator = this.f.locator.value ? this.f.locator.value : "";
+  //   ligand001wb.sourceType = "journal";
+  //   ligand001wb.citation = this.f.tanNumber.value ? this.f.tanNumber.value : "";
+  //   ligand001wb.relatedDocument = this.f.tanNumber.value ? this.f.tanNumber.value : "";
+  //   ligand001wb.registryNumber = this.f.collectionId.value ? this.f.collectionId.value : "";
+  //   ligand001wb.diseaseName1 = this.f.diseaseName1.value ? this.f.diseaseName1.value : "";
+  //   ligand001wb.diseaseName2 = this.f.diseaseName2.value ? this.f.diseaseName2.value : "";
+  //   ligand001wb.diseaseName3 = this.f.diseaseName3.value ? this.f.diseaseName3.value : "";
+  //   // ligand001wb.target = "bioactivity-target" + "/" + "SaturoGlobal" + "/" + this.f.tanNumber.value + "/" + this.f.ligandVersionSlno.value + ">" + "bioactivity-target" + "/" + uuid();
+  //   ligand001wb.target = "";
+  //   ligand001wb.targetStatus = "";
+  //   ligand001wb.targetVersion = "";
+  //   ligand001wb.collectionId1 = "";
+  //   ligand001wb.original = "";
+  //   ligand001wb.acronym = "";
+  //   ligand001wb.organism = "";
+  //   ligand001wb.variant = "";
+  //   ligand001wb.status = "In Process";
 
-    // if (this.ligandId) {
-    //   ligand001wb.ligandId = this.ligandId;
-    //   ligand001wb.insertUser = this.insertUser;
-    //   ligand001wb.insertDatetime = this.insertDatetime;
-    //   ligand001wb.updatedUser = this.authManager.getcurrentUser.username;
-    //   ligand001wb.updatedDatetime = new Date();
-    //   this.ligandManager.ligandupdate(ligand001wb).subscribe((response) => {
-    //     this.calloutService.showSuccess("Ligand Details Updated Successfully");
-    //     this.loadData();
-    //     this.LigandForm.reset();
-    //     this.ligandId = null;
-    //     this.submitted = false;
-    //   });
-    // }
-    // else {
-    ligand001wb.insertUser = this.authManager.getcurrentUser.username;
-    ligand001wb.insertDatetime = new Date();
+  //   // if (this.ligandId) {
+  //   //   ligand001wb.ligandId = this.ligandId;
+  //   //   ligand001wb.insertUser = this.insertUser;
+  //   //   ligand001wb.insertDatetime = this.insertDatetime;
+  //   //   ligand001wb.updatedUser = this.authManager.getcurrentUser.username;
+  //   //   ligand001wb.updatedDatetime = new Date();
+  //   //   this.ligandManager.ligandupdate(ligand001wb).subscribe((response) => {
+  //   //     this.calloutService.showSuccess("Ligand Details Updated Successfully");
+  //   //     this.loadData();
+  //   //     this.LigandForm.reset();
+  //   //     this.ligandId = null;
+  //   //     this.submitted = false;
+  //   //   });
+  //   // }
+  //   // else {
+  //   ligand001wb.insertUser = this.authManager.getcurrentUser.username;
+  //   ligand001wb.insertDatetime = new Date();
 
-    this.ligandManager.ligandsave(ligand001wb).subscribe((response) => {
+  //   this.ligandManager.ligandsave(ligand001wb).subscribe((response) => {
 
-      this.calloutService.showWarning("Ligand details are in process ");
-      this.loadData();
-      this.onReset();
-      this.submitted = false;
-    });
-    // }
+  //     this.calloutService.showWarning("Ligand details are in process ");
+  //     this.loadData();
+  //     this.onReset();
+  //     this.submitted = false;
+  //   });
+  //   // }
 
-  }
+  // }
 
 
 
