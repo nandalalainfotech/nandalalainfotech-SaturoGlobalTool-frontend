@@ -781,14 +781,10 @@ export class SearchSettingComponent implements OnInit {
     this.gTanNum = tanNum;
     this.gLigVer = LigVer;
     this.assays = [];
-    console.log("this.assay out in search-------------->", this.assay);
     for (let i = 0; i < this.assay.length; i++) {
-      console.log("this.assay entry in search-------------->", this.assay);
       if ((this.assay[i].ligandSlno2?.tanNumber == tanNum) && (this.assay[i].ligandSlno2?.ligandVersionSlno2?.ligandVersion == LigVer)) {
-        console.log("this.assay[i] in search-------------->", this.assay[i]);
 
         this.assays.push(this.assay[i]);
-        console.log("this.assays in search-------------->", this.assays);
       }
     }
 
