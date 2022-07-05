@@ -132,6 +132,28 @@ export class MytaskComponent implements OnInit {
         //   field: 'curatorTanNo',
         // },
       },
+      {
+        headerName: 'STATUS',
+        field: 'status',
+        width: 150,
+        flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+        // valueGetter: this.setMachineName.bind(this)
+      },
+
+{
+        headerName: ' BATCH NUMBER',
+        field: 'cbatchNo',
+        width: 200,
+        flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true
+      },
 
       {
         headerName: 'START',
@@ -147,20 +169,9 @@ export class MytaskComponent implements OnInit {
         },
         
       },
-
-      {
-        headerName: ' BATCH NUMBER',
-        field: 'cbatchNo',
-        width: 200,
-        flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true
-      },
 //       {
 //         headerName: 'ALLOCATED DATE',
-//         field: 'date',
+//         field: 'curatorAllocateDate',
 //         width: 200,
 //         flex: 1,
 //         sortable: true,
@@ -174,14 +185,19 @@ export class MytaskComponent implements OnInit {
     ];
   }
   onMoveToLigand(params: any) {
+    console.log("onMoveToLigand-->>",params.data.status)
 
     let navigationExtras: NavigationExtras = {
       queryParams: {
         "tanNumber": params.data.curatorTanNo
       }
     };
-
+if(params.data.status == "Submitted to QC" ){
+  this.calloutService.showWarning("Already this TAN NUNBER submitted to QC!!. You can`t process");
+  }
+  else{
     this.router.navigate(["/app-dash-board/app-stepper"], navigationExtras);
+  }
   }
 
 }
