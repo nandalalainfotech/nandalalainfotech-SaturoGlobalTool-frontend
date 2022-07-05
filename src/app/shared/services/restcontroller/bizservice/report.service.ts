@@ -12,5 +12,10 @@ export class LigandReportsManager extends BaseService {
     machineReportsExcel() {    
         return this.getCallService1(`${this.ligandeReportsUrl}` + "/excel", )
     }
+    machineReportsTanExcel(reviewerTan: any) {    
+        let data: any = {};
+        data['reviewerTan'] = reviewerTan;
+        return this.getCallService1(`${this.ligandeReportsUrl}` + "/Tanexcel", data)
+    }
 
 }
