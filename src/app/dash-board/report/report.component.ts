@@ -929,14 +929,28 @@ export class ReportComponent implements OnInit {
     modalRef.componentInstance.data = params.data;
     console.log("reviewer data--->>",params.data);
     
-    // modalRef.result.then((data) => {
-    //   if (data == "Yes") {
-    //     this.calloutService.showSuccess("Ligand Data Accepted Successfully");
-    //   }
-
-    // }
-
-    // )
+    modalRef.result.then((data) => {
+      if (data == "Yes") {
+        // this.calloutService.showSuccess("Details Updated Successfully");
+        this.reviewerDatas = [];
+        this.assayManager.findByReviewer(this.username).subscribe(response => {
+          this.assays = deserialize<Assay001wb[]>(Assay001wb, response);
+    
+          for (let assay of this.assays) {
+            if (assay.status == "Submitted to QC" && assay.ligandSlno2?.tanNumber == this.tanNumber) {
+              this.reviewerDatas.push(assay);
+            }
+          }
+          if (this.reviewerDatas.length > 0) {
+            this.gridOptions?.api?.setRowData(this.reviewerDatas);
+          } else {
+            this.gridOptions?.api?.setRowData([]);
+          }
+    
+        });
+      }
+    }
+    )
 
   }
 
