@@ -22,7 +22,7 @@ import { Utils } from 'src/app/shared/utils/utils';
   styleUrls: ['./mytask.component.css']
 })
 export class MytaskComponent implements OnInit {
-  bgcolor:any
+  bgcolor: any
   // TaskAllocationForm: FormGroup | any;
   submitted = false;
   public gridOptions: GridOptions | any;
@@ -106,7 +106,7 @@ export class MytaskComponent implements OnInit {
       //   // valueGetter: this.setMachineCode.bind(this)
       // },
 
-     
+
       {
         headerName: 'CURATOR NAME',
         field: 'curatorName',
@@ -144,7 +144,7 @@ export class MytaskComponent implements OnInit {
         // valueGetter: this.setMachineName.bind(this)
       },
 
-{
+      {
         headerName: ' BATCH NUMBER',
         field: 'cbatchNo',
         width: 200,
@@ -165,39 +165,38 @@ export class MytaskComponent implements OnInit {
         cellRendererParams: {
           onClick: this.onMoveToLigand.bind(this),
           label: 'Start',
-         
+
         },
-        
+
       },
-//       {
-//         headerName: 'ALLOCATED DATE',
-//         field: 'curatorAllocateDate',
-//         width: 200,
-//         flex: 1,
-//         sortable: true,
-//         filter: true,
-//         resizable: true,
-//         suppressSizeToFit: true,
-//         valueGetter: (params: any) => {
-//           return params.data.curatorAllocateDate ? this.datepipe.transform(params.data.curatorAllocateDate, 'dd-MM-yyyy') : '';
-//         }
-// },
+      //       {
+      //         headerName: 'ALLOCATED DATE',
+      //         field: 'curatorAllocateDate',
+      //         width: 200,
+      //         flex: 1,
+      //         sortable: true,
+      //         filter: true,
+      //         resizable: true,
+      //         suppressSizeToFit: true,
+      //         valueGetter: (params: any) => {
+      //           return params.data.curatorAllocateDate ? this.datepipe.transform(params.data.curatorAllocateDate, 'dd-MM-yyyy') : '';
+      //         }
+      // },
     ];
   }
   onMoveToLigand(params: any) {
-    console.log("onMoveToLigand-->>",params.data.status)
 
     let navigationExtras: NavigationExtras = {
       queryParams: {
         "tanNumber": params.data.curatorTanNo
       }
     };
-if(params.data.status == "Submitted to QC" ){
-  this.calloutService.showWarning("Already this TAN NUNBER submitted to QC!!. You can`t process");
-  }
-  else{
-    this.router.navigate(["/app-dash-board/app-stepper"], navigationExtras);
-  }
+    if (params.data.status == "Submitted to QC") {
+      this.calloutService.showWarning("Already this TAN NUNBER submitted to QC!!. You can`t process");
+    }
+    else {
+      this.router.navigate(["/app-dash-board/app-stepper"], navigationExtras);
+    }
   }
 
 }

@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, HostBinding, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -6,7 +7,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GridOptions } from 'ag-grid-community';
 import { deserialize } from 'serializer.ts/Serializer';
 import { IconRendererComponent } from 'src/app/shared/services/renderercomponent/icon-renderer-component';
+import { AssayManager } from 'src/app/shared/services/restcontroller/bizservice/Assay.service';
 import { AuthManager } from 'src/app/shared/services/restcontroller/bizservice/auth-manager.service';
+import { LigandManager } from 'src/app/shared/services/restcontroller/bizservice/ligandManager.service';
 import { TaskAllocationManager } from 'src/app/shared/services/restcontroller/bizservice/taskAllocation.service';
 import { Assay001wb } from 'src/app/shared/services/restcontroller/entities/Assay001wb ';
 import { Ligand001wb } from 'src/app/shared/services/restcontroller/entities/Ligand001wb';
@@ -25,7 +28,7 @@ export class ReviewerTaskComponent implements OnInit {
   headerText: string = ";"
   @Input() acc: string = '';
   reviewerTanNo: any;
-  curatorTanNo?:any;
+  curatorTanNo?: any;
 
   public LigandForm: FormGroup | any;
   public CheckedForm: FormGroup | any;
@@ -41,6 +44,7 @@ export class ReviewerTaskComponent implements OnInit {
   updatedDatetime: Date | any;
   // searchPopup: string = '';
 
+  completedByReviewers: Assay001wb[] = [];
   ligand: Ligand001wb[] = [];
   // Ligandversions=Ligandversion001mb[] = [];
   // Ligandtypes=Ligandtype001mb[] = [];
@@ -51,6 +55,7 @@ export class ReviewerTaskComponent implements OnInit {
   username: any
   hexToRgb: any;
   rgbToHex: any;
+  tanNumber?: string | null;
 
   @HostBinding('style.--color_l1') colorthemes_1: any;
   @HostBinding('style.--color_l2') colorthemes_2: any;
@@ -67,6 +72,9 @@ export class ReviewerTaskComponent implements OnInit {
     private taskAllocationManager: TaskAllocationManager,
     private router: Router,
     private http: HttpClient,
+    private ligandManager: LigandManager,
+    private assayManager: AssayManager,
+    private datepipe: DatePipe,
   ) {
 
     this.frameworkComponents = {
@@ -85,13 +93,17 @@ export class ReviewerTaskComponent implements OnInit {
 
     this.taskAllocationManager.findByReviewerTanNo(this.username).subscribe(response => {
       this.taskallocations = deserialize<Taskallocation001wb[]>(Taskallocation001wb, response);
-
+      console.log("status-->", this.taskallocations)
       if (this.taskallocations.length > 0) {
+
         this.gridOptions?.api?.setRowData(this.taskallocations);
       } else {
         this.gridOptions?.api?.setRowData([]);
       }
     });
+
+    
+
 
 
     this.authManager.currentUserSubject.subscribe((object: any) => {
@@ -121,48 +133,62 @@ export class ReviewerTaskComponent implements OnInit {
     this.gridOptions.enableRangeSelection = true;
     this.gridOptions.animateRows = true;
     this.gridOptions.columnDefs = [
+
       {
-        headerName: 'Sl-No',
-        // field: 'curatorId',
+        headerName: 'CURATOR NAME',
+        field: 'curatorName',
         width: 200,
-        //flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        headerCheckboxSelection: true,
-        headerCheckboxSelectionFilteredOnly: true,
-        checkboxSelection: true,
-        suppressSizeToFit: true,
-        // cellTemplate: '<span>{{rowRenderIndex+1}}</span>',
-        // valueGetter: this.setLigandId.bind(this)
-      },
-      {
-        headerName: 'TO BE STARTED',
-        cellRenderer: 'iconRenderer',
-        width: 100,
         flex: 1,
-        suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
-        cellRendererParams: {
-          onClick: this.onMoveToReviewer.bind(this),
-          label: 'Start',
-
-        },
-
-      },
-
-
-      {
-        headerName: 'REVIEWER TAN NUMBER',
-        field: 'reviewerTanNo',
-        width: 200,
-        //flex: 1,
         sortable: true,
         filter: true,
         resizable: true,
-       suppressSizeToFit: true,
-        // valueGetter: this.settanNumber.bind(this)
+        suppressSizeToFit: true,
+
       },
+      {
+        headerName: 'BATCH NUMBER',
+        field: 'rbatchNo',
+        width: 150,
+        flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+      },
+      {
+        headerName: 'TAN NUMBER',
+        field: 'curatorTanNo',
+        width: 200,
+        flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+      },
+      {
+        headerName: 'Submitted QC Date',
+        field: 'updatedDatetime',
+        width: 200,
+        flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+        valueGetter: (params: any) => {
+          return params.data.updatedDatetime ? this.datepipe.transform(params.data.updatedDatetime, 'dd-MM-yyyy') : '';
+        }
+      },
+      // {
+      //   headerName: 'STATUS',
+      //   field: 'status',
+      //   width: 150,
+      //   flex: 1,
+      //   sortable: true,
+      //   filter: true,
+      //   resizable: true,
+      //   suppressSizeToFit: true,
+      // },
+
 
       {
         headerName: 'REVIEWER NAME',
@@ -173,22 +199,43 @@ export class ReviewerTaskComponent implements OnInit {
         filter: true,
         resizable: true,
         suppressSizeToFit: true,
-
       },
+      {
+        headerName: 'START',
+        cellRenderer: 'iconRenderer',
+        width: 150,
+        flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+        cellStyle: { textAlign: 'center' },
+        cellRendererParams: {
+          onClick: this.onMoveToReviewer.bind(this),
+          label: 'Start',
+
+        },
+      },
+
+
     ]
   }
 
 
 
   onMoveToReviewer(params: any) {
-    // let navigationExtras: NavigationExtras = {
-    //   queryParams: {
-    //     "tanNumber": params.data.reviewerTanNo
-    //   }
-    // };
 
-    this.router.navigate(["/app-dash-board/app-stepper",{ "tanNumber": params.data.reviewerTanNo } ]);
+    this.router.navigate(["/app-dash-board/app-stepper", { "tanNumber": params.data.reviewerTanNo }]);
+
   }
+
+
+
+
+
+
+
+
 
 
 }
