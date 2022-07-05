@@ -949,7 +949,7 @@ export class ReportComponent implements OnInit {
 
   //  ------EXCEL FILE --------//
 
-  onGenerateExcelReport() {
+  // onGenerateExcelReport() {
     
   //   for(let i=0; i<this.assays.length; i++){
   //     console.log("tan", this.assays[i].ligandSlno2?.tanNumber)
@@ -958,19 +958,19 @@ export class ReportComponent implements OnInit {
   
   //  let tanNos=new Set (this.tans)
   //  console.log("tanNos",tanNos);
-    this.ligandReportsManager.machineReportsExcel().subscribe((response) => {
+    // this.ligandReportsManager.machineReportsExcel().subscribe((response) => {
       // if (this.ligand) {
       //   saveAs(response);
       // } else {
       //   saveAs(response, "download");
       // }
-      const blob = new Blob([response], {
-        type: 'application/zip'
-      });
-      const url = window.URL.createObjectURL(blob);
-      window.open(url);
-    })
-  }
+  //     const blob = new Blob([response], {
+  //       type: 'application/zip'
+  //     });
+  //     const url = window.URL.createObjectURL(blob);
+  //     window.open(url);
+  //   })
+  // }
 
 }
 

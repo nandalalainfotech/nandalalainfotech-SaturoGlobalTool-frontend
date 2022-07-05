@@ -1,0 +1,13 @@
+<div class="manu-breadcrumb">
+   
+    <fieldset class="scheduler-border">
+        <button type="button" class="btn btn-warning reset" (click)="onGenerateExcelReport()" style="margin-right: 50px;">
+            Export Excel
+        </button>
+        <br><br> 
+        <legend class="scheduler-border">Excel Export</legend>
+        <ag-grid-angular #agGrid class="ag-theme-balham" [gridOptions]="gridOptions" style="width: 100%; height: 350px;" [pagination]="true" [frameworkComponents]="frameworkComponents">
+        </ag-grid-angular>
+
+    </fieldset>
+</div>

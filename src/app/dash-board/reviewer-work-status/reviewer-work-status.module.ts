@@ -16,6 +16,7 @@ import { ReviewerInprocessTaskComponent } from './reviewer-inprocess-task/review
 import { ReviewerTaskComponent } from './reviewer-task/reviewer-task.component';
 import { ReviewerWorkStatusRoutingModule } from './reviewer-work-status-routing.module';
 import { ReviewerWorkStatusComponent } from './reviewer-work-status.component';
+import { ReviewerExportComponent } from './reviewer-export/reviewer-export.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { ReviewerWorkStatusComponent } from './reviewer-work-status.component';
     ReviewerTaskComponent,
     ReviewerCompletedTaskComponent,
     ReviewerInprocessTaskComponent,
-    ReviewerWorkStatusComponent
+    ReviewerWorkStatusComponent,
+    ReviewerExportComponent
   ],
   imports: [
     CommonModule,

@@ -20,6 +20,10 @@ const routes: Routes = [{
       path: 'app-reviewer-completed-task',
       loadChildren: () => import("./reviewer-completed-task/reviewer-completed-task.module").then(m => m.ReviewerCompletedTaskModule)
     },
+    {
+      path: 'app-reviewer-export',
+      loadChildren: () => import("./reviewer-export/reviewer-export.module").then(m => m.ReviewerExportModule)
+    },
   ]
 }
 ];
