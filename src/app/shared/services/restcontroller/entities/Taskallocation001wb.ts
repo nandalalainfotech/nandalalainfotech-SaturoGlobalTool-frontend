@@ -5,6 +5,8 @@ export class Taskallocation001wb {
     curatorTanNo?: string | null;
     curatorAllocateDate?: Date | null;
     rbatchNo?: string | null;
+    status?: string | null;
+    reviewerStatus?: string | null;
     insertUser?: string;
     insertDatetime?: Date;
     updatedUser?: string | null;

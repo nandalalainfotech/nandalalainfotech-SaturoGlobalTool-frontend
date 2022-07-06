@@ -133,7 +133,7 @@ export class MytaskComponent implements OnInit {
         // },
       },
       {
-        headerName: 'STATUS',
+        headerName: 'CURATOR STATUS',
         field: 'status',
         width: 150,
         flex: 1,
@@ -193,6 +193,9 @@ export class MytaskComponent implements OnInit {
     };
     if (params.data.status == "Submitted to QC") {
       this.calloutService.showWarning("Already this TAN NUNBER submitted to QC!!. You can`t process");
+    }
+    else if( params.data.status == "Rejected by QC"){
+      this.calloutService.showWarning("This TAN NUNBER Rejected by QC!!. You can view it in Rejected by Reviewer Tab");
     }
     else {
       this.router.navigate(["/app-dash-board/app-stepper"], navigationExtras);

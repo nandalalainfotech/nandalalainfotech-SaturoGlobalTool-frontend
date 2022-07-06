@@ -171,6 +171,7 @@ export class LigandComponent implements OnInit {
         });
       }
       else {
+         this.ligandId = params["ligandId"];
         this.tanNumber = params["tanNumber"];
        }
 
@@ -231,18 +232,18 @@ export class LigandComponent implements OnInit {
       setTimeout(() => {
         this.LigandForm.patchValue({
           tanNumber: this.tanNumber,
-          ligandVersionSlno: this.ligandVersionSlno,
-          ligandId: this.ligandId,
-          ligandTypeSlno: this.ligandTypeSlno,
-          identifier1: this.identifier1,
-          identifier2: this.identifier2,
-          identifier3: this.identifier3,
-          collectionId: this.collectionId,
-          ligandDetail: this.ligandDetail,
-          locator: this.locator,
-          diseaseName1: this.diseaseName1,
-          diseaseName2: this.diseaseName2,
-          diseaseName3: this.diseaseName3,
+          // ligandVersionSlno: this.ligandVersionSlno,
+          // ligandId: this.ligandId,
+          // ligandTypeSlno: this.ligandTypeSlno,
+          // identifier1: this.identifier1,
+          // identifier2: this.identifier2,
+          // identifier3: this.identifier3,
+          // collectionId: this.collectionId,
+          // ligandDetail: this.ligandDetail,
+          // locator: this.locator,
+          // diseaseName1: this.diseaseName1,
+          // diseaseName2: this.diseaseName2,
+          // diseaseName3: this.diseaseName3,
 
         }, 10);
 
@@ -687,7 +688,7 @@ export class LigandComponent implements OnInit {
     ligand001wb.identifier1 = this.f.identifier1.value ? this.f.identifier1.value : "";
     ligand001wb.identifier2 = this.f.identifier2.value ? this.f.identifier2.value : "";
     ligand001wb.identifier3 = this.f.identifier3.value ? this.f.identifier3.value : "";
-    ligand001wb.collectionId = this.f.locator.value ? this.f.collectionId.value : "";
+    ligand001wb.collectionId = this.f.collectionId.value ? this.f.collectionId.value : "";
     ligand001wb.locator = this.f.locator.value ? this.f.locator.value : "";
     ligand001wb.sourceType = "journal";
     ligand001wb.citation = this.f.tanNumber.value ? this.f.tanNumber.value : "";
