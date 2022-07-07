@@ -24,7 +24,7 @@ import { Utils } from 'src/app/shared/utils/utils';
 })
 export class RejectedByReviewerComponent implements OnInit {
 
- 
+
   public LigandForm: FormGroup | any;
   public CheckedForm: FormGroup | any;
   frameworkComponents: any;
@@ -38,7 +38,7 @@ export class RejectedByReviewerComponent implements OnInit {
   updatedUser: string = "";
   updatedDatetime: Date | any;
   // searchPopup: string = '';
-
+  ligands?: Ligand001wb[] = [];
   ligand: Ligand001wb[] = [];
   assays: Assay001wb[] = [];
   inProcessAssays: Assay001wb[] = [];
@@ -85,16 +85,35 @@ export class RejectedByReviewerComponent implements OnInit {
 
     this.username = this.authManager.getcurrentUser.username;
 
-    this.assayManager.findInprocesStatus(this.username).subscribe(response => {
-      this.assays = deserialize<Assay001wb[]>(Assay001wb, response);
+    // this.assayManager.findInprocesStatus(this.username).subscribe(response => {
+    //   this.assays = deserialize<Assay001wb[]>(Assay001wb, response);
+
+    //   for (let assay of this.assays) {
+    //     if (assay.status == "Rejected") {
+    //       this.rejectedByReviewers.push(assay);
+          
+    //     }
+    //   }
       
-      for (let assay of this.assays) {
-        if(assay.status == "Rejected") {
-          this.rejectedByReviewers.push(assay);
-        } 
-      }
-      if (this.rejectedByReviewers.length > 0) {
-        this.gridOptions?.api?.setRowData(this.rejectedByReviewers);
+    //   let rejectTan =new Set(this.rejectedByReviewers);
+
+    //   console.log("this.rejectedByReviewers-->>",rejectTan);
+    //   if (this.rejectedByReviewers.length > 0) {
+    //     this.gridOptions?.api?.setRowData(this.rejectedByReviewers);
+    //   } else {
+    //     this.gridOptions?.api?.setRowData([]);
+    //   }
+    // });
+
+    this.ligandManager.allligand(this.username).subscribe(response => {
+      this.ligand = deserialize<Ligand001wb[]>(Ligand001wb, response);
+      
+      this.ligands = this.ligand.filter((v,i,a)=>a.findIndex(v2=>(v2.status === "Rejected" && v2.tanNumber===v.tanNumber))===i);
+     console.log(" this.ligands", this.ligands);
+     
+      this.gridOptions?.api?.refreshCells();
+      if (this.ligand.length > 0) {
+        this.gridOptions?.api?.setRowData(this.ligands);
       } else {
         this.gridOptions?.api?.setRowData([]);
       }
@@ -153,7 +172,7 @@ export class RejectedByReviewerComponent implements OnInit {
       //   resizable: true,
       //   suppressSizeToFit: true
       // },
-      
+
       {
         headerName: 'TAN Number',
         field: 'tanNumber',
@@ -178,32 +197,32 @@ export class RejectedByReviewerComponent implements OnInit {
         cellRendererParams: {
           onClick: this.onMoveToLigand.bind(this),
           label: 'Start',
-         
+
         },
       },
 
-    
-     
+
+
 
 
     ];
   }
   // -----------Measurement---------------------
   setTypesValue(params: any) {
-    return params.data.typeSlno2? params.data.typeSlno2.type : null;
+    return params.data.typeSlno2 ? params.data.typeSlno2.type : null;
   }
 
   setOriginalPrefix(params: any) {
-    return params.data.originalPrefixSlno2? params.data.originalPrefixSlno2.originalPrefix : null;
+    return params.data.originalPrefixSlno2 ? params.data.originalPrefixSlno2.originalPrefix : null;
   }
 
 
   setCategoryFunction(params: any) {
-    return params.data.functionSlno2? params.data.functionSlno2.function : null;
+    return params.data.functionSlno2 ? params.data.functionSlno2.function : null;
   }
 
   setCategoryValue(params: any) {
-     return params.data.categorySlno2? params.data.categorySlno2.category : null;
+    return params.data.categorySlno2 ? params.data.categorySlno2.category : null;
   }
 
 
@@ -271,24 +290,26 @@ export class RejectedByReviewerComponent implements OnInit {
   setLigandVersion(params: any) {
     return params.data.ligandSlno2 ? params.data.ligandSlno2.ligandVersionSlno2.ligandVersion : null;
   }
-  
+
   settanNumber(params: any) {
-    return params.data.ligandSlno2 ? params.data.ligandSlno2.tanNumber : null;
+    return params.data? params.data.tanNumber : null;
   }
 
   onMoveToLigand(params: any) {
 
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        "tanNumber": params.data.ligandSlno2.tanNumber
+        "ligandId": params.data.ligandId,
+        "tanNumber": params.data.tanNumber,
+        // "status": params.data.status 
       }
     };
 
     this.router.navigate(["/app-dash-board/app-stepper"], navigationExtras);
   }
-  
 
- 
+
+
 
   setStatusName(params: any): string {
     return params.data.acc = "ok";

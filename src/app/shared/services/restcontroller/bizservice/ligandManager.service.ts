@@ -30,6 +30,13 @@ export class LigandManager extends BaseService {
         return this.getCallService(`${this.ligandUrl}` + "/findAllByLigandId",data);
     }
 
+    findAllRejected(ligandId:any) {
+        
+        let data: any = {};
+        data['ligandId'] = ligandId;
+        return this.getCallService(`${this.ligandUrl}` + "/findAllRejected",data);
+    }
+
    
 
     findInprocesStatus(username:any) {
@@ -64,6 +71,22 @@ export class LigandManager extends BaseService {
         data['ligandId'] = ligandId;
         data['tanNumber'] = tanNumber;
         return this.putCallService(`${this.ligandUrl}` + "/updateStatus/"+ligandId+"/"+tanNumber);
+    }
+
+    reviewerAcceptStatusUpdate(tanNumber: any,username:any) {
+        let data: any = {};
+        data['username'] = username;
+        data['tanNumber'] = tanNumber;
+        
+        return this.getCallService(`${this.ligandUrl}` + "/reviewerAcceptStatusUpdate/"+tanNumber+"/"+username);
+    }
+
+    reviewerRejectStatusUpdate(tanNumber: any,username:any) {
+        let data: any = {};
+        data['username'] = username;
+        data['tanNumber'] = tanNumber;
+        
+        return this.getCallService(`${this.ligandUrl}` + "/reviewerRejectStatusUpdate/"+tanNumber+"/"+username);
     }
 
     liganddelete(ligandId: any) {

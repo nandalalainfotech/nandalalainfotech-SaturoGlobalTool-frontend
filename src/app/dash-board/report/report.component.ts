@@ -10,6 +10,7 @@ import { ReviewerViewComponent } from 'src/app/shared/reviewer-view/reviewer-vie
 import { IconRendererComponent } from 'src/app/shared/services/renderercomponent/icon-renderer-component';
 import { AssayManager } from 'src/app/shared/services/restcontroller/bizservice/Assay.service';
 import { AuthManager } from 'src/app/shared/services/restcontroller/bizservice/auth-manager.service';
+import { LigandManager } from 'src/app/shared/services/restcontroller/bizservice/ligandManager.service';
 import { LigandReportsManager } from 'src/app/shared/services/restcontroller/bizservice/report.service';
 import { TaskAllocationManager } from 'src/app/shared/services/restcontroller/bizservice/taskAllocation.service';
 import { Assay001wb } from 'src/app/shared/services/restcontroller/entities/Assay001wb ';
@@ -41,7 +42,7 @@ export class ReportComponent implements OnInit {
   updatedDatetime: Date | any;
   // searchPopup: string = '';
   // tans:any []=[];
-  ligand: Ligand001wb[] = [];
+  ligands: Ligand001wb[] = [];
   // Ligandversions=Ligandversion001mb[] = [];
   // Ligandtypes=Ligandtype001mb[] = [];
   assays: Assay001wb[] = [];
@@ -67,6 +68,7 @@ export class ReportComponent implements OnInit {
     private calloutService: CalloutService,
     private modalService: NgbModal,
     private assayManager: AssayManager,
+    private ligandManager: LigandManager,
     private ligandReportsManager: LigandReportsManager,
     private taskAllocationManager: TaskAllocationManager,
     private route: ActivatedRoute,
@@ -119,10 +121,6 @@ export class ReportComponent implements OnInit {
 
       this.colorthemes_4 = Utils.rgbToHex(rgb, 0.8);
     });
-  }
-
-  onAccepted() {
-
   }
 
 
@@ -927,15 +925,14 @@ export class ReportComponent implements OnInit {
   onEditButtonClick(params: any) {
     const modalRef = this.modalService.open(ReviewerViewComponent, { size: 'lg' });
     modalRef.componentInstance.data = params.data;
-    console.log("reviewer data--->>",params.data);
-    
+
     modalRef.result.then((data) => {
       if (data == "Yes") {
         // this.calloutService.showSuccess("Details Updated Successfully");
         this.reviewerDatas = [];
         this.assayManager.findByReviewer(this.username).subscribe(response => {
           this.assays = deserialize<Assay001wb[]>(Assay001wb, response);
-    
+
           for (let assay of this.assays) {
             if (assay.status == "Submitted to QC" && assay.ligandSlno2?.tanNumber == this.tanNumber) {
               this.reviewerDatas.push(assay);
@@ -946,12 +943,26 @@ export class ReportComponent implements OnInit {
           } else {
             this.gridOptions?.api?.setRowData([]);
           }
-    
+
         });
       }
     }
     )
 
+  }
+  onAccepted(params:any) {
+
+    this.ligandManager.reviewerAcceptStatusUpdate(this.reviewerDatas[0].ligandSlno2?.tanNumber,this.username).subscribe(response => {
+      this.ligands = deserialize<Ligand001wb[]>(Ligand001wb, response);
+      this.calloutService.showSuccess("Ligand and Assay data is Accepted");
+    });
+  }
+
+  onRejected() {
+    this.ligandManager.reviewerRejectStatusUpdate(this.reviewerDatas[0].ligandSlno2?.tanNumber,this.username).subscribe(response => {
+      this.ligands = deserialize<Ligand001wb[]>(Ligand001wb, response);
+      this.calloutService.showWarning("Ligand and Assay data is rejected");
+    });
   }
 
   setStatusName(params: any) {
@@ -964,20 +975,20 @@ export class ReportComponent implements OnInit {
   //  ------EXCEL FILE --------//
 
   // onGenerateExcelReport() {
-    
+
   //   for(let i=0; i<this.assays.length; i++){
   //     console.log("tan", this.assays[i].ligandSlno2?.tanNumber)
   //     this.tans.push(this.assays[i].ligandSlno2?.tanNumber)
   //   }
-  
+
   //  let tanNos=new Set (this.tans)
   //  console.log("tanNos",tanNos);
-    // this.ligandReportsManager.machineReportsExcel().subscribe((response) => {
-      // if (this.ligand) {
-      //   saveAs(response);
-      // } else {
-      //   saveAs(response, "download");
-      // }
+  // this.ligandReportsManager.machineReportsExcel().subscribe((response) => {
+  // if (this.ligand) {
+  //   saveAs(response);
+  // } else {
+  //   saveAs(response, "download");
+  // }
   //     const blob = new Blob([response], {
   //       type: 'application/zip'
   //     });
