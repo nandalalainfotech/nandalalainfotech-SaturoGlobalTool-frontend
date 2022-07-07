@@ -1,41 +1,5 @@
-<div class="manu-breadcrumb">
-    <app-breadcrumb></app-breadcrumb>
-
-
-    <fieldset class="scheduler-border">
-        <legend class="scheduler-border">Task Allocation</legend>
-        <div class="formData">
-            <form [formGroup]="TaskAllocationForm" (ngSubmit)="onTaskAllocationClick($event, TaskAllocationForm)">
-                <div class="row">
-                    <div class="col-xs-3 col-sm-5">
-                        <div class="col-xs-3 col-sm-5">
-                            <label style="margin-top: 40px;">File Upload:</label>
-                            <input type="file" id="BSbtninfo" name="filename" (change)="onFileSelected($event)" style="margin-top:20px;font-size: 15px;">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-12 ">
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary submit">Submit</button>
-                            <button type="button" class="btn btn-warning reset" (click)="onReset()">Clear</button>
-                        </div>
-                    </div>
-                </div>
-
-
-            </form>
-        </div>
-    </fieldset>
-
-
-    <fieldset class="scheduler-border">
-        <legend class="scheduler-border">Task Status</legend>
-        <ag-grid-angular #agGrid class="ag-theme-balham" [gridOptions]="gridOptions" style="width: 100%; height: 350px;" [pagination]="true" [frameworkComponents]="frameworkComponents">
-        </ag-grid-angular>
-
-
-
-    </fieldset>
-</div>
+<nav mat-tab-nav-bar>
+    <a mat-tab-link routerLink="./app-task-allocation" routerLinkActive #taskAllocationTab="routerLinkActive" [active]="taskAllocationTab.isActive">Task Allocation</a>
+    <a mat-tab-link routerLink="./app-task-status" routerLinkActive #taskStatusTab="routerLinkActive" [active]="taskStatusTab.isActive">Task Status</a>
+</nav>
+<router-outlet></router-outlet>
