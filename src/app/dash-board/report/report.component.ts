@@ -925,7 +925,6 @@ export class ReportComponent implements OnInit {
   onEditButtonClick(params: any) {
     const modalRef = this.modalService.open(ReviewerViewComponent, { size: 'lg' });
     modalRef.componentInstance.data = params.data;
-    console.log("reviewer data--->>", params.data);
 
     modalRef.result.then((data) => {
       if (data == "Yes") {
@@ -953,14 +952,14 @@ export class ReportComponent implements OnInit {
   }
   onAccepted(params:any) {
 
-    this.ligandManager.reviewerAcceptStatusUpdate(this.reviewerDatas[0].ligandSlno2?.tanNumber).subscribe(response => {
+    this.ligandManager.reviewerAcceptStatusUpdate(this.reviewerDatas[0].ligandSlno2?.tanNumber,this.username).subscribe(response => {
       this.ligands = deserialize<Ligand001wb[]>(Ligand001wb, response);
       this.calloutService.showSuccess("Ligand and Assay data is Accepted");
     });
   }
 
   onRejected() {
-    this.ligandManager.reviewerRejectStatusUpdate(this.reviewerDatas[0].ligandSlno2?.tanNumber).subscribe(response => {
+    this.ligandManager.reviewerRejectStatusUpdate(this.reviewerDatas[0].ligandSlno2?.tanNumber,this.username).subscribe(response => {
       this.ligands = deserialize<Ligand001wb[]>(Ligand001wb, response);
       this.calloutService.showWarning("Ligand and Assay data is rejected");
     });
