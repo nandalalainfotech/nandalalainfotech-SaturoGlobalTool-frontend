@@ -69,4 +69,8 @@ export class TaskAllocationManager extends BaseService {
         data['curatorId'] = curatorId;
         return this.deleteCallService(`${this.taskallocationUrl}` + "/delete", data);
     }
+
+    taskStatusExcel() {
+        return this.getCallService1(`${this.taskallocationUrl}` + "/excel");
+    }
 }

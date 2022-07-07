@@ -7,7 +7,7 @@
                         <ul class="nav navbar-nav">
 
                             <li id="dropdown" title="TaskAllocation" *ngIf="user?.rolename== 'Admin'">
-                                <a routerLink="./app-admin">
+                                <a routerLink="./app-admin/app-task-allocation">
                                     <i class="fa fa-tasks" [ngClass]="parentMenuString == 'Admin' ? 'is-active' : 'is-inactive'"></i>
                                     <span [ngClass]="parentMenuString == 'Admin' ? 'is-active' : ''">Task
                                         Allocation</span>
