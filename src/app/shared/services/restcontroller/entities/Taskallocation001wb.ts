@@ -11,6 +11,7 @@ export class Taskallocation001wb {
     insertDatetime?: Date;
     updatedUser?: string | null;
     updatedDatetime?: Date | null;
+    reviewerUpdatedDate?: Date | null;
 
 
 }
