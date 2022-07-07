@@ -176,6 +176,7 @@ export class TaskStatusComponent implements OnInit {
 
       {
         headerName: 'ReviewerStatus',
+        field: 'reviewerStatus',
         width: 200,
         flex: 1,
         sortable: true,
@@ -195,9 +196,9 @@ export class TaskStatusComponent implements OnInit {
         filter: true,
         resizable: true,
         suppressSizeToFit: true,
-        // valueGetter: (params: any) => {
-        //   return params.data.curatorAllocateDate ? this.datepipe.transform(params.data.curatorAllocateDate, 'dd-MM-yyyy') : '';
-        // }
+        valueGetter: (params: any) => {
+          return params.data.reviewerUpdatedDate ? this.datepipe.transform(params.data.reviewerUpdatedDate, 'dd-MM-yyyy') : '';
+        }
       },
 
       
