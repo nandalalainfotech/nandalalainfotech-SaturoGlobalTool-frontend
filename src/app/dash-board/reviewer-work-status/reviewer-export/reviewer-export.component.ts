@@ -45,6 +45,7 @@ export class ReviewerExportComponent implements OnInit {
   assays: Assay001wb[] = [];
   inProcessAssays: Assay001wb[] = [];
   completedByReviewers: Assay001wb[] = [];
+  completedByReviewExport: Taskallocation001wb[] = [];
   assay: Assay001wb[] = [];
   taskallocations: Taskallocation001wb[] = [];
 
@@ -90,14 +91,16 @@ export class ReviewerExportComponent implements OnInit {
 
     this.taskAllocationManager.findByReviewerTanNo(this.username).subscribe(response => {
       this.taskallocations = deserialize<Taskallocation001wb[]>(Taskallocation001wb, response);
-      // for (let assay of this.assays) {
-      //   if(assay.status == "Completed") {
-      //     this.completedByReviewers.push(assay);
-      //   } 
-      // }
+      for (let taskallocation of this.taskallocations) {
+        if(taskallocation.reviewerStatus == "Completed") {
+          this.completedByReviewExport.push(taskallocation);
+        } 
+      }
+
+      
       console.log("this.taskallocations", this.taskallocations);
       if (this.taskallocations.length > 0) {
-        this.gridOptions?.api?.setRowData(this.taskallocations);
+        this.gridOptions?.api?.setRowData(this.completedByReviewExport);
       } else {
         this.gridOptions?.api?.setRowData([]);
       }
@@ -203,7 +206,7 @@ export class ReviewerExportComponent implements OnInit {
     
     //  let tanNos=new Set (this.tans)
     //  console.log("tanNos",tanNos);
-      this.ligandReportsManager.machineReportsExcel().subscribe((response) => {
+      this.ligandReportsManager.machineReportsExcel(this.username).subscribe((response) => {
         // if (this.ligand) {
         //   saveAs(response);
         // } else {
