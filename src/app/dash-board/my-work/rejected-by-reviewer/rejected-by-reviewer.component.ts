@@ -109,7 +109,6 @@ export class RejectedByReviewerComponent implements OnInit {
       this.ligand = deserialize<Ligand001wb[]>(Ligand001wb, response);
       
       this.ligands = this.ligand.filter((v,i,a)=>a.findIndex(v2=>(v2.status === "Rejected" && v2.tanNumber===v.tanNumber))===i);
-     console.log(" this.ligands", this.ligands);
      
       this.gridOptions?.api?.refreshCells();
       if (this.ligand.length > 0) {
@@ -185,7 +184,7 @@ export class RejectedByReviewerComponent implements OnInit {
         // headerCheckboxSelectionFilteredOnly: true,
         // checkboxSelection: true,
         suppressSizeToFit: true,
-        valueGetter: this.settanNumber.bind(this)
+        // valueGetter: this.settanNumber.bind(this)
       },
       {
         headerName: 'RE-START',
@@ -301,10 +300,11 @@ export class RejectedByReviewerComponent implements OnInit {
       queryParams: {
         "ligandId": params.data.ligandId,
         "tanNumber": params.data.tanNumber,
-        // "status": params.data.status 
+        "insertUser": params.data.insertUser 
+      
+        
       }
     };
-
     this.router.navigate(["/app-dash-board/app-stepper"], navigationExtras);
   }
 

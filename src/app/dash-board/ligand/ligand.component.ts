@@ -116,64 +116,70 @@ export class LigandComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   
+
     this.route.queryParams.subscribe((params: { [x: string]: any; }) => {
       this.ligandId = params["ligandId"];
-     
+      this.insertUser = params["insertUser"];
+      this.tanNumber = params["tanNumber"];
 
-      if ( this.ligandId) {
-        this.ligandManager.findAllByLigandId(this.ligandId).subscribe(response => {
-          let ligand = deserialize<Ligand001wb>(Ligand001wb, response);
+      // if ( this.ligandId) {
+      //   this.ligandManager.findAllByLigandId(this.ligandId).subscribe(response => {
+      //     let ligand = deserialize<Ligand001wb>(Ligand001wb, response);
 
-          let LigandId = ligand.ligandId;
-          this.ligandId = LigandId;
+      //     let LigandId = ligand.ligandId;
+      //     this.ligandId = LigandId;
 
-          let InsertUser = ligand.insertUser;
-          this.insertUser = InsertUser;
+      //     let InsertUser = ligand.insertUser;
+      //     this.insertUser = InsertUser;
 
 
-          let TanNumber = ligand.tanNumber;
-          this.tanNumber = TanNumber;
+      //     let TanNumber = ligand.tanNumber;
+      //     this.tanNumber = TanNumber;
 
-          let LigandVersion = ligand.ligandVersionSlno;
-          this.ligandVersionSlno = LigandVersion;
+      //     let LigandVersion = ligand.ligandVersionSlno;
+      //     this.ligandVersionSlno = LigandVersion;
 
-          let LigandType = ligand.ligandTypeSlno;
-          this.ligandTypeSlno = LigandType;
+      //     let LigandType = ligand.ligandTypeSlno;
+      //     this.ligandTypeSlno = LigandType;
 
-          let Identifier1 = ligand.identifier1;
-          this.identifier1 = Identifier1;
+      //     let Identifier1 = ligand.identifier1;
+      //     this.identifier1 = Identifier1;
 
-          let Identifier2 = ligand.identifier2;
-          this.identifier2 = Identifier2;
+      //     let Identifier2 = ligand.identifier2;
+      //     this.identifier2 = Identifier2;
 
-          let Identifier3 = ligand.identifier3;
-          this.identifier3 = Identifier3;
+      //     let Identifier3 = ligand.identifier3;
+      //     this.identifier3 = Identifier3;
 
-          let CollectionId = ligand.collectionId;
-          this.collectionId = CollectionId;
+      //     let CollectionId = ligand.collectionId;
+      //     this.collectionId = CollectionId;
 
-          let Locator = ligand.locator;
-          this.locator = Locator;
+      //     let Locator = ligand.locator;
+      //     this.locator = Locator;
 
-          let LigandDetail = ligand.ligandDetail;
-          this.ligandDetail = LigandDetail;
+      //     let LigandDetail = ligand.ligandDetail;
+      //     this.ligandDetail = LigandDetail;
 
-          let DiseaseName1 = ligand.diseaseName1;
-          this.diseaseName1 = DiseaseName1;
+      //     let DiseaseName1 = ligand.diseaseName1;
+      //     this.diseaseName1 = DiseaseName1;
 
-          let DiseaseName2 = ligand.diseaseName2;
-          this.diseaseName2 = DiseaseName2;
+      //     let DiseaseName2 = ligand.diseaseName2;
+      //     this.diseaseName2 = DiseaseName2;
 
-          let DiseaseName3 = ligand.diseaseName3;
-          this.diseaseName3 = DiseaseName3;
+      //     let DiseaseName3 = ligand.diseaseName3;
+      //     this.diseaseName3 = DiseaseName3;
 
-        });
-      }
-      else {
-         this.ligandId = params["ligandId"];
-        this.tanNumber = params["tanNumber"];
-       }
+      //   });
+      // }
+      // else {
+      //    this.ligandId = params["ligandId"];
+      //    console.log("this.ligandId---->>>",this.ligandId);
+      //   this.tanNumber = params["tanNumber"];
+      //   console.log("this.tanNumber---->>>",this.tanNumber);
+      //   this.insertUser = params["insertUser"];
+      //   console.log("this.insertUser---->>>",this.insertUser);
+
+      //  }
 
     });
 
@@ -232,7 +238,7 @@ export class LigandComponent implements OnInit {
       setTimeout(() => {
         this.LigandForm.patchValue({
           tanNumber: this.tanNumber,
-          // ligandVersionSlno: this.ligandVersionSlno,
+          insertUser: this.insertUser,
           // ligandId: this.ligandId,
           // ligandTypeSlno: this.ligandTypeSlno,
           // identifier1: this.identifier1,
@@ -272,7 +278,7 @@ export class LigandComponent implements OnInit {
   loadData() {
     this.ligandManager.allligand(this.username).subscribe(response => {
       this.ligands = deserialize<Ligand001wb[]>(Ligand001wb, response);
-
+      // console.log("this.ligandId---->>>",this.ligands);
       if (this.ligands.length > 0) {
         this.gridOptions?.api?.setRowData(this.ligands);
       } else {
