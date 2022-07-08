@@ -9,8 +9,10 @@ export class LigandReportsManager extends BaseService {
     private ligandeReportsUrl: string = `${environment.apiUrl}/machineReports`
 
 
-    machineReportsExcel() {    
-        return this.getCallService1(`${this.ligandeReportsUrl}` + "/excel", )
+    machineReportsExcel(username: any) {    
+        let data: any = {};
+        data['username'] = username;
+        return this.getCallService1(`${this.ligandeReportsUrl}` + "/excel", data)
     }
     machineReportsTanExcel(reviewerTan: any) {    
         let data: any = {};
