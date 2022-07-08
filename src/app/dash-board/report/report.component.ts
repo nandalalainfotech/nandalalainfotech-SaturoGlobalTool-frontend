@@ -898,7 +898,7 @@ export class ReportComponent implements OnInit {
   }
 
   setLigandVersion(params: any) {
-    return params.data.ligandSlno2 ? params.data.ligandSlno2.ligandVersionSlno : null;
+    return params.data.ligandSlno2.ligandVersionSlno2 ? params.data.ligandSlno2.ligandVersionSlno2.ligandVersion : null;
   }
 
   settanNumber(params: any) {
