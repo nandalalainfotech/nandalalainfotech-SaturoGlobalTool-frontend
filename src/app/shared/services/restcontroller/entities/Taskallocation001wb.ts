@@ -1,5 +1,5 @@
 export class Taskallocation001wb {
-    curatorId?: number;
+    taskallocationSlno?: number;
     curatorName?: string;
     cbatchNo?: string | null;
     curatorTanNo?: string | null;

@@ -64,9 +64,9 @@ export class TaskAllocationManager extends BaseService {
         return this.putCallService(`${this.taskallocationUrl}` + "/update", {}, taskallocation001wb);
     }
 
-    taskdelete(curatorId: any) {
+    taskdelete(taskallocationSlno: any) {
         let data: any = {};
-        data['curatorId'] = curatorId;
+        data['taskallocationSlno'] = taskallocationSlno;
         return this.deleteCallService(`${this.taskallocationUrl}` + "/delete", data);
     }
 
