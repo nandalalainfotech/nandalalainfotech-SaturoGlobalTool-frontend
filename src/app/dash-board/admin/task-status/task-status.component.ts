@@ -50,7 +50,7 @@ export class TaskStatusComponent implements OnInit {
     this.gridOptions.columnDefs = [
       {
         headerName: 'CURATOR ID',
-        field: 'curatorId',
+        field: 'taskallocationSlno',
         width: 100,
         // flex: 1,
         sortable: true,
