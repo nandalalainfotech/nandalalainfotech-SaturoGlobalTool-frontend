@@ -1,5 +1,8 @@
 <nav mat-tab-nav-bar>
     <a mat-tab-link routerLink="./app-task-allocation" routerLinkActive #taskAllocationTab="routerLinkActive" [active]="taskAllocationTab.isActive">Task Allocation</a>
     <a mat-tab-link routerLink="./app-task-status" routerLinkActive #taskStatusTab="routerLinkActive" [active]="taskStatusTab.isActive">Task Status</a>
+    <a mat-tab-link routerLink="./app-change-allocation" routerLinkActive #changeAllocationTab="routerLinkActive" [active]="changeAllocationTab.isActive">Curator Change Allocation</a>
+    <a mat-tab-link routerLink="./app-reviewer-change" routerLinkActive #reviewerChangeTab="routerLinkActive" [active]="reviewerChangeTab.isActive">Reviewer Change Allocation</a>
+
 </nav>
 <router-outlet></router-outlet>

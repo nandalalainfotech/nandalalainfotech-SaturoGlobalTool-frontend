@@ -183,6 +183,7 @@ export class AssayComponent implements OnInit {
     this.route.queryParams.subscribe((params: { [x: string]: any; }) => {
       this.assayId = params["assayId"];
       this.ligandId = params["ligandId"];
+      this.tanNo = params["tanNumber"];
 
       this.ligandManager.findAllByLigandIdAndAssayId(this.ligandId, this.assayId).subscribe(response => {
         let ligand = deserialize<Ligand001wb>(Ligand001wb, response);
@@ -449,6 +450,7 @@ export class AssayComponent implements OnInit {
       this.loadData();
       setTimeout(() => {
         this.AssayForm.patchValue({
+          tanNo: this.tanNo,
           ligandSlno: this.ligandSlno,
           assayTypeSlno: this.assayTypeSlno,
           toxiCitySlno: this.toxiCitySlno,

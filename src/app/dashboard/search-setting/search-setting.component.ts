@@ -793,6 +793,7 @@ export class SearchSettingComponent implements OnInit {
     } else {
       this.gridOptions?.api?.setRowData([]);
     }
+    
   }
 
 

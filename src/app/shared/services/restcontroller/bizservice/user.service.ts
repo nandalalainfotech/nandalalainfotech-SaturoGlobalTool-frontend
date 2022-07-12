@@ -15,6 +15,14 @@ export class UserManager extends BaseService {
     return this.getCallService(`${this.userUrl}` + "/findAll");
   }
 
+  allcuratorName() {
+    return this.getCallService(`${this.userUrl}` + "/allcuratorName");
+  }
+
+  allReviewerName() {
+    return this.getCallService(`${this.userUrl}` + "/allReviewerName");
+  }
+
   allcurator() {
     return this.getCallService(`${this.userUrl}` + "/findCuratorAll");
   }
