@@ -14,9 +14,11 @@ import { BreadcrumbModule } from '../breadcrumb/breadcrumb.module';
 import { AdminRoutingModule } from './admin-routing.module';
 import { TaskAllocationComponent } from './task-allocation/task-allocation.component';
 import { TaskStatusComponent } from './task-status/task-status.component';
+import { ChangeAllocationComponent } from './change-allocation/change-allocation.component';
+import { ReviewerChangeComponent } from './reviewer-change/reviewer-change.component';
 
 @NgModule({
-  declarations: [TaskAllocationComponent, TaskStatusComponent],
+  declarations: [TaskAllocationComponent, TaskStatusComponent, ChangeAllocationComponent, ReviewerChangeComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,
