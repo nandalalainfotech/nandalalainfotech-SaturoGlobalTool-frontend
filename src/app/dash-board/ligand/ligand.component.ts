@@ -234,7 +234,7 @@ export class LigandComponent implements OnInit {
       this.ligandVersions = deserialize<Ligandversion001mb[]>(Ligandversion001mb, data[0]);
       this.ligandtypes = deserialize<Ligandtype001mb[]>(Ligandtype001mb, data[1]);
       this.tanNos = deserialize<Taskallocation001wb[]>(Taskallocation001wb, data[2]);
-
+      this.loadData();
       setTimeout(() => {
         this.LigandForm.patchValue({
           tanNumber: this.tanNumber,
@@ -252,12 +252,12 @@ export class LigandComponent implements OnInit {
           // diseaseName3: this.diseaseName3,
 
         }, 10);
-
+        this.loadData();
       });
 
     });
 
-    this.loadData();
+    
 
     this.authManager.currentUserSubject.subscribe((object: any) => {
       let rgb = Utils.hexToRgb(object.theme);
@@ -278,9 +278,15 @@ export class LigandComponent implements OnInit {
   loadData() {
     this.ligandManager.allligand(this.username).subscribe(response => {
       this.ligands = deserialize<Ligand001wb[]>(Ligand001wb, response);
-      // console.log("this.ligandId---->>>",this.ligands);
-      if (this.ligands.length > 0) {
-        this.gridOptions?.api?.setRowData(this.ligands);
+      let oneTan: Ligandversion001mb[] = [];
+      for(let i=0; i<this.ligands.length; i++){
+        if(this.ligands[i].tanNumber==this.tanNumber){
+          oneTan.push(this.ligands[i])
+        }
+      }
+// console.log("oneTan", oneTan)
+      if (this.ligands) {
+        this.gridOptions?.api?.setRowData(oneTan);
       } else {
         this.gridOptions?.api?.setRowData([]);
       }
@@ -738,6 +744,22 @@ export class LigandComponent implements OnInit {
       this.ligandManager.ligandsave(ligand001wb).subscribe((response) => {
         this.calloutService.showSuccess("Ligand Details Saved Successfully");
         this.loadData();
+
+        // this.ligandManager.allligand(this.username).subscribe(response => {
+        //   this.ligands = deserialize<Ligand001wb[]>(Ligand001wb, response);
+        //   let oneTan: Ligand001wb[] = [];
+        //   for(let i=0; i<this.ligands.length; i++){
+        //     if(this.ligands[i].tanNumber==this.tanNumber){
+        //       oneTan.push(this.ligands[i])
+        //     }
+        //   }
+        //   if (this.ligands.length > 0) {
+        //     this.gridOptions?.api?.setRowData(oneTan);
+        //   } else {
+        //     this.gridOptions?.api?.setRowData([]);
+        //   }
+        // });
+
         this.onReset();
         this.submitted = false;
       });

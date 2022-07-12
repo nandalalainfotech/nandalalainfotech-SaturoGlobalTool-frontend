@@ -47,6 +47,7 @@ import { v4 as uuid } from 'uuid';
 })
 export class AssayComponent implements OnInit {
   AssayForm: FormGroup | any;
+  public gridOptions: GridOptions | any;
   frameworkComponents: any;
   submitted = false;
   tanNo: string | any = "";
@@ -129,6 +130,7 @@ export class AssayComponent implements OnInit {
   ligand001mb?: Ligand001wb;
   assay001wbs?: Assay001wb;
   inProcessLigand: Assay001wb[] = [];
+  tanGridassay: Assay001wb[] = [];
 
   categorys: Category001mb[] = [];
   categoryfunctions: Categoryfunction001mb[] = [];
@@ -136,7 +138,7 @@ export class AssayComponent implements OnInit {
   types: Type001mb[] = [];
   hexToRgb: any;
   rgbToHex: any;
-  public gridOptions: GridOptions | any;
+
   rowData: Observable<any[]> | any;
   username: any;
   rolename?: string = "";
@@ -407,6 +409,7 @@ export class AssayComponent implements OnInit {
     });
 
     this.createDataGrid001();
+    
     this.username = this.authManager.getcurrentUser.username;
 
     let res1 = this.ligandManager.allligand(this.username);
@@ -443,7 +446,7 @@ export class AssayComponent implements OnInit {
       this.categoryfunctions = deserialize<Categoryfunction001mb[]>(Categoryfunction001mb, data[7]);
       this.Originals = deserialize<Originalprefix001mb[]>(Originalprefix001mb, data[8]);
       this.types = deserialize<Type001mb[]>(Type001mb, data[9]);
-
+      this.loadData();
       setTimeout(() => {
         this.AssayForm.patchValue({
           ligandSlno: this.ligandSlno,
@@ -526,9 +529,12 @@ export class AssayComponent implements OnInit {
       this.colorthemes_4 = Utils.rgbToHex(rgb, 0.8);
     });
 
-    this.loadData();
+    // this.loadData();
 
     this.AssayForm.get('tanNo').valueChanges.subscribe((value: any) => {
+   
+      this.tanNo = value;
+      this.loadData();
       this.ligandtanversions = [];
       let legandversions = [];
       for (let i = 0; i < this.ligands.length; i++) {
@@ -545,6 +551,7 @@ export class AssayComponent implements OnInit {
           'ligandSlno': legandversions[0],
         });
       }
+      this.loadData();
     });
 
     this.AssayForm.get('ligandSlno').valueChanges.subscribe((value: any) => {
@@ -567,18 +574,35 @@ export class AssayComponent implements OnInit {
   }
 
   loadData() {
-    this.assay = [];
-    this.gridOptions?.api?.setRowData([]);
     this.username = this.authManager.getcurrentUser.username;
+    if (this.tanNo) {
+      this.assayManager.allassayTan(this.username, this.tanNo).subscribe(response => {
+      
+        // this.gridOptions?.api?.setRowData([]);
+        setTimeout(() => {
+          this.tanGridassay = response;
+          if (this.tanGridassay) {
+                this.gridOptions?.api?.setRowData(this.tanGridassay);
+              } else {
+                this.gridOptions?.api?.setRowData([]);
+              }
+        }, 100);
+      });
+    }
+
+
+
     this.assayManager.allassay(this.username).subscribe(response => {
       this.assay = deserialize<Assay001wb[]>(Assay001wb, response);
-      if (this.assay.length > 0) {
-        let data = JSON.parse(JSON.stringify(this.assay));
-        this.gridOptions?.api?.setRowData(data);
-      } else {
-        this.gridOptions?.api?.setRowData([]);
-      }
+
+      // if (this.assay.length > 0) {
+      //   this.gridOptions?.api?.setRowData(this.assay);
+      // } else {
+      //   this.gridOptions?.api?.setRowData([]);
+      // }
     });
+
+
   }
 
 
@@ -1170,6 +1194,7 @@ export class AssayComponent implements OnInit {
     ]
   }
 
+
   setVersion(params: any): string {
     return params.data.ligandSlno2 ? params.data.ligandSlno2.ligandVersionSlno2?.ligandVersion : null;
   }
@@ -1430,6 +1455,7 @@ export class AssayComponent implements OnInit {
               assay001wb.insertUser = this.authManager.getcurrentUser.username;
               assay001wb.insertDatetime = new Date();
               this.assayManager.assaysave(assay001wb).subscribe((response) => {
+              
                 this.calloutService.showSuccess("Assay Details Saved Successfully and  Details Not Sent to Reviewer");
                 this.loadData();
                 this.onReset();
@@ -1452,8 +1478,6 @@ export class AssayComponent implements OnInit {
 
 
   }
-
-
 
   // toggleInprocess(event: any, AssayForm: any) {
 
