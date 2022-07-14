@@ -729,7 +729,9 @@ export class LigandComponent implements OnInit {
       this.ligandManager.ligandupdate(ligand001wb).subscribe((response) => {
 
         this.calloutService.showSuccess("Ligand Details Updated Successfully");
-        this.loadData();
+        setTimeout(() => {
+          this.loadData();
+        }, 100);
         this.LigandForm.reset();
         this.ligandId = null;
         this.submitted = false;
@@ -743,8 +745,9 @@ export class LigandComponent implements OnInit {
 
       this.ligandManager.ligandsave(ligand001wb).subscribe((response) => {
         this.calloutService.showSuccess("Ligand Details Saved Successfully");
+        setTimeout(() => {
         this.loadData();
-
+      }, 100);
         // this.ligandManager.allligand(this.username).subscribe(response => {
         //   this.ligands = deserialize<Ligand001wb[]>(Ligand001wb, response);
         //   let oneTan: Ligand001wb[] = [];
