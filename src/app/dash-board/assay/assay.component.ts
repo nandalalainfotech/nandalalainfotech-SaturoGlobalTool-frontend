@@ -7,7 +7,11 @@ import { ControllersService, GridOptions } from 'ag-grid-community';
 import { forkJoin, Observable } from 'rxjs';
 import { deserialize } from 'serializer.ts/Serializer';
 import { AuditComponent } from 'src/app/shared/audit/audit.component';
+import { CategoryFunctionPopupComponent } from 'src/app/shared/category-function-popup/category-function-popup.component';
 import { ConformationComponent } from 'src/app/shared/conformation/conformation.component';
+import { LigandDoseHighlowunitPopupComponent } from 'src/app/shared/ligand-dose-highlowunit-popup/ligand-dose-highlowunit-popup.component';
+import { LigandDoseSingleunitPopupComponent } from 'src/app/shared/ligand-dose-singleunit-popup/ligand-dose-singleunit-popup.component';
+import { OriginalPrefixPopupComponent } from 'src/app/shared/original-prefix-popup/original-prefix-popup.component';
 import { IconRendererComponent } from 'src/app/shared/services/renderercomponent/icon-renderer-component';
 import { AssayManager } from 'src/app/shared/services/restcontroller/bizservice/Assay.service';
 import { AssayTypeManager } from 'src/app/shared/services/restcontroller/bizservice/assayType.service';
@@ -37,8 +41,10 @@ import { Unitlowendvalue001mb } from 'src/app/shared/services/restcontroller/ent
 import { Unitsinglevalue001mb } from 'src/app/shared/services/restcontroller/entities/Unitsinglevalue001mb';
 import { User001mb } from 'src/app/shared/services/restcontroller/entities/User001mb';
 import { CalloutService } from 'src/app/shared/services/services/callout.service';
+import { ToxicityTypePopupComponent } from 'src/app/shared/toxicity-type-popup/toxicity-type-popup.component';
 import { Utils } from 'src/app/shared/utils/utils';
 import { v4 as uuid } from 'uuid';
+import { OriginalPrefixComponent } from '../master/original-prefix/original-prefix.component';
 
 @Component({
   selector: 'app-assay',
@@ -122,6 +128,7 @@ export class AssayComponent implements OnInit {
   ligands: Ligand001wb[] = [];
   assayTypes: Assaytype001mb[] = [];
   toxiCities: Toxicity001mb[] = [];
+  max: number | any;
   routeAdmins: Routeofadministration001mb[] = [];
   unitsinglevalues: Unitsinglevalue001mb[] = [];
   unitlowendvalues: Unitlowendvalue001mb[] = [];
@@ -1438,7 +1445,9 @@ export class AssayComponent implements OnInit {
       assay001wb.updatedDatetime = new Date();
       this.assayManager.assayupdate(assay001wb).subscribe((response) => {
         this.calloutService.showSuccess("Assay Details Updated Successfully and \n Details Not Sent to Reviewer");
-        this.loadData();
+        setTimeout(() => {
+          this.loadData();
+        }, 100);
         this.AssayForm.reset();
         this.assayId = null;
         this.submitted = false;
@@ -1459,7 +1468,9 @@ export class AssayComponent implements OnInit {
               this.assayManager.assaysave(assay001wb).subscribe((response) => {
               
                 this.calloutService.showSuccess("Assay Details Saved Successfully and  Details Not Sent to Reviewer");
-                this.loadData();
+                setTimeout(() => {
+                  this.loadData();
+                }, 100);
                 this.onReset();
                 this.submitted = false;
               });
@@ -1470,7 +1481,9 @@ export class AssayComponent implements OnInit {
           assay001wb.insertDatetime = new Date();
           this.assayManager.assaysave(assay001wb).subscribe((response) => {
             this.calloutService.showSuccess("Assay Details Saved Successfully and \n Details Not Sent to Reviewer");
-            this.loadData();
+            setTimeout(() => {
+              this.loadData();
+            }, 100);
             this.onReset();
             this.submitted = false;
           });
@@ -1908,4 +1921,260 @@ export class AssayComponent implements OnInit {
     }
 
   }
+
+  OnToxicityType(){
+     const modalRef = this.modalService.open(ToxicityTypePopupComponent, { size: 'medium' });
+     modalRef.result.then((data) => {
+       if (data == "Yes") {
+         this.calloutService.showSuccess("Details Updated Successfully");
+        
+ 
+         var toxicitytypearray: any = []
+         this.toxicityManager.alltoxicityType().subscribe(response => {
+          this.toxiCities = deserialize<Toxicity001mb[]>(Toxicity001mb, response);
+         });
+        setTimeout(() => {
+         for (let i = 0; i < this.toxiCities.length; i++) {
+          toxicitytypearray.push(this.toxiCities[i].id)
+         }
+          this.max = toxicitytypearray.reduce(function (a: number, b: number) {
+           return Math.max(a, b);
+         });
+         this.AssayForm.patchValue({
+           toxiCitySlno: this.max,
+         });
+  
+       }, 100);
+       }
+     }
+     )
+  }
+
+  OnCategoryFuction(){
+    const modalRef = this.modalService.open(CategoryFunctionPopupComponent, { size: 'medium' });
+    modalRef.result.then((data) => {
+      if (data == "Yes") {
+        this.calloutService.showSuccess("Details Updated Successfully");
+       
+
+        var categoryfunctionarray: any = []
+        this.categoryfunctionManager.allcategoryFunction().subscribe(response => {
+          this.categoryfunctions = deserialize<Toxicity001mb[]>(Toxicity001mb, response);
+        });
+       setTimeout(() => {
+        for (let i = 0; i < this.categoryfunctions.length; i++) {
+          categoryfunctionarray.push(this.categoryfunctions[i].id)
+        }
+         this.max = categoryfunctionarray.reduce(function (a: number, b: number) {
+          return Math.max(a, b);
+        });
+        this.AssayForm.patchValue({
+          functionSlno: this.max,
+        });
+ 
+      }, 100);
+      }
+    }
+    )
+ }
+
+ OnOriginalPrefixFuction(){
+  const modalRef = this.modalService.open(OriginalPrefixPopupComponent, { size: 'medium' });
+  modalRef.result.then((data) => {
+    if (data == "Yes") {
+      this.calloutService.showSuccess("Details Updated Successfully");
+     
+
+      var originalprefixarray: any = []
+      this.originalprefixManager.alloriginalPrefix().subscribe(response => {
+        this.Originals = deserialize<Originalprefix001mb[]>(Originalprefix001mb, response);
+      });
+     setTimeout(() => {
+      for (let i = 0; i < this.Originals.length; i++) {
+        originalprefixarray.push(this.Originals[i].id)
+      }
+       this.max = originalprefixarray.reduce(function (a: number, b: number) {
+        return Math.max(a, b);
+      });
+      this.AssayForm.patchValue({
+        originalPrefixSlno: this.max,
+      });
+
+    }, 100);
+    }
+  }
+  )
+}
+
+onDoseSingleUnit(){
+  const modalRef = this.modalService.open(LigandDoseSingleunitPopupComponent, { size: 'medium' });
+  modalRef.result.then((data) => {
+    if (data == "Yes") {
+      this.calloutService.showSuccess("Details Updated Successfully");
+     
+
+      var dosesingleunitarray: any = []
+      this.unitSingleValueManager.allunitSingleValue().subscribe(response => {
+        this.unitsinglevalues = deserialize<Unitsinglevalue001mb[]>(Unitsinglevalue001mb, response);
+      });
+     setTimeout(() => {
+      for (let i = 0; i < this.unitsinglevalues.length; i++) {
+        dosesingleunitarray.push(this.unitsinglevalues[i].id)
+      }
+       this.max = dosesingleunitarray.reduce(function (a: number, b: number) {
+        return Math.max(a, b);
+      });
+      this.AssayForm.patchValue({
+        unitSlno: this.max,
+      });
+
+    }, 100);
+    }
+  }
+  )
+}
+
+
+OnDoseHighLowUnit(){
+  const modalRef = this.modalService.open(LigandDoseHighlowunitPopupComponent, { size: 'medium' });
+  modalRef.result.then((data) => {
+    if (data == "Yes") {
+      this.calloutService.showSuccess("Details Updated Successfully");
+     
+
+      var dosehighlowunitarray: any = []
+      this.unitlowendvalueManager.allunitlowendvalue().subscribe(response => {
+        this.unitlowendvalues = deserialize<Unitlowendvalue001mb[]>(Unitlowendvalue001mb, response);
+      });
+     setTimeout(() => {
+      for (let i = 0; i < this.unitlowendvalues.length; i++) {
+        dosehighlowunitarray.push(this.unitlowendvalues[i].id)
+      }
+       this.max = dosehighlowunitarray.reduce(function (a: number, b: number) {
+        return Math.max(a, b);
+      });
+      this.AssayForm.patchValue({
+        unitedSlno: this.max,
+      });
+
+    }, 100);
+    }
+  }
+  )
+}
+
+onConsitionSingleUnit(){
+  const modalRef = this.modalService.open(LigandDoseSingleunitPopupComponent, { size: 'medium' });
+  modalRef.result.then((data) => {
+    if (data == "Yes") {
+      this.calloutService.showSuccess("Details Updated Successfully");
+     
+
+      var dosesingleunitarray: any = []
+      this.unitSingleValueManager.allunitSingleValue().subscribe(response => {
+        this.unitsinglevalues = deserialize<Unitsinglevalue001mb[]>(Unitsinglevalue001mb, response);
+      });
+     setTimeout(() => {
+      for (let i = 0; i < this.unitsinglevalues.length; i++) {
+        dosesingleunitarray.push(this.unitsinglevalues[i].id)
+      }
+       this.max = dosesingleunitarray.reduce(function (a: number, b: number) {
+        return Math.max(a, b);
+      });
+      this.AssayForm.patchValue({
+        singleUnit: this.max,
+      });
+
+    }, 100);
+    }
+  }
+  )
+}
+
+
+OnConditionHighLowUnit(){
+  const modalRef = this.modalService.open(LigandDoseHighlowunitPopupComponent, { size: 'medium' });
+  modalRef.result.then((data) => {
+    if (data == "Yes") {
+      this.calloutService.showSuccess("Details Updated Successfully");
+     
+
+      var dosehighlowunitarray: any = []
+      this.unitlowendvalueManager.allunitlowendvalue().subscribe(response => {
+        this.unitlowendvalues = deserialize<Unitlowendvalue001mb[]>(Unitlowendvalue001mb, response);
+      });
+     setTimeout(() => {
+      for (let i = 0; i < this.unitlowendvalues.length; i++) {
+        dosehighlowunitarray.push(this.unitlowendvalues[i].id)
+      }
+       this.max = dosehighlowunitarray.reduce(function (a: number, b: number) {
+        return Math.max(a, b);
+      });
+      this.AssayForm.patchValue({
+        highLowUnit: this.max,
+      });
+
+    }, 100);
+    }
+  }
+  )
+}
+
+onMeasurementSingleUnit(){
+  const modalRef = this.modalService.open(LigandDoseSingleunitPopupComponent, { size: 'medium' });
+  modalRef.result.then((data) => {
+    if (data == "Yes") {
+      this.calloutService.showSuccess("Details Updated Successfully");
+     
+
+      var dosesingleunitarray: any = []
+      this.unitSingleValueManager.allunitSingleValue().subscribe(response => {
+        this.unitsinglevalues = deserialize<Unitsinglevalue001mb[]>(Unitsinglevalue001mb, response);
+      });
+     setTimeout(() => {
+      for (let i = 0; i < this.unitsinglevalues.length; i++) {
+        dosesingleunitarray.push(this.unitsinglevalues[i].id)
+      }
+       this.max = dosesingleunitarray.reduce(function (a: number, b: number) {
+        return Math.max(a, b);
+      });
+      this.AssayForm.patchValue({
+        unit: this.max,
+      });
+
+    }, 100);
+    }
+  }
+  )
+}
+
+
+onMeasurementHighLowUnit(){
+  const modalRef = this.modalService.open(LigandDoseHighlowunitPopupComponent, { size: 'medium' });
+  modalRef.result.then((data) => {
+    if (data == "Yes") {
+      this.calloutService.showSuccess("Details Updated Successfully");
+     
+
+      var dosehighlowunitarray: any = []
+      this.unitlowendvalueManager.allunitlowendvalue().subscribe(response => {
+        this.unitlowendvalues = deserialize<Unitlowendvalue001mb[]>(Unitlowendvalue001mb, response);
+      });
+     setTimeout(() => {
+      for (let i = 0; i < this.unitlowendvalues.length; i++) {
+        dosehighlowunitarray.push(this.unitlowendvalues[i].id)
+      }
+       this.max = dosehighlowunitarray.reduce(function (a: number, b: number) {
+        return Math.max(a, b);
+      });
+      this.AssayForm.patchValue({
+        units: this.max,
+      });
+
+    }, 100);
+    }
+  }
+  )
+}
+
 }
