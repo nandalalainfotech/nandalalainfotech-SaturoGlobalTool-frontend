@@ -1924,6 +1924,7 @@ export class AssayComponent implements OnInit {
 
   OnToxicityType(){
      const modalRef = this.modalService.open(ToxicityTypePopupComponent, { size: 'medium' });
+     modalRef.componentInstance.title = "TOXICITY TYPE";
      modalRef.result.then((data) => {
        if (data == "Yes") {
          this.calloutService.showSuccess("Details Updated Successfully");
@@ -1952,6 +1953,7 @@ export class AssayComponent implements OnInit {
 
   OnCategoryFuction(){
     const modalRef = this.modalService.open(CategoryFunctionPopupComponent, { size: 'medium' });
+    modalRef.componentInstance.title = "CATEGORY ( FUNCTIONS )";
     modalRef.result.then((data) => {
       if (data == "Yes") {
         this.calloutService.showSuccess("Details Updated Successfully");
@@ -1980,6 +1982,7 @@ export class AssayComponent implements OnInit {
 
  OnOriginalPrefixFuction(){
   const modalRef = this.modalService.open(OriginalPrefixPopupComponent, { size: 'medium' });
+  modalRef.componentInstance.title = "ORIGINAL - PREFIX";
   modalRef.result.then((data) => {
     if (data == "Yes") {
       this.calloutService.showSuccess("Details Updated Successfully");
@@ -2008,6 +2011,7 @@ export class AssayComponent implements OnInit {
 
 onDoseSingleUnit(){
   const modalRef = this.modalService.open(LigandDoseSingleunitPopupComponent, { size: 'medium' });
+  modalRef.componentInstance.title = "LIGAND DOSE ( SINGLE UNIT )";
   modalRef.result.then((data) => {
     if (data == "Yes") {
       this.calloutService.showSuccess("Details Updated Successfully");
@@ -2037,6 +2041,7 @@ onDoseSingleUnit(){
 
 OnDoseHighLowUnit(){
   const modalRef = this.modalService.open(LigandDoseHighlowunitPopupComponent, { size: 'medium' });
+  modalRef.componentInstance.title = "LIGAND DOSE  ( HIGH & LOW UNIT )";
   modalRef.result.then((data) => {
     if (data == "Yes") {
       this.calloutService.showSuccess("Details Updated Successfully");
@@ -2065,6 +2070,7 @@ OnDoseHighLowUnit(){
 
 onConsitionSingleUnit(){
   const modalRef = this.modalService.open(LigandDoseSingleunitPopupComponent, { size: 'medium' });
+  modalRef.componentInstance.title = "CONDITION  ( SINGLE UNIT )";
   modalRef.result.then((data) => {
     if (data == "Yes") {
       this.calloutService.showSuccess("Details Updated Successfully");
@@ -2094,6 +2100,7 @@ onConsitionSingleUnit(){
 
 OnConditionHighLowUnit(){
   const modalRef = this.modalService.open(LigandDoseHighlowunitPopupComponent, { size: 'medium' });
+  modalRef.componentInstance.title = "CONDITION  ( HIGH & LOW UNIT )";
   modalRef.result.then((data) => {
     if (data == "Yes") {
       this.calloutService.showSuccess("Details Updated Successfully");
@@ -2122,6 +2129,7 @@ OnConditionHighLowUnit(){
 
 onMeasurementSingleUnit(){
   const modalRef = this.modalService.open(LigandDoseSingleunitPopupComponent, { size: 'medium' });
+  modalRef.componentInstance.title = "MEASUREMENT  ( SINGLE UNIT )";
   modalRef.result.then((data) => {
     if (data == "Yes") {
       this.calloutService.showSuccess("Details Updated Successfully");
@@ -2151,6 +2159,7 @@ onMeasurementSingleUnit(){
 
 onMeasurementHighLowUnit(){
   const modalRef = this.modalService.open(LigandDoseHighlowunitPopupComponent, { size: 'medium' });
+  modalRef.componentInstance.title = "MEASUREMENT  ( HIGH & LOW UNIT )";
   modalRef.result.then((data) => {
     if (data == "Yes") {
       this.calloutService.showSuccess("Details Updated Successfully");
