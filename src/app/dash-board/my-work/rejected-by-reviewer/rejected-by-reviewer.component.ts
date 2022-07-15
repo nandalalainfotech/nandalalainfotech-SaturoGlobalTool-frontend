@@ -300,7 +300,9 @@ export class RejectedByReviewerComponent implements OnInit {
       queryParams: {
         "ligandId": params.data.ligandId,
         "tanNumber": params.data.tanNumber,
-        "insertUser": params.data.insertUser 
+        "insertUser": params.data.insertUser,
+        // "assayId": params.data.assay001wbs[0].assayId,
+        // "assayinsertUser": params.data.assay001wbs.insertUser  
       
         
       }
