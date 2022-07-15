@@ -26,6 +26,13 @@
     <i class="fa fa-download"></i>
 </a>
 
+<a [ngStyle]="{'color':colorthemes_1}" title="Download" *ngIf="this.label == 'Download' ? true : false" href="javascript:void(0)" (click)="onClick($event)">
+    <div class="iconalign" (click)="changeType(toggle)">
+        <span>
+            <i class="fa fa-download"></i>
+        </span>
+    </div>
+</a>
 
 <a class="switch" *ngIf="this.label == 'Action' ? true : false">
     <input type="checkbox" (click)="onClick($event) ">

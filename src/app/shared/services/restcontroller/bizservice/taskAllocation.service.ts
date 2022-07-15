@@ -50,10 +50,8 @@ export class TaskAllocationManager extends BaseService {
         let formData: any = new FormData();
         formData.append("filename", selectedFile.name);
         formData.append("file", selectedFile, selectedFile.name);
-        formData.append("contenttype", "contenttype");
-        formData.append("curatorName", "moorthy");
-        // formData.append("contenttype", "contenttype");
-        // formData.append("filename", selectedFile.name);
+        formData.append("insertUser", taskallocation001wb.insertUser);
+        formData.append("insertDatetime", taskallocation001wb.insertDatetime);
       
         return this.postCallService(`${this.taskallocationUrl}` + "/save", {}, formData).pipe(
             catchError(this.errorMgmt)

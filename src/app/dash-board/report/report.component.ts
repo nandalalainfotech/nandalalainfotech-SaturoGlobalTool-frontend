@@ -955,6 +955,12 @@ export class ReportComponent implements OnInit {
     this.ligandManager.reviewerAcceptStatusUpdate(this.reviewerDatas[0].ligandSlno2?.tanNumber,this.username).subscribe(response => {
       this.ligands = deserialize<Ligand001wb[]>(Ligand001wb, response);
       this.calloutService.showSuccess("Ligand and Assay data is Accepted");
+
+      if (this.ligands.length > 0) {
+        this.gridOptions?.api?.setRowData(this.ligands);
+      } else {
+        this.gridOptions?.api?.setRowData([]);
+      }
     });
   }
 
@@ -962,6 +968,11 @@ export class ReportComponent implements OnInit {
     this.ligandManager.reviewerRejectStatusUpdate(this.reviewerDatas[0].ligandSlno2?.tanNumber,this.username).subscribe(response => {
       this.ligands = deserialize<Ligand001wb[]>(Ligand001wb, response);
       this.calloutService.showWarning("Ligand and Assay data is rejected");
+      if (this.ligands.length > 0) {
+        this.gridOptions?.api?.setRowData(this.ligands);
+      } else {
+        this.gridOptions?.api?.setRowData([]);
+      }
     });
   }
 
