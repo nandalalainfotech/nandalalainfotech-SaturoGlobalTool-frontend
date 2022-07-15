@@ -29,6 +29,15 @@ export class TaskAllocationManager extends BaseService {
         return this.getCallService(`${this.taskallocationUrl}` + "/findByReviewerTanNo", data);
     }
 
+    findByCuratorStartEndDate(username: any,startDate: any,endDate: any) {
+        let data: any = {};
+        data['username'] = username;
+        data['startDate'] = startDate;
+        data['endDate'] = endDate;
+        return this.getCallService(`${this.taskallocationUrl}` + "/findByCuratorStartEndDate", data);
+   
+    }
+
     findByStartEndDate(username: any,startDate: any,endDate: any) {
         let data: any = {};
         data['username'] = username;
