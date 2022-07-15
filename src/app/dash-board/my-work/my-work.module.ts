@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { MyWorkRoutingModule } from './my-work-routing.module';
 import { MytaskComponent } from './mytask/mytask.component';
@@ -18,6 +18,7 @@ import { BreadcrumbModule } from '../breadcrumb/breadcrumb.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MyWorkComponent } from './my-work.component';
 import { RejectedByReviewerComponent } from './rejected-by-reviewer/rejected-by-reviewer.component';
+import { CuratorStatusComponent } from './curator-status/curator-status.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { RejectedByReviewerComponent } from './rejected-by-reviewer/rejected-by-
     InprocessComponent,
     PendingComponent,
     SubmittedToQcComponent,
-    RejectedByReviewerComponent
+    RejectedByReviewerComponent,
+    CuratorStatusComponent
   ],
 
   imports: [
@@ -45,6 +47,7 @@ import { RejectedByReviewerComponent } from './rejected-by-reviewer/rejected-by-
     BreadcrumbModule,
     NgbModule
   ],
+  providers:[DatePipe]
 
 })
 export class MyWorkModule { }
