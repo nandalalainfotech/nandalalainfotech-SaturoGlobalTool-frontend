@@ -156,7 +156,7 @@ export class ReviewerExportComponent implements OnInit {
         cellStyle: { textAlign: 'center' },
         cellRendererParams: {
           onClick: this.onDownloadExcel.bind(this),
-          label: 'Start',
+          label: 'Download',
 
         },
 
@@ -252,13 +252,16 @@ export class ReviewerExportComponent implements OnInit {
         } else {
           this.gridOptions?.api?.setRowData([]);
         }
+        this.startDate = "";
+        this.endDate = "";
       })
 
     }
+
     else {
       for (let i = 0; i < this.taskallocations.length; i++) {
 
-        if ((this.taskallocations[i].rbatchNo == rbatchNo) && (this.taskallocations[i].reviewerStatus == "Completed")) {
+        if ((this.taskallocations[i].rbatchNo == rbatchNo) && (this.taskallocations[i].reviewerName == this.username) && (this.taskallocations[i].reviewerStatus == "Completed")) {
           this.exportExcelDatas.push(this.taskallocations[i]);
 
         }
@@ -268,45 +271,50 @@ export class ReviewerExportComponent implements OnInit {
       } else {
         this.gridOptions?.api?.setRowData([]);
       }
+      this.rbatchNo = "";
     }
   }
 
   onBatchNumber(startDate: any, endDate: any, rbatchNo: any) {
-    if (startDate && endDate) {
+    if (startDate || endDate || rbatchNo) {
+      if (startDate && endDate) {
 
-      this.ligandReportsManager.startEndDateExportExcel(this.username, startDate, endDate).subscribe((response) => {
-        // if (this.ligand) {
-        //   saveAs(response);
-        // } else {
-        //   saveAs(response, "download");
-        // }
-        const blob = new Blob([response], {
-          type: 'application/zip'
-        });
-        const url = window.URL.createObjectURL(blob);
-        window.open(url);
-      })
-      this.startDate = "";
-      this.endDate = "";
+        this.ligandReportsManager.startEndDateExportExcel(this.username, startDate, endDate).subscribe((response) => {
+          // if (this.ligand) {
+          //   saveAs(response);
+          // } else {
+          //   saveAs(response, "download");
+          // }
+          const blob = new Blob([response], {
+            type: 'application/zip'
+          });
+          const url = window.URL.createObjectURL(blob);
+          window.open(url);
+        })
+        this.startDate = "";
+        this.endDate = "";
 
+      }
+      else {
+
+        this.ligandReportsManager.batchNumberExportExcel(this.username, rbatchNo).subscribe((response) => {
+          // if (this.ligand) {
+          //   saveAs(response);
+          // } else {
+          //   saveAs(response, "download");
+          // }
+          const blob = new Blob([response], {
+            type: 'application/zip'
+          });
+          const url = window.URL.createObjectURL(blob);
+          window.open(url);
+        })
+        this.rbatchNo = "";
+      }
     }
     else {
-
-      this.ligandReportsManager.batchNumberExportExcel(this.username, rbatchNo).subscribe((response) => {
-        // if (this.ligand) {
-        //   saveAs(response);
-        // } else {
-        //   saveAs(response, "download");
-        // }
-        const blob = new Blob([response], {
-          type: 'application/zip'
-        });
-        const url = window.URL.createObjectURL(blob);
-        window.open(url);
-      })
-      this.rbatchNo = "";
+      this.calloutService.showWarning("Please Select Date or Batch Number");
     }
-
 
   }
 
