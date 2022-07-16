@@ -1,17 +1,17 @@
-<ng-stepper #cdkStepper [linear]="true" (selectionChange)="onChangeSteps()">
+<ng-stepper #cdkStepper [linear]="true" (selectionChange)="onChangeSteps($event)">
     <cdk-step *ngIf="user?.rolename== 'User'">
         <ng-template cdkStepLabel>
             <div class="step-bullet">1</div>
             <div class="step-title" [ngStyle]="{ color: colorthemes_2 }">Ligand</div>
         </ng-template>
-        <app-ligand #Ligand></app-ligand>
+        <app-ligand #Ligand *ngIf="selectedIndex == 0"></app-ligand>
     </cdk-step>
     <cdk-step *ngIf="user?.rolename== 'User'">
         <ng-template cdkStepLabel>
             <div class="step-bullet">2</div>
             <div class="step-title" [ngStyle]="{ color: colorthemes_2 }">Assay, Measurement, BiologicalSystem & Target</div>
         </ng-template>
-        <app-assay #Assay></app-assay>
+        <app-assay #Assay *ngIf="selectedIndex == 1"></app-assay>
     </cdk-step>
     
     <cdk-step *ngIf="user?.rolename== 'Reviewer'">

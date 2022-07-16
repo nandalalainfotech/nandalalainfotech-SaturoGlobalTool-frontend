@@ -188,13 +188,13 @@ export class CuratorStatusComponent implements OnInit {
 
     if (cbatchNo) {
 
-      this.taskAllocationManager.alltask(this.username).subscribe(response => {
+      this.taskAllocationManager.findByTanNo(this.username).subscribe(response => {
         this.taskallocations = deserialize<Taskallocation001wb[]>(Taskallocation001wb, response);
 
         let batcharray: Taskallocation001wb[] = [];
         for (let taskallocation of this.taskallocations) {
 
-          if (taskallocation.cbatchNo == cbatchNo && taskallocation.curatorName == this.username && taskallocation.status == "Submitted to QC") {
+          if (taskallocation.cbatchNo == cbatchNo && taskallocation.status == "Submitted to QC") {
             batcharray.push(taskallocation);
           }
         }
