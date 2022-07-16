@@ -284,12 +284,14 @@ export class LigandComponent implements OnInit {
           oneTan.push(this.ligands[i])
         }
       }
-// console.log("oneTan", oneTan)
+    // console.log("oneTan", oneTan)
+    setTimeout(() => {
       if (this.ligands) {
         this.gridOptions?.api?.setRowData(oneTan);
       } else {
         this.gridOptions?.api?.setRowData([]);
       }
+    }, 100);
     });
 
 
@@ -494,16 +496,16 @@ export class LigandComponent implements OnInit {
         suppressSizeToFit: true,
       },
 
-      {
-        headerName: 'Ligand Version',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-        valueGetter: this.setLigandVersion.bind(this)
-      },
+      // {
+      //   headerName: 'Ligand Version',
+      //   width: 200,
+      //   // flex: 1,
+      //   sortable: true,
+      //   filter: true,
+      //   resizable: true,
+      //   suppressSizeToFit: true,
+      //   valueGetter: this.setLigandVersion.bind(this)
+      // },
 
       // {
       //   headerName: 'Target-Version',
@@ -732,7 +734,8 @@ export class LigandComponent implements OnInit {
         setTimeout(() => {
           this.loadData();
         }, 100);
-        this.LigandForm.reset();
+        // this.LigandForm.reset();
+        this.onReset();
         this.ligandId = null;
         this.submitted = false;
 

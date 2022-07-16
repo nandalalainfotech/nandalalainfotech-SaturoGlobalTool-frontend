@@ -51,7 +51,7 @@ export class TaskAllocationComponent implements OnInit {
   reviewers: User001mb[] = [];
   users: User001mb[] = [];
   username: any;
-
+  taskallocates: Taskallocation001wb[] = [];
 
   @HostBinding('style.--color_l1') colorthemes_1: any;
   @HostBinding('style.--color_l2') colorthemes_2: any;
@@ -115,9 +115,9 @@ export class TaskAllocationComponent implements OnInit {
     this.username = this.authManager.getcurrentUser.username;
     this.taskAllocationManager.alltask(this.username).subscribe(response => {
       this.taskallocations = deserialize<Taskallocation001wb[]>(Taskallocation001wb, response);
-
+this.taskallocates=this.taskallocations.reverse();
       if (this.taskallocations.length > 0) {
-        this.gridOptions?.api?.setRowData(this.taskallocations);
+        this.gridOptions?.api?.setRowData(this.taskallocates);
       } else {
         this.gridOptions?.api?.setRowData([]);
       }
