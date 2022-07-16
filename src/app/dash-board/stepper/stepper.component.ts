@@ -26,7 +26,9 @@ export class StepperComponent implements OnInit {
   @ViewChild("Ligand", {static: false}) ligandComponent!: LigandComponent;
   @ViewChild("Assay", {static: false}) assayComponent!: AssayComponent;
   @ViewChild("cdkStepper", {static: false}) cdkStepper!: CdkStepper;
-  
+
+  selectedIndex: number = 0;
+
   constructor(private authManager: AuthManager,
     private formBuilder: FormBuilder,
     private calloutService: CalloutService,) { }
@@ -49,9 +51,14 @@ export class StepperComponent implements OnInit {
     });
   }
 
-  onChangeSteps() {
-    this.ligandComponent.ngOnInit();
-    this.assayComponent.ngOnInit();
+  onChangeSteps(event: any) {
+    this.selectedIndex = event.selectedIndex;
+    // if(event.selectedIndex == 0) {
+    //   this.ligandComponent.ngOnInit();
+    // }
+    // if(event.selectedIndex == 1) {
+    //   this.assayComponent.ngOnInit();
+    // }
   }
 
 }
