@@ -69,7 +69,7 @@ export class CuratorStatusComponent implements OnInit {
 
     this.username = this.authManager.getcurrentUser.username;
 
-    this.taskAllocationManager.alltask(this.username).subscribe(response => {
+    this.taskAllocationManager.findByTanNo(this.username).subscribe(response => {
       this.taskallocations = deserialize<Taskallocation001wb[]>(Taskallocation001wb, response);
       for (let taskallocation of this.taskallocations) {
         if (taskallocation.status == "Submitted to QC") {
@@ -185,7 +185,8 @@ export class CuratorStatusComponent implements OnInit {
 
 
   onBatchDateSearch(startDate: any, endDate: any, cbatchNo: any) {
-
+console.log("cbatchNo", cbatchNo, startDate, endDate)
+console.log("this.username",this.username)
     if (cbatchNo) {
 
       this.taskAllocationManager.findByTanNo(this.username).subscribe(response => {
@@ -198,7 +199,7 @@ export class CuratorStatusComponent implements OnInit {
             batcharray.push(taskallocation);
           }
         }
-
+        console.log("batcharray",batcharray)
         this.startDate = "";
         this.endDate = "";
         this.cbatchNo = "";

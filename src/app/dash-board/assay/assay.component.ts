@@ -579,7 +579,7 @@ export class AssayComponent implements OnInit {
   loadData() {
     this.username = this.authManager.getcurrentUser.username;
     if (this.tanNo) {
-      console.log("Testing");
+      // console.log("Testing");
       this.assayGridOptions?.api?.setRowData([]);
       this.assayManager.allassayTan(this.username, this.tanNo).subscribe(response => {
         setTimeout(() => {
@@ -835,13 +835,14 @@ export class AssayComponent implements OnInit {
       },
       {
         headerName: 'Unit(Single-value)',
-        field: 'singleUnit',
+        // field: 'singleUnit',
         width: 200,
         // flex: 1,
         sortable: true,
         filter: true,
         resizable: true,
-        suppressSizeToFit: true
+        suppressSizeToFit: true,
+        valueGetter: this.conditionSUnit.bind(this)
       },
       {
         headerName: 'Condition(High-end-value)',
@@ -865,18 +866,41 @@ export class AssayComponent implements OnInit {
       },
       {
         headerName: 'Unit',
-        field: 'highLowUnit',
+        // field: 'highLowUnit',
         width: 200,
         // flex: 1,
         sortable: true,
         filter: true,
         resizable: true,
-        suppressSizeToFit: true
+        suppressSizeToFit: true,
+        valueGetter: this.conditionHLUnit.bind(this)
       },
 
       {
-        headerName: 'Data-locator',
-        field: 'dataLocator',
+        headerName: 'Data-locator(Table)',
+        field: 'dataLocator1',
+        width: 200,
+        // flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+
+      },
+      {
+        headerName: 'Data-locator(Figure)',
+        field: 'dataLocator2',
+        width: 200,
+        // flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+
+      },
+      {
+        headerName: 'Data-locator(Page)',
+        field: 'dataLocator3',
         width: 200,
         // flex: 1,
         sortable: true,
@@ -948,24 +972,14 @@ export class AssayComponent implements OnInit {
       },
       {
         headerName: 'Unit',
-        field: 'unit',
+        // field: 'unit',
         width: 200,
         // flex: 1,
         sortable: true,
         filter: true,
         resizable: true,
         suppressSizeToFit: true,
-
-      },
-      {
-        headerName: 'Original-value(Single-value)',
-        field: 'singleValue',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
+        valueGetter: this.MeasureSingleUnit.bind(this),
 
       },
       {
@@ -988,16 +1002,29 @@ export class AssayComponent implements OnInit {
         filter: true,
         resizable: true,
         suppressSizeToFit: true,
+
       },
+      
+      // {
+      //   headerName: 'Original-value(Low-End-value)',
+      //   field: 'lowEndValue',
+      //   width: 200,
+      //   // flex: 1,
+      //   sortable: true,
+      //   filter: true,
+      //   resizable: true,
+      //   suppressSizeToFit: true,
+      // },
       {
         headerName: 'Unit',
-        field: 'units',
+        // field: 'units',
         width: 200,
         // flex: 1,
         sortable: true,
         filter: true,
         resizable: true,
         suppressSizeToFit: true,
+        valueGetter: this.MeasureHighLowUnit.bind(this),
 
       },
       {
@@ -1239,6 +1266,62 @@ export class AssayComponent implements OnInit {
     return params.data.typeSlno2 ? params.data.typeSlno2.type : null;
   }
 
+  conditionSUnit(params: any) {
+    // return params.data.typeSlno2 ? params.data.typeSlno2.type : null;
+    this.unitSingleValueManager.allunitSingleValue().subscribe(response => {
+      this.unitsinglevalues = deserialize<Unitsinglevalue001mb[]>(Unitsinglevalue001mb, response);
+    });
+   
+    let conditionsigunit: any;
+    for(let units of this.unitsinglevalues){
+      if(units.id== params.data.singleUnit){
+      conditionsigunit=units.unit;
+      }
+    }
+    return conditionsigunit;
+  }
+
+  conditionHLUnit(params: any) {
+    // return params.data.typeSlno2 ? params.data.typeSlno2.type : null;
+    this.unitlowendvalueManager.allunitlowendvalue().subscribe(response => {
+      this.unitlowendvalues = deserialize<Unitlowendvalue001mb[]>(Unitlowendvalue001mb, response);
+    });
+    let conditionlowunit: any;
+    for(let units of this.unitlowendvalues){
+      if(units.id== params.data.highLowUnit){
+        conditionlowunit=units.united;
+      }
+    }
+    return conditionlowunit;
+  }
+
+  MeasureSingleUnit(params: any) {
+    // return params.data.typeSlno2 ? params.data.typeSlno2.type : null;
+    this.unitSingleValueManager.allunitSingleValue().subscribe(response => {
+      this.unitsinglevalues = deserialize<Unitsinglevalue001mb[]>(Unitsinglevalue001mb, response);
+    });
+    let measuresingunit: any;
+    for(let units of this.unitsinglevalues){
+      if(units.id== params.data.unit){
+        measuresingunit=units.unit;
+      }
+    }
+    return measuresingunit;
+  }
+
+  MeasureHighLowUnit(params: any) {
+    // return params.data.typeSlno2 ? params.data.typeSlno2.type : null;
+    this.unitlowendvalueManager.allunitlowendvalue().subscribe(response => {
+      this.unitlowendvalues = deserialize<Unitlowendvalue001mb[]>(Unitlowendvalue001mb, response);
+    });
+    let measurelowunit: any;
+    for(let measureunits of this.unitlowendvalues){
+      if(measureunits.id== params.data.units){
+        measurelowunit=measureunits.united;
+      }
+    }
+    return measurelowunit;
+  }
 
   onEditButtonClick(params: any) {
     if (params.data.status != "Submitted to QC") {
@@ -1442,7 +1525,8 @@ export class AssayComponent implements OnInit {
         setTimeout(() => {
           this.loadData();
         }, 100);
-        this.AssayForm.reset();
+        // this.AssayForm.reset();
+        this.onReset();
         this.assayId = null;
         this.submitted = false;
       });

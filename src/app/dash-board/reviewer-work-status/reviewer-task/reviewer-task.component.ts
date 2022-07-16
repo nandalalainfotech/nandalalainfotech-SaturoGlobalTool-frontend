@@ -52,6 +52,7 @@ export class ReviewerTaskComponent implements OnInit {
   reviewerDatas: Assay001wb[] = [];
   measurement: Measurement001wb[] = [];
   taskallocations: Taskallocation001wb[] = [];
+  mytaskallocations: Taskallocation001wb[] = [];
   username: any
   hexToRgb: any;
   rgbToHex: any;
@@ -93,10 +94,11 @@ export class ReviewerTaskComponent implements OnInit {
 
     this.taskAllocationManager.findByReviewerTanNo(this.username).subscribe(response => {
       this.taskallocations = deserialize<Taskallocation001wb[]>(Taskallocation001wb, response);
-      console.log("status-->", this.taskallocations)
+      // console.log("status-->", this.taskallocations)
+      this.mytaskallocations=this.taskallocations.reverse();
       if (this.taskallocations.length > 0) {
 
-        this.gridOptions?.api?.setRowData(this.taskallocations);
+        this.gridOptions?.api?.setRowData(this.mytaskallocations);
       } else {
         this.gridOptions?.api?.setRowData([]);
       }
