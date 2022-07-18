@@ -10,6 +10,7 @@ import { IconRendererComponent } from 'src/app/shared/services/renderercomponent
 import { AssayManager } from 'src/app/shared/services/restcontroller/bizservice/Assay.service';
 import { AuthManager } from 'src/app/shared/services/restcontroller/bizservice/auth-manager.service';
 import { LigandManager } from 'src/app/shared/services/restcontroller/bizservice/ligandManager.service';
+import { LigandReportsManager } from 'src/app/shared/services/restcontroller/bizservice/report.service';
 import { TaskAllocationManager } from 'src/app/shared/services/restcontroller/bizservice/taskAllocation.service';
 import { Taskallocation001wb } from 'src/app/shared/services/restcontroller/entities/Taskallocation001wb';
 import { CalloutService } from 'src/app/shared/services/services/callout.service';
@@ -52,6 +53,7 @@ export class CuratorStatusComponent implements OnInit {
     private modalService: NgbModal,
     private ligandManager: LigandManager,
     private assayManager: AssayManager,
+    private ligandReportsManager: LigandReportsManager,
     private datepipe: DatePipe,
     private http: HttpClient,
     private router: Router
@@ -185,8 +187,7 @@ export class CuratorStatusComponent implements OnInit {
 
 
   onBatchDateSearch(startDate: any, endDate: any, cbatchNo: any) {
-console.log("cbatchNo", cbatchNo, startDate, endDate)
-console.log("this.username",this.username)
+
     if (cbatchNo) {
 
       this.taskAllocationManager.findByTanNo(this.username).subscribe(response => {
@@ -199,10 +200,10 @@ console.log("this.username",this.username)
             batcharray.push(taskallocation);
           }
         }
-        console.log("batcharray",batcharray)
-        this.startDate = "";
-        this.endDate = "";
-        this.cbatchNo = "";
+
+        // this.startDate = "";
+        // this.endDate = "";
+        // this.cbatchNo = "";
 
         if (batcharray.length > 0) {
           this.gridOptions?.api?.setRowData(batcharray);
@@ -219,9 +220,9 @@ console.log("this.username",this.username)
       this.taskAllocationManager.findByCuratorStartEndDate(this.username, startDate, endDate).subscribe(response => {
         curatorDateValues = deserialize<Taskallocation001wb[]>(Taskallocation001wb, response);
 
-        this.startDate = "";
-        this.endDate = "";
-        this.cbatchNo = "";
+        // this.startDate = "";
+        // this.endDate = "";
+        // this.cbatchNo = "";
 
         if (curatorDateValues.length > 0) {
           this.gridOptions?.api?.setRowData(curatorDateValues);
@@ -233,4 +234,49 @@ console.log("this.username",this.username)
     }
 
   }
+
+  onBatchNumber(startDate: any, endDate: any, cbatchNo: any) {
+    if (startDate || endDate || cbatchNo) {
+      if (startDate && endDate) {
+
+        this.ligandReportsManager.curatorStartEndDateExportExcel(this.username, startDate, endDate).subscribe((response) => {
+
+          const blob = new Blob([response], {
+            type: 'application/zip'
+          });
+          const url = window.URL.createObjectURL(blob);
+          window.open(url);
+        })
+        // this.startDate = "";
+        // this.endDate = "";
+
+      }
+
+      else {
+
+        // for (let taskallocation of this.taskallocations) {
+
+        // if (taskallocation.cbatchNo == cbatchNo && taskallocation.status == "Submitted to QC") {
+        this.ligandReportsManager.curatorBatchNumberExportExcel(this.username, cbatchNo).subscribe((response) => {
+
+          const blob = new Blob([response], {
+            type: 'application/zip'
+          });
+          const url = window.URL.createObjectURL(blob);
+          window.open(url);
+        })
+      }
+      // }
+
+      // this.cbatchNo = "";
+      // }
+
+    }
+    else {
+      this.calloutService.showWarning("Please Select Date or Batch Number");
+    }
+
+  }
+
+
 }
