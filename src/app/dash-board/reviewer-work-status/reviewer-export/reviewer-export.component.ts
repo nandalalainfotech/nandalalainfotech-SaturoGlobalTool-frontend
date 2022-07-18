@@ -252,8 +252,8 @@ export class ReviewerExportComponent implements OnInit {
         } else {
           this.gridOptions?.api?.setRowData([]);
         }
-        this.startDate = "";
-        this.endDate = "";
+        // this.startDate = "";
+        // this.endDate = "";
       })
 
     }
@@ -271,7 +271,7 @@ export class ReviewerExportComponent implements OnInit {
       } else {
         this.gridOptions?.api?.setRowData([]);
       }
-      this.rbatchNo = "";
+      // this.rbatchNo = "";
     }
   }
 
@@ -291,8 +291,8 @@ export class ReviewerExportComponent implements OnInit {
           const url = window.URL.createObjectURL(blob);
           window.open(url);
         })
-        this.startDate = "";
-        this.endDate = "";
+        // this.startDate = "";
+        // this.endDate = "";
 
       }
       else {
@@ -309,7 +309,7 @@ export class ReviewerExportComponent implements OnInit {
           const url = window.URL.createObjectURL(blob);
           window.open(url);
         })
-        this.rbatchNo = "";
+        // this.rbatchNo = "";
       }
     }
     else {

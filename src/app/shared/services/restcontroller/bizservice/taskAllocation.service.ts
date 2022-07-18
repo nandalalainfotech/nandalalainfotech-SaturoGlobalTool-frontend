@@ -17,6 +17,13 @@ export class TaskAllocationManager extends BaseService {
         return this.getCallService(`${this.taskallocationUrl}` + "/findAll", data);
     }
 
+    findCuratorTanNumber(username: any) {
+        let data: any = {};
+        data['username'] = username;
+        
+        return this.getCallService(`${this.taskallocationUrl}` + "/findCuratorTanNumber", data);
+    }
+
     findByTanNo(username: any) {
         let data: any = {};
         data['username'] = username;
