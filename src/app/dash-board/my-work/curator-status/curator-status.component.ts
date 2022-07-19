@@ -74,7 +74,7 @@ export class CuratorStatusComponent implements OnInit {
     this.taskAllocationManager.findByTanNo(this.username).subscribe(response => {
       this.taskallocations = deserialize<Taskallocation001wb[]>(Taskallocation001wb, response);
       for (let taskallocation of this.taskallocations) {
-        if (taskallocation.status == "Submitted to QC") {
+        if ((taskallocation.status == "Submitted to QC") || (taskallocation.reviewerStatus == "Completed")) {
           this.completedByReviewExport.push(taskallocation);
         }
       }
@@ -104,6 +104,20 @@ export class CuratorStatusComponent implements OnInit {
     this.gridOptions.enableRangeSelection = true;
     this.gridOptions.animateRows = true;
     this.gridOptions.columnDefs = [
+      {
+        headerName: 'TAN EXCEL DOWNLOAD',
+        cellRenderer: 'iconRenderer',
+        width: 300,
+        flex: 1,
+        suppressSizeToFit: true,
+        cellStyle: { textAlign: 'center' },
+        cellRendererParams: {
+          onClick: this.onCuratorTanExcelDownload.bind(this),
+          label: 'Download',
+
+        },
+
+      },
 
       {
         headerName: 'CURATOR NAME',
@@ -162,6 +176,18 @@ export class CuratorStatusComponent implements OnInit {
     ];
   }
 
+  onCuratorTanExcelDownload(params: any) {
+    this.ligandReportsManager.curatorTanExcel(params.data.curatorTanNo).subscribe((response) => {
+      const blob = new Blob([response], {
+        type: 'application/zip'
+      });
+      const url = window.URL.createObjectURL(blob);
+      window.open(url);
+    })
+
+  }
+
+
   onGenerateExcelReport() {
 
     //   for(let i=0; i<this.assays.length; i++){
@@ -196,7 +222,7 @@ export class CuratorStatusComponent implements OnInit {
         let batcharray: Taskallocation001wb[] = [];
         for (let taskallocation of this.taskallocations) {
 
-          if (taskallocation.cbatchNo == cbatchNo && taskallocation.status == "Submitted to QC") {
+          if (taskallocation.cbatchNo == cbatchNo && ((taskallocation.status == "Submitted to QC") || (taskallocation.reviewerStatus == "Completed"))) {
             batcharray.push(taskallocation);
           }
         }
@@ -254,9 +280,6 @@ export class CuratorStatusComponent implements OnInit {
 
       else {
 
-        // for (let taskallocation of this.taskallocations) {
-
-        // if (taskallocation.cbatchNo == cbatchNo && taskallocation.status == "Submitted to QC") {
         this.ligandReportsManager.curatorBatchNumberExportExcel(this.username, cbatchNo).subscribe((response) => {
 
           const blob = new Blob([response], {
@@ -265,6 +288,7 @@ export class CuratorStatusComponent implements OnInit {
           const url = window.URL.createObjectURL(blob);
           window.open(url);
         })
+
       }
       // }
 
