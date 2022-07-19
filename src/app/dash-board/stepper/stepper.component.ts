@@ -18,6 +18,7 @@ export class StepperComponent implements OnInit {
   user?: User001mb;
   hexToRgb: any;
   rgbToHex: any;
+  Ligand:any;
   @HostBinding('style.--color_l1') colorthemes_1: any;
   @HostBinding('style.--color_l2') colorthemes_2: any;
   @HostBinding('style.--color_l3') colorthemes_3: any;
