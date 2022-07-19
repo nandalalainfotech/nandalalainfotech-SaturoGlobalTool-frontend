@@ -226,9 +226,15 @@ export class ReviewerTaskComponent implements OnInit {
 
 
   onMoveToReviewer(params: any) {
-
-    this.router.navigate(["/app-dash-board/app-stepper", { "tanNumber": params.data.reviewerTanNo }]);
-
+    if (params.data.reviewerStatus == "Completed") {
+      this.calloutService.showWarning("Already this TAN NUNBER Completed!!. You can`t process");
+    }
+    else if( params.data.reviewerStatus == "Rejected by QC"){
+      this.calloutService.showWarning("This TAN NUNBER Rejected by QC!!.");
+    }
+    else {
+      this.router.navigate(["/app-dash-board/app-stepper", { "tanNumber": params.data.reviewerTanNo }]);
+    }
   }
 
 
