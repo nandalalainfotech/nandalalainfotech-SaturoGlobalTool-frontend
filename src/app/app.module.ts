@@ -35,6 +35,11 @@ import { UserRegistrationModule } from './user-registration/user-registration.mo
 import { JwtInterceptor } from './_helpers';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { ReviewerViewComponent } from './shared/reviewer-view/reviewer-view.component';
+import { ToxicityTypePopupComponent } from './shared/toxicity-type-popup/toxicity-type-popup.component';
+import { CategoryFunctionPopupComponent } from './shared/category-function-popup/category-function-popup.component';
+import { OriginalPrefixPopupComponent } from './shared/original-prefix-popup/original-prefix-popup.component';
+import { LigandDoseSingleunitPopupComponent } from './shared/ligand-dose-singleunit-popup/ligand-dose-singleunit-popup.component';
+import { LigandDoseHighlowunitPopupComponent } from './shared/ligand-dose-highlowunit-popup/ligand-dose-highlowunit-popup.component';
 
 
 @NgModule({
@@ -53,7 +58,12 @@ import { ReviewerViewComponent } from './shared/reviewer-view/reviewer-view.comp
 		AssayCheckedComponent,
 		MeasurementCheckedComponent,
 		SearchSettingComponent,
-		ReviewerViewComponent
+		ReviewerViewComponent,
+		ToxicityTypePopupComponent,
+		CategoryFunctionPopupComponent,
+		OriginalPrefixPopupComponent,
+		LigandDoseSingleunitPopupComponent,
+		LigandDoseHighlowunitPopupComponent
 	],
 	imports: [
 		CommonModule,

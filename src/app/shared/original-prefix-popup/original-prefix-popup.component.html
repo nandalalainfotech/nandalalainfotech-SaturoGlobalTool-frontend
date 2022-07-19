@@ -1,0 +1,23 @@
+<nandalala-popup title={{title}} acceptLabel="Ok" cancelLabel="Cancel" acceptIcon="fa fa-check" [widthArg]="400"
+    [heightArg]="400" (acceptClick)="onOkClick();" (cancelClick)="onCancelClick()">
+    <fieldset class="scheduler-border">
+        <div class="formData">
+            <form [formGroup]="OriginalPrefixForm">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6">
+                        <div class="form-group">
+                            <label path="originalPrefix" for="originalPrefix" cssClass="required"
+                                style="margin-top: 20px;">Original-Prefix</label>
+                            <input class="form-control" autocomplete="off" name="originalPrefix"
+                                formControlName="originalPrefix"
+                                [ngClass]="{ 'is-invalid': submitted && f.originalPrefix.errors }">
+                            <div *ngIf="submitted && f.originalPrefix.errors" class="invalid-feedback">
+                                <div *ngIf="f.originalPrefix.errors.required">Original-Prefix is Required</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </fieldset>
+</nandalala-popup>

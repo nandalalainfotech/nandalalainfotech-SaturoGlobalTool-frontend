@@ -66,11 +66,12 @@ export class LigandManager extends BaseService {
         return this.putCallService(`${this.ligandUrl}` + "/update", {}, ligand001wb);
     }
 
-    updateStatus(ligandId: any, tanNumber: any) {
+    updateStatus(username:any,ligandId: any, tanNumber: any) {
         let data: any = {};
+        data['username'] = username;
         data['ligandId'] = ligandId;
         data['tanNumber'] = tanNumber;
-        return this.putCallService(`${this.ligandUrl}` + "/updateStatus/"+ligandId+"/"+tanNumber);
+        return this.putCallService(`${this.ligandUrl}` + "/updateStatus/"+username+"/"+ligandId+"/"+tanNumber);
     }
 
     reviewerAcceptStatusUpdate(tanNumber: any,username:any) {

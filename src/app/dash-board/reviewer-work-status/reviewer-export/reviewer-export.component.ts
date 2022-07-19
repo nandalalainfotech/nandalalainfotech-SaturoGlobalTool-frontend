@@ -26,7 +26,7 @@ import { Utils } from 'src/app/shared/utils/utils';
 })
 export class ReviewerExportComponent implements OnInit {
 
-  
+
   // public LigandForm: FormGroup | any;
   // public CheckedForm: FormGroup | any;
   frameworkComponents: any;
@@ -40,7 +40,9 @@ export class ReviewerExportComponent implements OnInit {
   updatedUser: string = "";
   updatedDatetime: Date | any;
   // searchPopup: string = '';
-
+  rbatchNo?: string | any;
+  startDate: Date | any;
+  endDate: Date | any;
   ligand: Ligand001wb[] = [];
   assays: Assay001wb[] = [];
   inProcessAssays: Assay001wb[] = [];
@@ -48,7 +50,8 @@ export class ReviewerExportComponent implements OnInit {
   completedByReviewExport: Taskallocation001wb[] = [];
   assay: Assay001wb[] = [];
   taskallocations: Taskallocation001wb[] = [];
-
+  exportExcelDatas: Taskallocation001wb[] = [];
+  startEndDateValues: Taskallocation001wb[] = [];
   username: any
   hexToRgb: any;
   rgbToHex: any;
@@ -92,13 +95,14 @@ export class ReviewerExportComponent implements OnInit {
     this.taskAllocationManager.findByReviewerTanNo(this.username).subscribe(response => {
       this.taskallocations = deserialize<Taskallocation001wb[]>(Taskallocation001wb, response);
       for (let taskallocation of this.taskallocations) {
-        if(taskallocation.reviewerStatus == "Completed") {
+        if (taskallocation.reviewerStatus == "Completed") {
           this.completedByReviewExport.push(taskallocation);
-        } 
+        }
+        // console.log("this.completedByReviewExport-->>", this.completedByReviewExport);
       }
 
-      
-      console.log("this.taskallocations", this.taskallocations);
+
+
       if (this.taskallocations.length > 0) {
         this.gridOptions?.api?.setRowData(this.completedByReviewExport);
       } else {
@@ -143,20 +147,24 @@ export class ReviewerExportComponent implements OnInit {
       //   resizable: true,
       //   suppressSizeToFit: true,
       // },
-
-      // {
-      //   headerName: ' BATCH NUMBER',
-      //   field: 'cbatchNo',
-      //   width: 200,
-      //   flex: 1,
-      //   sortable: true,
-      //   filter: true,
-      //   resizable: true,
-      //   suppressSizeToFit: true
-      // },
-      
       {
-        headerName: 'TAN Number',
+        headerName: 'TAN EXCEL DOWNLOAD',
+        cellRenderer: 'iconRenderer',
+        width: 300,
+        flex: 1,
+        suppressSizeToFit: true,
+        cellStyle: { textAlign: 'center' },
+        cellRendererParams: {
+          onClick: this.onDownloadExcel.bind(this),
+          label: 'Download',
+
+        },
+
+      },
+
+
+      {
+        headerName: 'TAN NUMBER',
         field: 'reviewerTanNo',
         width: 300,
         flex: 1,
@@ -171,20 +179,27 @@ export class ReviewerExportComponent implements OnInit {
         // valueGetter: this.settanNumber.bind(this)
       },
       {
-        headerName: 'START',
-        cellRenderer: 'iconRenderer',
-        width: 300,
+        headerName: ' BATCH NUMBER',
+        field: 'rbatchNo',
+        width: 200,
         flex: 1,
-        suppressSizeToFit: true,
-        cellStyle: { textAlign: 'center' },
-        cellRendererParams: {
-          onClick: this.onDownloadExcel.bind(this),
-          label: 'Start',
-         
-        },
-        
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true
       },
-     ];
+      {
+        headerName: 'COMPLETED DATE',
+        field: 'reviewerUpdatedDate',
+        width: 200,
+        flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true
+      },
+
+    ];
   }
   onDownloadExcel(params: any) {
     this.ligandReportsManager.machineReportsTanExcel(params.data.reviewerTanNo).subscribe((response) => {
@@ -198,119 +213,113 @@ export class ReviewerExportComponent implements OnInit {
   }
 
   onGenerateExcelReport() {
-    
+
     //   for(let i=0; i<this.assays.length; i++){
     //     console.log("tan", this.assays[i].ligandSlno2?.tanNumber)
     //     this.tans.push(this.assays[i].ligandSlno2?.tanNumber)
     //   }
-    
+
     //  let tanNos=new Set (this.tans)
     //  console.log("tanNos",tanNos);
-      this.ligandReportsManager.machineReportsExcel(this.username).subscribe((response) => {
-        // if (this.ligand) {
-        //   saveAs(response);
-        // } else {
-        //   saveAs(response, "download");
-        // }
-        const blob = new Blob([response], {
-          type: 'application/zip'
-        });
-        const url = window.URL.createObjectURL(blob);
-        window.open(url);
+    this.ligandReportsManager.machineReportsExcel(this.username).subscribe((response) => {
+      // if (this.ligand) {
+      //   saveAs(response);
+      // } else {
+      //   saveAs(response, "download");
+      // }
+      const blob = new Blob([response], {
+        type: 'application/zip'
+      });
+      const url = window.URL.createObjectURL(blob);
+      window.open(url);
+    })
+  }
+
+
+
+  onSearch(startDate: any, endDate: any, rbatchNo: any) {
+    // let sDate = new Date(startDate);
+    // let eDate = new Date(endDate);
+
+    this.exportExcelDatas = [];
+
+    if (startDate && endDate) {
+      this.taskAllocationManager.findByStartEndDate(this.username, startDate, endDate).subscribe(response => {
+        this.startEndDateValues = deserialize<Taskallocation001wb[]>(Taskallocation001wb, response);
+
+        if (this.startEndDateValues.length > 0) {
+          this.gridOptions?.api?.setRowData(this.startEndDateValues);
+        } else {
+          this.gridOptions?.api?.setRowData([]);
+        }
+        // this.startDate = "";
+        // this.endDate = "";
       })
+
     }
-  // -----------Measurement---------------------
-  setTypesValue(params: any) {
-    return params.data.typeSlno2? params.data.typeSlno2.type : null;
+
+    else {
+      for (let i = 0; i < this.taskallocations.length; i++) {
+
+        if ((this.taskallocations[i].rbatchNo == rbatchNo) && (this.taskallocations[i].reviewerName == this.username) && (this.taskallocations[i].reviewerStatus == "Completed")) {
+          this.exportExcelDatas.push(this.taskallocations[i]);
+
+        }
+      }
+      if (this.exportExcelDatas.length > 0) {
+        this.gridOptions?.api?.setRowData(this.exportExcelDatas);
+      } else {
+        this.gridOptions?.api?.setRowData([]);
+      }
+      // this.rbatchNo = "";
+    }
   }
 
-  setOriginalPrefix(params: any) {
-    return params.data.originalPrefixSlno2? params.data.originalPrefixSlno2.originalPrefix : null;
+  onBatchNumber(startDate: any, endDate: any, rbatchNo: any) {
+    if (startDate || endDate || rbatchNo) {
+      if (startDate && endDate) {
+
+        this.ligandReportsManager.startEndDateExportExcel(this.username, startDate, endDate).subscribe((response) => {
+          // if (this.ligand) {
+          //   saveAs(response);
+          // } else {
+          //   saveAs(response, "download");
+          // }
+          const blob = new Blob([response], {
+            type: 'application/zip'
+          });
+          const url = window.URL.createObjectURL(blob);
+          window.open(url);
+        })
+        // this.startDate = "";
+        // this.endDate = "";
+
+      }
+      else {
+
+        this.ligandReportsManager.batchNumberExportExcel(this.username, rbatchNo).subscribe((response) => {
+          // if (this.ligand) {
+          //   saveAs(response);
+          // } else {
+          //   saveAs(response, "download");
+          // }
+          const blob = new Blob([response], {
+            type: 'application/zip'
+          });
+          const url = window.URL.createObjectURL(blob);
+          window.open(url);
+        })
+        // this.rbatchNo = "";
+      }
+    }
+    else {
+      this.calloutService.showWarning("Please Select Date or Batch Number");
+    }
+
   }
 
 
-  setCategoryFunction(params: any) {
-    return params.data.functionSlno2? params.data.functionSlno2.function : null;
-  }
 
-  setCategoryValue(params: any) {
-     return params.data.categorySlno2? params.data.categorySlno2.category : null;
-  }
-
-
-
-  setUnitLowValue(params: any) {
-    return params.data.unitedSlno2 ? params.data.unitedSlno2.united : null;
-  }
-
-  setUnitSingleValue(params: any) {
-    return params.data.unitSlno2 ? params.data.unitSlno2.unit : null;
-  }
-
-  setAssayRouteAdmin(params: any) {
-    return params.data.routeSlno2 ? params.data.routeSlno2.route : null;
-  }
-
-  setAssayToxicityType(params: any) {
-    return params.data.toxiCitySlno2 ? params.data.toxiCitySlno2.toxiCity : null;
-  }
-
-  setAssayType(params: any) {
-    return params.data.assayTypeSlno2 ? params.data.assayTypeSlno2.assayType : null;
-  }
-
-  setDiseaseName3(params: any) {
-    return params.data.ligandSlno2 ? params.data.ligandSlno2.diseaseName3 : null;
-  }
-
-  setDiseaseName2(params: any) {
-    return params.data.ligandSlno2 ? params.data.ligandSlno2.diseaseName2 : null;
-  }
-
-  setDiseaseName1(params: any) {
-    return params.data.ligandSlno2 ? params.data.ligandSlno2.diseaseName1 : null;
-  }
-
-  setLigandLocator(params: any) {
-    return params.data.ligandSlno2 ? params.data.ligandSlno2.locator : null;
-  }
-
-  setLigandCollection(params: any) {
-    return params.data.ligandSlno2 ? params.data.ligandSlno2.collectionId : null;
-  }
-
-  setIdentifier3(params: any) {
-    return params.data.ligandSlno2 ? params.data.ligandSlno2.identifier3 : null;
-  }
-
-  setIdentifier2(params: any) {
-    return params.data.ligandSlno2 ? params.data.ligandSlno2.identifier2 : null;
-  }
-
-  setIdentifier1(params: any) {
-    return params.data.ligandSlno2 ? params.data.ligandSlno2.identifier1 : null;
-  }
-
-  setLigandDetails(params: any) {
-    return params.data.ligandSlno2 ? params.data.ligandSlno2.ligandDetail : null;
-  }
-
-  setLigandType(params: any) {
-    return params.data.ligandSlno2 ? params.data.ligandSlno2.ligandTypeSlno2.ligandtype : null;
-  }
-
-  setLigandVersion(params: any) {
-    return params.data.ligandSlno2 ? params.data.ligandSlno2.ligandVersionSlno2.ligandVersion : null;
-  }
-  
-  settanNumber(params: any) {
-    return params.data.ligandSlno2 ? params.data.ligandSlno2.tanNumber : null;
-  }
-
- 
-  
-
- 
 
   setStatusName(params: any): string {
     return params.data.acc = "ok";

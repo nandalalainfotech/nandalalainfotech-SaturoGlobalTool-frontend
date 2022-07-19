@@ -52,6 +52,7 @@ export class ReviewerTaskComponent implements OnInit {
   reviewerDatas: Assay001wb[] = [];
   measurement: Measurement001wb[] = [];
   taskallocations: Taskallocation001wb[] = [];
+  mytaskallocations: Taskallocation001wb[] = [];
   username: any
   hexToRgb: any;
   rgbToHex: any;
@@ -93,10 +94,11 @@ export class ReviewerTaskComponent implements OnInit {
 
     this.taskAllocationManager.findByReviewerTanNo(this.username).subscribe(response => {
       this.taskallocations = deserialize<Taskallocation001wb[]>(Taskallocation001wb, response);
-      console.log("status-->", this.taskallocations)
+      // console.log("status-->", this.taskallocations)
+      this.mytaskallocations=this.taskallocations.reverse();
       if (this.taskallocations.length > 0) {
 
-        this.gridOptions?.api?.setRowData(this.taskallocations);
+        this.gridOptions?.api?.setRowData(this.mytaskallocations);
       } else {
         this.gridOptions?.api?.setRowData([]);
       }
@@ -224,9 +226,15 @@ export class ReviewerTaskComponent implements OnInit {
 
 
   onMoveToReviewer(params: any) {
-
-    this.router.navigate(["/app-dash-board/app-stepper", { "tanNumber": params.data.reviewerTanNo }]);
-
+    if (params.data.reviewerStatus == "Completed") {
+      this.calloutService.showWarning("Already this TAN NUNBER Completed!!. You can`t process");
+    }
+    else if( params.data.reviewerStatus == "Rejected by QC"){
+      this.calloutService.showWarning("This TAN NUNBER Rejected by QC!!.");
+    }
+    else {
+      this.router.navigate(["/app-dash-board/app-stepper", { "tanNumber": params.data.reviewerTanNo }]);
+    }
   }
 
 

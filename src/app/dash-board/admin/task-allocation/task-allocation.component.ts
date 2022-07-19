@@ -27,7 +27,7 @@ export class TaskAllocationComponent implements OnInit {
   frameworkComponents: any;
 
   curatorSlno: number | any;
-  curatorId: number | any;
+  taskallocationSlno: number | any;
   curatorName: string = "";
   curatorTanNo: string = "";
   curatorAllocateDate: Date | any;
@@ -51,7 +51,7 @@ export class TaskAllocationComponent implements OnInit {
   reviewers: User001mb[] = [];
   users: User001mb[] = [];
   username: any;
-
+  taskallocates: Taskallocation001wb[] = [];
 
   @HostBinding('style.--color_l1') colorthemes_1: any;
   @HostBinding('style.--color_l2') colorthemes_2: any;
@@ -78,7 +78,7 @@ export class TaskAllocationComponent implements OnInit {
 
     this.TaskAllocationForm = this.formBuilder.group({
       // curatorSlno: [''],
-      // // curatorId: [''],
+      // // taskallocationSlno: [''],
       // curatorName: [''],
       // curatorTanNo: [''],
       // curatorAllocateDate: [''],
@@ -115,9 +115,9 @@ export class TaskAllocationComponent implements OnInit {
     this.username = this.authManager.getcurrentUser.username;
     this.taskAllocationManager.alltask(this.username).subscribe(response => {
       this.taskallocations = deserialize<Taskallocation001wb[]>(Taskallocation001wb, response);
-
+this.taskallocates=this.taskallocations.reverse();
       if (this.taskallocations.length > 0) {
-        this.gridOptions?.api?.setRowData(this.taskallocations);
+        this.gridOptions?.api?.setRowData(this.taskallocates);
       } else {
         this.gridOptions?.api?.setRowData([]);
       }
@@ -139,7 +139,7 @@ export class TaskAllocationComponent implements OnInit {
 
   createDataGrid001(): void {
     this.gridOptions = {
-      paginationPageSize: 10,
+      paginationPageSize: 100,
       rowSelection: 'single',
       // onFirstDataRendered: this.onFirstDataRendered.bind(this),
     };
@@ -148,14 +148,15 @@ export class TaskAllocationComponent implements OnInit {
     this.gridOptions.animateRows = true;
     this.gridOptions.columnDefs = [
       {
-        headerName: 'CURATOR ID',
-        field: 'curatorId',
+        headerName: 'TASK ALLOCATION SLNO',
+        field: 'taskallocationSlno',
         width: 200,
         // flex: 1,
         sortable: true,
         filter: true,
         resizable: true,
-        suppressSizeToFit: true
+        suppressSizeToFit: true,
+        
       },
 
       {
@@ -312,8 +313,8 @@ export class TaskAllocationComponent implements OnInit {
     // taskallocation001wb.reviewerAllocateDate = this.f.reviewerAllocateDate.value ? this.f.reviewerAllocateDate.value : "";
     // taskallocation001wb.reviewerCompleteDate = this.f.reviewerCompleteDate.value ? this.f.reviewerCompleteDate.value : "";
     // taskallocation001wb.filename = this.f.filename.value ? this.f.filename.value : "";
-    if (this.curatorId) {
-      taskallocation001wb.curatorId = this.curatorId;
+    if (this.taskallocationSlno) {
+      taskallocation001wb.taskallocationSlno = this.taskallocationSlno;
       taskallocation001wb.insertUser = this.insertUser;
       taskallocation001wb.insertDatetime = this.insertDatetime;
       taskallocation001wb.updatedUser = this.authManager.getcurrentUser.username;
@@ -322,7 +323,7 @@ export class TaskAllocationComponent implements OnInit {
         this.calloutService.showSuccess("TaskAllocation Details Updated Successfully");
         this.loadData();
         this.TaskAllocationForm.reset();
-        this.curatorId = null;
+        this.taskallocationSlno = null;
         this.submitted = false;
       });
     }

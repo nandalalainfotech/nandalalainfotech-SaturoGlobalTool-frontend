@@ -13,6 +13,13 @@ export class AssayManager extends BaseService {
         return this.getCallService(`${this.assayUrl}` + "/findAll",data);
     }
 
+    allassayTan(username:any, tannumber: any) {
+        let data: any = {};
+        data['username'] = username;
+        data['tannumber'] = tannumber;
+        return this.getCallService(`${this.assayUrl}` + "/findAllAssayTan",data);
+    }
+
     allAssayReviewer(username:any) {
         let data: any = {};
         data['username'] = username;

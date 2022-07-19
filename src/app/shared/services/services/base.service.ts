@@ -227,11 +227,14 @@ export class BaseService {
     }
 
     private extractDataForValidate(res: Response, url: string) {
+        // console.log("extractDataForValidate res",res);
+        
         this.dataSharedService.isShowsLoaderIcon(false);
         return res || {};
     }
 
     private handleError(error: Response | any, url: string) {
+        // console.log("handleError error",error);
         this.calloutService.showError(error);
         return throwError(error);
     }

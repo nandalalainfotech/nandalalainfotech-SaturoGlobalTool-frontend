@@ -1,0 +1,66 @@
+<!-- <fieldset class="scheduler-border">
+    <legend class="scheduler-border">Change Allocation</legend>
+    
+</fieldset> -->
+
+<div class="scrollbar">
+    <fieldset class="scheduler-border">
+        <legend class="scheduler-border">Change Allocation List</legend>
+        <div class="row">
+            <div class="col-xs-3 col-sm-3">
+                <div class="form-group">
+                    <label path="cbatchNo" for="cbatchNo" cssClass="required">CURATOR BATCH NUMBER :</label>
+                    <input type="text" class="form-control" name="cbatchNo" [(ngModel)]="cbatchNo" autocomplete="off">
+
+                </div>
+            </div>
+            <div class="col-xs-3 col-sm-3">
+                <div class="form-group">
+                    <label path="curatorName" for="curatorName" cssClass="required">CURRENT CURATOR LIST :</label>
+                    <!-- <input type="text" class="form-control" name="curatorName" formControlName="curatorName" autocomplete="off"> -->
+                    <select class="form-control" name="curatorName" [(ngModel)]="curatorName">
+                        <option value=''> - Select curator List - </option>
+    
+                        <option *ngFor="let curatorname of curatornames" [value]="curatorname.username">
+                            {{curatorname.username}}
+                        </option>
+                    </select>
+
+                </div>
+            </div>
+            <div class="col-xs-3 col-sm-3">
+                <div class="form-group">
+                    <br>
+                    <button type="button" style="margin-top:5px;" (click)="onSearch(cbatchNo,curatorName)" class="btn btn-primary">
+                        <i class="fa fa-search "></i> Search</button>
+                </div>
+            </div>
+        </div>
+        <ag-grid-angular #agGrid class="ag-theme-balham" [gridOptions]="gridOptions" style="width: 100%; height: 350px;" [pagination]="false" [frameworkComponents]="frameworkComponents">
+        </ag-grid-angular>
+        <br>
+        <div class="row">
+            <div class="col-xs-6 col-sm-6"></div>
+            <div class="col-xs-3 col-sm-3">
+                <div class="form-group">
+                    <label path="changeCuratorName" for="changeCuratorName" cssClass="required">CHANGE CURATOR :</label>
+                    <!-- <input type="text" class="form-control" name="curatorName" formControlName="curatorName" autocomplete="off"> -->
+                    <select class="form-control" name="changeCuratorName" [(ngModel)]="changeCuratorName">
+                        <option value=''> - Select curator List - </option>
+    
+                        <option *ngFor="let curatorname of curatornames" [value]="curatorname.username">
+                            {{curatorname.username}}
+                        </option>
+                    </select>
+
+                </div>
+            </div>
+            <div class="col-xs-2 col-sm-2">
+                <div class="form-group">
+                    <br>
+                    <button type="button" class="btn btn-primary submit" (click)="onGetSelectedRowData(changeCuratorName)" style="margin-top:6px;">Submit</button>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</div>

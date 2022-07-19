@@ -32,6 +32,7 @@ export class MytaskComponent implements OnInit {
 
   user?: User001mb;
   taskallocations: Taskallocation001wb[] = [];
+  mytaskallocates: Taskallocation001wb[] = [];
   users: User001mb[] = [];
   username: any;
 
@@ -61,9 +62,9 @@ export class MytaskComponent implements OnInit {
     this.username = this.authManager.getcurrentUser.username;
     this.taskAllocationManager.findByTanNo(this.username).subscribe(response => {
       this.taskallocations = deserialize<Taskallocation001wb[]>(Taskallocation001wb, response);
-
+      this.mytaskallocates=this.taskallocations.reverse();
       if (this.taskallocations.length > 0) {
-        this.gridOptions?.api?.setRowData(this.taskallocations);
+        this.gridOptions?.api?.setRowData(this.mytaskallocates);
       } else {
         this.gridOptions?.api?.setRowData([]);
       }

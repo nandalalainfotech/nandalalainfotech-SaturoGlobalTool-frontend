@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { CuratorStatusComponent } from './curator-status/curator-status.component';
 import { MyWorkComponent } from './my-work.component';
 
 const routes: Routes = [
@@ -28,6 +29,11 @@ const routes: Routes = [
       {
         path: 'app-rejected-by-reviewer',
         loadChildren: () => import("./rejected-by-reviewer/rejected-by-reviewer.module").then(m => m.RejectedByReviewerModule)
+      },
+
+      {
+        path: 'app-curator-status',
+        component: CuratorStatusComponent
       },
 
     ]

@@ -7,7 +7,11 @@ import { ControllersService, GridOptions } from 'ag-grid-community';
 import { forkJoin, Observable } from 'rxjs';
 import { deserialize } from 'serializer.ts/Serializer';
 import { AuditComponent } from 'src/app/shared/audit/audit.component';
+import { CategoryFunctionPopupComponent } from 'src/app/shared/category-function-popup/category-function-popup.component';
 import { ConformationComponent } from 'src/app/shared/conformation/conformation.component';
+import { LigandDoseHighlowunitPopupComponent } from 'src/app/shared/ligand-dose-highlowunit-popup/ligand-dose-highlowunit-popup.component';
+import { LigandDoseSingleunitPopupComponent } from 'src/app/shared/ligand-dose-singleunit-popup/ligand-dose-singleunit-popup.component';
+import { OriginalPrefixPopupComponent } from 'src/app/shared/original-prefix-popup/original-prefix-popup.component';
 import { IconRendererComponent } from 'src/app/shared/services/renderercomponent/icon-renderer-component';
 import { AssayManager } from 'src/app/shared/services/restcontroller/bizservice/Assay.service';
 import { AssayTypeManager } from 'src/app/shared/services/restcontroller/bizservice/assayType.service';
@@ -37,8 +41,10 @@ import { Unitlowendvalue001mb } from 'src/app/shared/services/restcontroller/ent
 import { Unitsinglevalue001mb } from 'src/app/shared/services/restcontroller/entities/Unitsinglevalue001mb';
 import { User001mb } from 'src/app/shared/services/restcontroller/entities/User001mb';
 import { CalloutService } from 'src/app/shared/services/services/callout.service';
+import { ToxicityTypePopupComponent } from 'src/app/shared/toxicity-type-popup/toxicity-type-popup.component';
 import { Utils } from 'src/app/shared/utils/utils';
 import { v4 as uuid } from 'uuid';
+import { OriginalPrefixComponent } from '../master/original-prefix/original-prefix.component';
 
 @Component({
   selector: 'app-assay',
@@ -47,6 +53,7 @@ import { v4 as uuid } from 'uuid';
 })
 export class AssayComponent implements OnInit {
   AssayForm: FormGroup | any;
+  public assayGridOptions: GridOptions | any;
   frameworkComponents: any;
   submitted = false;
   tanNo: string | any = "";
@@ -121,6 +128,7 @@ export class AssayComponent implements OnInit {
   ligands: Ligand001wb[] = [];
   assayTypes: Assaytype001mb[] = [];
   toxiCities: Toxicity001mb[] = [];
+  max: number | any;
   routeAdmins: Routeofadministration001mb[] = [];
   unitsinglevalues: Unitsinglevalue001mb[] = [];
   unitlowendvalues: Unitlowendvalue001mb[] = [];
@@ -129,6 +137,7 @@ export class AssayComponent implements OnInit {
   ligand001mb?: Ligand001wb;
   assay001wbs?: Assay001wb;
   inProcessLigand: Assay001wb[] = [];
+  tanGridassay: Assay001wb[] = [];
 
   categorys: Category001mb[] = [];
   categoryfunctions: Categoryfunction001mb[] = [];
@@ -136,7 +145,7 @@ export class AssayComponent implements OnInit {
   types: Type001mb[] = [];
   hexToRgb: any;
   rgbToHex: any;
-  public gridOptions: GridOptions | any;
+
   rowData: Observable<any[]> | any;
   username: any;
   rolename?: string = "";
@@ -181,6 +190,7 @@ export class AssayComponent implements OnInit {
     this.route.queryParams.subscribe((params: { [x: string]: any; }) => {
       this.assayId = params["assayId"];
       this.ligandId = params["ligandId"];
+      this.tanNo = params["tanNumber"];
 
       this.ligandManager.findAllByLigandIdAndAssayId(this.ligandId, this.assayId).subscribe(response => {
         let ligand = deserialize<Ligand001wb>(Ligand001wb, response);
@@ -407,6 +417,7 @@ export class AssayComponent implements OnInit {
     });
 
     this.createDataGrid001();
+
     this.username = this.authManager.getcurrentUser.username;
 
     let res1 = this.ligandManager.allligand(this.username);
@@ -443,9 +454,10 @@ export class AssayComponent implements OnInit {
       this.categoryfunctions = deserialize<Categoryfunction001mb[]>(Categoryfunction001mb, data[7]);
       this.Originals = deserialize<Originalprefix001mb[]>(Originalprefix001mb, data[8]);
       this.types = deserialize<Type001mb[]>(Type001mb, data[9]);
-
+      this.loadData();
       setTimeout(() => {
         this.AssayForm.patchValue({
+          tanNo: this.tanNo,
           ligandSlno: this.ligandSlno,
           assayTypeSlno: this.assayTypeSlno,
           toxiCitySlno: this.toxiCitySlno,
@@ -525,10 +537,8 @@ export class AssayComponent implements OnInit {
 
       this.colorthemes_4 = Utils.rgbToHex(rgb, 0.8);
     });
-
-    this.loadData();
-
     this.AssayForm.get('tanNo').valueChanges.subscribe((value: any) => {
+      this.tanNo = value;
       this.ligandtanversions = [];
       let legandversions = [];
       for (let i = 0; i < this.ligands.length; i++) {
@@ -567,18 +577,35 @@ export class AssayComponent implements OnInit {
   }
 
   loadData() {
-    this.assay = [];
-    this.gridOptions?.api?.setRowData([]);
     this.username = this.authManager.getcurrentUser.username;
+    if (this.tanNo) {
+      // console.log("Testing");
+      this.assayGridOptions?.api?.setRowData([]);
+      this.assayManager.allassayTan(this.username, this.tanNo).subscribe(response => {
+        setTimeout(() => {
+          this.tanGridassay = response;
+          if (this.tanGridassay) {
+            this.assayGridOptions?.api?.setRowData(this.tanGridassay);
+          } else {
+            this.assayGridOptions?.api?.setRowData([]);
+          }
+        }, 100);
+      });
+    }
+
+
+
     this.assayManager.allassay(this.username).subscribe(response => {
       this.assay = deserialize<Assay001wb[]>(Assay001wb, response);
-      if (this.assay.length > 0) {
-        let data = JSON.parse(JSON.stringify(this.assay));
-        this.gridOptions?.api?.setRowData(data);
-      } else {
-        this.gridOptions?.api?.setRowData([]);
-      }
+
+      // if (this.assay.length > 0) {
+      //   this.assayGridOptions?.api?.setRowData(this.assay);
+      // } else {
+      //   this.assayGridOptions?.api?.setRowData([]);
+      // }
     });
+
+
   }
 
 
@@ -587,16 +614,16 @@ export class AssayComponent implements OnInit {
   get f() { return this.AssayForm.controls; }
 
   createDataGrid001(): void {
-    this.gridOptions = {
+    this.assayGridOptions = {
       paginationPageSize: 100,
       rowSelection: 'single',
       // onFirstDataRendered: this.onFirstDataRendered.bind(this),
     };
-    this.gridOptions.editType = 'fullRow';
-    this.gridOptions.enableRangeSelection = true;
-    this.gridOptions.animateRows = true;
+    this.assayGridOptions.editType = 'fullRow';
+    this.assayGridOptions.enableRangeSelection = true;
+    this.assayGridOptions.animateRows = true;
 
-    this.gridOptions.columnDefs = [
+    this.assayGridOptions.columnDefs = [
       // {
       //   headerName: 'Sl-No',
       //   field: 'assayId',
@@ -808,13 +835,14 @@ export class AssayComponent implements OnInit {
       },
       {
         headerName: 'Unit(Single-value)',
-        field: 'singleUnit',
+        // field: 'singleUnit',
         width: 200,
         // flex: 1,
         sortable: true,
         filter: true,
         resizable: true,
-        suppressSizeToFit: true
+        suppressSizeToFit: true,
+        valueGetter: this.conditionSUnit.bind(this)
       },
       {
         headerName: 'Condition(High-end-value)',
@@ -838,18 +866,41 @@ export class AssayComponent implements OnInit {
       },
       {
         headerName: 'Unit',
-        field: 'highLowUnit',
+        // field: 'highLowUnit',
         width: 200,
         // flex: 1,
         sortable: true,
         filter: true,
         resizable: true,
-        suppressSizeToFit: true
+        suppressSizeToFit: true,
+        valueGetter: this.conditionHLUnit.bind(this)
       },
 
       {
-        headerName: 'Data-locator',
-        field: 'dataLocator',
+        headerName: 'Data-locator(Table)',
+        field: 'dataLocator1',
+        width: 200,
+        // flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+
+      },
+      {
+        headerName: 'Data-locator(Figure)',
+        field: 'dataLocator2',
+        width: 200,
+        // flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+
+      },
+      {
+        headerName: 'Data-locator(Page)',
+        field: 'dataLocator3',
         width: 200,
         // flex: 1,
         sortable: true,
@@ -921,24 +972,14 @@ export class AssayComponent implements OnInit {
       },
       {
         headerName: 'Unit',
-        field: 'unit',
+        // field: 'unit',
         width: 200,
         // flex: 1,
         sortable: true,
         filter: true,
         resizable: true,
         suppressSizeToFit: true,
-
-      },
-      {
-        headerName: 'Original-value(Single-value)',
-        field: 'singleValue',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
+        valueGetter: this.MeasureSingleUnit.bind(this),
 
       },
       {
@@ -961,16 +1002,29 @@ export class AssayComponent implements OnInit {
         filter: true,
         resizable: true,
         suppressSizeToFit: true,
+
       },
+      
+      // {
+      //   headerName: 'Original-value(Low-End-value)',
+      //   field: 'lowEndValue',
+      //   width: 200,
+      //   // flex: 1,
+      //   sortable: true,
+      //   filter: true,
+      //   resizable: true,
+      //   suppressSizeToFit: true,
+      // },
       {
         headerName: 'Unit',
-        field: 'units',
+        // field: 'units',
         width: 200,
         // flex: 1,
         sortable: true,
         filter: true,
         resizable: true,
         suppressSizeToFit: true,
+        valueGetter: this.MeasureHighLowUnit.bind(this),
 
       },
       {
@@ -1170,6 +1224,7 @@ export class AssayComponent implements OnInit {
     ]
   }
 
+
   setVersion(params: any): string {
     return params.data.ligandSlno2 ? params.data.ligandSlno2.ligandVersionSlno2?.ligandVersion : null;
   }
@@ -1211,6 +1266,62 @@ export class AssayComponent implements OnInit {
     return params.data.typeSlno2 ? params.data.typeSlno2.type : null;
   }
 
+  conditionSUnit(params: any) {
+    // return params.data.typeSlno2 ? params.data.typeSlno2.type : null;
+    this.unitSingleValueManager.allunitSingleValue().subscribe(response => {
+      this.unitsinglevalues = deserialize<Unitsinglevalue001mb[]>(Unitsinglevalue001mb, response);
+    });
+   
+    let conditionsigunit: any;
+    for(let units of this.unitsinglevalues){
+      if(units.id== params.data.singleUnit){
+      conditionsigunit=units.unit;
+      }
+    }
+    return conditionsigunit;
+  }
+
+  conditionHLUnit(params: any) {
+    // return params.data.typeSlno2 ? params.data.typeSlno2.type : null;
+    this.unitlowendvalueManager.allunitlowendvalue().subscribe(response => {
+      this.unitlowendvalues = deserialize<Unitlowendvalue001mb[]>(Unitlowendvalue001mb, response);
+    });
+    let conditionlowunit: any;
+    for(let units of this.unitlowendvalues){
+      if(units.id== params.data.highLowUnit){
+        conditionlowunit=units.united;
+      }
+    }
+    return conditionlowunit;
+  }
+
+  MeasureSingleUnit(params: any) {
+    // return params.data.typeSlno2 ? params.data.typeSlno2.type : null;
+    this.unitSingleValueManager.allunitSingleValue().subscribe(response => {
+      this.unitsinglevalues = deserialize<Unitsinglevalue001mb[]>(Unitsinglevalue001mb, response);
+    });
+    let measuresingunit: any;
+    for(let units of this.unitsinglevalues){
+      if(units.id== params.data.unit){
+        measuresingunit=units.unit;
+      }
+    }
+    return measuresingunit;
+  }
+
+  MeasureHighLowUnit(params: any) {
+    // return params.data.typeSlno2 ? params.data.typeSlno2.type : null;
+    this.unitlowendvalueManager.allunitlowendvalue().subscribe(response => {
+      this.unitlowendvalues = deserialize<Unitlowendvalue001mb[]>(Unitlowendvalue001mb, response);
+    });
+    let measurelowunit: any;
+    for(let measureunits of this.unitlowendvalues){
+      if(measureunits.id== params.data.units){
+        measurelowunit=measureunits.united;
+      }
+    }
+    return measurelowunit;
+  }
 
   onEditButtonClick(params: any) {
     if (params.data.status != "Submitted to QC") {
@@ -1293,7 +1404,7 @@ export class AssayComponent implements OnInit {
             }
             const selectedRows = params.api.getSelectedRows();
             params.api.applyTransaction({ remove: selectedRows });
-            this.gridOptions.api.deselectAll();
+            this.assayGridOptions.api.deselectAll();
             this.calloutService.showSuccess("Assay Removed Successfully");
           });
         }
@@ -1411,8 +1522,11 @@ export class AssayComponent implements OnInit {
       assay001wb.updatedDatetime = new Date();
       this.assayManager.assayupdate(assay001wb).subscribe((response) => {
         this.calloutService.showSuccess("Assay Details Updated Successfully and \n Details Not Sent to Reviewer");
-        this.loadData();
-        this.AssayForm.reset();
+        setTimeout(() => {
+          this.loadData();
+        }, 100);
+        // this.AssayForm.reset();
+        this.onReset();
         this.assayId = null;
         this.submitted = false;
       });
@@ -1430,8 +1544,11 @@ export class AssayComponent implements OnInit {
               assay001wb.insertUser = this.authManager.getcurrentUser.username;
               assay001wb.insertDatetime = new Date();
               this.assayManager.assaysave(assay001wb).subscribe((response) => {
+
                 this.calloutService.showSuccess("Assay Details Saved Successfully and  Details Not Sent to Reviewer");
-                this.loadData();
+                setTimeout(() => {
+                  this.loadData();
+                }, 100);
                 this.onReset();
                 this.submitted = false;
               });
@@ -1442,7 +1559,9 @@ export class AssayComponent implements OnInit {
           assay001wb.insertDatetime = new Date();
           this.assayManager.assaysave(assay001wb).subscribe((response) => {
             this.calloutService.showSuccess("Assay Details Saved Successfully and \n Details Not Sent to Reviewer");
-            this.loadData();
+            setTimeout(() => {
+              this.loadData();
+            }, 100);
             this.onReset();
             this.submitted = false;
           });
@@ -1452,8 +1571,6 @@ export class AssayComponent implements OnInit {
 
 
   }
-
-
 
   // toggleInprocess(event: any, AssayForm: any) {
 
@@ -1882,4 +1999,269 @@ export class AssayComponent implements OnInit {
     }
 
   }
+
+  OnToxicityType() {
+    const modalRef = this.modalService.open(ToxicityTypePopupComponent, { size: 'medium' });
+    modalRef.componentInstance.title = "TOXICITY TYPE";
+    modalRef.result.then((data) => {
+      if (data == "Yes") {
+        this.calloutService.showSuccess("Details Updated Successfully");
+
+
+        var toxicitytypearray: any = []
+        this.toxicityManager.alltoxicityType().subscribe(response => {
+          this.toxiCities = deserialize<Toxicity001mb[]>(Toxicity001mb, response);
+        });
+        setTimeout(() => {
+          for (let i = 0; i < this.toxiCities.length; i++) {
+            toxicitytypearray.push(this.toxiCities[i].id)
+          }
+          this.max = toxicitytypearray.reduce(function (a: number, b: number) {
+            return Math.max(a, b);
+          });
+          this.AssayForm.patchValue({
+            toxiCitySlno: this.max,
+          });
+
+        }, 100);
+      }
+    }
+    )
+  }
+
+  OnCategoryFuction() {
+    const modalRef = this.modalService.open(CategoryFunctionPopupComponent, { size: 'medium' });
+    modalRef.componentInstance.title = "CATEGORY ( FUNCTIONS )";
+    modalRef.result.then((data) => {
+      if (data == "Yes") {
+        this.calloutService.showSuccess("Details Updated Successfully");
+
+
+        var categoryfunctionarray: any = []
+        this.categoryfunctionManager.allcategoryFunction().subscribe(response => {
+          this.categoryfunctions = deserialize<Toxicity001mb[]>(Toxicity001mb, response);
+        });
+        setTimeout(() => {
+          for (let i = 0; i < this.categoryfunctions.length; i++) {
+            categoryfunctionarray.push(this.categoryfunctions[i].id)
+          }
+          this.max = categoryfunctionarray.reduce(function (a: number, b: number) {
+            return Math.max(a, b);
+          });
+          this.AssayForm.patchValue({
+            functionSlno: this.max,
+          });
+
+        }, 100);
+      }
+    }
+    )
+  }
+
+  OnOriginalPrefixFuction() {
+    const modalRef = this.modalService.open(OriginalPrefixPopupComponent, { size: 'medium' });
+    modalRef.componentInstance.title = "ORIGINAL - PREFIX";
+    modalRef.result.then((data) => {
+      if (data == "Yes") {
+        this.calloutService.showSuccess("Details Updated Successfully");
+
+
+        var originalprefixarray: any = []
+        this.originalprefixManager.alloriginalPrefix().subscribe(response => {
+          this.Originals = deserialize<Originalprefix001mb[]>(Originalprefix001mb, response);
+        });
+        setTimeout(() => {
+          for (let i = 0; i < this.Originals.length; i++) {
+            originalprefixarray.push(this.Originals[i].id)
+          }
+          this.max = originalprefixarray.reduce(function (a: number, b: number) {
+            return Math.max(a, b);
+          });
+          this.AssayForm.patchValue({
+            originalPrefixSlno: this.max,
+          });
+
+        }, 100);
+      }
+    }
+    )
+  }
+
+  onDoseSingleUnit() {
+    const modalRef = this.modalService.open(LigandDoseSingleunitPopupComponent, { size: 'medium' });
+    modalRef.componentInstance.title = "LIGAND DOSE ( SINGLE UNIT )";
+    modalRef.result.then((data) => {
+      if (data == "Yes") {
+        this.calloutService.showSuccess("Details Updated Successfully");
+
+
+        var dosesingleunitarray: any = []
+        this.unitSingleValueManager.allunitSingleValue().subscribe(response => {
+          this.unitsinglevalues = deserialize<Unitsinglevalue001mb[]>(Unitsinglevalue001mb, response);
+        });
+        setTimeout(() => {
+          for (let i = 0; i < this.unitsinglevalues.length; i++) {
+            dosesingleunitarray.push(this.unitsinglevalues[i].id)
+          }
+          this.max = dosesingleunitarray.reduce(function (a: number, b: number) {
+            return Math.max(a, b);
+          });
+          this.AssayForm.patchValue({
+            unitSlno: this.max,
+          });
+
+        }, 100);
+      }
+    }
+    )
+  }
+
+
+  OnDoseHighLowUnit() {
+    const modalRef = this.modalService.open(LigandDoseHighlowunitPopupComponent, { size: 'medium' });
+    modalRef.componentInstance.title = "LIGAND DOSE  ( HIGH & LOW UNIT )";
+    modalRef.result.then((data) => {
+      if (data == "Yes") {
+        this.calloutService.showSuccess("Details Updated Successfully");
+
+
+        var dosehighlowunitarray: any = []
+        this.unitlowendvalueManager.allunitlowendvalue().subscribe(response => {
+          this.unitlowendvalues = deserialize<Unitlowendvalue001mb[]>(Unitlowendvalue001mb, response);
+        });
+        setTimeout(() => {
+          for (let i = 0; i < this.unitlowendvalues.length; i++) {
+            dosehighlowunitarray.push(this.unitlowendvalues[i].id)
+          }
+          this.max = dosehighlowunitarray.reduce(function (a: number, b: number) {
+            return Math.max(a, b);
+          });
+          this.AssayForm.patchValue({
+            unitedSlno: this.max,
+          });
+
+        }, 100);
+      }
+    }
+    )
+  }
+
+  onConsitionSingleUnit() {
+    const modalRef = this.modalService.open(LigandDoseSingleunitPopupComponent, { size: 'medium' });
+    modalRef.componentInstance.title = "CONDITION  ( SINGLE UNIT )";
+    modalRef.result.then((data) => {
+      if (data == "Yes") {
+        this.calloutService.showSuccess("Details Updated Successfully");
+
+
+        var dosesingleunitarray: any = []
+        this.unitSingleValueManager.allunitSingleValue().subscribe(response => {
+          this.unitsinglevalues = deserialize<Unitsinglevalue001mb[]>(Unitsinglevalue001mb, response);
+        });
+        setTimeout(() => {
+          for (let i = 0; i < this.unitsinglevalues.length; i++) {
+            dosesingleunitarray.push(this.unitsinglevalues[i].id)
+          }
+          this.max = dosesingleunitarray.reduce(function (a: number, b: number) {
+            return Math.max(a, b);
+          });
+          this.AssayForm.patchValue({
+            singleUnit: this.max,
+          });
+
+        }, 100);
+      }
+    }
+    )
+  }
+
+
+  OnConditionHighLowUnit() {
+    const modalRef = this.modalService.open(LigandDoseHighlowunitPopupComponent, { size: 'medium' });
+    modalRef.componentInstance.title = "CONDITION  ( HIGH & LOW UNIT )";
+    modalRef.result.then((data) => {
+      if (data == "Yes") {
+        this.calloutService.showSuccess("Details Updated Successfully");
+
+
+        var dosehighlowunitarray: any = []
+        this.unitlowendvalueManager.allunitlowendvalue().subscribe(response => {
+          this.unitlowendvalues = deserialize<Unitlowendvalue001mb[]>(Unitlowendvalue001mb, response);
+        });
+        setTimeout(() => {
+          for (let i = 0; i < this.unitlowendvalues.length; i++) {
+            dosehighlowunitarray.push(this.unitlowendvalues[i].id)
+          }
+          this.max = dosehighlowunitarray.reduce(function (a: number, b: number) {
+            return Math.max(a, b);
+          });
+          this.AssayForm.patchValue({
+            highLowUnit: this.max,
+          });
+
+        }, 100);
+      }
+    }
+    )
+  }
+
+  onMeasurementSingleUnit() {
+    const modalRef = this.modalService.open(LigandDoseSingleunitPopupComponent, { size: 'medium' });
+    modalRef.componentInstance.title = "MEASUREMENT  ( SINGLE UNIT )";
+    modalRef.result.then((data) => {
+      if (data == "Yes") {
+        this.calloutService.showSuccess("Details Updated Successfully");
+
+
+        var dosesingleunitarray: any = []
+        this.unitSingleValueManager.allunitSingleValue().subscribe(response => {
+          this.unitsinglevalues = deserialize<Unitsinglevalue001mb[]>(Unitsinglevalue001mb, response);
+        });
+        setTimeout(() => {
+          for (let i = 0; i < this.unitsinglevalues.length; i++) {
+            dosesingleunitarray.push(this.unitsinglevalues[i].id)
+          }
+          this.max = dosesingleunitarray.reduce(function (a: number, b: number) {
+            return Math.max(a, b);
+          });
+          this.AssayForm.patchValue({
+            unit: this.max,
+          });
+
+        }, 100);
+      }
+    }
+    )
+  }
+
+
+  onMeasurementHighLowUnit() {
+    const modalRef = this.modalService.open(LigandDoseHighlowunitPopupComponent, { size: 'medium' });
+    modalRef.componentInstance.title = "MEASUREMENT  ( HIGH & LOW UNIT )";
+    modalRef.result.then((data) => {
+      if (data == "Yes") {
+        this.calloutService.showSuccess("Details Updated Successfully");
+
+
+        var dosehighlowunitarray: any = []
+        this.unitlowendvalueManager.allunitlowendvalue().subscribe(response => {
+          this.unitlowendvalues = deserialize<Unitlowendvalue001mb[]>(Unitlowendvalue001mb, response);
+        });
+        setTimeout(() => {
+          for (let i = 0; i < this.unitlowendvalues.length; i++) {
+            dosehighlowunitarray.push(this.unitlowendvalues[i].id)
+          }
+          this.max = dosehighlowunitarray.reduce(function (a: number, b: number) {
+            return Math.max(a, b);
+          });
+          this.AssayForm.patchValue({
+            units: this.max,
+          });
+
+        }, 100);
+      }
+    }
+    )
+  }
+
 }

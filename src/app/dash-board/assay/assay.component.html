@@ -20,10 +20,12 @@
                     <div class="form-group">
                         <label path="ligandSlno" for="ligandSlno" cssClass="required">Ligand-Version</label>
                         <!-- <input type="text" class="form-control" name="ligandname" formControlName="ligandSlno" readonly> -->
-                        <select class="form-control" name="tanNo" formControlName="ligandSlno" (blur)="onBlurEvent($event)">
+                        <select class="form-control" name="tanNo" formControlName="ligandSlno"
+                            (blur)="onBlurEvent($event)">
                             <option value=''> - Select Ligand Version - </option>
 
-                            <option *ngFor="let ligandtanversion of ligandtanversions" [value]="ligandtanversion.ligandId">
+                            <option *ngFor="let ligandtanversion of ligandtanversions"
+                                [value]="ligandtanversion.ligandId">
                                 {{ligandtanversion.ligandVersionSlno2?.ligandVersion}}
                             </option>
                         </select>
@@ -33,7 +35,8 @@
                 <div class="col-xs-3 col-sm-3">
                     <div class="form-group">
                         <label path="ligandname" for="series" cssClass="required">Ligand Name</label>
-                        <input type="text" autocomplete="off" class="form-control" name="ligandname" formControlName="ligandname" readonly>
+                        <input type="text" autocomplete="off" class="form-control" name="ligandname"
+                            formControlName="ligandname" readonly>
 
                     </div>
                 </div>
@@ -76,6 +79,9 @@
 
                     </div>
                 </div>
+                <br>
+                <p><i style="font-size: x-large;margin-top: 10px;" [ngStyle]="{ color: colorthemes_1 }"
+                        class="fa fa-plus-circle" aria-hidden="true" (click)="OnToxicityType()"></i></p>
             </div>
             <div class="row">
                 <div class="col-xs-3 col-sm-3">
@@ -93,7 +99,8 @@
                 <div class="col-xs-3 col-sm-3">
                     <div class="form-group">
                         <label path="administration" for="series" cssClass="required">Administration-regimen</label>
-                        <input class="form-control" autocomplete="off" name="administration" formControlName="administration">
+                        <input class="form-control" autocomplete="off" name="administration"
+                            formControlName="administration">
                     </div>
                 </div>
 
@@ -109,52 +116,71 @@
                 <div class="col-xs-3 col-sm-3">
                     <div class="form-group">
                         <label path="ligandSvalue" for="series" cssClass="required">Ligand-Dose(Single-value)</label>
-                        <input class="form-control" autocomplete="off" name="ligandSvalue" formControlName="ligandSvalue" (click)="onSingleValueClick()">
+                        <input class="form-control" autocomplete="off" name="ligandSvalue"
+                            formControlName="ligandSvalue" (click)="onSingleValueClick()">
                     </div>
                 </div>
                 <div class="col-xs-3 col-sm-3">
-                    <div class="form-group">
-                        <label path="unitSlno" for="unitSlno" cssClass="required">Unit(Single-value)</label>
-                        <select class="form-control" name="unitSlno" formControlName="unitSlno">
-                            <option value=''> - Select Unit-Types - </option>
-                            <option *ngFor="let unitsinglevalue of unitsinglevalues" [value]="unitsinglevalue.id">
-                                {{unitsinglevalue.unit}}
-                            </option>
-                        </select>
+                    <div class="row">
+                        <div class="col-xs-10 col-sm-10">
+                            <div class="form-group">
+                                <label path="unitSlno" for="unitSlno" cssClass="required">Unit(Single-value)</label>
+                                <select class="form-control" name="unitSlno" formControlName="unitSlno">
+                                    <option value=''> - Select Unit-Types - </option>
+                                    <option *ngFor="let unitsinglevalue of unitsinglevalues"
+                                        [value]="unitsinglevalue.id">
+                                        {{unitsinglevalue.unit}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <br>
+                        <i style="font-size: x-large;margin-top: 10px;" [ngStyle]="{ color: colorthemes_1 }"
+                            class="fa fa-plus-circle" aria-hidden="true" (click)="onDoseSingleUnit()"></i>
                     </div>
                 </div>
                 <div class="col-xs-3 col-sm-3">
                     <br>
-                    <button type="button" (click)="onsetEnable()" class="btn btn-primary"> Enable</button>
+                    <button type="button" style="margin-top:5px;" (click)="onsetEnable()" class="btn btn-primary">
+                        Enable</button>
                 </div>
             </div>
             <div class="row">
                 <div class="col-xs-3 col-sm-3">
                     <div class="form-group">
                         <label path="ligandHvalue" for="series" cssClass="required">Ligand-Dose(High-end-value)</label>
-                        <input class="form-control" autocomplete="off" name="ligandHvalue" formControlName="ligandHvalue" (click)="highValueClick()">
+                        <input class="form-control" autocomplete="off" name="ligandHvalue"
+                            formControlName="ligandHvalue" (click)="highValueClick()">
                     </div>
                 </div>
 
                 <div class="col-xs-3 col-sm-3">
                     <div class="form-group">
                         <label path="ligandLvalue" for="series" cssClass="required">Ligand-Dose(Low-end-value)</label>
-                        <input class="form-control" autocomplete="off" name="ligandLvalue" formControlName="ligandLvalue" (click)="highValueClick()">
+                        <input class="form-control" autocomplete="off" name="ligandLvalue"
+                            formControlName="ligandLvalue" (click)="highValueClick()">
                     </div>
                 </div>
 
                 <div class="col-xs-3 col-sm-3">
-                    <div class="form-group">
-                        <label path="unitedSlno" for="unitedSlno" cssClass="required">Unit</label>
-                        <select class="form-control" name="unitedSlno" formControlName="unitedSlno">
-                            <option value=''> - Select Units-Types- </option>
-                            <option *ngFor="let unitlowendvalue of unitlowendvalues" [value]="unitlowendvalue.id">
-                                {{unitlowendvalue.united}}
-                            </option>
-                        </select>
+                    <div class="row">
+                        <div class="col-xs-10 col-sm-10">
+                            <div class="form-group">
+                                <label path="unitedSlno" for="unitedSlno" cssClass="required">Unit</label>
+                                <select class="form-control" name="unitedSlno" formControlName="unitedSlno">
+                                    <option value=''> - Select Units-Types- </option>
+                                    <option *ngFor="let unitlowendvalue of unitlowendvalues"
+                                        [value]="unitlowendvalue.id">
+                                        {{unitlowendvalue.united}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <br>
+                        <i style="font-size: x-large;margin-top: 10px;" [ngStyle]="{ color: colorthemes_1 }"
+                            class="fa fa-plus-circle" aria-hidden="true" (click)="OnDoseHighLowUnit()"></i>
                     </div>
                 </div>
-
             </div>
             <br>
 
@@ -175,7 +201,8 @@
                         <div class="form-group">
                             <label path="conditionMaterial" for="series" cssClass="required">Condition
                                 material</label>
-                            <input class="form-control" autocomplete="off" name="conditionMaterial" formControlName="conditionMaterial">
+                            <input class="form-control" autocomplete="off" name="conditionMaterial"
+                                formControlName="conditionMaterial">
                         </div>
                     </div>
 
@@ -183,60 +210,84 @@
                         <div class="form-group">
                             <label path="conditionMaterialid" for="series" cssClass="required">Condition
                                 material-id</label>
-                            <input class="form-control" autocomplete="off" name="conditionMaterialid" formControlName="conditionMaterialid">
+                            <input class="form-control" autocomplete="off" name="conditionMaterialid"
+                                formControlName="conditionMaterialid">
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
-                            <label path="singleCondition" for="series" cssClass="required">Condition(Single-value)</label>
-                            <input class="form-control" autocomplete="off" name="singleCondition" formControlName="singleCondition" (click)="onsingleConditionClick()">
+                            <label path="singleCondition" for="series"
+                                cssClass="required">Condition(Single-value)</label>
+                            <input class="form-control" autocomplete="off" name="singleCondition"
+                                formControlName="singleCondition" (click)="onsingleConditionClick()">
 
                         </div>
                     </div>
                     <div class="col-xs-3 col-sm-3">
-                        <div class="form-group">
-                            <label path="singleUnit" for="series" cssClass="required">Unit(Single-value)</label>
-                            <select class="form-control" name="singleUnit" formControlName="singleUnit">
-                                <option value="" hidden> - Select Unit-Types - </option>
-                                <option value=""> - Select Unit-Types - </option>
-                                <option *ngFor="let unitsinglevalue of unitsinglevalues" [value]="unitsinglevalue.id">
-                                    {{unitsinglevalue.unit}}
-                                </option>
-                            </select>
+                        <div class="row">
+                            <div class="col-xs-10 col-sm-10">
+                                <div class="form-group">
+                                    <label path="singleUnit" for="series" cssClass="required">Unit(Single-value)</label>
+                                    <select class="form-control" name="singleUnit" formControlName="singleUnit">
+                                        <option value="" hidden> - Select Unit-Types - </option>
+                                        <option value=""> - Select Unit-Types - </option>
+                                        <option *ngFor="let unitsinglevalue of unitsinglevalues"
+                                            [value]="unitsinglevalue.id">
+                                            {{unitsinglevalue.unit}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                            <i style="font-size: x-large;margin-top: 10px;" [ngStyle]="{ color: colorthemes_1 }"
+                                class="fa fa-plus-circle" aria-hidden="true" (click)="onConsitionSingleUnit()"></i>
                         </div>
                     </div>
                     <div class="col-xs-3 col-sm-3">
                         <br>
-                        <button type="button" (click)="setConditionEnable()" class="btn btn-primary"> Enable</button>
+                        <button type="button" style="margin-top:5px;" (click)="setConditionEnable()"
+                            class="btn btn-primary">
+                            Enable</button>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
-                            <label path="highCondition" for="series" cssClass="required">Condition(High-end-value)</label>
-                            <input class="form-control" autocomplete="off" name="highCondition" formControlName="highCondition" (click)="highConditionClick()">
+                            <label path="highCondition" for="series"
+                                cssClass="required">Condition(High-end-value)</label>
+                            <input class="form-control" autocomplete="off" name="highCondition"
+                                formControlName="highCondition" (click)="highConditionClick()">
                         </div>
                     </div>
 
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
                             <label path="lowCondition" for="series" cssClass="required">Condition(Low-end-value)</label>
-                            <input class="form-control" autocomplete="off" name="lowCondition" formControlName="lowCondition" (click)="highConditionClick()">
+                            <input class="form-control" autocomplete="off" name="lowCondition"
+                                formControlName="lowCondition" (click)="highConditionClick()">
                         </div>
                     </div>
 
                     <div class="col-xs-3 col-sm-3">
-                        <div class="form-group">
-                            <label path="highLowUnit" for="series" cssClass="required">Unit</label>
-                            <!-- <input class="form-control" name="highLowUnit" formControlName="highLowUnit"> -->
-                            <select class="form-control" name="highLowUnit" formControlName="highLowUnit">
-                                <option value=''> - Select Units-Types- </option>
-                                <option *ngFor="let unitlowendvalue of unitlowendvalues" [value]="unitlowendvalue.id">
-                                    {{unitlowendvalue.united}}
-                                </option>
-                            </select>
+                        <div class="row">
+                            <div class="col-xs-10 col-sm-10">
+                                <div class="form-group">
+                                    <label path="highLowUnit" for="series" cssClass="required">Unit</label>
+                                    <!-- <input class="form-control" name="highLowUnit" formControlName="highLowUnit"> -->
+                                    <select class="form-control" name="highLowUnit" formControlName="highLowUnit">
+                                        <option value=''> - Select Units-Types- </option>
+                                        <option *ngFor="let unitlowendvalue of unitlowendvalues"
+                                            [value]="unitlowendvalue.id">
+                                            {{unitlowendvalue.united}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                            <i style="font-size: x-large;margin-top: 10px;" [ngStyle]="{ color: colorthemes_1 }"
+                                class="fa fa-plus-circle" aria-hidden="true" (click)="OnConditionHighLowUnit()"></i>
                         </div>
                     </div>
                 </div>
@@ -249,20 +300,26 @@
                 <div class="row">
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
-                            <label path="dataLocator1" for="parameterDetail" cssClass="required">Table (Data-locator)</label>
-                            <input class="form-control" autocomplete="off" name="dataLocator1" formControlName="dataLocator1">
+                            <label path="dataLocator1" for="parameterDetail" cssClass="required">Table
+                                (Data-locator)</label>
+                            <input class="form-control" autocomplete="off" name="dataLocator1"
+                                formControlName="dataLocator1">
                         </div>
                     </div>
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
-                            <label path="dataLocator2" for="dataLocator2" cssClass="required">Figure (Data-locator)</label>
-                            <input class="form-control" autocomplete="off" name="dataLocator2" formControlName="dataLocator2">
+                            <label path="dataLocator2" for="dataLocator2" cssClass="required">Figure
+                                (Data-locator)</label>
+                            <input class="form-control" autocomplete="off" name="dataLocator2"
+                                formControlName="dataLocator2">
                         </div>
                     </div>
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
-                            <label path="dataLocator3" for="dataLocator3" cssClass="required">Page (Data-locator)</label>
-                            <input class="form-control" autocomplete="off" name="dataLocator3" formControlName="dataLocator3">
+                            <label path="dataLocator3" for="dataLocator3" cssClass="required">Page
+                                (Data-locator)</label>
+                            <input class="form-control" autocomplete="off" name="dataLocator3"
+                                formControlName="dataLocator3">
                         </div>
                     </div>
                 </div>
@@ -274,83 +331,124 @@
                             <input type="hidden" class="form-control" name="dataLocator" formControlName="dataLocator">
                         </div>
                     </div> -->
+                    <div class="col-xs-6 col-sm-6">
+                        <div class="row">
+                            <div class="col-xs-5 col-sm-5">
+                                <div class="form-group">
+                                    <label path="categorySlno" for="categorySlno" cssClass="required">Category</label>
+                                    <select class="form-control" name="categorySlno" formControlName="categorySlno">
+                                        <option value="" hidden> - Select Category - </option>
+                                        <option value=''> - Select Category - </option>
+                                        <option *ngFor="let category of categorys" [value]="category.id">
+                                            {{category.category}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
 
-                    <div class="col-xs-3 col-sm-3">
-                        <div class="form-group">
-                            <label path="categorySlno" for="categorySlno" cssClass="required">Category</label>
-                            <select class="form-control" name="categorySlno" formControlName="categorySlno">
-                                <option value="" hidden> - Select Category - </option>
-                                <option value=''> - Select Category - </option>
-                                <option *ngFor="let category of categorys" [value]="category.id">
-                                    {{category.category}}
-                                </option>
-                            </select>
+                            <div class="col-xs-6 col-sm-6">
+                                <div class="form-group">
+                                    <label path="functionSlno" for="functionSlno"
+                                        cssClass="required">Category(functions)</label>
+                                    <!-- <input class="form-control" path="twhrs" name="twhrs" formControlName="twhrs" /> -->
+                                    <select class="form-control" name="functionSlno" formControlName="functionSlno">
+                                        <option value=''> - Select Category Function - </option>
+                                        <option *ngFor="let function of categoryfunctions" [value]="function.id">
+                                            {{function.function}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                            <i style="font-size: x-large;margin-top: 10px;" [ngStyle]="{ color: colorthemes_1 }"
+                                class="fa fa-plus-circle" aria-hidden="true" (click)="OnCategoryFuction()"></i>
                         </div>
                     </div>
+                    <!-- <div class="col-xs-1 col-sm-1"> -->
+                    <!-- <br> -->
+                    <!-- <i style="font-size: x-large;margin-top: 10px;" [ngStyle]="{ color: colorthemes_1 }" class="fa fa-plus-circle" aria-hidden="true" (click)="OnCategoryFuction()"></i> -->
+                    <!-- </div> -->
+                    <div class="col-xs-6 col-sm-6">
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6">
+                                <div class="form-group">
+                                    <label path="parameter" for="parameter" cssClass="required">Parameter</label>
+                                    <input class="form-control" autocomplete="off" name="parameter"
+                                        formControlName="parameter">
+                                </div>
+                            </div>
 
-                    <div class="col-xs-3 col-sm-3">
-                        <div class="form-group">
-                            <label path="functionSlno" for="functionSlno" cssClass="required">Category(functions)</label>
-                            <!-- <input class="form-control" path="twhrs" name="twhrs" formControlName="twhrs" /> -->
-                            <select class="form-control" name="functionSlno" formControlName="functionSlno">
-                                <option value=''> - Select Category Function - </option>
-                                <option *ngFor="let function of categoryfunctions" [value]="function.id">
-                                    {{function.function}}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-xs-3 col-sm-3">
-                        <div class="form-group">
-                            <label path="parameter" for="parameter" cssClass="required">Parameter</label>
-                            <input class="form-control" autocomplete="off" name="parameter" formControlName="parameter">
-                        </div>
-                    </div>
-
-                    <div class="col-xs-3 col-sm-3">
-                        <div class="form-group">
-                            <label path="parameterDetail" for="parameterDetail" cssClass="required">Parameter-detail</label>
-                            <input class="form-control" autocomplete="off" name="parameterDetail" formControlName="parameterDetail">
+                            <div class="col-xs-6 col-sm-6">
+                                <div class="form-group">
+                                    <label path="parameterDetail" for="parameterDetail"
+                                        cssClass="required">Parameter-detail</label>
+                                    <input class="form-control" autocomplete="off" name="parameterDetail"
+                                        formControlName="parameterDetail">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
 
                     <div class="col-xs-3 col-sm-3">
-                        <div class="form-group">
-                            <label path="originalPrefixSlno" for="originalPrefixSlno" cssClass="required">Original-prefix</label>
-                            <!-- <input class="form-control" path="twhrs" name="twhrs" formControlName="twhrs" /> -->
-                            <select class="form-control" name="originalPrefixSlno" formControlName="originalPrefixSlno">
-                                <option value=''> - Select Original Prefix - </option>
-                                <option *ngFor="let originalPrefix of Originals" [value]="originalPrefix.id">
-                                    {{originalPrefix.originalPrefix}}
-                                </option>
-                            </select>
+                        <div class="row">
+                            <div class="col-xs-10 col-sm-10">
+                                <div class="form-group">
+                                    <label path="originalPrefixSlno" for="originalPrefixSlno"
+                                        cssClass="required">Original-prefix</label>
+                                    <!-- <input class="form-control" path="twhrs" name="twhrs" formControlName="twhrs" /> -->
+                                    <select class="form-control" name="originalPrefixSlno"
+                                        formControlName="originalPrefixSlno">
+                                        <option value=''> - Select Original Prefix - </option>
+                                        <option *ngFor="let originalPrefix of Originals" [value]="originalPrefix.id">
+                                            {{originalPrefix.originalPrefix}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                            <i style="font-size: x-large;margin-top: 10px;" [ngStyle]="{ color: colorthemes_1 }"
+                                class="fa fa-plus-circle" aria-hidden="true" (click)="OnOriginalPrefixFuction()"></i>
+
                         </div>
                     </div>
+
+
+
 
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
                             <label path="singleValue" for="singleValue" cssClass="required">Single-value</label>
-                            <input class="form-control" autocomplete="off" name="singleValue" formControlName="singleValue" (click)="singleValClick()">
+                            <input class="form-control" autocomplete="off" name="singleValue"
+                                formControlName="singleValue" (click)="singleValClick()">
                         </div>
                     </div>
 
                     <div class="col-xs-3 col-sm-3">
-                        <div class="form-group">
-                            <label path="unit" for="unit" cssClass="required">Unit(SingleValue)</label>
-                            <select class="form-control" name="unit" formControlName="unit">
-                                <option value=''> - Select unit(SingleValue) - </option>
-                                <option *ngFor="let unitsinglevalueObject of unitsinglevalues"
-                                    [value]="unitsinglevalueObject.id">
-                                    {{unitsinglevalueObject.unit}}
-                                </option>
-                            </select>
+                        <div class="row">
+                            <div class="col-xs-10 col-sm-10">
+                                <div class="form-group">
+                                    <label path="unit" for="unit" cssClass="required">Unit(SingleValue)</label>
+                                    <select class="form-control" name="unit" formControlName="unit">
+                                        <option value=''> - Select unit(SingleValue) - </option>
+                                        <option *ngFor="let unitsinglevalueObject of unitsinglevalues"
+                                            [value]="unitsinglevalueObject.id">
+                                            {{unitsinglevalueObject.unit}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                            <i style="font-size: x-large;margin-top: 10px;" [ngStyle]="{ color: colorthemes_1 }"
+                                class="fa fa-plus-circle" aria-hidden="true" (click)="onMeasurementSingleUnit()"></i>
                         </div>
                     </div>
                     <div class="col-xs-3 col-sm-3">
                         <br>
-                        <button type="button" (click)="setMeasurementEnable()" class="btn btn-primary"> Enable</button>
+                        <button type="button" style="margin-top:5px;" (click)="setMeasurementEnable()"
+                            class="btn btn-primary">
+                            Enable</button>
                     </div>
                 </div>
 
@@ -359,27 +457,36 @@
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
                             <label path="highEndValue" for="highEndValue" cssClass="required">High-end-value</label>
-                            <input class="form-control" autocomplete="off" name="highEndValue" formControlName="highEndValue" (click)="highandlowValueClick()">
+                            <input class="form-control" autocomplete="off" name="highEndValue"
+                                formControlName="highEndValue" (click)="highandlowValueClick()">
                         </div>
                     </div>
 
                     <div class="col-xs-3 col-sm-3">
                         <div class="form-group">
                             <label path="lowEndValue" for="lowEndValue" cssClass="required">Low-end-value</label>
-                            <input class="form-control" autocomplete="off" name="lowEndValue" formControlName="lowEndValue" (click)="highandlowValueClick()">
+                            <input class="form-control" autocomplete="off" name="lowEndValue"
+                                formControlName="lowEndValue" (click)="highandlowValueClick()">
                         </div>
                     </div>
 
                     <div class="col-xs-3 col-sm-3">
-                        <div class="form-group">
-                            <label path="units" for="units" cssClass="required">Unit (High & Low)</label>
-                            <select class="form-control" name="units" formControlName="units">
-                                <option value=''> - Select Unit - </option>
-                                <option *ngFor="let unitlowendvalueObject of unitlowendvalues"
-                                    [value]="unitlowendvalueObject.id">
-                                    {{unitlowendvalueObject.united}}
-                                </option>
-                            </select>
+                        <div class="row">
+                            <div class="col-xs-10 col-sm-10">
+                                <div class="form-group">
+                                    <label path="units" for="units" cssClass="required">Unit (High & Low)</label>
+                                    <select class="form-control" name="units" formControlName="units">
+                                        <option value=''> - Select Unit - </option>
+                                        <option *ngFor="let unitlowendvalueObject of unitlowendvalues"
+                                            [value]="unitlowendvalueObject.id">
+                                            {{unitlowendvalueObject.united}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                            <i style="font-size: x-large;margin-top: 10px;" [ngStyle]="{ color: colorthemes_1 }"
+                                class="fa fa-plus-circle" aria-hidden="true" (click)="onMeasurementHighLowUnit()"></i>
                         </div>
                     </div>
                 </div>
@@ -387,8 +494,10 @@
                 <div class="row">
                     <div class="col-xs-6 col-sm-6">
                         <div class="form-group">
-                            <label path="nonNumeric" for="nonNumeric" cssClass="required">Original-value(Non-numeric-value)</label>
-                            <textarea class="form-control" name="nonNumeric" formControlName="nonNumeric" (click)="nonNumericClick()"></textarea>
+                            <label path="nonNumeric" for="nonNumeric"
+                                cssClass="required">Original-value(Non-numeric-value)</label>
+                            <textarea class="form-control" name="nonNumeric" formControlName="nonNumeric"
+                                (click)="nonNumericClick()"></textarea>
                         </div>
                     </div>
 
@@ -426,7 +535,8 @@
                         <div class="col-xs-3 col-sm-3">
                             <div class="form-group">
                                 <label path="cellDetail" for="cellDetail" cssClass="required">Cell-detail</label>
-                                <input class="form-control" autocomplete="off" name="cellDetail" formControlName="cellDetail">
+                                <input class="form-control" autocomplete="off" name="cellDetail"
+                                    formControlName="cellDetail">
                             </div>
                         </div>
 
@@ -442,21 +552,25 @@
                         <div class="col-xs-3 col-sm-3">
                             <div class="form-group">
                                 <label path="organDetail" for="organDetail" cssClass="required">Organ-detail</label>
-                                <input class="form-control" autocomplete="off" name="organDetail" formControlName="organDetail">
+                                <input class="form-control" autocomplete="off" name="organDetail"
+                                    formControlName="organDetail">
                             </div>
                         </div>
 
                         <div class="col-xs-3 col-sm-3">
                             <div class="form-group">
                                 <label path="species" for="species" cssClass="required">Species</label>
-                                <input class="form-control" autocomplete="off" name="organDetail" formControlName="species">
+                                <input class="form-control" autocomplete="off" name="organDetail"
+                                    formControlName="species">
                             </div>
                         </div>
 
                         <div class="col-xs-3 col-sm-3">
                             <div class="form-group">
-                                <label path="speciesDetail" for="speciesDetail" cssClass="required">Species-detail</label>
-                                <input class="form-control" autocomplete="off" name="speciesDetail" formControlName="speciesDetail">
+                                <label path="speciesDetail" for="speciesDetail"
+                                    cssClass="required">Species-detail</label>
+                                <input class="form-control" autocomplete="off" name="speciesDetail"
+                                    formControlName="speciesDetail">
                             </div>
                         </div>
 
@@ -476,7 +590,8 @@
                         <div class="col-xs-3 col-sm-3">
                             <div class="form-group">
                                 <label path="ageGroup" for="ageGroup" cssClass="required">Age-group</label>
-                                <input class="form-control" autocomplete="off" name="ageGroup" formControlName="ageGroup">
+                                <input class="form-control" autocomplete="off" name="ageGroup"
+                                    formControlName="ageGroup">
                             </div>
                         </div>
                     </div>
@@ -498,8 +613,9 @@
                     <div class="row">
                         <div class="col-xs-4 col-sm-5"></div>
                         <div class="col-xs-4 col-sm-5"></div>
-                        <div class="col-sm-1"> <button type="button" class="form-control" class="btn btn-primary" style="width:100px" (click)="onTargetReset()">Clear Target
-                              </button></div>
+                        <div class="col-sm-1"> <button type="button" class="form-control" class="btn btn-primary"
+                                style="width:100px" (click)="onTargetReset()">Clear Target
+                            </button></div>
                         <div class="col-sm-1"></div>
                     </div>
                     <br>
@@ -508,22 +624,27 @@
 
                         <div class="col-xs-4 col-sm-4">
                             <div class="form-group">
-                                <label path="targetVersion" for="targetVersion" cssClass="required">Target-version</label>
-                                <input class="form-control" autocomplete="off" name="targetVersion" formControlName="targetVersion">
+                                <label path="targetVersion" for="targetVersion"
+                                    cssClass="required">Target-version</label>
+                                <input class="form-control" autocomplete="off" name="targetVersion"
+                                    formControlName="targetVersion">
                             </div>
                         </div>
 
                         <div class="col-xs-4 col-sm-4">
                             <div class="form-group">
-                                <label path="collectionId1" for="collectionId1" cssClass="required">Collection-id</label>
-                                <input class="form-control" autocomplete="off" name="collectionId1" formControlName="collectionId1">
+                                <label path="collectionId1" for="collectionId1"
+                                    cssClass="required">Collection-id</label>
+                                <input class="form-control" autocomplete="off" name="collectionId1"
+                                    formControlName="collectionId1">
                             </div>
                         </div>
 
                         <div class="col-xs-4 col-sm-4">
                             <div class="form-group">
                                 <label path="original" for="original" cssClass="required">Original-target-name</label>
-                                <input class="form-control" autocomplete="off" name="original" formControlName="original">
+                                <input class="form-control" autocomplete="off" name="original"
+                                    formControlName="original">
                             </div>
                         </div>
 
@@ -539,7 +660,8 @@
                         <div class="col-xs-4 col-sm-4">
                             <div class="form-group">
                                 <label path="organism" for="series" cssClass="required">Organism-source</label>
-                                <input class="form-control" autocomplete="off" name="organism" formControlName="organism">
+                                <input class="form-control" autocomplete="off" name="organism"
+                                    formControlName="organism">
                             </div>
                         </div>
                         <div class="col-xs-4 col-sm-4">
@@ -587,7 +709,8 @@
 <div class="scrollbar">
     <fieldset class="scheduler-border">
         <legend class="scheduler-border">Assay</legend>
-        <ag-grid-angular #agGrid class="ag-theme-balham" [gridOptions]="gridOptions" style="width: 100%; height: 350px;"  [frameworkComponents]="frameworkComponents">
+        <ag-grid-angular #agGrid class="ag-theme-balham" [gridOptions]="assayGridOptions" style="width: 100%; height: 350px;"
+            [frameworkComponents]="frameworkComponents">
         </ag-grid-angular>
     </fieldset>
 </div>

@@ -30,7 +30,7 @@ export class AdminComponent implements OnInit {
   frameworkComponents: any;
 
   curatorSlno: number | any;
-  curatorId: number | any;
+  taskallocationSlno: number | any;
   curatorName: string = "";
   curatorTanNo: string = "";
   curatorAllocateDate: Date | any;
@@ -81,7 +81,7 @@ export class AdminComponent implements OnInit {
 
     this.TaskAllocationForm = this.formBuilder.group({
       // curatorSlno: [''],
-      // // curatorId: [''],
+      // // taskallocationSlno: [''],
       // curatorName: [''],
       // curatorTanNo: [''],
       // curatorAllocateDate: [''],
@@ -152,7 +152,7 @@ export class AdminComponent implements OnInit {
     this.gridOptions.columnDefs = [
       {
         headerName: 'CURATOR ID',
-        field: 'curatorId',
+        field: 'taskallocationSlno',
         width: 200,
         // flex: 1,
         sortable: true,
@@ -315,8 +315,8 @@ export class AdminComponent implements OnInit {
     // taskallocation001wb.reviewerAllocateDate = this.f.reviewerAllocateDate.value ? this.f.reviewerAllocateDate.value : "";
     // taskallocation001wb.reviewerCompleteDate = this.f.reviewerCompleteDate.value ? this.f.reviewerCompleteDate.value : "";
     // taskallocation001wb.filename = this.f.filename.value ? this.f.filename.value : "";
-    if (this.curatorId) {
-      taskallocation001wb.curatorId = this.curatorId;
+    if (this.taskallocationSlno) {
+      taskallocation001wb.taskallocationSlno = this.taskallocationSlno;
       taskallocation001wb.insertUser = this.insertUser;
       taskallocation001wb.insertDatetime = this.insertDatetime;
       taskallocation001wb.updatedUser = this.authManager.getcurrentUser.username;
@@ -325,7 +325,7 @@ export class AdminComponent implements OnInit {
         this.calloutService.showSuccess("TaskAllocation Details Updated Successfully");
         this.loadData();
         this.TaskAllocationForm.reset();
-        this.curatorId = null;
+        this.taskallocationSlno = null;
         this.submitted = false;
       });
     }

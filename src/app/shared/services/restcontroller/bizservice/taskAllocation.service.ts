@@ -17,6 +17,13 @@ export class TaskAllocationManager extends BaseService {
         return this.getCallService(`${this.taskallocationUrl}` + "/findAll", data);
     }
 
+    findCuratorTanNumber(username: any) {
+        let data: any = {};
+        data['username'] = username;
+        
+        return this.getCallService(`${this.taskallocationUrl}` + "/findCuratorTanNumber", data);
+    }
+
     findByTanNo(username: any) {
         let data: any = {};
         data['username'] = username;
@@ -29,14 +36,29 @@ export class TaskAllocationManager extends BaseService {
         return this.getCallService(`${this.taskallocationUrl}` + "/findByReviewerTanNo", data);
     }
 
+    findByCuratorStartEndDate(username: any,startDate: any,endDate: any) {
+        let data: any = {};
+        data['username'] = username;
+        data['startDate'] = startDate;
+        data['endDate'] = endDate;
+        return this.getCallService(`${this.taskallocationUrl}` + "/findByCuratorStartEndDate", data);
+   
+    }
+
+    findByStartEndDate(username: any,startDate: any,endDate: any) {
+        let data: any = {};
+        data['username'] = username;
+        data['startDate'] = startDate;
+        data['endDate'] = endDate;
+        return this.getCallService(`${this.taskallocationUrl}` + "/findByStartEndDate", data);
+    }
+
     tasksave(taskallocation001wb: Taskallocation001wb, selectedFile: any) {
         let formData: any = new FormData();
         formData.append("filename", selectedFile.name);
         formData.append("file", selectedFile, selectedFile.name);
-        formData.append("contenttype", "contenttype");
-        formData.append("curatorName", "moorthy");
-        // formData.append("contenttype", "contenttype");
-        // formData.append("filename", selectedFile.name);
+        formData.append("insertUser", taskallocation001wb.insertUser);
+        formData.append("insertDatetime", taskallocation001wb.insertDatetime);
       
         return this.postCallService(`${this.taskallocationUrl}` + "/save", {}, formData).pipe(
             catchError(this.errorMgmt)
@@ -64,9 +86,9 @@ export class TaskAllocationManager extends BaseService {
         return this.putCallService(`${this.taskallocationUrl}` + "/update", {}, taskallocation001wb);
     }
 
-    taskdelete(curatorId: any) {
+    taskdelete(taskallocationSlno: any) {
         let data: any = {};
-        data['curatorId'] = curatorId;
+        data['taskallocationSlno'] = taskallocationSlno;
         return this.deleteCallService(`${this.taskallocationUrl}` + "/delete", data);
     }
 

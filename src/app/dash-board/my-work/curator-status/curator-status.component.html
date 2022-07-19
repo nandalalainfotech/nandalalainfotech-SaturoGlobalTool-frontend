@@ -1,0 +1,46 @@
+<div class="manu-breadcrumb">
+    <fieldset class="scheduler-border">
+        <div class="row">
+            <div class="col-xs-2 col-sm-2">
+                <div class="form-group">
+                    <label path="startDate" for="startDate" cssClass="required">START DATE :</label>
+                    <input type="date" class="form-control" name="startDate" [(ngModel)]="startDate" autocomplete="off">
+                </div>
+            </div>
+            <div class="col-xs-2 col-sm-2">
+                <div class="form-group">
+                    <label path="endDate" for="endDate" cssClass="required">END DATE :</label>
+                    <input type="date" class="form-control" name="endDate" [(ngModel)]="endDate" autocomplete="off">
+                </div>
+            </div>
+            <div class="col-xs-1 col-sm-1"><br>
+                <p style="text-align: center; padding-top: 13px;font-size: large;font-weight: bold;"> OR</p>
+            </div>
+            <div class="col-xs-2 col-sm-2">
+                <div class="form-group">
+                    <label path="cbatchNo" for="cbatchNo" cssClass="required">BATCH NUMBER :</label>
+                    <input type="text" class="form-control" name="cbatchNo" [(ngModel)]="cbatchNo" autocomplete="off">
+                </div>
+            </div>
+            <div class="col-xs-1 col-sm-1">
+                <div class="form-group">
+                    <br>
+                    <button type="button" (click)="onBatchDateSearch(startDate, endDate, cbatchNo)" class="btn btn-primary" style="margin-top:5px;"><i class="fa fa-search "></i> Search</button>
+                </div>
+            </div>
+
+            <div class="col-xs-2 col-sm-2">
+                <div class="form-group">
+                    <br>
+                    <button type="button" class="btn btn-primary" (click)="onBatchNumber(startDate,endDate,cbatchNo)" style="margin-top:5px;">Export Excel</button>
+                </div>
+            </div>
+
+            <div class="col-xs-1 col-sm-1"></div>
+        </div>
+
+        <legend class="scheduler-border">Excel Export</legend>
+        <ag-grid-angular #agGrid class="ag-theme-balham" [gridOptions]="gridOptions" style="width: 100%; height: 350px;" [pagination]="true" [frameworkComponents]="frameworkComponents">
+        </ag-grid-angular>
+    </fieldset>
+</div>

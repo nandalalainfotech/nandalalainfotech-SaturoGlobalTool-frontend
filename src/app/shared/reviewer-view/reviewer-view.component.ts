@@ -458,8 +458,8 @@ export class ReviewerViewComponent implements OnInit {
 
 
     ligand001wb.ligandId = this.ligandId;
-    ligand001wb.insertUser = this.insertUser;
-    ligand001wb.insertDatetime = this.insertDatetime;
+    ligand001wb.insertUser = this.data.ligandSlno2.insertUser;
+    ligand001wb.insertDatetime = this.data.ligandSlno2.insertDatetime;
     ligand001wb.updatedUser = this.authManager.getcurrentUser.username;
     ligand001wb.updatedDatetime = new Date();
     this.ligandManager.ligandupdate(ligand001wb).subscribe((response) => {
@@ -540,8 +540,8 @@ export class ReviewerViewComponent implements OnInit {
 
     assay001wb.assayId = this.assayId;
 
-    assay001wb.insertUser = this.insertUser;
-    assay001wb.insertDatetime = this.insertDatetime;
+    assay001wb.insertUser = this.data.insertUser;
+    assay001wb.insertDatetime = this.data.insertDatetime;
     assay001wb.updatedUser = this.authManager.getcurrentUser.username;
     assay001wb.updatedDatetime = new Date();
     this.assayManager.assayupdate(assay001wb).subscribe((response) => {
