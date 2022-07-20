@@ -20,6 +20,12 @@ export class LigandReportsManager extends BaseService {
         return this.getCallService1(`${this.ligandeReportsUrl}` + "/Tanexcel", data)
     }
 
+    curatorTanExcel(curatorTanNo: any) {    
+        let data: any = {};
+        data['curatorTanNo'] = curatorTanNo;
+        return this.getCallService1(`${this.ligandeReportsUrl}` + "/curatorTanExcel", data)
+    }
+
     batchNumberExportExcel(username: any,rbatchNo: any) {    
         let data: any = {};
         data['username'] = username;

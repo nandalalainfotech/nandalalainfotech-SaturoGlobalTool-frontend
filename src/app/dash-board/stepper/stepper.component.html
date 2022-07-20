@@ -13,7 +13,7 @@
         </ng-template>
         <app-assay #Assay *ngIf="selectedIndex == 1"></app-assay>
     </cdk-step>
-    
+
     <cdk-step *ngIf="user?.rolename== 'Reviewer'">
         <ng-template cdkStepLabel>
             <div class="step-title" [ngStyle]="{ color: colorthemes_2 }" style="text-align:center !important;padding-right: 100px;">Reviewer Screen</div>
